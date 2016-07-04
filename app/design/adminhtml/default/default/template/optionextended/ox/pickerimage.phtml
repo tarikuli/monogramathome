@@ -1,0 +1,140 @@
+     <div class="content-header">
+        <table cellspacing="0">
+            <tr>
+                <td>
+                  <h3 class="icon-head"><?php echo $this->__('Picker Images') ?></h3>
+                  <div style="float:right">
+                    
+                      <?php echo $this->getBlockHtml('formkey')?>  
+		                  <button class="button" type="submit" onclick="$('pickerimages_form').submit();" ><span><span><?php echo $this->__('Save Images') ?></span></span></button>    
+                    </form>
+                  </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="entry-edit" >
+      <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend">&nbsp;</h4>
+      </div>
+      <div class="box">               
+        <form id="pickerimages_form" action="<?php echo $this->getSaveUrl(); ?>" method="post">
+          <?php echo $this->getBlockHtml('formkey')?>        
+          <table class="ox-table" id="ox_table">
+            <tr>
+              <th width="200"><?php echo $this->__('Match option by title:'); ?></th>
+              <th><?php echo $this->__('Image'); ?></th>    
+            </tr>
+            <?php foreach ($this->getValues() as $r): ?>
+            <tr>
+              <td>
+                 <input type="text" id="ox_value_<?php echo $r['ox_image_id']; ?>_title" name="values[<?php echo $r['ox_image_id']; ?>][title]" value="<?php echo $r['title'];  ?>" />
+              </td> 
+              <td>
+                <div class="no-display" id="ox_link_<?php echo $r['ox_image_id']; ?>_file-template">
+                   <div id="{{id}}" class="file-row file-row-narrow">
+                      <span class="file-info">
+                         <span class="file-info-name">{{name}}</span>
+                        
+                         <span class="file-info-size">({{size}})</span>
+                      </span>
+                      <span class="progress-text"></span>
+                      <div class="clear"></div>
+                   </div>
+                </div>
+                <div class="no-display" id="ox_link_<?php echo $r['ox_image_id']; ?>_file-template-progress">
+                   {{percent}}% {{uploaded}} / {{total}}
+                </div>    
+                <div class="files" style="width:135px;">
+                   <span id="<?php echo $r['ox_image_id']; ?>_uploader_place_holder" onmouseover="pickerImage.loadUploader(<?php echo $r['ox_image_id']; ?>)" <?php echo $r['image'] == '' ? '' : 'style="display:none"'; ?>><?php echo $this->__('Roll Over for Uploader'); ?></span>      
+                   <img src="<?php echo $r['image_url'];  ?>" width="40" id="ox_preview_<?php echo $r['ox_image_id']; ?>" <?php echo $r['image'] != '' ? '' : 'style="display:none"'; ?>/>
+                   <img src="<?php echo $this->getSkinUrl('pektsekye/optionextended/delete_image.gif')?>" id="ox_delete_button_<?php echo $r['ox_image_id']; ?>" title="<?php echo Mage::helper('catalog')->__('Delete') ?>" onclick="pickerImage.deleteImage(<?php echo $r['ox_image_id']; ?>)" class="ox-delete-image" <?php echo $r['image'] != '' ? '' : 'style="display:none"'; ?>/>                                     
+                   <div id="<?php echo $r['ox_image_id']; ?>_uploader_row" <?php echo $r['image'] == '' ? '' : 'style="display:none"'; ?>  class="hide_uploader_row">            
+                      <div class="row" >
+                         <input type="hidden" id="ox_value_<?php echo $r['ox_image_id']; ?>_delete_image" name="values[<?php echo $r['ox_image_id']; ?>][delete_image]" value="" />                                
+                         <input type="hidden" id="ox_value_<?php echo $r['ox_image_id']; ?>_saved_as" name="values[<?php echo $r['ox_image_id']; ?>][image_saved_as]" value="<?php echo $r['image']; ?>" /> 
+                         <input type="hidden" id="ox_value_<?php echo $r['ox_image_id']; ?>_image" name="values[<?php echo $r['ox_image_id']; ?>][image]" value="" /> 
+                         <div id="ox_link_<?php echo $r['ox_image_id']; ?>_file" class="uploader">
+                            <div id="ox_link_<?php echo $r['ox_image_id']; ?>_file-old" class="file-row-info">                                     
+                            </div>
+                            <div id="ox_link_<?php echo $r['ox_image_id']; ?>_file-new" class="file-row-info new-file"></div>
+                            <div class="buttons">
+                            </div>                                      
+                         </div>                                   
+                         <div id="ox_link_<?php echo $r['ox_image_id']; ?>_file_save_advice"></div>                                                
+                      </div>
+                   </div>
+                </div>
+              </td>                  
+            </tr>                                                      
+            <?php endforeach; ?> 
+            <tr id="ox_add_image_row">
+              <td colspan="2"><button class="scalable add ox-add-image" type="button" onclick="pickerImage.addRow()" ><span><span><?php echo $this->__('Add Image') ?></span></span></button></td>    
+            </tr>            
+          </table>        
+        </form>
+      </div>          
+    </div> 
+
+
+
+                                      
+  <script type="text/javascript">
+  //<![CDATA[
+  var maxUploadFileSizeInBytes  = '<?php echo $this->getDataMaxSizeInBytes() ?>';
+  var maxUploadFileSize = '<?php echo $this->getDataMaxSize() ?>'; 
+  
+  PickerImage.Config = { 
+     expiredMessage     : '<?php echo $this->jsQuoteEscape($this->__('Your session has been expired. Please, reload the page and upload images if necessary')) ?>',  
+     uploaderConfig   : <?php echo $this->getConfigJson(); ?>,  
+     uploaderUrl : '<?php echo Mage::getBlockSingleton('adminhtml/media_uploader')->getUploaderUrl('media/uploaderSingle.swf'); ?>',
+     
+     row :  '<tr>'+
+            '<td>'+
+            ' <input type="text" id="ox_value_[[image_id]]_title" name="values[[[image_id]]][title]" value="" />'+
+            '</td>'+ 
+            '<td>'+                  
+            '<div class="no-display" id="ox_link_[[image_id]]_file-template">'+
+            '   <div id="{{id}}" class="file-row file-row-narrow">'+
+            '      <span class="file-info">'+
+            '         <span class="file-info-name">{{name}}</span>'+
+            '         <span class="file-info-size">({{size}})</span>'+
+            '      </span>'+
+            '      <span class="progress-text"></span>'+
+            '      <div class="clear"></div>'+
+            '   </div>'+
+            '</div>'+
+            '<div class="no-display" id="ox_link_[[image_id]]_file-template-progress">'+
+            '   {{percent}}% {{uploaded}} / {{total}}'+
+            '</div>    '+
+            '<div class="files" style="width:135px;">'+
+            '   <span id="[[image_id]]_uploader_place_holder" onmouseover="pickerImage.loadUploader([[image_id]])"><?php echo $this->__('Roll Over for Uploader'); ?></span>'+      
+            '   <img src="" width="40" id="ox_preview_[[image_id]]" style="display:none"/>'+
+            '   <img src="<?php echo $this->getSkinUrl('pektsekye/optionextended/delete_image.gif')?>" id="ox_delete_button_[[image_id]]" title="<?php echo Mage::helper('catalog')->__('Delete') ?>" onclick="pickerImage.deleteImage([[image_id]])" class="ox-delete-image" style="display:none"/> '+                                    
+            '   <div id="[[image_id]]_uploader_row" class="hide_uploader_row">'+            
+            '      <div class="row" >'+
+            '         <input type="hidden" id="ox_value_[[image_id]]_delete_image" name="values[[[image_id]]][delete_image]" value="" /> '+                               
+            '         <input type="hidden" id="ox_value_[[image_id]]_saved_as" name="values[[[image_id]]][image_saved_as]" value="" /> '+
+            '         <input type="hidden" id="ox_value_[[image_id]]_image" name="values[[[image_id]]][image]" value="" /> '+
+            '         <div id="ox_link_[[image_id]]_file" class="uploader">'+
+            '            <div id="ox_link_[[image_id]]_file-old" class="file-row-info">'+                 
+            '            </div>'+
+            '            <div id="ox_link_[[image_id]]_file-new" class="file-row-info new-file"></div>'+
+            '            <div class="buttons">'+
+            '            </div>'+                                      
+            '         </div>'+                                   
+            '         <div id="ox_link_[[image_id]]_file_save_advice"></div>'+                                                
+            '      </div>'+
+            '   </div>'+
+            '</div>'+
+            '</td>'+
+            '</tr>',
+            
+    lastImageId : <?php echo (int) $this->getLastImageId(); ?>                    
+
+  };
+  
+  pickerImage = new PickerImage.Main();
+   
+  //]]> 
+  </script>

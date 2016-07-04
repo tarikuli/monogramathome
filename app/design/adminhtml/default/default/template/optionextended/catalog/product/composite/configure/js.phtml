@@ -1,0 +1,42 @@
+<?php if ($this->hasOptions() && !empty($this->config)):?>
+<input type="hidden" id="optionextended_instance_id" value="">
+  <script type="text/javascript">	
+  //<![CDATA[
+
+    OptionExtended.Config = {	
+	
+	    mainImageId : 'image', // Id of the Product main image tag <img id="image"
+	    
+	    spacer     : '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>',	
+	    imageTitle : '<?php echo $this->jsQuoteEscape($this->__('Click to Enlarge')) ?>',
+
+	    imageDirUrl       : '<?php echo $this->getProductBaseMediaUrl() ?>',
+	    thumbnailDirUrl   : '<?php echo $this->getThumbnailDirUrl() ?>',
+	    pickerImageDirUrl : '<?php echo $this->getPickerImageDirUrl() ?>',  
+	    hoverImageDirUrl  : '<?php echo $this->getHoverImageDirUrl() ?>', 	      
+	    placeholderUrl    : '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/order_create/small_image.jpg') ?>',	
+	    inPreconfigured   : <?php echo $this->getInPreconfigured() ?>,
+	    infoIcon          : '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/order_create/info_icon.gif') ?>',	    
+	    checkIcon         : '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/order_create/check_icon.png') ?>',
+	    
+	    								
+	    config : <?php echo $this->getConfig() ?>
+	
+    };
+
+		var instanceId = $('optionextended_instance_id').value;
+    if (instanceId != ''){
+      optionExtendedInstanceId = parseInt(instanceId);
+      optionExtendedInstances[optionExtendedInstanceId].reloadElements();
+    } else {
+      optionExtendedInstanceId = optionExtendedInstances.length;
+      optionExtendedInstances[optionExtendedInstanceId] = new OptionExtended.Main();	
+      $('optionextended_instance_id').value = optionExtendedInstanceId;
+    }
+
+
+
+
+  //]]>
+  </script>
+<?php endif; ?>

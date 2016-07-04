@@ -1,0 +1,570 @@
+[
+  {
+    "pemoanwisicr": [
+      {
+        "type": "text",
+        "max": "3",
+        "label": "Monogram: ",
+        "short": "0",
+        "note": "Enter your initials in the order you want them to appear on your item in the boxes below.  \u00a0\u00a0\n"
+      },
+      {
+        "type": "select",
+        "label": "Metal Color:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Sterling Silver",
+            "value": "Sterling Silver",
+            "price": "0"
+          },
+          {
+            "text": "Yellow Gold over Silver",
+            "value": "Yellow Gold over Silver",
+            "price": "20.00"
+          },
+          {
+            "text": "Rose Gold over Silver ",
+            "value": "Rose Gold over Silver ",
+            "price": "20.00"
+          }
+        ],
+        "short": "1",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Monogram Size:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "5\/8 inch",
+            "value": "5\/8 inch",
+            "price": "0"
+          },
+          {
+            "text": "7\/8 inch",
+            "value": "7\/8 inch",
+            "price": "15.00"
+          }
+        ],
+        "short": "2",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Gift Options:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Yes, Gift Box",
+            "value": "Yes, Gift Box",
+            "price": "9.00"
+          },
+          {
+            "text": "No,Thank You",
+            "value": "No,Thank You",
+            "price": "0"
+          }
+        ],
+        "short": "3",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Confirmation of Order Details:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Yes,  I Confirm",
+            "value": "Yes,  I Confirm",
+            "price": "0"
+          }
+        ],
+        "short": "4",
+        "note": "I have reviewed all the details of my order and verify that all the required fields have been entered properly and to my satisfaction. I hereby recognize that my item will be created to match the specifications and personalization entered above and that any changes will require an additional processing fee after order placement.  \u00a0\u00a0"
+      }
+    ],
+    "url": "http:\/\/www.monogramonline.com\/pemoanwisicr.html"
+  },
+  {
+    "pemoan": [
+      {
+        "type": "text",
+        "max": "3",
+        "label": "Monogram: ",
+        "short": "0",
+        "note": "Enter your initials in the order you want them to appear on your item in the boxes below.  \u00a0\u00a0\n"
+      },
+      {
+        "type": "select",
+        "label": "Metal Color:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Sterling Silver",
+            "value": "Sterling Silver",
+            "price": "0"
+          },
+          {
+            "text": "Yellow Gold over Silver",
+            "value": "Yellow Gold over Silver",
+            "price": "20.00"
+          },
+          {
+            "text": "Rose Gold over Silver ",
+            "value": "Rose Gold over Silver ",
+            "price": "20.00"
+          }
+        ],
+        "short": "1",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Monogram Size:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "5\/8 inch",
+            "value": "5\/8 inch",
+            "price": "0"
+          },
+          {
+            "text": "7\/8 inch",
+            "value": "7\/8 inch",
+            "price": "15.00"
+          }
+        ],
+        "short": "2",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Gift Options:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Yes, Gift Box",
+            "value": "Yes, Gift Box",
+            "price": "9.00"
+          },
+          {
+            "text": "No,Thank You",
+            "value": "No,Thank You",
+            "price": "0"
+          }
+        ],
+        "short": "3",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Confirmation of Order Details:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Yes,  I Confirm",
+            "value": "Yes,  I Confirm",
+            "price": "0"
+          }
+        ],
+        "short": "4",
+        "note": "I have reviewed all the details of my order and verify that all the required fields have been entered properly and to my satisfaction. I hereby recognize that my item will be created to match the specifications and personalization entered above and that any changes will require an additional processing fee after order placement.  \u00a0\u00a0"
+      }
+    ],
+    "url": "http:\/\/www.monogramonline.com\/pemoan.html"
+  },
+  {
+    "penaan": [
+      {
+        "type": "select",
+        "label": "Enter # of Names:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "1",
+            "value": "1",
+            "price": "0"
+          },
+          {
+            "text": "2",
+            "value": "2",
+            "price": "30.00"
+          },
+          {
+            "text": "3",
+            "value": "3",
+            "price": "60.00"
+          }
+        ],
+        "short": "0",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Metal Color:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Sterling Silver",
+            "value": "Sterling Silver",
+            "price": "0"
+          },
+          {
+            "text": "Yellow Gold over Silver ",
+            "value": "Yellow Gold over Silver ",
+            "price": "$20"
+          },
+          {
+            "text": "Rose Gold over Silver ",
+            "value": "Rose Gold over Silver ",
+            "price": "$20"
+          }
+        ],
+        "short": "1",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Confirmation of Order Details:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Yes,  I Confirm",
+            "value": "Yes,  I Confirm",
+            "price": "0"
+          }
+        ],
+        "short": "2",
+        "note": ""
+      }
+    ],
+    "url": "http:\/\/www.monogramonline.com\/penaan.html"
+  },
+  {
+    "pebiba": [
+      {
+        "type": "select",
+        "label": "Enter Birthstone:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Jan",
+            "value": "Jan",
+            "price": "0"
+          },
+          {
+            "text": "Feb",
+            "value": "Feb",
+            "price": "0"
+          },
+          {
+            "text": "Mar",
+            "value": "Mar",
+            "price": "0"
+          },
+          {
+            "text": "Apr",
+            "value": "Apr",
+            "price": "0"
+          },
+          {
+            "text": "May",
+            "value": "May",
+            "price": "0"
+          },
+          {
+            "text": "Jun",
+            "value": "Jun",
+            "price": "0"
+          },
+          {
+            "text": "Jul",
+            "value": "Jul",
+            "price": "0"
+          },
+          {
+            "text": "Aug",
+            "value": "Aug",
+            "price": "0"
+          },
+          {
+            "text": "Sep",
+            "value": "Sep",
+            "price": "0"
+          },
+          {
+            "text": "Oct",
+            "value": "Oct",
+            "price": "0"
+          },
+          {
+            "text": "Nov",
+            "value": "Nov",
+            "price": "0"
+          },
+          {
+            "text": "Dec",
+            "value": "Dec",
+            "price": "0"
+          }
+        ],
+        "short": "0",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Metal Color:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Sterling Silver",
+            "value": "Sterling Silver",
+            "price": "0"
+          },
+          {
+            "text": "Yellow Gold over Silver",
+            "value": "Yellow Gold over Silver",
+            "price": "20"
+          },
+          {
+            "text": "Rose Gold over Silver ",
+            "value": "Rose Gold over Silver ",
+            "price": "20"
+          }
+        ],
+        "short": "1",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Gift Options:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Yes, Gift Box",
+            "value": "Yes, Gift Box",
+            "price": "9.00"
+          },
+          {
+            "text": "No,Thank You",
+            "value": "No,Thank You",
+            "price": "0"
+          }
+        ],
+        "short": "2",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Confirmation of Order Details:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Yes,  I Confirm",
+            "value": "Yes,  I Confirm",
+            "price": "0"
+          }
+        ],
+        "short": "3",
+        "note": ""
+      }
+    ],
+    "url": "http:\/\/www.monogramonline.com\/pebiba.html"
+  },
+  {
+    "sitobapewisw": [
+      {
+        "type": "select",
+        "label": "Enter Birthstone:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Swarovski-Clear-Crystal",
+            "value": "Swarovski-Clear-Crystal",
+            "price": "0"
+          },
+          {
+            "text": "Jan",
+            "value": "Jan",
+            "price": "0"
+          },
+          {
+            "text": "Feb",
+            "value": "Feb",
+            "price": "0"
+          },
+          {
+            "text": "Mar",
+            "value": "Mar",
+            "price": "0"
+          },
+          {
+            "text": "Apr",
+            "value": "Apr",
+            "price": "0"
+          },
+          {
+            "text": "May",
+            "value": "May",
+            "price": "0"
+          },
+          {
+            "text": "Jun",
+            "value": "Jun",
+            "price": "0"
+          },
+          {
+            "text": "Jul",
+            "value": "Jul",
+            "price": "0"
+          },
+          {
+            "text": "Aug",
+            "value": "Aug",
+            "price": "0"
+          },
+          {
+            "text": "Sep",
+            "value": "Sep",
+            "price": "0"
+          },
+          {
+            "text": "Oct",
+            "value": "Oct",
+            "price": "0"
+          },
+          {
+            "text": "Nov",
+            "value": "Nov",
+            "price": "0"
+          },
+          {
+            "text": "Dec",
+            "value": "Dec",
+            "price": "0"
+          }
+        ],
+        "short": "0",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Metal Color:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Silver",
+            "value": "Silver",
+            "price": "0"
+          },
+          {
+            "text": "Yellow Gold ",
+            "value": "Yellow Gold ",
+            "price": "0"
+          },
+          {
+            "text": "Rose Gold",
+            "value": "Rose Gold",
+            "price": "0"
+          }
+        ],
+        "short": "1",
+        "note": ""
+      },
+      {
+        "type": "select",
+        "label": "Gift Options:\u00a0",
+        "options": [
+          {
+            "text": "please select",
+            "value": "please select",
+            "price": "0"
+          },
+          {
+            "text": "Yes, Gift Box",
+            "value": "Yes, Gift Box",
+            "price": "9.00"
+          },
+          {
+            "text": "No,Thank You",
+            "value": "No,Thank You",
+            "price": "0"
+          }
+        ],
+        "short": "2",
+        "note": ""
+      }
+    ],
+    "url": "http:\/\/www.monogramonline.com\/sitobapewisw.html"
+  }
+]

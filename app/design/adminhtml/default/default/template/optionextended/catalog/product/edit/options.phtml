@@ -1,0 +1,64 @@
+
+<?php if (Mage::getStoreConfig('admin/optionextended/template') == 1): ?>
+  <div class="entry-edit"  id="optiontemplates">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->__('Option Templates') ?></h4>
+    </div>
+    <div id="optiontemplates_container" class="box">
+       <?php echo $this->getOptionTemplateHtml() ?>
+    </div>
+  </div>
+<?php endif; ?>
+
+<div class="entry-edit custom-options product-custom-options">
+    <div id="dynamic-price-warrning" style="display:none">
+        <ul class="messages">
+            <li class="error-msg">
+                <ul>
+                    <li><?php echo Mage::helper('adminhtml')->__('Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.') ?></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="entry-edit-head">
+        <h4><?php echo Mage::helper('catalog')->__('Custom Options') ?></h4>
+        <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
+    </div>
+
+    <div id="product_options_container" class="box">
+        <div id="product_options_container_top"></div>
+    <?php if (Mage::getStoreConfig('admin/optionextended/accordion') == 1): ?>        
+        <dl id="optionextendedAccordion" class="accordion">
+          <?php foreach ($this->getOptions() as $option): ?>
+            <dt id="dt_option_<?php echo $option->getOptionId() ?>"><a href="#" class="ajax" onclick="optionExtended.accordionOnClick(<?php echo $option->getOptionId() ?>);return false;"><?php echo $option->getTitle() ?></a></dt>
+            <dd id="dd_option_<?php echo $option->getOptionId() ?>"></dd>    
+          <?php endforeach; ?>
+        </dl>
+    <?php else: ?> 
+        <?php echo $this->getOptionsHtml() ?>             
+    <?php endif; ?>  
+    </div>
+</div>
+<input type="hidden" name="affect_product_custom_options" value="1" />
+
+<script type="text/javascript">
+//<![CDATA[
+if (optionExtended.optionsScripLoaded == undefined){
+
+  optionExtended.setData(<?php echo $this->getOptionsJsonData(); ?>);
+  if (optionExtended.isContinueEdit){
+    optionExtended.restoreExpand(); 
+    optionExtended.preopenAccordionItems();         
+  }
+
+  if ($('price_type')) {
+      if ($('price_type').value == '0' && $('dynamic-price-warrning')) {
+          $('optiontemplates').hide();     
+          $('dynamic-price-warrning').show();      
+      }
+  }
+  
+  optionExtended.optionsScripLoaded = true;
+}
+//]]> 
+</script>

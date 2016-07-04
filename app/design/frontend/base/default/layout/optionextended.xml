@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<catalog_product_view>
+		<reference name="head">
+			<action method="addCss"><stylesheet>pektsekye/optionextended/main.css</stylesheet></action>		
+			<action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/images.js</name></action>			
+			<action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/dependent.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/main.js</name></action>
+			
+      <action method="addCss"><stylesheet>pektsekye/optionextended/oxcolorbox.css</stylesheet></action>	        
+			<action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/jquery.oxcolorbox-min.js</name></action>
+			
+      <action method="addCss"><stylesheet>pektsekye/optionextended/tooltipster.css</stylesheet></action>
+      <action method="addCss"><stylesheet>pektsekye/optionextended/tooltipster-shadow.css</stylesheet></action>          	
+			<action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/jquery.tooltipster.min.js</name></action>						        									
+		</reference>
+		<reference name="content">
+			<block type="optionextended/product_view_js" name="optionextended" after="product.info" template="optionextended/product/view/js.phtml" />
+		</reference>
+	</catalog_product_view>
+</layout>

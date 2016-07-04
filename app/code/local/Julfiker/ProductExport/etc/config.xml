@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Julfiker_ProductExport>
+            <version>1.0.0</version>
+        </Julfiker_ProductExport>
+    </modules>
+    <global>
+        <helpers>
+            <julfiker_productExport>
+                <!-- Helper definition needed by Magento -->
+                <class>Mage_Core_Helper</class>
+            </julfiker_productExport>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <foo_bar before="Mage_Adminhtml">Julfiker_ProductExport_Adminhtml</foo_bar>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

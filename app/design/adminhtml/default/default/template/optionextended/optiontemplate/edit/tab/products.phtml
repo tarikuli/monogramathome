@@ -1,0 +1,30 @@
+<div id="dependentfilter_products_selects_container"></div>
+<input class="input-text" type="hidden" id="dependentfilter_restriction_data" name="dependentfilter_restriction_data" value="">
+<script type="text/javascript">
+//<![CDATA[
+
+DependentFilter.productsConfig = {   
+
+   select : '<div id="dependentfilter_products_select_{{select_id}}_container">' +
+            ' <div><b><span id="dependentfilter_products_select_{{select_id}}_header">{{header}}</span></b></div>' +
+            ' <select id="dependentfilter_products_select_{{select_id}}" onchange="dependentFilterProducts.reload({{select_id}}, this.value)"><option value="-1">{{firstOption}}</option>{{options}}</select>' +
+            '</div>', 
+  
+  productGridUrl  : '<?php echo $this->getProductGridUrl() ?>',
+    
+  selectPath      : '<?php echo $this->getSelectPath() ?>',
+  
+  restriction     : <?php echo $this->getRestriction() ?> 
+    
+};
+
+var dependentFilterProducts = new DependentFilter.Products();
+  
+
+  
+//]]> 
+</script>
+<div class="box">
+<?php echo $this->getChildHtml('grid'); ?>
+</div>
+

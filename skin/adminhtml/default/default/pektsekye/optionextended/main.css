@@ -1,0 +1,60 @@
+
+
+/* Expand */
+.optionextended-expand-middle {padding:23px 0 0 0;}
+.optionextended-expand-columns {background:none;}
+.optionextended-expand-side-col {display:none;}
+.optionextended-expand-main-col {margin:0 !important; padding:0 0 25px 0 !important;}
+
+/* Expand Container*/
+.optionextended-expand-container {float:left; margin: 0 10px 0 10px;}
+.optionextended-expand-container img {margin-top:5px; margin-right:4px; cursor:pointer;}
+
+
+/* Option Container*/
+
+.optionextended-option-container {}
+.optionextended-option-orig-table {float:left; width:485px !important;}
+.optionextended-option-orig-table th.opt-order {width:65px;}
+.optionextended-option-table {float:left;}
+.optionextended-option-table td {padding:5px 5px 0 0;}
+.optionextended-layout-select {width:105px !important; }
+.optionextended-popup-span {width:30px;}
+.optionextended-duplicate-container {float:right; height:85px;}
+.optionextended-duplicate-option-button {display:block; margin-top:5px; }
+.optionextended-spacer{height:1px; clear:both;}
+.optionextended-option-order-td {padding-right:8px !important;}
+
+
+/* Option Values Table*/
+.optionextended-id   {width:20px; }
+
+.optionextended-children-column {width:182px;}
+.optionextended-children-input {width:176px !important;padding:2px; border-width:1px; border-style:solid; border-color:#aaa #c8c8c8 #c8c8c8 #aaa; background:#fff; font:12px arial, helvetica, sans-serif;}
+.optionextended-children-dropdown {width:182px !important;}
+.optionextended-children-showhide-link { vertical-align: top; color: red; cursor: pointer;}
+
+.optionextended-image-column {width:140px;}
+
+.optionextended-textfield-column {width:205px;}
+.optionextended-textfield {width:200px; padding:2px; border-width:1px; border-style:solid; border-color:#aaa #c8c8c8 #c8c8c8 #aaa; background:#fff; font:12px arial, helvetica, sans-serif;}
+.optionextended-textarea {width:200px;}
+.optionextended-showhide-column {width:16px;}
+.optionextended-showhide-link{ color:red; cursor:pointer;}
+
+.optionextended-code-field {width:60px;}
+
+.optionextended-sd  {width:14px; padding-left:3px !important;}
+
+.optionextended-delete-image {float:right;}
+
+
+.optionextended-template-select {width:100%;}
+
+
+
+
+
+
+
+

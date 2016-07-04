@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <adminhtml_ox_pickerimage_index>  
+      <reference name="head">
+        <action method="addCss"><stylesheet>pektsekye/optionextended/ox/pickerimage.css</stylesheet></action>      																	
+        <action method="addJs"><script>pektsekye/optionextended/ox/pickerimage.js</script></action>		        	 
+        <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+        <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+        <action method="addJs"><script>lib/flex.js</script></action>
+        <action method="addJs"><script>lib/FABridge.js</script></action>
+        <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+        <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+        <action method="addJs"><script>prototype/window.js</script></action>
+        <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+        <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>                    				  
+      </reference>           
+  </adminhtml_ox_pickerimage_index>
+     
+  <adminhtml_optiontemplate_edit>  
+      <reference name="left">     
+          <block type="optionextended/optiontemplate_edit_tabs" name="optiontemplate_edit_tabs"/>
+      </reference>  		   
+      <reference name="content">
+          <block type="optionextended/optiontemplate_edit" name="optiontemplate_edit" />
+      </reference>          
+  </adminhtml_optiontemplate_edit>
+  <adminhtml_optiontemplate_option_index> 
+		  <reference name="head">
+				<action method="addCss"><name>pektsekye/optionextended/optiontemplate_option.css</name></action>	                                              			
+		  </reference>                      
+  </adminhtml_optiontemplate_option_index>  
+  <adminhtml_optiontemplate_option_edit> 
+		  <reference name="head">
+		  		  <action method="addCss"><name>pektsekye/optionextended/optiontemplate_option_edit.css</name></action>	
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/optiontemplate_option.js</name></action>         
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>                                                			
+		  </reference>   
+      <reference name="left">    
+            <block type="adminhtml/store_switcher" name="store_switcher"/>    
+            <block type="optionextended/optiontemplate_option_edit_tabs" name="optiontemplate_option_edit_tabs"/>                 
+      </reference>		  
+      <reference name="content">
+          <block type="optionextended/optiontemplate_option_edit" name="optiontemplate_option_edit" />
+      </reference>                     
+  </adminhtml_optiontemplate_option_edit>
+  <adminhtml_optiontemplate_option_import>   
+      <reference name="content">
+          <block type="optionextended/optiontemplate_option_import" name="optiontemplate_import" />      
+          <block type="optionextended/optiontemplate_option_import_grid" name="optiontemplate_import_grid" />
+      </reference>              
+  </adminhtml_optiontemplate_option_import> 
+  <adminhtml_optiontemplate_value_index> 
+		  <reference name="head">
+				<action method="addCss"><name>pektsekye/optionextended/optiontemplate_value.css</name></action>	                                              			
+		  </reference>                      
+  </adminhtml_optiontemplate_value_index>    
+  <adminhtml_optiontemplate_value_edit> 
+		  <reference name="head">
+				    <action method="addCss"><name>pektsekye/optionextended/optiontemplate_value_edit.css</name></action>	 		  
+				    <action method="addCss"><name>pektsekye/optionextended/main.css</name></action>		  
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/optiontemplate_value.js</name></action>       
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>                                                			
+		  </reference>   
+      <reference name="left">    
+            <block type="adminhtml/store_switcher" name="store_switcher"/>         
+      </reference>		  
+      <reference name="content">
+          <block type="optionextended/optiontemplate_value_edit" name="optiontemplate_value_edit" />
+      </reference>                     
+  </adminhtml_optiontemplate_value_edit>        
+	<adminhtml_catalog_product_new>
+		<reference name="head">
+				    <action method="addCss"><name>pektsekye/optionextended/main.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/main.js</name></action>	
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/expand.js</name></action>	
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/duplicate.js</name></action>  
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/sd.js</name></action>                         
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/dynamic.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/parent.js</name></action>                                        
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/uploader.js</name></action>					
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/dependency.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/ids.js</name></action>                
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/util.js</name></action> 
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/accordion.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/product_edit_optiontemplate.js</name></action>               
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/override.js</name></action>                                      			
+		</reference>	
+		<reference name="js">
+			<block type="optionextended/adminhtml_catalog_product_edit_js" name="optionextended" template="optionextended/catalog/product/edit/js.phtml" />
+		</reference>		
+	</adminhtml_catalog_product_new>
+	
+	<adminhtml_catalog_product_edit>
+		<reference name="head">
+				    <action method="addCss"><name>pektsekye/optionextended/main.css</name></action>	
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/main.js</name></action>	
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/expand.js</name></action>	
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/duplicate.js</name></action>  
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/sd.js</name></action>                         
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/dynamic.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/parent.js</name></action>                                        
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/uploader.js</name></action>					
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/dependency.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/ids.js</name></action>                
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/util.js</name></action> 
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/accordion.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/product_edit_optiontemplate.js</name></action>                           
+            <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/override.js</name></action>                                  					
+		</reference>		
+		<reference name="js">
+			<block type="optionextended/adminhtml_catalog_product_edit_js" name="optionextended" template="optionextended/catalog/product/edit/js.phtml" />
+		</reference>		
+	</adminhtml_catalog_product_edit>
+	
+
+
+
+    <adminhtml_sales_order_create_index>
+      <reference name="head">
+          <action method="addCss"><stylesheet>pektsekye/optionextended/order_create/optionextended.css</stylesheet></action>		
+          <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/order_create/optionextended_images.js</name></action>			
+          <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/order_create/optionextended_dependent.js</name></action>
+          <action method="addItem"><type>skin_js</type><name>pektsekye/optionextended/order_create/optionextended_main.js</name></action>	
+			</reference>
+    </adminhtml_sales_order_create_index>
+
+    <ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>    
+      <reference name="product.composite.fieldset">    
+			  <block type="optionextended/product_view_js" name="optionextended" template="optionextended/catalog/product/composite/configure/js.phtml" />                
+      </reference>	        
+    </ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>	
+	
+	
+	
+	
+<!--  Magento 1.4.2.0 BUG FIX The following code is missing in the dataflow.xml -->
+  <adminhtml_system_convert_profile_run>
+      <remove name = "root"/>
+      <block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+          <block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
+              <action method="addJs"><script>prototype/prototype.js</script></action>
+              <action method="addJs"><script>prototype/validation.js</script></action>
+              <action method="addJs"><script>varien/js.js</script></action>
+              <action method="addJs"><script>mage/translate.js</script></action>
+              <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+          </block>
+          <block type="adminhtml/system_convert_profile_run" name="system_convert_profile_run" template="system/convert/profile/process.phtml" output="toHtml"/>
+      </block>
+  </adminhtml_system_convert_profile_run>	
+</layout>

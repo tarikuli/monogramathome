@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Julfiker_ProductExport>
+            <active>true</active>
+            <codePool>local</codePool>            
+        </Julfiker_ProductExport>
+    </modules>
+</config>

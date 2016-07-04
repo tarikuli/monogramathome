@@ -1,0 +1,12 @@
+
+     
+  <table style="width:400px" id="optionextended_template_table">
+        <tr><td><?php echo $this->getTemplateSelect() ?></td><td style="width:62px" align="right"><?php echo $this->getApplyButtonHtml() ?></td><td style="width:62px" align="right"><?php echo $this->getUseTemplateOptionsButtonHtml() ?></td></tr>
+  
+  <?php foreach($this->getAppliedTemplates() as $row): ?>
+      <tr id="optionextended_template_table_row_<?php echo $row['template_id']; ?>" ><td><?php echo $this->htmlEscape($row['title']) ?></td><td align="right"><a href="<?php echo $this->getOptionsUrl($row['template_id']) ?>" target="_blank"><?php echo Mage::helper('adminhtml')->__('View') ?></a></td><td align="right"><a href="#" onclick="optionExtended.removeTemplate(<?php echo $row['template_id'] ?>); return false;"><?php echo Mage::helper('adminhtml')->__('Remove') ?></a></td></tr>            
+  <?php endforeach; ?>
+  </table>
+
+<input class="input-text" type="hidden" id="optionextended_template_ids" name="product[optionextended_template_ids]" value="<?php echo $this->getTemplateIdsString() ?>">
+ 

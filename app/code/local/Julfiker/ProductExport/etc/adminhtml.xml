@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <system>
+            <children>
+                <convert>
+                    <children>
+                        <jewelry translate="title">
+                            <title>Export Jewelry</title>
+                            <action>adminhtml/export/jewelry</action>
+                            <sort_order>0</sort_order>
+                        </jewelry>
+                        <general translate="title">
+                            <title>Export General</title>
+                            <action>adminhtml/export/general</action>
+                            <sort_order>1</sort_order>
+                        </general>
+                    </children>
+                </convert>
+            </children>
+        </system>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <custom translate="title" module="julfiker_productExport">
+                        <title>Export Controller</title>
+                        <sort_order>-100</sort_order>
+                        <children>
+                            <jewelry translate="title">
+                                <title>Export Jewelry Action</title>
+                                <sort_order>0</sort_order>
+                            </jewelry>
+                            <general translate="title">
+                                <title>Export General Action</title>
+                                <sort_order>1</sort_order>
+                            </general>
+                        </children>
+                    </custom>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

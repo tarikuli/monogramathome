@@ -1,0 +1,142 @@
+
+.product-options {line-height:100%;}
+.product-options .input-box::after {content: none}
+
+
+/* OptionExtended Picker Image*/
+.ox-picker-image {border:1px solid white; margin-right:3px; display:inline;}
+.ox-picker-image.ox-selected {border:1px solid black; margin-right:3px; display:inline;}
+
+.ox-image-cell {float:left; text-align:center;}
+.ox-image-cell span {font-size:10px;}
+
+
+/* OptionExtended Above */
+.product-options dd.ox-above {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-above img.ox-image {display:block; float:left; width:100px; height:100px; margin:0 8px 8px 0;}
+.product-options dd.ox-above select {width: 100%; margin:0 0 10px 0;}
+.product-options dd.ox-above ul.options-list {margin:0 0 10px 0;}
+.product-options dd.ox-above .description {display:block; width: auto; font-size:10px; margin:0 0 8px 0; font-weight:normal; font-style:normal; }
+.product-options dd.ox-above .spacer{height:1px; clear:both;}
+
+
+/* OptionExtended Above Checkbox */
+.product-options dd.ox-above-checkbox {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-above-checkbox img.ox-image {display:inline; width:100px; height:100px; margin:0 8px 8px 0;}
+.product-options dd.ox-above-checkbox ul.options-list {margin:0 0 10px 0;}
+.product-options dd.ox-above-checkbox .ox-tooltip-icon {display:inline-block; line-height: inherit; vertical-align:middle; margin-left:5px;}
+
+
+/* OptionExtended Before Select*/
+.product-options dd.ox-before-select {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-before-select .ox-table {display:table; width:100%;}
+.product-options dd.ox-before-select .ox-table-cell-img {display:table-cell; width:100px; vertical-align:top;}
+.product-options dd.ox-before-select .ox-table-cell {display:table-cell; vertical-align:top;}
+.product-options dd.ox-before-select img.ox-image {width:100px; height:100px; vertical-align:middle; margin:0 10px 10px 0;}
+.product-options dd.ox-before-select select {width: 100%; margin-top:45px;}
+.product-options dd.ox-before-select .ox-tooltip-icon {display:block; margin:8px 100px 0 0;}
+.product-options dd.ox-before-select .spacer{height:1px; clear:both;}
+
+/* OptionExtended Before Radio*/
+.product-options dd.ox-before-radio {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-before-radio .ox-table {display:table; width:100%;}
+.product-options dd.ox-before-radio .ox-table-cell-img {display:table-cell; width:100px; vertical-align:top;}
+.product-options dd.ox-before-radio .ox-table-cell {display:table-cell; vertical-align:top;}
+.product-options dd.ox-before-radio img.ox-image {width:100px; height:100px; vertical-align:middle; margin:0 10px 10px 0;}
+.product-options dd.ox-before-radio ul.options-list {max-width:100%; max-width:450px; list-style-type:none; margin:0 0 10px 0;}
+.product-options dd.ox-before-radio ul.options-list label {width:100%; max-width:60%;}
+.product-options dd.ox-before-radio .ox-tooltip-icon {display:inline-block; line-height: inherit; vertical-align:middle; margin-left:5px;}
+
+
+/* OptionExtended Below */
+.product-options dd.ox-below {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-below img.ox-image {display:block; float:left; width:100px; height:100px; margin:0 10px 4px 0;}
+.product-options dd.ox-below div select {width: 100%; margin:4px 0 10px 0;}
+.product-options dd.ox-below ul.options-list {margin:0 0 10px 0;}
+.product-options dd.ox-below .description {display:block; width: auto; font-size:10px; margin:0 0 5px 0; font-weight:normal; font-style:normal; }
+.product-options dd.ox-below .spacer{height:1px; clear:both;}
+
+/* OptionExtended Below Checkbox */
+.product-options dd.ox-below-checkbox {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-below-checkbox img.ox-image {display:inline; width:100px; height:100px; margin:0 8px 8px 0;}
+.product-options dd.ox-below-checkbox ul.options-list {margin:0 0 10px 0;}
+.product-options dd.ox-below-checkbox select {margin:0 0 10px 0;}
+.product-options dd.ox-below-checkbox .ox-tooltip-icon {display:inline-block; line-height: inherit; vertical-align:middle; margin-left:5px;}
+
+/* OptionExtended Swap Select*/
+.product-options dd.ox-swap-select {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-swap-select select {width: 100%; margin:8px 0 10px 0;}
+.product-options dd.ox-swap-select .description {font-size:10px; margin:0 0 8px 0; font-weight:normal; font-style:normal; }
+
+/* OptionExtended Swap Radio */
+.product-options dd.ox-swap-radio {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-swap-radio ul.options-list {margin:0;}
+.product-options dd.ox-swap-radio .ox-tooltip-icon {display:inline-block; line-height: inherit; vertical-align:middle; margin-left:5px;}
+
+
+/* OptionExtended Picker */
+.product-options dd.ox-picker {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-picker select {display: block; width: 100%; margin:5px 0 10px 0;}
+.product-options dd.ox-picker .description {font-size:10px; margin:0 0 8px 0; font-weight:normal; font-style:normal; }
+.product-options dd.ox-picker .spacer{height:1px; clear:both;}
+
+
+/* OptionExtended Note */
+.product-options dd.ox-note {font-size:12px;}
+
+
+/* OptionExtended Grid */
+.product-options dd.ox-grid {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-grid ul.options-list {list-style-type:none; padding:0; margin:0;}
+.product-options dd.ox-grid ul.options-list li {width:129px; height:145px; float:left; margin-right:10px; line-height:normal; padding:0}
+.product-options dd.ox-grid ul.options-list input.radio { float:none; margin:45px 0 0 7px;}
+.product-options dd.ox-grid ul.options-list input.checkbox { float:none; margin:45px 0 0 7px;}
+.product-options dd.ox-grid ul.options-list .label {display:block; width: 100px; text-align:center; margin:0;}
+.product-options dd.ox-grid ul.options-list label {min-width: 0; padding:0; background: none; font-weight:normal; }
+.product-options dd.ox-grid ul.options-list label:hover {background: none;}
+.product-options dd.ox-grid .ox-image {display:block; float:left; width:100px; height:100px; margin:0 0 5px 0;}
+.product-options dd.ox-grid ul.validation-failed { padding:10px 0 0 0; }
+.product-options dd.ox-grid .spacer{height:1px; clear:both;}
+.product-options dd.ox-grid .ox-tooltip-icon {display:inline-block; line-height: inherit; vertical-align:middle; margin:10px 0 0 5px;}
+
+
+/* OptionExtended Grid Compact */
+.product-options dd.ox-gridcompact {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-gridcompact ul.options-list {list-style-type:none; padding:0; margin:0;}
+.product-options dd.ox-gridcompact ul.options-list li {float:left; position:relative; width:auto; height:140px; overflow:hidden;  margin:0 15px 0 0; line-height:normal; padding:0}
+.product-options dd.ox-gridcompact ul.options-list input.radio {display:none;}
+.product-options dd.ox-gridcompact ul.options-list input.checkbox {display:none;}
+.product-options dd.ox-gridcompact ul.options-list .label {display:block; width:100px; text-align:center; margin:0;}
+.product-options dd.ox-gridcompact ul.options-list label {min-width: 0; padding:0; background: none; font-weight:normal;}
+.product-options dd.ox-gridcompact ul.options-list label:hover {background: none;}
+.product-options dd.ox-gridcompact .ox-image {display:block; width:100px; height:100px; margin:0 0 4px 0; border:1px solid white;}
+.product-options dd.ox-gridcompact .ox-check-icon	{display:none; position:absolute; top:0px; left:73px; width:24px; height:24px;}
+/*.product-options dd.ox-gridcompact .ox-image:hover {border:1px solid yellow;}*/
+.product-options dd.ox-gridcompact .ox-image.ox-selected,  
+.product-options dd.ox-gridcompact .ox-image.ox-selected:hover {border:1px solid black;}
+.product-options dd.ox-gridcompact .ox-image.ox-selected + .ox-check-icon {display:block;}
+.product-options dd.ox-gridcompact ul.validation-failed { padding:10px 0 0 0; }
+.product-options dd.ox-gridcompact .spacer{height:1px; clear:both;}
+
+
+/* OptionExtended List */
+.product-options dd.ox-list {max-width:590px; padding:0; margin:8px 0 20px 0; border:none;}
+.product-options dd.ox-list ul.options-list {list-style-type:none; padding:0; margin:0; }
+.product-options dd.ox-list ul.options-list li {margin-bottom:10px; border:1px solid #e4e4e4; line-height:normal; padding:10px 10px 10px 10px; }
+.product-options dd.ox-list img {display:block; float:left; width:100px; height:100px; margin:0 10px 0 0;}
+.product-options dd.ox-list li.none img {display:block; width:100px; height:15px; margin:0 10px 0 0;}
+.product-options dd.ox-list ul.options-list input.radio {position:static; float:right; margin:0;}
+.product-options dd.ox-list ul.options-list input.checkbox {position:static; float:right; margin:0;}
+.product-options dd.ox-list ul.validation-failed { padding:0; }
+.product-options dd.ox-list span.content {display:block; width:auto; padding: 0 0 0 0;}
+.product-options dd.ox-list span.content label {display:block; width:auto; background: none; padding:0; margin:0;}
+.product-options dd.ox-list span.content label:hover {background: none;}
+.product-options dd.ox-list .price-notice {padding:0;}
+.product-options dd.ox-list .description {min-height:60px; font-size:10px; margin:5px 0 5px 0;}
+.product-options dd.ox-list .spacer{height: 1px; clear: both;}
+
+
+
+
+
+

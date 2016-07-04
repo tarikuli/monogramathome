@@ -1,0 +1,399 @@
+<script type="text/javascript">
+//<![CDATA[
+
+OptionExtended.Config = {   
+
+   expandContainer : '<div class="optionextended-expand-container">' +
+                     '   <img src="<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/expand-on.gif') ?>" onclick="optionExtended.expand()" title="<?php echo $this->jsQuoteEscape($this->__('Expand')) ?>">' +
+                     '   <img src="<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/collapse.gif') ?>" onclick="optionExtended.collapse()" title="<?php echo $this->jsQuoteEscape($this->__('Collapse')) ?>">' +
+                     '</div>',
+                     
+   expandSrc      :  '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/expand.gif') ?>',                                       
+   expandOnSrc    :  '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/expand-on.gif') ?>',   
+   collapseSrc    :  '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/collapse.gif') ?>',                                       
+   collapseOnSrc  :  '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/collapse-on.gif') ?>',
+
+   firstStep :  '<div class="option-box" id="option_{{id}}">'+
+                          '<div class="optionextended-option-container"  id="optionextended_option_container_{{id}}" >'+
+                            '<div class="optionextended-spacer">&nbsp;</div>'+                          
+                            '<div class="optionextended-duplicate-container">'+
+                              '<?php echo $this->jsQuoteEscape($this->getDeleteButtonHtml()) ?>' +                           
+                              '<?php echo $this->getDuplicateOptionButtonHtml() ?>'+
+                            '</div>'+                                                  
+                            '<table id="product_option_{{id}}" class="option-header optionextended-option-orig-table" cellpadding="0" cellspacing="0">'+
+                              '<input type="hidden" id="product_option_{{id}}_is_delete" name="product[options][{{id}}][is_delete]" value="" />'+
+                              '<input type="hidden" id="product_option_{{id}}_id" name="product[options][{{id}}][id]" value="{{id}}" />'+
+                              '<input type="hidden" id="product_option_{{id}}_option_id" name="product[options][{{id}}][option_id]" value="{{option_id}}" />'+
+                              '<input type="hidden" id="optionextended_{{id}}_sd_field" name="product[options][{{id}}][selected_by_default]" value="" />'+                               
+                              '<thead>'+
+                                  '<tr>'+
+                                      '<th class="opt-title"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Title')) ?> <span class="required">*</span></th>'+
+                                      '<th class="opt-type"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Input Type')) ?> <span class="required">*</span></th>'+
+                                      '<th class="opt-req"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Is Required')) ?></th>'+
+                                      '<th class="opt-order"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Sort Order')) ?></th>'+
+                                  '</tr>'+
+                              '</thead>'+
+                              '<tr>'+
+                                  '<td><input type="text" class="required-entry input-text" id="product_option_{{id}}_title" name="product[options][{{id}}][title]" value="" ></td>'+
+                                  '<td><?php echo $this->getTypeSelectHtml() ?></td>'+                                
+                                  '<td class="opt-req"><select name="product[options][{{id}}][is_require]" id="product_option_{{id}}_is_require" class="select" onchange="this.setHasChanges();" ><option value="1"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Yes')); ?></option><option value="0"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('No')); ?></option></select></td>'+
+                                  '<td class="optionextended-option-order-td"><input type="text" class="validate-zero-or-greater input-text" name="product[options][{{id}}][sort_order]" id="product_option_{{id}}_sort_order" value="" ></td>'+
+                              '</tr>'+
+                            '</table>'+
+                            '<table id="optionextended_option_table_{{id}}" class="optionextended-option-table">' +
+                            '   <tr id="optionextended_option_table_{{id}}_first_tr">' +                            
+                            '     <th class="optionextended-textfield-column"><?php echo $this->jsQuoteEscape($this->__('Note')) ?></th>' +
+                            '     <th class="optionextended-showhide-column">&nbsp;</th>' + 
+                            '     <th class="optionextended-code-column"><?php echo $this->jsQuoteEscape(Mage::helper('core')->__('Code')) ?></th>' +                             
+                            '   </tr>' +                                                                                                                        
+                            '   <tr id="optionextended_option_table_{{id}}_second_tr">' +
+                            '      <td><input class="optionextended-textfield" type="text" name="product[options][{{id}}][note]" id="optionextended_{{id}}_note" value="" ></td>' +
+                            '      <td>' +               
+                                    '<span <?php echo $this->jsQuoteEscape($this->getShowTextArea()) ?> title="<?php echo $this->getClickToEditText() ?>" id="optionextended_{{id}}_note_show" class="optionextended-showhide-link" >e</span>' +  
+                                    '<span onclick="optionExtended.hideTextArea(this);" title="<?php echo $this->jsQuoteEscape($this->__('Click to hide')) ?>" id="optionextended_{{id}}_note_hide" class="optionextended-showhide-link" style="display:none;">h</span>' +            
+                            '      </td>' + 
+                            '      <td><input class="input-text optionextended-code-field" type="text" name="product[options][{{id}}][code]" id="optionextended_{{id}}_code" value="" ></td>' +                                                               
+                            '</tr>' +
+                            '</table>' +
+                            '<div class="optionextended-spacer">&nbsp;</div>'+                             
+                          '</div>'+
+                         '</div>',
+
+
+
+                     
+   duplicateOptionButton : '<?php echo $this->getDuplicateOptionButtonHtml() ?>',            
+
+   lastOptionColumns : '<th><span id="optionextended_{{id}}_layout_column"><?php echo $this->jsQuoteEscape(Mage::helper('core')->__('Layout')) ?></span></th>'+
+                       '<th><span class="optionextended-layout-popup-span" id="optionextended_{{id}}_popup_column"><?php echo $this->jsQuoteEscape($this->__('Popup')) ?></span></th>',
+   lastOptionFields  : '<td><select class="select optionextended-layout-select" name="product[options][{{id}}][layout]" id="optionextended_{{id}}_layout"  onchange="optionExtended.changePopup({{id}})">{{options}}</select></td>' +
+                       '<td><input  type="checkbox" name="product[options][{{id}}][popup]" id="optionextended_{{id}}_popup" value="1"></td>',
+                                          
+   valueTableWidth : 1280,  
+
+
+   selectTypeBof  :  '<select name="product[options][{{id}}][type]" id="product_option_{{id}}_type" class="select select-product-option-type required-option-select" title="">',                                      
+   
+   selectTypeOptionsByGroup : {
+        'text'    :  '   <option value="field"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Field')) ?></option>' +
+                     '   <option value="area"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Area')) ?></option>',            
+        'file'    :  '   <option value="file"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('File')) ?></option>',            
+        'select'  :  '   <option value="drop_down"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Drop-down')) ?></option>' +
+                     '   <option value="radio"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Radio Buttons')) ?></option>' +
+                     '   <option value="checkbox"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Checkbox')) ?></option>' +
+                     '   <option value="multiple"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Multiple Select')) ?></option>',
+        'date'    :  '   <option value="date"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Date')) ?></option>' +
+                     '   <option value="date_time"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Date & Time')) ?></option>' +
+                     '   <option value="time"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Time')) ?></option>'               
+                              },
+   selectTypeEof  :  '</select>',
+   
+
+   valuesTableBof : '<div  class="grid tier form-list">'+
+                    ' <div class="hor-scroll">'+      
+                    '  <table class="border" cellpadding="0" cellspacing="0" {{tableWidth}}>',       
+                          
+   valuesTableByGroup : { 
+        select :      '<thead>'+
+                      ' <tr class="headings">'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>
+                      '      <th class="optionextended-id"><?php echo $this->jsQuoteEscape($this->__('Id')) ?></th>'+                                    
+                          <?php endif; ?>                                
+                      '    <th class="type-title"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Title')) ?> <span class="required">*</span></th>'+
+                      '    <th class="type-price"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Price')) ?></th>'+
+                      '    <th class="type-type"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Price Type')) ?></th>'+
+                      '    <th class="type-sku"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('SKU')) ?></th>'+
+                      '    <th class="type-order"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Sort Order')) ?></th>'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>           
+                      '     <th class="optionextended-children-column"><?php echo $this->jsQuoteEscape($this->__('Children')) ?></th>'+
+                      '            <th class="optionextended-showhide-column">&nbsp;</th>'+
+                          <?php endif; ?> 
+                          <?php if (Mage::getStoreConfig('admin/optionextended/images') == 1): ?>                  
+                      '     <th class="optionextended-image-column"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Image')) ?></th>'+
+                          <?php endif; ?>
+                          <?php if (Mage::getStoreConfig('admin/optionextended/description') == 1): ?>                
+                      '     <th class="optionextended-textfield-column"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Description')) ?></th>   '+   
+                      '     <th class="optionextended-showhide-column">&nbsp;</th>'+
+                          <?php endif; ?>                      
+                          <?php if (Mage::getStoreConfig('admin/optionextended/selected_by_default') == 1): ?>                             
+                      '     <th class="optionextended-sd">{{sdColumnInput}}</th>   '+
+                          <?php endif; ?>            
+                      '   <th class="type-butt last">&nbsp;</th>'+
+                      ' </tr>'+
+                      '</thead>'+
+                      '<tbody id="select_option_type_row_{{id}}"></tbody>'+
+                      '<tfoot>'+
+                      ' <tr>'+
+                      '   <td colspan="100" class="a-right">'+
+                      '   <?php echo $this->getAddRowButtonHtml() ?>&nbsp;'+                        
+                      '  </td>'+
+                      ' </tr>'+
+                      '</tfoot>',                        
+        text :        '<tr class="headings">'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>       
+                      '      <th class="optionextended-id"><?php echo $this->jsQuoteEscape($this->__('Id')) ?></th> '+
+                          <?php endif; ?>        
+                      '    <th class="type-price"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Price')) ?></th>'+
+                      '    <th class="type-type"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Price Type')) ?></th>'+
+                      '    <th class="type-sku"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('SKU')) ?></th>'+
+                      '    <th class="type-last last"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Max Characters')) ?> </th>'+
+                      '</tr>'+
+                      '<tr>'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>        
+                      '      <td>{{row_id}}</td> '+
+                          <?php endif; ?>          
+                      '    <td>'+
+                      '    <input type="hidden" name="product[options][{{id}}][row_id]" value="{{row_id}}">'+
+                      '    <input type="text" class="input-text validate-number product-option-price" id="product_option_{{id}}_price" name="product[options][{{id}}][price]" value=""></td>'+
+                      '    <td><?php echo $this->getPriceTypeSelectHtml() ?></td>'+
+                      '    <td><input type="text" class="input-text" name="product[options][{{id}}][sku]" id="product_option_{{id}}_sku" value=""></td>'+
+                      '    <td class="type-last last"><input type="text" class="input-text validate-zero-or-greater" name="product[options][{{id}}][max_characters]" id="product_option_{{id}}_max_characters" value=""></td>'+
+                      '</tr>',                                
+        file :        '<tr class="headings">'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>       
+                      '      <th class="optionextended-id"><?php echo $this->jsQuoteEscape($this->__('Id')) ?></th> '+
+                          <?php endif; ?>     
+                      '    <th class="type-price"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Price')) ?></th>'+
+                      '    <th class="type-type"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Price Type')) ?></th>'+
+                      '    <th class="type-sku"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('SKU')) ?></th>'+
+                      '    <th class="type-title"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Allowed File Extensions')) ?></th>'+
+                      '    <th class="last"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Maximum Image Size')) ?></th>'+
+                      '</tr>'+
+                      '<tr>'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>         
+                      '      <td>{{row_id}}</td>'+
+                          <?php endif; ?>           
+                      '    <td>'+
+                      '    <input type="hidden" name="product[options][{{id}}][row_id]" value="{{row_id}}">'+
+                      '    <input class="input-text type="text" name="product[options][{{id}}][price]" id="product_option_{{id}}_price" value=""></td>'+
+                      '    <td><?php echo $this->getPriceTypeSelectHtml() ?></td>'+
+                      '    <td><input type="text" class="input-text" name="product[options][{{id}}][sku]" id="product_option_{{id}}_sku" value=""></td>'+
+                      '    <td><input class="input-text" type="text" name="product[options][{{id}}][file_extension]" id="product_option_{{id}}_file_extension" value=""></td>'+
+                      '    <td class="type-last last" nowrap><input class="input-text" type="text" name="product[options][{{id}}][image_size_x]" id="product_option_{{id}}_image_size_x" value=""> <?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('x')) ?> <input class="input-text" type="text" name="product[options][{{id}}][image_size_y]" id="product_option_{{id}}_image_size_y" value=""> <?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('px.')) ?><br/><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('leave blank if its not an image')) ?></td>'+
+                      '</tr>',                           
+        date :        '<tr class="headings">'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>        
+                      '      <th class="optionextended-id"><?php echo $this->jsQuoteEscape($this->__('Id')) ?></th> '+
+                          <?php endif; ?>       
+                      '    <th class="type-price"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Price')) ?></th>'+
+                      '    <th class="type-type"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Price Type')) ?></th>'+
+                      '    <th class="last"><?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('SKU')) ?></th>'+
+                      '</tr>'+
+                      '<tr>'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>        
+                      '      <td>{{row_id}}</td>'+
+                          <?php endif; ?>           
+                      '    <td>'+
+                      '    <input type="hidden" name="product[options][{{id}}][row_id]" value="{{row_id}}">'+
+                      '    <input type="text" class="input-text validate-zero-or-greater product-option-price" id="product_option_{{id}}_price" name="product[options][{{id}}][price]" value=""></td>'+
+                      '    <td><?php echo $this->getPriceTypeSelectHtml() ?></td>'+
+                      '    <td class="last"><input type="text" class="input-text type-sku" name="product[options][{{id}}][sku]" id="product_option_{{id}}_sku" value=""></td>'+
+                      '</tr>'    
+                              },            
+   valuesTableEof :  '  </table>'+
+                     ' </div>'+
+                     '</div>',
+
+
+   childrenDetailedSelect : '<select onblur="optionExtended.showInput({{id}}, {{select_id}}, \'detailed\')" class="optionextended-children optionextended-children-dropdown" id="optionextended_{{select_id}}_children_detailed_select" multiple size="{{size}}"><option value=""></option>{{options}}</select>',
+
+
+   valuesRow :        '    <tr id="product_option_value_{{select_id}}">'+
+                              <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?> 
+                      '         <td>{{row_id}}</td>'+
+                              <?php endif; ?>     
+                      '        <td>'+
+                      '        <input type="hidden" name="product[options][{{id}}][values][{{select_id}}][row_id]" value="{{row_id}}">'+
+                      '        <input type="hidden" name="product[options][{{id}}][values][{{select_id}}][option_type_id]" value="{{option_type_id}}">'+
+                      '        <input type="hidden" id="product_option_value_{{select_id}}_is_delete" name="product[options][{{id}}][values][{{select_id}}][is_delete]" value="">'+
+                      '        <input type="text" class="required-entry input-text select-type-title" id="product_option_value_{{select_id}}_title" name="product[options][{{id}}][values][{{select_id}}][title]" value=""></td>'+
+                      '        <td><input type="text" class="input-text validate-number product-option-price" id="product_option_value_{{select_id}}_price" name="product[options][{{id}}][values][{{select_id}}][price]" value=""></td>'+
+                      '        <td><?php echo $this->getPriceTypeSelectHtml('value') ?></td>'+
+                      '        <td><input type="text" class="input-text" name="product[options][{{id}}][values][{{select_id}}][sku]"  id="product_option_value_{{select_id}}_sku" value=""></td>'+
+                      '        <td><input type="text" class="validate-zero-or-greater input-text" name="product[options][{{id}}][values][{{select_id}}][sort_order]"  id="product_option_value_{{select_id}}_sort_order" value=""></td>'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>
+                      '        <td><input class="optionextended-children-input" type="text" name="product[options][{{id}}][values][{{select_id}}][children]" id="optionextended_{{select_id}}_children" value=""  onblur="optionExtended.updateChildren(this, {{id}}, {{select_id}})">'+
+                      '             <select id="optionextended_{{select_id}}_children_detailed_select"  style="display:none;"></select>'+                       
+                      '             <select onchange="optionExtended.onChildrenShortSelectChange({{select_id}})" onblur="optionExtended.showInput({{id}},{{select_id}},\'short\');" class="optionextended-children optionextended-children-dropdown" id="optionextended_{{select_id}}_children_short_select"  style="display:none;" multiple ><option value=""></option></select>'+
+                      '            <div id="optionextended_{{select_id}}_children_advice"></div>'+
+                      '        </td>'+
+                      '        <td align="center">'+
+                                    '<span id="optionextended_{{select_id}}_show_link" class="optionextended-children-showhide-link">'+
+                                    '<span onclick="optionExtended.showSelect({{id}},{{select_id}},\'detailed\');" title="<?php echo $this->jsQuoteEscape($this->__('Click to select certain values')) ?>">S</span>&nbsp;'+
+                                    '<span onclick="optionExtended.showSelect({{id}},{{select_id}},\'short\');" title="<?php echo $this->jsQuoteEscape($this->__('Click to select entire option with all its values')) ?>">s</span>'+
+                                    '</span>'+
+                               '</td>'+
+                          <?php endif; ?> 
+                          <?php if (Mage::getStoreConfig('admin/optionextended/images') == 1): ?>
+                      '          <td id="optionextended_image_cell_{{select_id}}">'+
+                      '              <div class="files" style="width:135px;">'+
+                      '                 <div  id="{{select_id}}_uploader_place-holder" onmouseover="optionExtended.loadUploader({{select_id}})">'+
+                      '                    <span>{{rollOver}}</span>'+
+                      '                 </div>'+
+                      '                 <div id="{{select_id}}_uploader_row" style="display:none"  class="hide_uploader_row">            '+
+                      '                    <div class="row" >'+
+                      '                       <input type="hidden" class="validate-optionextended-file" id="optionextended_link_{{select_id}}_file_save" name="product[options][{{id}}][values][{{select_id}}][image]" value="" /> '+
+                      '                       <div id="optionextended_link_{{select_id}}_file" class="uploader">'+
+                      '                          <div id="optionextended_link_{{select_id}}_file-old" class="file-row-info">'+
+                      '                           <img src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" id="optionextended_link_{{select_id}}_file_img" width="40" style="display:none;" alt="" />'+
+                      '                          </div>'+ 
+                      '                          <div id="optionextended_link_{{select_id}}_file-new" class="file-row-info new-file"></div>'+
+                      '                          <div class="buttons">'+
+                      '                             <div id="optionextended_link_{{select_id}}_file-install-flash" style="display:none">'+
+                      '                                This content requires last version of Adobe Flash Player. <a href="http://www.adobe.com/go/getflash/">Get Flash</a>'+
+                      '                             </div>'+
+                      '                          </div>'+
+                      '                       </div>'+
+                      '                       <img src="<?php echo $this->getSkinUrl('pektsekye/optionextended/delete_image.gif')?>" id="optionextended_link_{{select_id}}_file_delete" alt="<?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Delete')) ?>" onclick="optionExtended.deleteImage({{select_id}})" class="optionextended-delete-image"  style="display:none"/>'+                         
+                      '                       <div id="optionextended_link_{{select_id}}_file_save_advice"></div>'+
+                      '                    </div>'+
+                      '                 </div>'+
+                      '              </div>'+
+                      '          </td>'+
+                          <?php endif; ?>                  
+                          <?php if (Mage::getStoreConfig('admin/optionextended/description') == 1): ?>                 
+                      '               <td>'+
+                      '                   <input class="optionextended-textfield" type="text" name="product[options][{{id}}][values][{{select_id}}][description]" id="optionextended_{{select_id}}_description" value="">'+
+                      '               </td>'+
+                      '               <td><span <?php echo $this->jsQuoteEscape($this->getShowTextArea('value')) ?> title="<?php echo $this->getClickToEditText() ?>" id="optionextended_{{select_id}}_description_show" class="optionextended-showhide-link">e</span><span onclick="optionExtended.hideTextArea(this);" title="<?php echo $this->jsQuoteEscape($this->__('Click to hide')) ?>" id="optionextended_{{select_id}}_description_hide" class="optionextended-showhide-link" style="display:none;">h</span></td>'+
+                          <?php endif; ?> 
+                          <?php if (Mage::getStoreConfig('admin/optionextended/selected_by_default') == 1): ?>               
+                      '      <td>{{sdCellInput}}</td>'+
+                          <?php endif; ?>                
+                      '        <td class="last"><span title="Delete row"><?php echo $this->getDeleteRowButtonHtml() ?></span></td>'+
+                      '    </tr>  ',
+
+   checkboxScope :    '<br/><input type="checkbox" id="{{input_id}}_use_default" class="product-option-scope-checkbox" name="{{input_name}}" value="1" {{checked}}  onclick="optionExtended.setScope(this, \'{{input_id}}\', \'{{type}}\')"/>'+
+                      '<label class="normal" for="{{input_id}}_use_default"> <?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Use Default Value')); ?></label>',
+
+
+   valuesActivatedRow :  '    <tr id="product_option_value_{{select_id}}">'+
+                              <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?> 
+                      '         <td>{{row_id}}</td>'+
+                              <?php endif; ?>     
+                      '        <td>'+
+                      '        <input type="hidden" name="product[options][{{id}}][values][{{select_id}}][row_id]" value="{{row_id}}">'+
+                      '        <input type="hidden" name="product[options][{{id}}][values][{{select_id}}][option_type_id]" value="{{select_id}}">'+
+                      '        <input type="hidden" id="product_option_value_{{select_id}}_is_delete" name="product[options][{{id}}][values][{{select_id}}][is_delete]" value="">'+
+                      '        <input type="text" class="required-entry input-text select-type-title" id="product_option_value_{{select_id}}_title" name="product[options][{{id}}][values][{{select_id}}][title]" value="{{title_esc}}" {{title_disabled}}>{{title_scope_checkbox}}</td>'+
+                      '        <td><input type="text" class="input-text validate-number product-option-price" id="product_option_value_{{select_id}}_price" name="product[options][{{id}}][values][{{select_id}}][price]" value="{{price}}" {{price_disabled}}>{{price_scope_checkbox}}</td>'+
+                      '        <td>{{price_type_select}}</td>'+
+                      '        <td><input type="text" class="input-text" name="product[options][{{id}}][values][{{select_id}}][sku]"  id="product_option_value_{{select_id}}_sku" value="{{sku_esc}}"></td>'+
+                      '        <td><input type="text" class="validate-zero-or-greater input-text" name="product[options][{{id}}][values][{{select_id}}][sort_order]"  id="product_option_value_{{select_id}}_sort_order" value="{{sort_order}}"></td>'+
+                          <?php if (Mage::getStoreConfig('admin/optionextended/dependency') == 1): ?>
+                      '        <td><input class="optionextended-children-input" type="text" name="product[options][{{id}}][values][{{select_id}}][children]" id="optionextended_{{select_id}}_children" value="{{children}}" onblur="optionExtended.updateChildren(this, {{id}}, {{select_id}})">'+
+                      '             <select id="optionextended_{{select_id}}_children_detailed_select"  style="display:none;"></select>'+                       
+                      '             <select onchange="optionExtended.onChildrenShortSelectChange({{select_id}})" onblur="optionExtended.showInput({{id}},{{select_id}},\'short\');" class="optionextended-children optionextended-children-dropdown" id="optionextended_{{select_id}}_children_short_select"  style="display:none;" multiple ><option value=""></option></select>'+
+                      '            <div id="optionextended_{{select_id}}_children_advice"></div>'+
+                      '        </td>'+
+                      '        <td align="center">'+
+                                    '<span id="optionextended_{{select_id}}_show_link" class="optionextended-children-showhide-link">'+
+                                    '<span onclick="optionExtended.showSelect({{id}},{{select_id}},\'detailed\');" title="<?php echo $this->jsQuoteEscape($this->__('Click to select certain values')) ?>">S</span>&nbsp;'+
+                                    '<span onclick="optionExtended.showSelect({{id}},{{select_id}},\'short\');" title="<?php echo $this->jsQuoteEscape($this->__('Click to select entire option with all its values')) ?>">s</span>'+
+                                    '</span>'+
+                               '</td>'+
+                          <?php endif; ?> 
+                          <?php if (Mage::getStoreConfig('admin/optionextended/images') == 1): ?>
+                      '          <td id="optionextended_image_cell_{{select_id}}">'+
+                      '              <div class="files" style="width:135px;">'+
+                      '                 <div  id="{{select_id}}_uploader_place-holder" onmouseover="optionExtended.loadUploader({{select_id}})">'+
+                      '                    <span>{{roll_over}}</span>'+
+                      '                 </div>'+
+                      '                 <div id="{{select_id}}_uploader_row" style="display:none"  class="hide_uploader_row">            '+
+                      '                    <div class="row" >'+
+                      '                       <input type="hidden" class="validate-optionextended-file" id="optionextended_link_{{select_id}}_file_save" name="product[options][{{id}}][values][{{select_id}}][image]" value="{{image_json}}" /> '+
+                      '                       <div id="optionextended_link_{{select_id}}_file" class="uploader">'+
+                      '                          <div id="optionextended_link_{{select_id}}_file-old" class="file-row-info">'+
+                      '                           <img src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" id="optionextended_link_{{select_id}}_file_img" width="40" style="display:none;" alt="" />'+
+                      '                          </div>'+                
+                      '                          <div id="optionextended_link_{{select_id}}_file-new" class="file-row-info new-file"></div>'+
+                      '                          <div class="buttons">'+                     
+                      '                             <div id="optionextended_link_{{select_id}}_file-install-flash" style="display:none">'+
+                      '                                This content requires last version of Adobe Flash Player. <a href="http://www.adobe.com/go/getflash/">Get Flash</a>'+
+                      '                             </div>'+
+                      '                          </div>'+
+                      '                       </div>'+
+                      '                       <img src="<?php echo $this->getSkinUrl('pektsekye/optionextended/delete_image.gif')?>" id="optionextended_link_{{select_id}}_file_delete" alt="<?php echo $this->jsQuoteEscape(Mage::helper('catalog')->__('Delete')) ?>" onclick="optionExtended.deleteImage({{select_id}})" class="optionextended-delete-image"  style="display:none"/>'+                            
+                      '                       <div id="optionextended_link_{{select_id}}_file_save_advice"></div>'+                  
+                      '                    </div>'+
+                      '                 </div>'+
+                      '              </div>'+
+                      '          </td>'+
+                          <?php endif; ?>                  
+                          <?php if (Mage::getStoreConfig('admin/optionextended/description') == 1): ?>                 
+                      '               <td>'+
+                      '                   <input class="optionextended-textfield" type="text" name="product[options][{{id}}][values][{{select_id}}][description]" id="optionextended_{{select_id}}_description" value="{{description_esc}}" {{description_disabled}}>{{description_scope_checkbox}}'+
+                      '               </td>'+
+                      '               <td><span <?php echo $this->jsQuoteEscape($this->getShowTextArea('value')) ?> title="<?php echo $this->getClickToEditText() ?>" id="optionextended_{{select_id}}_description_show" class="optionextended-showhide-link" {{description_show_link_hidden}}>e</span><span onclick="optionExtended.hideTextArea(this);" title="<?php echo $this->jsQuoteEscape($this->__('Click to hide')) ?>" id="optionextended_{{select_id}}_description_hide" class="optionextended-showhide-link" style="display:none;">h</span></td>'+
+                          <?php endif; ?> 
+                          <?php if (Mage::getStoreConfig('admin/optionextended/selected_by_default') == 1): ?>               
+                      '      <td>{{sd_cell_input}}</td>'+
+                          <?php endif; ?>                
+                      '        <td class="last"><span title="Delete row"><?php echo $this->getDeleteRowButtonHtml() ?></span></td>'+
+                      '    </tr>  ',
+
+   
+
+   sdTitle     : '<?php echo $this->jsQuoteEscape($this->__('Mark row as Selected By Default')) ?>',   
+   selectAll   : '<?php echo $this->jsQuoteEscape($this->__('Mark all rows as Selected By Default')) ?>',
+
+
+   uploaderTemplate :   '<div class="no-display" id="[[idName]]-template">' +
+                        '   <div id="{{id}}" class="file-row file-row-narrow">' +
+                        '      <span class="file-info">' +
+                        '         <span class="file-info-name">{{name}}</span>' +
+                        '                  ' +
+                        '         <span class="file-info-size">({{size}})</span>' +
+                        '      </span>' +
+                        '      <span class="progress-text"></span>' +
+                        '      <div class="clear"></div>' +
+                        '   </div>' +
+                        '</div>' +
+                        '<div class="no-display" id="[[idName]]-template-progress">' +
+                        '   {{percent}}% {{uploaded}} / {{total}}' +
+                        '</div>',
+
+   appliedTemplateRow : '<tr id="optionextended_template_table_row_{{templateId}}"><td>{{title}}</td><td align="right"><a href="<?php echo $this->getOptionsUrl() ?>" target="_blank"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('View')) ?></a></td><td align="right"><a href="#" onclick="optionExtended.removeTemplate({{templateId}}); return false;"><?php echo $this->jsQuoteEscape(Mage::helper('adminhtml')->__('Remove')) ?></a></td></tr>',
+
+   uploaderUrl : '<?php echo Mage::getBlockSingleton('adminhtml/media_uploader')->getUploaderUrl('media/uploaderSingle.swf'); ?>',
+   
+   accordionOptionUrl : '<?php echo $this->getAccordionOptionUrl() ?>',
+   templateDataUrl    : '<?php echo $this->getTemplateDataUrl() ?>',
+   
+   expiredMessage     : '<?php echo $this->jsQuoteEscape($this->__('Your session has been expired. Please, reload the page and upload images if necessary')) ?>',
+   invalidIdsAdvaice  : '<?php echo $this->jsQuoteEscape($this->__('Invalid row Ids')) ?>',
+
+   rollOverUploader : '<?php echo $this->jsQuoteEscape($this->__('Roll Over for Uploader')) ?>',
+   rollOverPreview  : '<?php echo $this->jsQuoteEscape($this->__('Roll Over for Preview')) ?>',
+   uploaderConfig   : <?php echo $this->getConfigJson() ?>,
+
+   aboveOption      : '<?php echo $this->jsQuoteEscape($this->__('Above Option')) ?>',
+   beforeOption     : '<?php echo $this->jsQuoteEscape($this->__('Before Option')) ?>',
+   belowOption      : '<?php echo $this->jsQuoteEscape($this->__('Below Option')) ?>',
+   grid             : '<?php echo $this->jsQuoteEscape($this->__('Grid')) ?>',
+   gridcompact      : '<?php echo $this->jsQuoteEscape($this->__('Grid Compact')) ?>',   
+   list             : '<?php echo $this->jsQuoteEscape($this->__('List')) ?>',
+   mainImage        : '<?php echo $this->jsQuoteEscape($this->__('Main Image')) ?>',
+   colorPicker      : '<?php echo $this->jsQuoteEscape($this->__('Color Picker')) ?>',
+   colorPickerSwap  : '<?php echo $this->jsQuoteEscape($this->__('Picker & Main')) ?>',
+      
+   dependencyEnabled   : <?php echo Mage::getStoreConfig('admin/optionextended/dependency') ?>,
+   imageEnabled        : <?php echo Mage::getStoreConfig('admin/optionextended/images') ?>,
+   descriptionEnabled  : <?php echo Mage::getStoreConfig('admin/optionextended/description') ?>,
+   sdEnabled           : <?php echo Mage::getStoreConfig('admin/optionextended/selected_by_default') ?>,
+   inactiverowsEnabled : <?php echo Mage::getStoreConfig('admin/optionextended/inactiverows') ?>,      
+   accordionEnabled    : <?php echo Mage::getStoreConfig('admin/optionextended/accordion') ?>,    
+          
+   storeId   : <?php echo $this->getStoreId() ?>,      
+   productId : <?php echo (int) $this->getProduct()->getId() ?>,
+   
+   hiddenOptionIds : <?php echo $this->getOpenedOptionIds() ?>,
+   wasExpanded     : <?php echo $this->getIsExpanded() ?>,
+   isContinueEdit  : <?php echo $this->getIsContinueEdit() ?>
+
+};
+
+var optionExtended = new OptionExtended.Main();
+  
+//]]> 
+</script>

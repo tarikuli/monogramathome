@@ -1,0 +1,52 @@
+<?php if ($this->hasOptions() && !empty($this->config)):?>
+  <script type="text/javascript">	
+  //<![CDATA[
+
+    OptionExtended.Config = {	
+	
+	    mainImageId : 'image', // Id of the Product main image tag <img id="image"
+	    
+	    spacer     : '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>',	
+	    imageTitle : '<?php echo $this->jsQuoteEscape($this->__('Click to Enlarge')) ?>',
+	
+	    imageDirUrl       : '<?php echo $this->getProductBaseMediaUrl() ?>',
+	    thumbnailDirUrl   : '<?php echo $this->getThumbnailDirUrl() ?>',
+	    pickerImageDirUrl : '<?php echo $this->getPickerImageDirUrl() ?>',    
+	    hoverImageDirUrl  : '<?php echo $this->getHoverImageDirUrl() ?>',  	    
+	    placeholderUrl    : '<?php echo $this->getPlaceholderUrl() ?>',	
+	    inPreconfigured   : <?php echo $this->getInPreconfigured() ?>,
+	    infoIcon          : '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/info_icon.gif') ?>',
+	    checkIcon         : '<?php echo Mage::getDesign()->getSkinUrl('pektsekye/optionextended/check_icon.png') ?>',
+	    								
+	    config : <?php echo $this->getConfig() ?>
+	
+    };
+
+
+    var optionExtended = new OptionExtended.Main();	
+
+
+    if (window.jQuery && jQuery.fn.oxcolorbox && jQuery.fn.tooltipster){
+      (function($) {
+      
+        $(".ox-image").click(function() {
+          var src = $(this).attr("ox-data-popup");
+          if (src){  
+            $.oxcolorbox({
+              maxWidth  : '95%', 
+              maxHeight : '95%',
+              photo     : true, 
+              href      : src
+            });
+          } 
+        }); 
+        
+        $('.ox-tooltip').tooltipster({contentAsHTML:true, theme: 'tooltipster-shadow'}); 
+        $('.ox-tooltip-icon').tooltipster({contentAsHTML:true, interactive:true, theme: 'tooltipster-shadow', maxWidth: 250});
+                 
+      })(jQuery);
+    } 
+
+  //]]>
+  </script>
+<?php endif; ?>
