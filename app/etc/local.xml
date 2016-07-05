@@ -28,10 +28,10 @@
 <config>
     <global>
         <install>
-            <date><![CDATA[Sat, 02 Jul 2016 19:16:52 +0000]]></date>
+            <date><![CDATA[Tue, 05 Jul 2016 02:24:19 +0000]]></date>
         </install>
         <crypt>
-            <key><![CDATA[14409032a616446cb0b23d49912a36a8]]></key>
+            <key><![CDATA[7abdb608bec79d0e5c26b78756326cfb]]></key>
         </crypt>
         <disable_local_modules>false</disable_local_modules>
         <resources>
@@ -43,7 +43,7 @@
                     <host><![CDATA[localhost]]></host>
                     <username><![CDATA[magentouser]]></username>
                     <password><![CDATA[#Dtw123Dtw]]></password>
-                    <dbname><![CDATA[magentouser_julkiker]]></dbname>
+                    <dbname><![CDATA[magentouser_monogram_dev]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
@@ -52,7 +52,7 @@
                 </connection>
             </default_setup>
         </resources>
-        <session_save><![CDATA[db]]></session_save>
+        <session_save><![CDATA[files]]></session_save>
     </global>
     <admin>
         <routers>
