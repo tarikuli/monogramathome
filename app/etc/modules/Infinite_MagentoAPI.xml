@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Infinite_MagentoAPI>
+			<active>true</active>
+			<codePool>local</codePool>	
+		</Infinite_MagentoAPI>
+	</modules>
+</config>
