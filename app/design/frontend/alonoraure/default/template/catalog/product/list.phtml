@@ -182,7 +182,9 @@
 			    <div class="category-products-grid">
 				    <div class="images-container">
 					    <div class="product-hover">
+                            <?php if (false): //disabled quick view?>
 							<a title="<?php echo $this->__('Quick View') ?>" href="<?php echo $this->getUrl('magicshop/quickview/view') .'id/'.$_product->getId()?>" class="link-quickview"><i class="fa fa-eye"></i></a>
+                            <?php endif; ?>
 							<?php echo $helpLabels->getLabels($_product); //Product labels ?>
 							 <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
 								<img id="product-collection-image-<?php echo $_product->getId(); ?>" class="img-responsive" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($width , $height); ?>" width="<?php echo $width ?>" height="<?php echo $height ?>"
@@ -192,7 +194,7 @@
 									if($imagehv): $imagehv = $imagehv->getFile();
 								?>
 									<span class="product-img-back">
-										<img class="img-responsive" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image', $imagehv)->resize($width , $height); ?>" width="<?php echo $width ?>" height="<?php echo $height ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+										<img class="img-responsive " src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image', $imagehv)->resize($width , $height); ?>" width="<?php echo $width ?>" height="<?php echo $height ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
 									</span>
 								<?php endif ?>
 							 </a>

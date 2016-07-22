@@ -1226,7 +1226,7 @@ ul.magictabs{padding:0}
 .product-img-box .social-link{text-align: center;}
 .product-img-box .social-link .text-share,.product-img-box .share-links{float: none;display: inline-block;}
 /* Product Hover ========================================================================== */
-.product-img-back{left:10px;opacity:0;position:absolute;top:10px;right: 10px;transition:all 0.2s ease-in-out 0s;visibility:hidden;}
+.product-img-back{left:0px;opacity:0;position:absolute;top:0px;right: 10px;transition:all 0.2s ease-in-out 0s;visibility:hidden;}
 .item:hover .product-img-back{opacity:1;visibility:visible;transition:all 0.2s ease 0s}
 .magicmenu .nav-desktop .level0 .product-img-back{transition-property:none;}
 /* ======================================================================================= */
@@ -2163,3 +2163,23 @@ ul.magictabs{padding:0}
     margin: 0px 0 0;
     padding: 0;
 }
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+    .header-content-left .logo img {
+        width:171px;
+        padding-top: 10px;
+    }
+}
+
+

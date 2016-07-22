@@ -42,8 +42,10 @@
                     <div class="per-product">
                         <div class="images-container">
 						     <div class="product-hover">
+                                 <?php if (false): //disable quick view?>
 								<a title="<?php echo $this->__('Quick View') ?>" href="<?php echo $this->getUrl('magicshop/quickview/view') .'id/'.$_product->getId()?>" class="link-quickview"><i class="fa fa-eye"></i>
                                             </a>
+                                 <?php endif; ?>
 								<?php echo $helpLabels->getLabels($_product); //Product labels ?>
                                 <?php // echo $helpTimer->getTimer($_product, $num); $num++;//Product Timer ?>
 								<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">

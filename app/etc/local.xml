@@ -28,10 +28,10 @@
 <config>
     <global>
         <install>
-            <date><![CDATA[Tue, 05 Jul 2016 02:24:19 +0000]]></date>
+            <date><![CDATA[Wed, 06 Jul 2016 16:53:35 +0000]]></date>
         </install>
         <crypt>
-            <key><![CDATA[7abdb608bec79d0e5c26b78756326cfb]]></key>
+            <key><![CDATA[68f5945d982795628f3aa38c773209e1]]></key>
         </crypt>
         <disable_local_modules>false</disable_local_modules>
         <resources>
@@ -42,7 +42,7 @@
                 <connection>
                     <host><![CDATA[localhost]]></host>
                     <username><![CDATA[magentouser]]></username>
-                    <password><![CDATA[#Dtw123Dtw]]></password>
+                    <password><![CDATA[monogramathome07052016]]></password>
                     <dbname><![CDATA[magentouser_monogram_dev]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
