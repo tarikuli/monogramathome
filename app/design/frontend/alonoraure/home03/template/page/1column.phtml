@@ -90,12 +90,17 @@
 		        <div class="container">
 		            <div class="main">
 		                <div class="row">
-		                    <?php echo $block ?>
+                            <?php $isHomeProduct = Mage::getStoreConfig('magicproduct/general/homeproduct'); ?>
+                            <?php if ($isHomeProduct): ?>
+		                        <?php echo $block ?>
+                            <?php endif ?>
+
 		                </div>
 		            </div>
 		        </div>
 		    </div>
 			<?php endif ?>
+
 			<?php if($block = $this->getChildHtml('alo_blog')) : ?>
 			<div class="block-static alo-blog">
 			    <div class="container">
@@ -115,7 +120,10 @@
 					<div class="container">
 						<div class="main">
 							<div class="row">
-								<?php echo $block ?>
+                                <?php $isCustomProduct = Mage::getStoreConfig('magicproduct/general/customproduct'); ?>
+                                <?php if ($isCustomProduct): ?>
+								    <?php echo $block ?>
+                                <?php endif ?>
 							</div>
 						</div>
 					</div>
@@ -128,7 +136,7 @@
 		            <div class="main">
 		                <div class="row">
 		                    <div class="col-lg-12">
-		                        <?php echo $block ?>
+                                 <?php echo $block ?>
 		                    </div>
 		                </div>
 		            </div>

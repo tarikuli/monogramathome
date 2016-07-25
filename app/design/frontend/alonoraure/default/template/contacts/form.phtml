@@ -82,20 +82,22 @@
 <?php endif ?>
 
 <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-3" style="padding-top: 20px; border: 1px solid #eee">
-    <form action="_"  method="post">
+    <div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
+    <form action="/contact/save"  method="post" id="contact_form">
         <div class="contact-content">
+            
             <ul class="form-list">
                 <li>
                     <div class="col-md-6">
-                        <label for="name" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('First Name') ?></label>
+                        <label for="first_name" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('First Name') ?></label>
                         <div class="input-box">
-                            <input name="firstname" id="first-name" title="<?php echo Mage::helper('contacts')->__('First Name') ?>" value="<?php //echo $this->escapeHtml($this->helper('contacts')->getUserName()) ?>" class="input-text required-entry" type="text" />
+                            <input name="contact[first_name]" id="first_name" title="<?php echo Mage::helper('contacts')->__('First Name') ?>" value="" class="input-text required-entry" type="text" />
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="name" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Last Name') ?></label>
+                        <label for="last_name" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Last Name') ?></label>
                         <div class="input-box">
-                            <input name="lastname" id="last-name" title="<?php echo Mage::helper('contacts')->__('Last Name') ?>" value="<?php //echo $this->escapeHtml($this->helper('contacts')->getUserName()) ?>" class="input-text required-entry" type="text" />
+                            <input name="contact[last_name]" id="last_name" title="<?php echo Mage::helper('contacts')->__('Last Name') ?>" value="" class="input-text required-entry" type="text" />
                         </div>
                     </div>
                 </li>
@@ -103,42 +105,42 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <label for="email" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Email') ?></label>
                         <div class="input-box">
-                            <input name="email" id="email" title="<?php echo Mage::helper('contacts')->__('Email') ?>" value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserEmail()) ?>" class="input-text required-entry validate-email" type="text" />
+                            <input name="contact[email]" id="email" title="<?php echo Mage::helper('contacts')->__('Email') ?>" value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserEmail()) ?>" class="input-text required-entry validate-email" type="text" />
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <label for="telephone"><?php echo Mage::helper('contacts')->__('Phone (Optional)') ?></label>
+                        <label for="phone" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Phone (Optional)') ?></label>
                         <div class="input-box">
-                            <input name="phone" id="phone" title="<?php echo Mage::helper('contacts')->__('Phone') ?>" value="" class="input-text" type="text" />
+                            <input name="contact[phone]" id="phone" title="<?php echo Mage::helper('contacts')->__('Phone') ?>" value="" class="input-text required-entry" type="text" />
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="col-md-3">
-                        <label for="telephone"><?php echo Mage::helper('contacts')->__('Zip code)') ?></label>
+                        <label for="zip_code" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Zip code') ?></label>
                         <div class="input-box">
-                            <input name="zipcode" id="zip-code" title="<?php echo Mage::helper('contacts')->__('Zip Code') ?>" value="" class="input-text" type="text" />
+                            <input name="contact[zipcode]" id="zip_code" title="<?php echo Mage::helper('contacts')->__('Zip Code') ?>" value="" class="required-entry input-text" type="text" />
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="col-md-12">
-                        <div for="telephone"><?php echo Mage::helper('contacts')->__('What would you like to do?') ?>
+                        <div><?php echo Mage::helper('contacts')->__('What would you like to do?') ?>
                             <div class="checkbox">
                                 <label class="block">
-                                    <input type="checkbox" name="type[]" value="1"> I would like to become an Ambassador
+                                    <input type="checkbox" name="contact[contact_type][]" value="I would like to become an Ambassador"> I would like to become an Ambassador
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label class="block">
-                                    <input type="checkbox" name="type[]" value="2"> I would like to Host a Party
+                                    <input type="checkbox" name="contact[contact_type][]" value="I would like to Host a Party"> I would like to Host a Party
                                 </label>
                             </div>
                             <div class="checkbox">
                                 <label class="block">
-                                    <input type="checkbox" name="type[]" value="3"> I have a question
+                                    <input type="checkbox" name="contact[contact_type][]" value="I have a question"> I have a question
                                 </label>
                             </div>
                         </div>
@@ -146,9 +148,9 @@
                 </li>
                 <li>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <label for="note"><?php echo Mage::helper('contacts')->__('Notes') ?></label>
+                        <label for="note" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Notes') ?></label>
                         <div class="input-box">
-                            <textarea name="note" id="note" title="<?php echo Mage::helper('contacts')->__('Notes') ?>" class="required-entry input-text" cols="5" rows="3"></textarea>
+                            <textarea name="contact[note]" id="note" title="<?php echo Mage::helper('contacts')->__('Notes') ?>" class="required-entry input-text" cols="5" rows="3"></textarea>
                         </div>
                     </div>
                 </li>
@@ -159,3 +161,9 @@
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var contactForm = new VarienForm('contact_form', true);
+    //]]>
+</script>
