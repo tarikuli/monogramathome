@@ -82,7 +82,10 @@
 									<?php endif; ?>
                                     <?php if(in_array("cart", $actions)):?>
                                         <?php if($_product->isSaleable()): ?>
+                                            <?php if (false): //Changed "Add to cart" to "Coming soon"  ?>
                                             <button type="button" title="<?php echo $this->__('Add To Cart') ?>" class="button btn-cart pull-left-none" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add To Cart') ?></span></span></button>
+                                            <?php endif; ?>
+                                            <button type="button" title="<?php echo $this->__('Add To Cart coming soon') ?>" class="button pull-left-none" onclick="return false"><span><span><?php echo $this->__('Coming Soon') ?></span></span></button>
                                         <?php else: ?>
                                             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                                         <?php endif; ?>

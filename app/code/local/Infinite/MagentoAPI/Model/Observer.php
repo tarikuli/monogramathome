@@ -24,10 +24,10 @@ class Infinite_MagentoAPI_Model_Observer
 
 		$emailParts = explode("@", $params['email']);
 		$username = $emailParts[0];
-		$customerCollection = Mage::getModel('customer/customer')->getCollection()
+		/*$customerCollection = Mage::getModel('customer/customer')->getCollection()
 			->addAttributeToFilter('username', $username);
-		if($customerCollection->count())
-			$username .= $customer->getId();
+		if($customerCollection->count())*/
+		$username .= $customer->getId();
 
 		$customer->setUsername($username);
 		$customer->save();

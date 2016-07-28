@@ -80,9 +80,8 @@
 </script>
 
 <?php endif ?>
-
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
 <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-3" style="padding-top: 20px; border: 1px solid #eee">
-    <div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
     <form action="/contact/save"  method="post" id="contact_form">
         <div class="contact-content">
             
@@ -111,9 +110,9 @@
                 </li>
                 <li>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <label for="phone" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Phone (Optional)') ?></label>
+                        <label for="phone"><?php echo Mage::helper('contacts')->__('Phone') ?> <span class="hidden-xs-* hidden-sm-*"><?php echo Mage::helper('contacts')->__(" (optional)"); ?></span></label>
                         <div class="input-box">
-                            <input name="contact[phone]" id="phone" title="<?php echo Mage::helper('contacts')->__('Phone') ?>" value="" class="input-text required-entry" type="text" />
+                            <input name="contact[phone]" id="phone" title="<?php echo Mage::helper('contacts')->__('Phone') ?>" value="" class="input-text" type="text" />
                         </div>
                     </div>
                 </li>
@@ -127,20 +126,20 @@
                 </li>
                 <li>
                     <div class="col-md-12">
-                        <div><?php echo Mage::helper('contacts')->__('What would you like to do?') ?>
-                            <div class="checkbox">
+                        <div> <?php echo Mage::helper('contacts')->__('What would you like to do?') ?> <em style="color: #eb340a">*</em>
+                            <div class="radio">
                                 <label class="block">
-                                    <input type="checkbox" name="contact[contact_type][]" value="I would like to become an Ambassador"> I would like to become an Ambassador
+                                    <input type="radio" class="" name="contact[contact_type]" value="I would like to become an Ambassador"> I would like to become an Ambassador
                                 </label>
                             </div>
-                            <div class="checkbox">
+                            <div class="radio">
                                 <label class="block">
-                                    <input type="checkbox" name="contact[contact_type][]" value="I would like to Host a Party"> I would like to Host a Party
+                                    <input type="radio" class="" name="contact[contact_type]" value="I would like to Host a Party"> I would like to Host a Party
                                 </label>
                             </div>
-                            <div class="checkbox">
+                            <div class="radio">
                                 <label class="block">
-                                    <input type="checkbox" name="contact[contact_type][]" value="I have a question"> I have a question
+                                    <input type="radio" class="validate-one-required-by-name" name="contact[contact_type]" value="I have a question"> I have a question
                                 </label>
                             </div>
                         </div>
@@ -148,9 +147,9 @@
                 </li>
                 <li>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <label for="note" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Notes') ?></label>
+                        <label for="note" class="required"><?php echo Mage::helper('contacts')->__('Notes') ?></label>
                         <div class="input-box">
-                            <textarea name="contact[note]" id="note" title="<?php echo Mage::helper('contacts')->__('Notes') ?>" class="required-entry input-text" cols="5" rows="3"></textarea>
+                            <textarea name="contact[note]" id="note" title="<?php echo Mage::helper('contacts')->__('Notes') ?>" class="input-text" cols="5" rows="3"></textarea>
                         </div>
                     </div>
                 </li>

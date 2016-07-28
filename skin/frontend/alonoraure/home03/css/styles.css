@@ -2163,7 +2163,12 @@ ul.magictabs{padding:0}
     margin: 0px 0 0;
     padding: 0;
 }
-
+.mobile-hidden {
+    display:block;
+}
+.mobile-visible {
+    display:none;
+}
 /* Portrait tablets and small desktops */
 @media (min-width: 768px) and (max-width: 991px) {
 
@@ -2175,10 +2180,24 @@ ul.magictabs{padding:0}
 }
 
 /* Portrait phones and smaller */
-@media (max-width: 480px) {
+@media only screen and (max-width: 480px) {
+
+    .mobile-visible {
+        display: block !important;
+    }
+    .mobile-hidden {
+        display: none !important;
+    }
+
+    .col-mobile-12 div.element p {
+        text-align: left !important;
+    }
+    .col-mobile-12 img {
+        float:none !important;
+    }
     .header-content-left .logo img {
-        width:171px;
-        padding-top: 10px;
+        width:205px;
+        padding-top: 8px;
     }
 }
 
