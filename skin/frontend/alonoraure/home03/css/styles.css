@@ -2163,6 +2163,20 @@ ul.magictabs{padding:0}
     margin: 0px 0 0;
     padding: 0;
 }
+
+
+ul.ambassador-list {
+    list-style-type: circle;
+}
+
+ul.ambassador-list li {
+    color: #ec008b;
+}
+
+ul.ambassador-list li span {
+    color: #666666;
+}
+
 .mobile-hidden {
     display:block;
 }
