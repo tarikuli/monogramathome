@@ -544,7 +544,7 @@ tr.summary-details-excluded{font-style:italic}
 #nav{font-size:13px;margin:0}
 .magicmenu .nav-desktop .level0.over > a, .magicmenu .nav-desktop .level0.active > a, .magicmenu .nav-desktop .level0.active > a span.icon-text, .magicmenu .nav-desktop .level0 > a:hover, .magicmenu .nav-desktop .level0 > a.icon-text:hover{opacity: 1 !important;}
 /* All Levels */
- 
+
 /* Style consistent throughout all nav levels */
 #nav li{position:relative;text-align:left}
 #nav li.over{z-index:998}
@@ -603,7 +603,7 @@ tr.summary-details-excluded{font-style:italic}
 .block .actions a{float:left;color:#f12b63;text-decoration:none}
 .block .actions a:hover{color:#333}
 .block .empty{margin:0;padding:0px;color:#555;font-size:13px;font-weight:300}
-/* Mini Blocks */ 
+/* Mini Blocks */
 .block-cart,.block-wishlist,.block-subscribe,.block-compare,.block-reorder,.block-poll,.block-gr-search,.block-viewed,.block-compared,.block-related,.block-tags,.block-login{font-size:11px;line-height:1.25}
 .block-cart .block-title strong,.block-wishlist .block-title strong,.block-subscribe .block-title strong,.block-compare .block-title strong,.block-reorder .block-title strong,.block-poll .block-title strong,.block-viewed .block-title strong,.block-compared .block-title strong,.block-related .block-title strong,.block-tags .block-title strong,.block-login .block-title strong{background-repeat:no-repeat}
 /* Mini Products List */
@@ -1015,7 +1015,7 @@ tr.summary-details-excluded{font-style:italic}
 
 ul.magictabs{padding:0}
 .content-products{clear:both; margin: 0 0 30px;}
-.content-products .bx-wrapper .bx-controls-direction a, 
+.content-products .bx-wrapper .bx-controls-direction a,
 .crosssell .bx-wrapper .bx-controls-direction a {top: 30%;}
 .box-up-sell .bx-wrapper .bx-controls-direction a{top: -45px;}
 .content-products ul{padding:0;margin:0}
@@ -1028,13 +1028,13 @@ ul.magictabs{padding:0}
 .featured-product-tab .magictabs .item.active .title,.featured-product-tab .magictabs .item:hover .title{color: #333333;}
 .bx-wrapper .bx-controls-direction a{top: 50%;margin-top: -20px;border-width: 1px;border-style: solid;background-image: none;width: 39px;height: 39px;font-size: 20px;line-height: 36px;text-align: center;text-indent: inherit;transition:none;border-radius: 50%;}
 .bx-wrapper .bx-controls-direction a .fa{font-weight: bold;}
-.bx-wrapper .bx-controls-direction a.bx-prev{left: -50px;}
-.bx-wrapper .bx-controls-direction a.bx-next {right: -50px;}
-.alo-brands .bx-wrapper .bx-controls-direction a, 
-.alo-blog .bx-wrapper .bx-controls-direction a, 
+.bx-wrapper .bx-controls-direction a.bx-prev{left: -15px;}
+.bx-wrapper .bx-controls-direction a.bx-next {right: -15px;}
+.alo-brands .bx-wrapper .bx-controls-direction a,
+.alo-blog .bx-wrapper .bx-controls-direction a,
 .alo-product-home .bx-wrapper .bx-controls-direction a {display: none;}
-.alo-brands:hover .bx-wrapper .bx-controls-direction a, 
-.alo-blog:hover .bx-wrapper .bx-controls-direction a, 
+.alo-brands:hover .bx-wrapper .bx-controls-direction a,
+.alo-blog:hover .bx-wrapper .bx-controls-direction a,
 .alo-product-home:hover .bx-wrapper .bx-controls-direction a{display: block;}
 .content-products .bx-wrapper .bx-controls-direction a{visibility: hidden;}
 .content-products:hover .bx-wrapper .bx-controls-direction a,
@@ -1130,7 +1130,7 @@ ul.magictabs{padding:0}
 .category-description{margin:20px 0 0}
 .catalog-product-view .category-image{display: none;}
 .catalog-category-view .category-image{display: block;}
-.category-slider .bx-controls-direction .bx-prev, 
+.category-slider .bx-controls-direction .bx-prev,
 .category-slider .bx-controls-direction .bx-next {width: 40px;height: 40px;line-height: 40px;text-align: center;-moz-transition: all 0.45s ease;-webkit-transition: all 0.45s ease;-o-transition: all 0.45s ease;-ms-transition: all 0.45s ease;transition: all 0.45s ease;position: absolute;visibility: hidden;opacity: 0;}
 .category-slider .magicslider .bx-wrapper .bx-controls-direction a.bx-prev{left: 50%;}
 .category-slider .magicslider .bx-wrapper .bx-controls-direction a.bx-next{right: 50%;}
@@ -1182,7 +1182,7 @@ ul.magictabs{padding:0}
 .products-grid.products-grid--max-4-col .item .actions-no .button.btn-cart span,
 .products-grid.products-grid--max-4-col .item .actions-no .button.btn-cart span .icons,
 .products-grid.products-grid--max-4-col .item .actions-no .add-to-links li,
-.products-grid.products-grid--max-4-col .item .actions-no .add-to-links a, 
+.products-grid.products-grid--max-4-col .item .actions-no .add-to-links a,
 .products-grid.products-grid--max-4-col .item .actions-no .actions a,
 .products-grid.products-grid--max-4-col .item .actions-no .actions a .fa{width: 35px;height: 35px;line-height: 34px;}
 .products-grid.products-grid--max-4-col .item .actions-no .button.btn-cart span span{padding: 0 15px;}
@@ -1226,7 +1226,7 @@ ul.magictabs{padding:0}
 .product-img-box .social-link{text-align: center;}
 .product-img-box .social-link .text-share,.product-img-box .share-links{float: none;display: inline-block;}
 /* Product Hover ========================================================================== */
-.product-img-back{left:0px;opacity:0;position:absolute;top:0px;right: 10px;transition:all 0.2s ease-in-out 0s;visibility:hidden;}
+.product-img-back{left:0px;opacity:0;position:absolute;top:0px;right: 0px;transition:all 0.2s ease-in-out 0s;visibility:hidden;}
 .item:hover .product-img-back{opacity:1;visibility:visible;transition:all 0.2s ease 0s}
 .magicmenu .nav-desktop .level0 .product-img-back{transition-property:none;}
 /* ======================================================================================= */
@@ -2166,7 +2166,7 @@ ul.magictabs{padding:0}
 
 
 ul.ambassador-list {
-    list-style-type: circle;
+    list-style:outside;
 }
 
 ul.ambassador-list li {
@@ -2183,6 +2183,7 @@ ul.ambassador-list li span {
 .mobile-visible {
     display:none;
 }
+
 /* Portrait tablets and small desktops */
 @media (min-width: 768px) and (max-width: 991px) {
 
@@ -2195,6 +2196,10 @@ ul.ambassador-list li span {
 
 /* Portrait phones and smaller */
 @media only screen and (max-width: 480px) {
+
+    #popup-newsletter .block-content input.input-text {
+        padding: 10px 33px 10px 7px;
+    }
 
     .mobile-visible {
         display: block !important;

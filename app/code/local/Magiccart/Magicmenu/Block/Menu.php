@@ -135,7 +135,8 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
 									$id = $child->getId();
 									$class = ' level1';
 									$class .= $this->isCategoryActive($child->getId()) ? ' active' : '';
-									$url =  '<a href="'. $child->getUrl().'"><span>'.$this->__($child->getName()) . $this->getCatLabel($child) . '</span></a>';
+									//$url =  '<a href="'. $child->getUrl().'"><span>'.$this->__($child->getName()) . $this->getCatLabel($child) . '</span></a>';
+                                    $url =  '<a href="javascript:void(0)"><span>'.$this->__($child->getName()) . $this->getCatLabel($child) . '</span></a>';
 									// $childHtml = $this->getTreeCategories($id); // not include magic_label
 									$childHtml = $this->getTreeCategoriesExt($id); // include magic_label
 									// $childHtml = $this->getTreeCategoriesExtra($id); // include magic_label

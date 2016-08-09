@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Julfiker_Contact extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Contact
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+--> 
+<layout>
+    <adminhtml_contact_contact_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_contact/contact</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_contact/adminhtml_contact" name="contact" />
+
+        </reference>
+    </adminhtml_contact_contact_index>
+    <adminhtml_contact_contact_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="julfiker_contact/adminhtml_contact_grid" name="contact_grid"/>
+        </block>
+    </adminhtml_contact_contact_grid>
+    <!-- Contact add/edit action -->
+    <adminhtml_contact_contact_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_contact/contact</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_contact/adminhtml_contact_edit" name="contact_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="julfiker_contact/adminhtml_contact_edit_tabs" name="contact_tabs"></block>
+        </reference>
+    </adminhtml_contact_contact_edit>
+
+    <adminhtml_contact_contactreply_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_contact/contactreply</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_contact/adminhtml_contactreply" name="contactreply" />
+
+        </reference>
+    </adminhtml_contact_contactreply_index>
+    <adminhtml_contact_contactreply_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="julfiker_contact/adminhtml_contactreply_grid" name="contactreply_grid"/>
+        </block>
+    </adminhtml_contact_contactreply_grid>
+    <!-- Contactreply add/edit action -->
+    <adminhtml_contact_contactreply_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_contact/contactreply</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_contact/adminhtml_contactreply_edit" name="contactreply_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="julfiker_contact/adminhtml_contactreply_edit_tabs" name="contactreply_tabs"></block>
+        </reference>
+    </adminhtml_contact_contactreply_edit>
+
+    <adminhtml_contact_contact_comment_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_contact/contact_comment</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_contact/adminhtml_contact_comment" name="contact_comment_grid"/>
+        </reference>
+    </adminhtml_contact_contact_comment_index>
+    <adminhtml_contact_contact_comment_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="julfiker_contact/adminhtml_contact_comment_grid" name="contact_comment_grid"/>
+        </block>
+    </adminhtml_contact_contact_comment_grid>
+    <adminhtml_contact_contact_comment_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_contact/contact_comment</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_contact/adminhtml_contact_comment_edit" name="contact_comment_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="julfiker_contact/adminhtml_contact_comment_edit_tabs" name="contact_comment_tabs"></block>
+        </reference>
+    </adminhtml_contact_contact_comment_edit>
+    <adminhtml_contact_contactreply_comment_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_contact/contactreply_comment</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_contact/adminhtml_contactreply_comment" name="contactreply_comment_grid"/>
+        </reference>
+    </adminhtml_contact_contactreply_comment_index>
+    <adminhtml_contact_contactreply_comment_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="julfiker_contact/adminhtml_contactreply_comment_grid" name="contactreply_comment_grid"/>
+        </block>
+    </adminhtml_contact_contactreply_comment_grid>
+    <adminhtml_contact_contactreply_comment_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_contact/contactreply_comment</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_contact/adminhtml_contactreply_comment_edit" name="contactreply_comment_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="julfiker_contact/adminhtml_contactreply_comment_edit_tabs" name="contactreply_comment_tabs"></block>
+        </reference>
+    </adminhtml_contact_contactreply_comment_edit>
+</layout>

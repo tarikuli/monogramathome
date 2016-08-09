@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Julfiker_Contact extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Contact
+ * @copyright      Copyright (c) 2016
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <julfiker_contact translate="title" module="julfiker_contact">
+                                        <title>Contact</title>
+                                    </julfiker_contact>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <julfiker_contact translate="title" module="julfiker_contact">
+                        <title>Contact</title>
+                        <children>
+                            <contact translate="title" module="julfiker_contact">
+                                <title>Contact</title>
+                                <sort_order>0</sort_order>
+                            </contact>
+                            <!--contact_comments translate="title" module="julfiker_contact">
+                                <title>Manage Contact replies</title>
+                                <sort_order>5</sort_order>
+                            </contact_comments-->
+                        </children>
+                    </julfiker_contact>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <julfiker_contact translate="title" module="julfiker_contact">
+            <title>Contact</title>
+            <sort_order>65</sort_order>
+            <children>
+                <contact translate="title" module="julfiker_contact">
+                    <title>Manage contacts</title>
+                    <action>adminhtml/contact_contact</action>
+                    <sort_order>0</sort_order>
+                </contact>
+                <!--contact_comments translate="title" module="julfiker_contact">
+                    <title>Manage Contact Replies</title>
+                    <action>adminhtml/contact_contact_comment</action>
+                    <sort_order>4</sort_order>
+                </contact_comments-->
+            </children>
+        </julfiker_contact>
+    </menu>
+</config>
