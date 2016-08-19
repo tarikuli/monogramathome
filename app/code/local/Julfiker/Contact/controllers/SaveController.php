@@ -45,9 +45,7 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
             //$data['contact_type'] = implode(",", $data['contact_type']);
             try {
                 $data = $this->_filterDates($data, array('contact_created_at'));
-                $contact = $this->_initContact();
-                $contact->addData($data);
-                $contact->save();
+
 
                 //Welcome email to submission customer
                 $mailTemplate = Mage::getModel('core/email_template');
@@ -55,17 +53,22 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
                 $mailTemplate->setDesignConfig(array('area' => 'frontend'))
                     ->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
                     ->sendTransactional(
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
+                        Mage::getStoreConfig(self::XML_PATH_WELCOME_TEMPLATE),
                         Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                        Mage::getStoreConfig($contact->getEmail()),
+                        Mage::getStoreConfig($data['email']),
                         null,
                         array('data' => $data)
                     );
 
                 if (!$mailTemplate->getSentSuccess()) {
-                    throw new Exception();
+                    Mage::getSingleton('core/session')->addError("Something went wrong! Please contact administration.");
+                    $this->_redirect('contacts/index');
+                    return;
                 }
 
+                $contact = $this->_initContact();
+                $contact->addData($data);
+                $contact->save();
 
                 Mage::getSingleton('core/session')->addSuccess(
                     Mage::helper('julfiker_contact')->__('Thank you for your interest in Monogram at Home. A representative will contact you within 1 business day.')
