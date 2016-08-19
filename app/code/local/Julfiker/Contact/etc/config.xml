@@ -73,6 +73,7 @@
                 <contacts_email_welcome_template translate="label" module="julfiker_contact">
                     <label>Contact welcome</label>
                     <file>contact_welcome.html</file>
+                    <type>html</type>
                 </contacts_email_welcome_template>
             </email>
         </template>
