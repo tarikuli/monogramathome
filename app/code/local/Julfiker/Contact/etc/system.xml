@@ -17,6 +17,25 @@
  */
 --> 
 <config>
+     <sections>
+            <contacts translate="label" module="julfiker_contact">
+                <groups>
+                    <email>
+                        <fields>
+                            <welcome_template translate="label">
+                                <label>Welcome template</label>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_email_template</source_model>
+                                <sort_order>30</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </welcome_template>
+                        </fields>
+                    </email>
+                </groups>
+             </contacts>
+    </sections>
     <!--
     <tabs>
         <julfiker translate="label" module="julfiker_contact">

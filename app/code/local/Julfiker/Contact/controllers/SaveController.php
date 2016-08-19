@@ -23,6 +23,11 @@
  */
 class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
 {
+
+    const XML_PATH_EMAIL_SENDER     = 'contacts/email/sender_email_identity';
+    const XML_PATH_WELCOME_TEMPLATE   = 'contacts/email/welcome_template';
+    const XML_PATH_ENABLED          = 'contacts/contacts/enabled';
+
     /**
      * init the contact
      *
@@ -43,6 +48,25 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
                 $contact = $this->_initContact();
                 $contact->addData($data);
                 $contact->save();
+
+                //Welcome email to submission customer
+                $mailTemplate = Mage::getModel('core/email_template');
+                /* @var $mailTemplate Mage_Core_Model_Email_Template */
+                $mailTemplate->setDesignConfig(array('area' => 'frontend'))
+                    ->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
+                    ->sendTransactional(
+                        Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
+                        Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+                        Mage::getStoreConfig($contact->getEmail()),
+                        null,
+                        array('data' => $data)
+                    );
+
+                if (!$mailTemplate->getSentSuccess()) {
+                    throw new Exception();
+                }
+
+
                 Mage::getSingleton('core/session')->addSuccess(
                     Mage::helper('julfiker_contact')->__('Thank you for your interest in Monogram at Home. A representative will contact you within 1 business day.')
                 );
