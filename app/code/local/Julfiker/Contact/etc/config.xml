@@ -68,6 +68,14 @@
                 </observers>
             </controller_front_init_routers>
         </events>
+        <template>
+            <email>
+                <contacts_email_welcome_template translate="label" module="julfiker_contact">
+                    <label>Contact welcome</label>
+                    <file>contact_welcome.html</file>
+                </contacts_email_welcome_template>
+            </email>
+        </template>
     </global>
     <adminhtml>
         <layout>
@@ -140,5 +148,10 @@
                 <meta_title>Contacts</meta_title>
             </contact>
         </julfiker_contact>
+        <contacts>
+            <email>
+                <welcome_template>contacts_email_welcome_template</welcome_template>
+            </email>
+        </contacts>
     </default>
 </config>
