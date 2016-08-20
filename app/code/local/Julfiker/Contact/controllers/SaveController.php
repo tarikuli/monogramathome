@@ -46,25 +46,33 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
             try {
                 $data = $this->_filterDates($data, array('contact_created_at'));
 
+                //die(Mage::getStoreConfig(self::XML_PATH_WELCOME_TEMPLATE));
 
-                //Welcome email to submission customer
-                $mailTemplate = Mage::getModel('core/email_template');
-                /* @var $mailTemplate Mage_Core_Model_Email_Template */
-                $mailTemplate->setDesignConfig(array('area' => 'frontend'))
-                    ->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
-                    ->sendTransactional(
-                        Mage::getStoreConfig(self::XML_PATH_WELCOME_TEMPLATE),
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                        Mage::getStoreConfig($data['email']),
-                        null,
-                        array('data' => $data)
-                    );
+                try {
+                    //Welcome email to submission customer
+                    /* @var $mailTemplate Mage_Core_Model_Email_Template */
+                    $mailTemplate = Mage::getModel('core/email_template');
+                    $mailTemplate->setDesignConfig(array('area' => 'frontend'))
+                        ->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
+                        ->sendTransactional(
+                            Mage::getStoreConfig(self::XML_PATH_WELCOME_TEMPLATE),
+                            Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+                            Mage::getStoreConfig($data['email']),
+                            null,
+                            array('data' => $data)
+                        );
 
-                if (!$mailTemplate->getSentSuccess()) {
-                    Mage::getSingleton('core/session')->addError("Something went wrong! Please contact administration.");
-                    $this->_redirect('contacts/index');
-                    return;
+                    if (!$mailTemplate->getSentSuccess()) {
+                        Mage::getSingleton('core/session')->addError("Something went wrong! Please contact administration.");
+                        $this->_redirect('contacts/index');
+                        return;
+                    }
                 }
+                catch (Exception $e) {
+                    print_r($e->getTraceAsString());
+                    die();
+                }
+
 
                 $contact = $this->_initContact();
                 $contact->addData($data);
