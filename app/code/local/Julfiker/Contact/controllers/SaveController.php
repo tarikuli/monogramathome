@@ -60,7 +60,7 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
                         ->sendTransactional(
                             Mage::getStoreConfig(self::XML_PATH_WELCOME_TEMPLATE),
                             Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                            Mage::getStoreConfig($data['email']),
+                            $data['email'],
                             null,
                             array('data' => $data)
                         );
@@ -74,7 +74,7 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
                     $translate->setTranslateInline(true);
                 }
                 catch (Exception $e) {
-                    print_r($e->getTraceAsString());
+                    throw new Exception();
                     return;
                 }
 
