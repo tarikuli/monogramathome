@@ -42,6 +42,9 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
 
     public function indexAction() {
         if ($data = $this->getRequest()->getPost('contact')) {
+            $translate = Mage::getSingleton('core/translate');
+            /* @var $translate Mage_Core_Model_Translate */
+            $translate->setTranslateInline(false);
             //$data['contact_type'] = implode(",", $data['contact_type']);
             try {
                 $data = $this->_filterDates($data, array('contact_created_at'));
@@ -67,10 +70,12 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
                         $this->_redirect('contacts/index');
                         return;
                     }
+
+                    $translate->setTranslateInline(true);
                 }
                 catch (Exception $e) {
                     print_r($e->getTraceAsString());
-                    die();
+                    return;
                 }
 
 
