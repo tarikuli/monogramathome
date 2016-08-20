@@ -128,6 +128,8 @@ class Julfiker_Contact_Adminhtml_Contact_ContactController extends Julfiker_Cont
         if ($data = $this->getRequest()->getPost('contact')) {
             try {
                 $data = $this->_filterDates($data, array('contact_created_at'));
+                //print_r($data);
+                //die();
                 $contact = $this->_initContact();
                 $contact->addData($data);
                 $contact->save();
@@ -327,3 +329,4 @@ class Julfiker_Contact_Adminhtml_Contact_ContactController extends Julfiker_Cont
         return Mage::getSingleton('admin/session')->isAllowed('julfiker_contact/contact');
     }
 }
+//ALTER TABLE `julfiker_contact_contact` ADD `internal_note` TEXT NOT NULL AFTER `note` ;

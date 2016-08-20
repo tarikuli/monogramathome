@@ -102,7 +102,7 @@ class Julfiker_Contact_Block_Adminhtml_Contact_Edit_Tab_Form extends Mage_Adminh
         );
 
         $fieldset->addField(
-            'conact_type',
+            'contact_type',
             'select',
             array(
                 'label'  => Mage::helper('julfiker_contact')->__('Contact type'),
@@ -118,10 +118,23 @@ class Julfiker_Contact_Block_Adminhtml_Contact_Edit_Tab_Form extends Mage_Adminh
             array(
                 'label' => Mage::helper('julfiker_contact')->__('Note'),
                 'name'  => 'note',
-                'required'  => true,
-                'class' => 'required-entry',
+                'required'  => false,
+                'class' => '',
 
            )
+        );
+
+
+        $fieldset->addField(
+            'internal_note',
+            'textarea',
+            array(
+                'label' => Mage::helper('julfiker_contact')->__('Customer Service Internal Notes'),
+                'name'  => 'internal_note',
+                'required'  => false,
+                'class' => '',
+
+            )
         );
 
         $formValues = Mage::registry('current_contact')->getDefaultValues();
