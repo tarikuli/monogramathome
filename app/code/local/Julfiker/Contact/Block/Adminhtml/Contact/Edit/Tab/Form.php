@@ -137,6 +137,23 @@ class Julfiker_Contact_Block_Adminhtml_Contact_Edit_Tab_Form extends Mage_Adminh
             )
         );
 
+        $fieldset->addField(
+            'status',
+            'select',
+            array(
+                'label'  => Mage::helper('julfiker_contact')->__('Status'),
+                'name'   => 'status',
+                'class' => 'required-entry',
+                'values'=> array(
+                    '1' => Mage::helper('julfiker_contact')->__('Pending - LDM'),
+                    '2' => Mage::helper('julfiker_contact')->__('Pending - Email'),
+                    '3' => Mage::helper('julfiker_contact')->__('Scheduled Party'),
+                    '4' => Mage::helper('julfiker_contact')->__('Recruited'),
+
+                )
+            )
+        );
+
         $formValues = Mage::registry('current_contact')->getDefaultValues();
         if (!is_array($formValues)) {
             $formValues = array();
