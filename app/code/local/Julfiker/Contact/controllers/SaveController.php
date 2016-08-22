@@ -76,7 +76,7 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
                     /* @var $mailTemplate Mage_Core_Model_Email_Template */
                     $mailTemplate = Mage::getModel('core/email_template');
                     $mailTemplate->setDesignConfig(array('area' => 'frontend'))
-                        ->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
+                        //->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
                         ->sendTransactional(
                             $template,
                             Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
