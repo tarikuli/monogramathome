@@ -102,7 +102,7 @@ class Julfiker_Contact_Block_Adminhtml_Contact_Edit_Tab_Form extends Mage_Adminh
         );
 
         $fieldset->addField(
-            'conact_type',
+            'contact_type',
             'select',
             array(
                 'label'  => Mage::helper('julfiker_contact')->__('Contact type'),
@@ -118,10 +118,40 @@ class Julfiker_Contact_Block_Adminhtml_Contact_Edit_Tab_Form extends Mage_Adminh
             array(
                 'label' => Mage::helper('julfiker_contact')->__('Note'),
                 'name'  => 'note',
-                'required'  => true,
-                'class' => 'required-entry',
+                'required'  => false,
+                'class' => '',
 
            )
+        );
+
+
+        $fieldset->addField(
+            'internal_note',
+            'textarea',
+            array(
+                'label' => Mage::helper('julfiker_contact')->__('Customer Service Internal Notes'),
+                'name'  => 'internal_note',
+                'required'  => false,
+                'class' => '',
+
+            )
+        );
+
+        $fieldset->addField(
+            'status',
+            'select',
+            array(
+                'label'  => Mage::helper('julfiker_contact')->__('Status'),
+                'name'   => 'status',
+                'class' => 'required-entry',
+                'values'=> array(
+                    '1' => Mage::helper('julfiker_contact')->__('Pending - LDM'),
+                    '2' => Mage::helper('julfiker_contact')->__('Pending - Email'),
+                    '3' => Mage::helper('julfiker_contact')->__('Scheduled Party'),
+                    '4' => Mage::helper('julfiker_contact')->__('Recruited'),
+
+                )
+            )
         );
 
         $formValues = Mage::registry('current_contact')->getDefaultValues();

@@ -70,11 +70,21 @@
         </events>
         <template>
             <email>
-                <contacts_email_welcome_template translate="label" module="julfiker_contact">
-                    <label>Contact welcome</label>
-                    <file>contact_welcome.html</file>
+                <contacts_email_ambassador_template translate="label" module="julfiker_contact">
+                    <label>Contact for an Ambassador</label>
+                    <file>contact_ambassador.html</file>
                     <type>html</type>
-                </contacts_email_welcome_template>
+                </contacts_email_ambassador_template>
+                <contacts_email_hostparty_template translate="label" module="julfiker_contact">
+                    <label>Contact for host a party</label>
+                    <file>contact_hostparty.html</file>
+                    <type>html</type>
+                </contacts_email_hostparty_template>
+                <contacts_email_forquestion_template translate="label" module="julfiker_contact">
+                    <label>Contact for asking question </label>
+                    <file>contact_question.html</file>
+                    <type>html</type>
+                </contacts_email_forquestion_template>
             </email>
         </template>
     </global>
@@ -151,7 +161,9 @@
         </julfiker_contact>
         <contacts>
             <email>
-                <welcome_template>contacts_email_welcome_template</welcome_template>
+                <ambassador_template>contacts_email_ambassador_template</ambassador_template>
+                <hostparty_template>contacts_email_hostparty_template</hostparty_template>
+                <forquestion_template>contacts_email_forquestion_template</forquestion_template>
             </email>
         </contacts>
     </default>

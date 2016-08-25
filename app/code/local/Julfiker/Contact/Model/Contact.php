@@ -180,19 +180,4 @@ class Julfiker_Contact_Model_Contact extends Mage_Core_Model_Abstract
 
         return $values;
     }
-    
-    /**
-      * get Contact Type
-      *
-      * @access public
-      * @return array
-      * @author Ultimate Module Creator
-      */
-    public function getContactType()
-    {
-        if (!$this->getData('contact_type')) {
-            return explode(',', $this->getData('contact_type'));
-        }
-        return $this->getData('contact_type');
-    }
 }

@@ -1,12 +1,14 @@
-<!--@subject Contact Form@-->
+<!--@subject Contact Form @-->
 <!--@vars
 {"var data.name":"Sender Name",
 "var data.email":"Sender Email",
-"var data.telephone":"Sender Telephone",
-"var data.comment":"Comment"}
+"var data.phone":"Sender phone",
+"var data.type" : "What would sender like to do?",
+"var data.note":"Note"}
 @-->
-Name: {{var data.name}}
+Name: {{var data.first_name}} {{var data.last_name}}
 Email: {{var data.email}}
-Telephone: {{var data.telephone}}
+Phone: {{var data.phone}}
+What would sender like to do?: {{var data.contact_type}}
 
-Comment: {{var data.comment}}
+note: {{var data.note}}

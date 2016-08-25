@@ -94,6 +94,14 @@ $table = $this->getConnection()
         'Note'
     )
     ->addColumn(
+        'internal_note',
+        Varien_Db_Ddl_Table::TYPE_TEXT, '64k',
+        array(
+            'nullable'  => false,
+        ),
+        'Customer Service Internal Notes'
+    )
+    ->addColumn(
         'status',
         Varien_Db_Ddl_Table::TYPE_SMALLINT, null,
         array(),
