@@ -2229,6 +2229,10 @@ ul.ambassador-list li span {
         float: none;
         width: 1%;
     }
+
+    .nav-tabs.nav > li > a {
+        font-size: 25px !important;
+    }
 }
 
 
