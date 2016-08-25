@@ -2223,6 +2223,12 @@ ul.ambassador-list li span {
         width:205px;
         padding-top: 8px;
     }
+
+    .nav-tabs.nav-justified > li {
+        display: table-cell !important;
+        float: none;
+        width: 1%;
+    }
 }
 
 
