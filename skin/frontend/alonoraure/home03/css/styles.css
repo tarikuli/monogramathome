@@ -2187,14 +2187,26 @@ ul.ambassador-list li span {
 
 /* Portrait tablets and small desktops */
 @media (min-width: 768px) and (max-width: 991px) {
-    .nav-tabs.nav > li > a {
+    .nav-tabs.nav-justified > li {
+        display: table-cell !important;
+        float: none;
+        width: 1%;
+    }
+
+    .nav-tabs.nav > li > a span{
         font-size: 16px !important;
     }
 }
 
 /* Landscape phones and portrait tablets */
 @media (max-width: 767px) {
-    .nav-tabs.nav > li > a {
+    .nav-tabs.nav-justified > li {
+        display: table-cell !important;
+        float: none;
+        width: 1%;
+    }
+
+    .nav-tabs.nav > li > a span{
         font-size: 16px !important;
     }
 }
