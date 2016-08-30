@@ -46,6 +46,14 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
     }
 
     public function indexAction() {
+
+
+        $testModel = Mage::getModel('julfiker_contact/ambassadorqueue')
+            ->setDomainId("abcd")
+            ->save();
+
+        die("lets see");
+
         if ($data = $this->getRequest()->getPost('contact')) {
             $translate = Mage::getSingleton('core/translate');
             /* @var $translate Mage_Core_Model_Translate */

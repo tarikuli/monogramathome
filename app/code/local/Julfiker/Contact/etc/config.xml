@@ -55,6 +55,9 @@
                     <contact_comment>
                         <table>julfiker_contact_contact_comment</table>
                     </contact_comment>
+                    <ambassadorqueue>
+                        <table>ambassador_queues</table>
+                    </ambassadorqueue>
                 </entities>
             </julfiker_contact_resource>
         </models>
