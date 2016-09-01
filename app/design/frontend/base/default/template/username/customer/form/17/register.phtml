@@ -52,6 +52,7 @@
                         <label for="username" class="required"><em>*</em><?php echo Mage::helper('username')->__('Username') ?></label>
                         <div class="input-box">
                             <input type="text" name="username" id="username" value="<?php echo $this->escapeHtml($this->getFormData()->getUsername()) ?>" title="<?php echo Mage::helper('core')->quoteEscape(Mage::helper('username')->__('Username')); ?>" class="input-text required-entry" />
+                            <span class="help-block" style="font-size: 11px;"><?php echo $this->__("Note: If you are ambassador, you will have specific store and access domain with the username, like {username}.monogramathome.com "); ?></span>
                         </div>
                     </div>
                 </li>
