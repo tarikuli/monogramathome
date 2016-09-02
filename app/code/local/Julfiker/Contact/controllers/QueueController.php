@@ -23,6 +23,7 @@
  */
 class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
 {
+    const ATTRIBUTE_SET = "Kit";
 
     /**
      * init the contact
@@ -30,11 +31,9 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
      * @access protected
      * @return Julfiker_Contact_Model_Ambassadorqueue
      */
-    protected function _initAmbassadorqueque()
-    {
+    protected function _initAmbassadorqueque() {
         return Mage::getModel('julfiker_contact/ambassadorqueue');
     }
-
 
     public function runAction() {
 
@@ -43,6 +42,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
         foreach ($queques as $q) {
             $domain = $q->getDomainId();
 
+            try {
             //#addWebsite
             /** @var $website Mage_Core_Model_Website */
             $website = Mage::getModel('core/website');
@@ -67,7 +67,64 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 ->setName("$domain"."_en")
                 ->setIsActive(1)
                 ->save();
-            die("ki holo");
+            }
+            catch(\Exception $e) {
+                continue;
+            }
+        }
+
+        $this->_setConfigBaseUrlToStore();
+    }
+
+    public function productsAction() {
+        $this->_productAssignToWebsite();
+    }
+
+    /**
+     * Product assign to all websites
+     *
+     * return void
+     */
+    protected function _productAssignToWebsite() {
+        $website_ids = array();
+        $website_collection = Mage::app()->getWebsites(true);
+        foreach($website_collection as $website) {
+            $website_ids[] = $website->getId();
+        }
+        $product_collection = Mage::getModel('catalog/product')->getCollection();
+        foreach($product_collection as $product) {
+            /** Adding to queue processing multi store dynamically */
+            $product = Mage::getModel('catalog/product')->load($product->getId());
+            $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+            $attributeSetModel->load($product->getAttributeSetId());
+            $attributeSetName  = $attributeSetModel->getAttributeSetName();
+            if(0 != strcmp($attributeSetName, self::ATTRIBUTE_SET)) {
+                $product->setWebsiteIds($website_ids);
+                $product->save();
+            }
         }
     }
+
+    /**
+     * Set configuration to set basedUrl to store specific
+     */
+    protected function _setConfigBaseUrlToStore() {
+
+        foreach (Mage::app()->getWebsites() as $website) {
+            if ($website->getCode() == "base") continue;
+            foreach ($website->getGroups() as $group) {
+                $stores = $group->getStores();
+                foreach ($stores as $store) {
+                    $config = Mage::getModel('core/config');
+                    $value = "http://".$website->getName()."/";
+                    $sValue = "https://".$website->getName()."/";
+                    $config->saveConfig('web/unsecure/base_url',$value,'stores',$store->getId());
+                    $config->saveConfig('web/secure/base_url',$sValue,'stores',$store->getId());
+                }
+            }
+        }
+
+        Mage::getConfig()->cleanCache();
+    }
+
 }
