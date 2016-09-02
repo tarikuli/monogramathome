@@ -22,23 +22,7 @@ class Infinite_MagentoAPI_Model_Observer
 		$params = Mage::app()->getRequest()->getParams();
 		$customer = $observer->getCustomer();
 
-        //Adding domain queue
-        Mage::getModel('julfiker_contact/ambassadorqueue')
-            ->setDomainId("domainId") //Todo: make it dynamic
-            ->setCustomerId($customer->getId())
-            ->save();
-
-        $emailParts = explode("@", $params['email']);
-		$username = $emailParts[0];
-		/*$customerCollection = Mage::getModel('customer/customer')->getCollection()
-			->addAttributeToFilter('username', $username);
-		if($customerCollection->count())*/
-		$username .= $customer->getId();
-
-		$customer->setUsername($username);
-		$customer->save();
-
-		$apiHelper = Mage::helper('magento_api/api');
+    	$apiHelper = Mage::helper('magento_api/api');
 		$apiHelper->registration($params, $customer);
 	}
 

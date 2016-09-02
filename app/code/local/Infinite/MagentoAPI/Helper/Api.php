@@ -2,7 +2,12 @@
 
 class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 {
-	protected $_apiUrl;
+    const GROUP_AMBASSADOR = "Ambassador";
+    const ATTRIBUTE_SET = "Kit";
+    const API_URL = "http://www.dashboard.monogramathome.com/backoffice/magento_api";
+
+    protected $_apiUrl;
+    private $needExecuted = true;
 
 	public function login($params, $customer)
 	{
@@ -40,7 +45,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		if(isset($params['street'][1]) && trim($params['street'][1]) != "")
 			$data['address2'] = $params['street'][1];
 
-		$response = $this->call('registration', $data);
+		//$response = $this->call('registration', $data);
 	}
 
 	public function editProfile($params)
@@ -110,10 +115,18 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 						'sub_total' => (intval($item->getQtyOrdered()) * floatval($item->getPrice()))
 					);
 					$totalAmount += (intval($item->getQtyOrdered()) * floatval($item->getPrice()));
+
+                    /** Adding to queue processing multi store dynamically */
+                    $product = Mage::getModel('catalog/product')->load($item->getProductId());
+                    $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+                    $attributeSetModel->load($product->getAttributeSetId());
+                    $attributeSetName  = $attributeSetModel->getAttributeSetName();
+                    if(0 == strcmp($attributeSetName, self::ATTRIBUTE_SET)) {
+                        $this->_addQueue($customerObject);
+                    }
 				}
 				$data['total_amount'] = $totalAmount;
-
-				$response = $this->call('purchase', $data);
+				//$response = $this->call('purchase', $data);
 			}
 		}
 	}
@@ -149,8 +162,57 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 	protected function _getApiUrl()
 	{
 		if(!isset($this->_apiUrl))
-			$this->_apiUrl = "http://infinitemlm.com/mlm-demo/Monogram/backoffice/magento_api";
+			$this->_apiUrl = self::API_URL;
 
 		return $this->_apiUrl;
 	}
+
+    /**
+     * Adding queue for ambassador upon purchased kit type product
+     *
+     * @param object $customer
+     * return void
+     */
+    protected function _addQueue($customer) {
+        if ($this->needExecuted) {
+            $collection = Mage::getModel('julfiker_contact/ambassadorqueue')->getCollection()->addFieldToFilter('domain_id', strtolower($customer->getUsername()));
+            $queue = Mage::getModel('julfiker_contact/ambassadorqueue')->load($collection->getFirstItem()->getId());
+            if (!$queue->getId()) {
+                $queue->setDomainId(strtolower($customer->getUsername()))
+                    ->setCustomerId($customer->getId())
+                    ->save();
+
+                $this->_customerAssignGroupToAmbassador($customer);
+                $this->needExecuted = false;
+            }
+        }
+    }
+
+    /**
+     * Ambassador as group assign to customer
+     * if group code not found in db, it will create dynamically and assign to customer.
+     *
+     * @param $customer
+     * @return bool
+     */
+    protected function _customerAssignGroupToAmbassador($customer) {
+        if (!$customer)
+            return false;
+
+        $code = self::GROUP_AMBASSADOR;
+        $collection = Mage::getModel('customer/group')->getCollection() //get a list of groups
+            ->addFieldToFilter('customer_group_code', $code);// filter by group code
+        $group = Mage::getModel('customer/group')->load($collection->getFirstItem()->getId());
+
+        if (!$group) {
+            $group->setCode($code); //set the code
+            $group->setTaxClassId(3); //set tax class
+            $group->save(); //save group
+        }
+
+        $customer->setData( 'group_id', $group->getId());
+        $customer->save();
+
+        return $customer;
+    }
 }
