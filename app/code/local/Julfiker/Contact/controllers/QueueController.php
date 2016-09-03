@@ -91,9 +91,11 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
         $content = $block->toHtml();
 
         $baseDir = Mage::getBaseDir();
-        $f = fopen("$baseDir/.htaccess", "w") or die("not available");
+        $f = fopen("$baseDir/.htaccess", "w") or die("Failed to open .htaccess. something went wrong");
         fwrite($f, $content);
         fclose($f);
+
+        echo "htaccess has been updated successfully with all store view";
     }
 
     /**
