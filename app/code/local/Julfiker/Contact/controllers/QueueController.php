@@ -67,6 +67,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 ->setName("$domain"."_en")
                 ->setIsActive(1)
                 ->save();
+             $q->setStatus(1)->save();
             }
             catch(\Exception $e) {
                 continue;
@@ -74,10 +75,25 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
         }
 
         $this->_setConfigBaseUrlToStore();
+
+        echo "successfully created store and configured all store domain specific";
     }
 
     public function productsAction() {
         $this->_productAssignToWebsite();
+    }
+
+
+    public function htaccessAction() {
+
+        $block = $this->getLayout()->createBlock('julfiker_contact/htaccess');
+        $block->setTemplate('htaccess/htaccess.phtml');
+        $content = $block->toHtml();
+
+        $baseDir = Mage::getBaseDir();
+        $f = fopen("$baseDir/.htaccess", "w") or die("not available");
+        fwrite($f, $content);
+        fclose($f);
     }
 
     /**
@@ -86,12 +102,14 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
      * return void
      */
     protected function _productAssignToWebsite() {
+
         $website_ids = array();
         $website_collection = Mage::app()->getWebsites(true);
         foreach($website_collection as $website) {
             $website_ids[] = $website->getId();
         }
         $product_collection = Mage::getModel('catalog/product')->getCollection();
+        $i = 0;
         foreach($product_collection as $product) {
             /** Adding to queue processing multi store dynamically */
             $product = Mage::getModel('catalog/product')->load($product->getId());
@@ -101,8 +119,11 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
             if(0 != strcmp($attributeSetName, self::ATTRIBUTE_SET)) {
                 $product->setWebsiteIds($website_ids);
                 $product->save();
+                $i++;
             }
         }
+
+        echo "Total $i product items has been updated with all domain or store";
     }
 
     /**
@@ -126,5 +147,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
 
         Mage::getConfig()->cleanCache();
     }
+
+
 
 }
