@@ -146,10 +146,5 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 }
             }
         }
-
-        Mage::getConfig()->cleanCache();
     }
-
-
-
 }
