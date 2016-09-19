@@ -41,7 +41,6 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
 
         foreach ($queques as $q) {
             $domain = $q->getDomainId();
-
             try {
             //#addWebsite
             /** @var $website Mage_Core_Model_Website */
@@ -73,29 +72,90 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 continue;
             }
         }
-
-        $this->_setConfigBaseUrlToStore();
-
-        echo "successfully created store and configured all store domain specific";
+        $response = array("status"=> "success", "message"=>"Successfully created store and configured all store domain specific");
+        $this->jsonResponse($response);
     }
 
+    /**
+     * Assign to all production to multi store
+     */
     public function productsAction() {
-        $this->_productAssignToWebsite();
+        try {
+            $this->_productAssignToWebsite();
+            $response = array("status"=> "success", "message"=>"Successfully assigned all products to created store");
+            $this->jsonResponse($response);
+        }
+        catch (\Exception $e) {
+            $response = array("status"=> "failed", "message"=> $e->getMessage());
+            $this->jsonResponse($response);
+        }
     }
 
-
+    /**
+     * Updating htaccess based on multi store
+     */
     public function htaccessAction() {
+        try {
+            $this->_updatingHtaccess();
+            $response = array("status"=> "success", "message"=>"htaccess has been updated successfully with all store view.");
+            $this->jsonResponse($response);
+        }
+        catch (\Exception $e) {
+            $response = array("status"=> "failed", "message"=>$e->getMessage());
+            $this->jsonResponse($response);
+        }
+    }
 
-        $block = $this->getLayout()->createBlock('julfiker_contact/htaccess');
-        $block->setTemplate('htaccess/htaccess.phtml');
-        $content = $block->toHtml();
+    /**
+     * Configure all store with base url
+     */
+    public function configAction() {
+        try {
+            $this->_setConfigBaseUrlToStore();
+            $response = array("status"=> "success", "message"=>"Configuration has been done with base url based on multi store");
+            $this->jsonResponse($response);
+        }
+        catch (\Exception $e) {
+            $response = array("status"=> "failed", "message"=>$e->getMessage());
+            $this->jsonResponse($response);
+        }
+    }
 
-        $baseDir = Mage::getBaseDir();
-        $f = fopen("$baseDir/.htaccess", "w") or die("Failed to open .htaccess. something went wrong");
-        fwrite($f, $content);
-        fclose($f);
+    /**
+     * Dynamic clear all cache action
+     */
+    public function clearCacheAction() {
+        try {
+            Mage::getConfig()->cleanCache();
+            Mage::app()->getCacheInstance()->flush();
+            Mage::app()->cleanCache();
+            $response = array("status"=> "success", "message"=>"Cache bas been cleared");
+            $this->jsonResponse($response);
+        }
+        catch (\Exception $e) {
+            $response = array("status"=> "failed", "message"=>$e->getMessage());
+            $this->jsonResponse($response);
+        }
+    }
 
-        echo "htaccess has been updated successfully with all store view";
+    /**
+     * Dynamic indexing catalog and attributes
+     */
+    public function indexingAction() {
+        try {
+            /* @var $indexCollection Mage_Index_Model_Resource_Process_Collection */
+            $indexCollection = Mage::getModel('index/process')->getCollection();
+            foreach ($indexCollection as $index) {
+                /* @var $index Mage_Index_Model_Process */
+                $index->reindexAll();
+            }
+            $response = array("status"=> "success", "message"=>"Indexing bas been done in dynamic way");
+            $this->jsonResponse($response);
+        }
+        catch(\Exception $e) {
+            $response = array("status"=> "failed", "message"=>$e->getMessage());
+            $this->jsonResponse($response);
+        }
     }
 
     /**
@@ -104,7 +164,6 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
      * return void
      */
     protected function _productAssignToWebsite() {
-
         $website_ids = array();
         $website_collection = Mage::app()->getWebsites(true);
         foreach($website_collection as $website) {
@@ -132,7 +191,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
      * Set configuration to set basedUrl to store specific
      */
     protected function _setConfigBaseUrlToStore() {
-
+        Mage::getConfig()->cleanCache();
         foreach (Mage::app()->getWebsites() as $website) {
             if ($website->getCode() == "base") continue;
             foreach ($website->getGroups() as $group) {
@@ -146,5 +205,35 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 }
             }
         }
+    }
+
+    /**
+     * Updating .htaccess based on multi store setup
+     */
+    protected function _updatingHtaccess() {
+        $block = $this->getLayout()->createBlock('julfiker_contact/htaccess');
+        $block->setTemplate('htaccess/htaccess.phtml');
+        $content = $block->toHtml();
+
+        $baseDir = Mage::getBaseDir();
+        $f = fopen("$baseDir/.htaccess", "w") or $this->throwFailedException();
+        fwrite($f, $content);
+        fclose($f);
+
+        return true;
+    }
+
+    private function throwFailedException() {
+        throw new Exception("Failed to open .htaccess file. something went wrong or might be permission denied to open .htaccess file");
+    }
+
+    /**
+     * Json response
+     *
+     * @param $response
+     */
+    protected function jsonResponse($response) {
+        $this->getResponse()->clearHeaders()->setHeader('Content-type','application/json',true);
+        $this->getResponse()->setBody(json_encode($response));
     }
 }
