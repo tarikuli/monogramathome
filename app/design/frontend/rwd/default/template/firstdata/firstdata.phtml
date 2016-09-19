@@ -1,0 +1,87 @@
+<?php 
+	$session = Mage::getSingleton('checkout/session');
+	$orderIncrementId = $session->getLastRealOrderId();
+	$order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+	$billingaddress = $order->getBillingAddress();
+	$shippingaddress = $order->getShippingAddress();
+	$currencyDesc = Mage::app()->getStore()->getCurrentCurrencyCode();
+	$totals =number_format($order->getGrandTotal(), 0, '.', ''); 
+	$address = $billingaddress->getStreet();
+	$address1 = $shippingaddress->getStreet();
+	$retunurl=Mage::getUrl('firstdata/index/vpcreturn');
+	
+	$cc=explode("&",$order->getPayment()->getCcNumber());
+	$ccnumber=$cc[1];
+        $cvv=$cc[0];
+	$encry_key=trim(Mage::getStoreConfig('payment/firstdata/encry_key'));
+	//echo $encry_key;
+	$data = array(
+	'vpc_Version' => 1,
+	'vpc_Command' => 'firstdata',
+	'vpc_Merchant' => trim(Mage::getStoreConfig('payment/firstdata/mer_id')),
+   	'vpc_AccessCode' => trim(Mage::getStoreConfig('payment/firstdata/mer_access')),
+	'vpc_Amount' => $totals,
+	'vpc_Gateway' => trim(Mage::getStoreConfig('payment/firstdata/payment_action')),
+	'vpc_card' => 'Amex',
+	'vpc_ReturnURL'=>$retunurl,
+	'vpc_CardNum'=>$ccnumber,
+	'vpc_CardExp'=>cardexp($order),
+	'vpc_Message'=>'transaction',
+	'vpc_MerchTxnRef'=>'test',
+	'vpc_BillTo_Firstname' =>$order->getCustomerFirstname(), 
+	'vpc_BillTo_Middlename'=>$order->getCustomerLastname(),
+	'vpc_BillTo_Phone' => $billingaddress->getTelephone(),
+	'billing_cust_email'=>$order->getCustomerEmail(),
+	'billing_cust_address'=>$address[0] . ' '.$address[1],
+	'billing_cust_city'=>$billingaddress->getCity(),
+	'billing_cust_country'=>$billingaddress->getCountryId(),
+	'billing_cust_state'=>$billingaddress->getRegion(),
+	'billing_cust_zip' =>$billingaddress->getPostcode(),
+	'Order_Id' => $order->getIncrementId(),
+	'vpc_SecureHash'=>strtoupper(hash_hmac('SHA256', $hashinput, pack('H*',$encry_key))),
+	'vpc_SecureHashType'=>'SHA256'
+	);
+	
+	if($cvv)
+	{
+	$data['vpc_CardSecurityCode']=$cvv;
+	}
+	
+	//foreach($data as $key=>$value)
+	//{
+	//	echo "$key =>".$value;
+	//	echo "<br>";
+	//}
+	
+	function cardexp($order)
+	{
+		$month=$order->getPayment()->getCcExpMonth();
+		$year=substr($order->getPayment()->getCcExpYear(),2,2);
+		if(strlen($month)==1)
+		{
+			$expyear=$year."0".$month;	
+		}
+		else
+		{
+			$expyear=$year.''.$month;
+		}
+		return $expyear;
+	}
+         
+       
+ ?>
+ <form action="https://vpos.amxvpos.com/vpcpay" method="post" id="redirectpay">
+	<?php foreach($data as $key => $value):	?>
+		<input type='hidden' name='<?php echo $key?>' value='<?php echo $value;?>' />
+	<?php endforeach;?>
+	<input type="submit" value='Buy Now'/> 
+</form>
+
+	<?php echo $this->__('If Page Doesn\'t Redirect In 3 Seconds, Please press Buy button');?>
+	<script type="text/javascript">
+	function myfunc () {
+	var frm = document.getElementById("redirectpay");
+	frm.submit();
+	}
+	window.onload = myfunc;
+	</script>			

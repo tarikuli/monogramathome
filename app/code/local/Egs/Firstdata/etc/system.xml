@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+   <sections>
+        <payment>
+            <groups>
+                <firstdata translate="label" module="firstdata">
+                    <label>FirstData (GGe4)</label>
+                    <sort_order>670</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+			<title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+			<mode_version translate="label">
+                            <label>Transaction Mode</label>
+                            <frontend_type>select</frontend_type>
+                             <source_model>firstdata/source_mode</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+			    <comment>If you choose Live mode Must enter Orginal Details</comment>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </mode_version>
+                        <username translate="label">
+                            <label>Firstdata(Username)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+			</username>
+			<mer_id translate="label">
+                            <label>Gateway ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+			</mer_id>
+			<mer_access translate="label">
+			   <label>Gateway Password</label>
+			   <frontend_type>text</frontend_type>
+			   <sort_order>6</sort_order>
+			   <show_in_default>1</show_in_default>
+			   <show_in_website>1</show_in_website>
+			   <show_in_store>0</show_in_store>
+			</mer_access>
+                        <api_version translate="label">
+                            <label>API Version</label>
+                            <frontend_type>text</frontend_type>
+			    <!--<source_model>firstdata/source_version</source_model>-->
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+			    <!--<comment>If you choose V12 Must enter Key id , Hmac Key</comment>-->
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </api_version>
+                        <!--<key_id translate="label">
+			   <label>Key ID</label>
+			   <frontend_type>text</frontend_type>
+			   <sort_order>8</sort_order>
+			   <show_in_default>1</show_in_default>
+			   <show_in_website>1</show_in_website>
+			   <comment>If you choose V12 Must enter Key id , Hmac Key</comment>
+			   <show_in_store>0</show_in_store>
+			</key_id>-->
+			<!--<hmac_key translate="label">
+			   <label>HMAC Key</label>
+			   <frontend_type>password</frontend_type>
+			   <sort_order>9</sort_order>
+			   <show_in_default>1</show_in_default>
+			   <comment>If you choose V12 Must enter Key id , Hmac Key</comment>
+			   <show_in_website>1</show_in_website>
+			   <show_in_store>0</show_in_store>
+			</hmac_key>-->
+			<useccv translate="label">
+                            <label>Card Security Code(CVV)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </useccv>
+			<trans_type translate="label">
+                            <label>Transaction type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>firstdata/source_type</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </trans_type>
+			<cctypes translate="label">
+                            <label>Credit Card Types</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>paygate/authorizenet_source_cctype</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cctypes>
+			<order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                    </fields>
+                </firstdata>
+            </groups>
+        </payment>
+    </sections>
+</config>

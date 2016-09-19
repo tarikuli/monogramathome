@@ -1,0 +1,11 @@
+<?php
+$msg = $this->getRequest()->getParam('msg');
+$message = $this->getRequest()->getParam('mess');
+if($msg) {
+    $message = str_replace("/","",$message);
+    $message = str_replace("'","",$message);
+echo "<script>
+        alert('".$msg.'\n'.$message."');
+       </script>";
+}
+?>
