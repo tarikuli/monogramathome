@@ -28,10 +28,10 @@
 <config>
     <global>
         <install>
-            <date><![CDATA[Wed, 06 Jul 2016 16:53:35 +0000]]></date>
+            <date><![CDATA[Wed, 10 Aug 2016 11:21:56 +0000]]></date>
         </install>
         <crypt>
-            <key><![CDATA[68f5945d982795628f3aa38c773209e1]]></key>
+            <key><![CDATA[kijabola]]></key>
         </crypt>
         <disable_local_modules>false</disable_local_modules>
         <resources>
@@ -41,9 +41,9 @@
             <default_setup>
                 <connection>
                     <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[magentouser]]></username>
-                    <password><![CDATA[monogramathome07052016]]></password>
-                    <dbname><![CDATA[magentouser_monogram_dev]]></dbname>
+                    <username><![CDATA[monogramathome]]></username>
+                    <password><![CDATA[monogram07302016]]></password>
+                    <dbname><![CDATA[monogramathomedb]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
@@ -52,7 +52,7 @@
                 </connection>
             </default_setup>
         </resources>
-        <session_save><![CDATA[files]]></session_save>
+        <session_save><![CDATA[db]]></session_save>
     </global>
     <admin>
         <routers>

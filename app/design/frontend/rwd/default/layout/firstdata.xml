@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+    </default>
+    <checkout_onepage_index>
+	<reference name="content">
+            <block type="core/template" template="firstdata/err.phtml" />
+        </reference>
+    </checkout_onepage_index>
+</layout> 

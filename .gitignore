@@ -1,4 +1,9 @@
 /var
 /media
 access.log
-
+.ssh
+.vim/
+.viminfo
+createConf.php
+db_backup/
+restart_apache.sh

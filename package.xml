@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>firstdatagge4</name>
+    <version>2.0.0</version>
+    <stability>stable</stability>
+    <license uri="http://opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>firstdatagge4</summary>
+    <description>firstdatagge4</description>
+    <notes>firstdatagge4</notes>
+    <authors><author><name>Modulebazaar</name><user>Modulebazaar</user><email>support@modulebazaar.com</email></author></authors>
+    <date>2015-09-26</date>
+    <time>09:11:40</time>
+    <contents><target name="magelocal"><dir name="Egs"><dir name="Firstdata"><dir name="Block"><dir name="Form"><file name="Firstdata.php" hash="7e59275ee7db0261cace13bd0c1cb177"/><file name="firstdata.php" hash="7e59275ee7db0261cace13bd0c1cb177"/></dir><dir name="Info"><file name="Firstdata.php" hash="0444a07e19ada33b9c73a20c9b1dedb6"/></dir></dir><dir name="Helper"><file name="Data.php" hash="018bf67b78919cb1905ee52234bf2b71"/></dir><dir name="Model"><file name="Firstdata.php" hash="c2cfd097cbfb95cbaf66183d44e6f905"/><dir name="Source"><file name="Action.php" hash="d6f4550c8783e5deb597315199064bae"/><file name="Cardtype.php" hash="bf9b91b45da8caf5441b6060f2bde0a6"/><file name="Mode.php" hash="4f596dc74af5596b8cade9664b5be1e6"/><file name="Type.php" hash="e2b19e93d92ccfaa6bb81fdef51882c9"/><file name="Version.php" hash="537b6c67a6dbc491cefce896b05e5041"/></dir></dir><dir name="controllers"><file name="IndexController.php" hash="a89bbe3b6f2713c82749bf5bbe84dae5"/><file name="firstdatae4.php" hash="0018e953159fc1b05950697652601a72"/></dir><dir name="etc"><file name="config.xml" hash="ef7bf3a54e943506d68a088fd1154bb4"/><file name="system.xml" hash="372fccb529046eaf5938fcb67e62a715"/></dir><dir name="sql"><dir name="firstdata_setup"><file name="mysql4-install-1.1.2.php" hash="e43a38ba7a00bfa2337a615eb7f1d5e6"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="template"><dir name="firstdata"><file name="ccsave.phtml" hash="ba60305914e5c55db656500749530a49"/></dir></dir></dir></dir></dir><dir name="frontend"><dir name="rwd"><dir name="default"><dir name="template"><dir name="firstdata"><file name="ccsave.phtml" hash="599f0116309798b765de39bc78a0642d"/><file name="err.phtml" hash="d3d91763dc43f2fae3da693425532537"/><file name="firstdata.phtml" hash="4727f511d828ac8b73c99bd786b3e7d1"/><file name="firstdata_curl.phtml" hash="d943123f1a56999641fff1cb54c86a50"/></dir></dir><dir name="layout"><file name="firstdata.xml" hash="2edd0ad252be10dfea0496a91d1a6d47"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Egs_Firstdata.xml" hash="8cf90d753d08ef8c6aec6c84fa085df1"/></dir></target><target name="magelib"><dir name="."><file name="ModulebazaarLicence.php" hash="67597f494e238678fe2aaa91fb915342"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.1.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

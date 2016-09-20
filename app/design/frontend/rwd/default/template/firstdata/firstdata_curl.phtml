@@ -1,0 +1,119 @@
+<?php   
+	
+	$session = Mage::getSingleton('checkout/session');
+	$orderIncrementId = $session->getLastRealOrderId();
+	$order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+	$billingaddress = $order->getBillingAddress();
+	$shippingaddress = $order->getShippingAddress();
+	$currencyDesc = Mage::app()->getStore()->getCurrentCurrencyCode();
+	$totals =number_format($order->getGrandTotal(), 0, '.', ''); 
+	$address = $billingaddress->getStreet();
+	$address1 = $shippingaddress->getStreet();
+	$retunurl=Mage::getUrl('firstdata/index/vpcreturn');
+	
+	$cc=explode("&",$order->getPayment()->getCcNumber());
+	$ccnumber=$cc[1];
+        $cvv=$cc[0];
+	$encry_key=trim(Mage::getStoreConfig('payment/firstdata/encry_key'));
+	
+	$data = array(
+	'vpc_Version' => 1,
+	'vpc_Command' => 'firstdata',
+	'vpc_Merchant' => trim(Mage::getStoreConfig('payment/firstdata/mer_id')),
+   	'vpc_AccessCode' => trim(Mage::getStoreConfig('payment/firstdata/mer_access')),
+	'vpc_Amount' => $totals,
+	'vpc_Gateway' => trim(Mage::getStoreConfig('payment/firstdata/payment_action')),
+	'vpc_card' => 'Amex',
+	'vpc_ReturnURL'=>$retunurl,
+	'vpc_CardNum'=>$ccnumber,
+	'vpc_CardExp'=>cardexp($order),
+	'vpc_Message'=>'transaction',
+	'vpc_MerchTxnRef'=>'test',
+	'billing_cust_name' =>$order->getCustomerFirstname(), 
+	'billing_last_name'=>$order->getCustomerLastname(),
+	'billing_cust_tel_No' => $billingaddress->getTelephone(),
+	'billing_cust_email'=>$order->getCustomerEmail(),
+	'billing_cust_address'=>$address[0] . ' '.$address[1],
+	'billing_cust_city'=>$billingaddress->getCity(),
+	'billing_cust_country'=>$billingaddress->getCountryId(),
+	'billing_cust_state'=>$billingaddress->getRegion(),
+	'billing_cust_zip' =>$billingaddress->getPostcode(),
+	'Order_Id' => $order->getIncrementId(),
+	'vpc_SecureHash'=>strtoupper(hash_hmac('SHA256', $hashinput, pack('H*',$encry_key))),
+	'vpc_SecureHashType'=>'SHA256'
+	);
+	
+	
+
+	function cardexp($order)
+	{
+		$month=$order->getPayment()->getCcExpMonth();
+		$year=substr($order->getPayment()->getCcExpYear(),2,2);
+		if(strlen($month)==1)
+		{
+		$expyear=$year."0".$month;	
+		}else
+		{
+		$expyear=$year.''.$month;
+		}
+		return $expyear;
+	}
+        if($cvv)
+	{
+	$data['vpc_CardSecurityCode']=$cvv;
+	}
+	
+	$url="https://vpos.amxvpos.com/vpcpay";
+	$fields_string="";
+		foreach($data as $key=>$value) {
+		$fields_string .= $key.'='.$value.'&';
+		}
+		$fields_string = substr($fields_string,0,-1);
+		//open connection
+		ob_start();
+		$ch = curl_init($url);
+		//set the url, number of POST vars, POST data
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_POST,1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS,$fields_string);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION ,1);
+		curl_setopt($ch, CURLOPT_HEADER ,0); // DO NOT RETURN HTTP HEADERS
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER ,1); // RETURN THE CONTENTS OF THE CALL
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 120); // Timeout on connect (2 minutes)
+		$cookie_file = "cookie1.txt";
+		curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+		curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+		curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+		//execute post
+		$result = curl_exec($ch);
+		//curl_close($ch);
+		
+		curl_exec ($ch);
+		
+		// get response
+		$response = ob_get_contents();
+		
+		// turn output buffering off.
+		ob_end_clean();
+		
+		$url = Mage::getUrl('checkout/onepage/success', array('_secure'=>true));
+		$this->_redirectUrl($url);
+		
+		// close client URL
+		curl_close ($ch);
+		//var_dump($result);
+		
+		//$order = Mage::getModel('sales/order');
+		//	$order_id = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+		//	$order->loadByIncrementId($order_id);
+		//	$order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, 'Gateway has authorized the payment.');
+		//	$order->sendNewOrderEmail();
+		//	$order->setEmailSent(true);
+		//	$url = Mage::getUrl('checkout/onepage/success', array('_secure'=>true));
+		//	Mage::register('redirect_url',$url);
+		//	$this->_redirectUrl($url);
+		
+
+	
+?>
