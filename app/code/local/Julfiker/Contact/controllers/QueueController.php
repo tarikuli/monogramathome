@@ -72,7 +72,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 continue;
             }
         }
-        $response = array("status"=> "success", "message"=>"Successfully created store and configured all store domain specific");
+        $response = array("status"=> "success", "message"=>"Successfully created store based on domain queue");
         $this->jsonResponse($response);
     }
 
