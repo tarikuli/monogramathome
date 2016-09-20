@@ -36,7 +36,44 @@ function call($url, $data = array()) {
 function addLog($message) {
     Mage::log($message, null, 'multi-store-setup.log');
 }
+
 $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB)."contact".DS."queue".DS;
+
+//To create store based on queue
+$runUrl = $baseUrl."run";
+echo "1. Creating multi store based on domain queue ... <br />";
+$response = call($runUrl);
+echo "status = ".$response['status'].", ".$response['message'];
+
+//Configure multi store
+$runUrl = $baseUrl."config";
+echo "<br /><br /> 2. Configuring created multistore ... <br />";
+$response = call($runUrl);
+echo "status = ".$response['status'].", ".$response['message'];
+
+//Indexing catalog
+$runUrl = $baseUrl."htaccess";
+echo "<br/><br /> 3. Updating htaccess with multi domain ... <br />";
+$response = call($runUrl);
+echo "status = ".$response['status'].", ".$response['message'];
+
+//Clearing cache
+$runUrl = $baseUrl."clearcache";
+echo "<br/><br /> 4. Clearing all cache ... <br />";
+$response = call($runUrl);
+echo "status = ".$response['status'].", ".$response['message'];
+
+//Assign all products to other store
+$runUrl = $baseUrl."products";
+echo "<br/> <br /> 5. Assigning products to other store ... <br />";
+//$response = call($runUrl);
+echo "status = ".$response['status'].", ".$response['message'];
+
+//Indexing catalog
+$runUrl = $baseUrl."indexing";
+echo "<br/> <br /> 6. Indexing all catalog ... <br />";
+//$response = call($runUrl);
+echo "status = ".$response['status'].", ".$response['message'];
 
 
 
