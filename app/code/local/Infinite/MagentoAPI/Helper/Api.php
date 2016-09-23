@@ -45,7 +45,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		if(isset($params['street'][1]) && trim($params['street'][1]) != "")
 			$data['address2'] = $params['street'][1];
 
-		//$response = $this->call('registration', $data);
+		$response = $this->call('registration', $data);
 	}
 
 	public function editProfile($params)
@@ -126,7 +126,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
                     }
 				}
 				$data['total_amount'] = $totalAmount;
-				//$response = $this->call('purchase', $data);
+				$response = $this->call('purchase', $data);
 			}
 		}
 	}
