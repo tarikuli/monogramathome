@@ -2284,9 +2284,6 @@ ul.ambassador-list li span {
     font-weight:blod;
 }
 
-
-
-
 ########################  theme  style sheet ######################
 
 *, body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -2620,4 +2617,3 @@ button.button.btn-checkout:hover {
     border-color: #ec008b;
     color: #ffffff;
 }
-
