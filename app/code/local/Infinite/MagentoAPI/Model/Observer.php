@@ -62,4 +62,13 @@ class Infinite_MagentoAPI_Model_Observer
             $layout->generateXml();
         }
 	}
+
+	public function saveBillingDetail()
+	{
+		$data = Mage::app()->getRequest()->getPost('billing', array());
+		if(isset($data['customer_password']) && $data['customer_password'] != "")
+		{
+			Mage::getSingleton('core/session')->setCurrentCheckoutCustomerPassword($data['customer_password']);
+		}
+	}
 }

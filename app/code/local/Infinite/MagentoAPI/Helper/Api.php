@@ -11,20 +11,28 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 	public function login($params, $customer)
 	{
-		$data = array(
-			'username' => $customer->getUsername(),
-			'password' => (isset($params['login'])? $params['login']['password']: $params['password']),
-		);
+		$username = $customer->getUsername();
+		if(isset($username))
+		{
+			$data = array(
+				'username' => $customer->getUsername(),
+				'password' => (isset($params['login'])? $params['login']['password']: $params['password']),
+			);
 
-		$response = $this->call('login', $data);
+			$response = $this->call('login', $data);
+		}
 	}
 
 	public function logout($customer)
 	{
-		$data = array(
-			'username' => $customer->getUsername(),
-		);
-		$response = $this->call('logout', $data);
+		$username = $customer->getUsername();
+		if(isset($username))
+		{
+			$data = array(
+				'username' => $customer->getUsername(),
+			);
+			$response = $this->call('logout', $data);
+		}
 	}
 
 	public function registration($params, $customer)
@@ -42,10 +50,13 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 			'mobile' => $params['telephone'], 
 		);
 
+		if(isset($params['package']))
+			$data['package'] = $params['package'];
+
 		if(isset($params['street'][1]) && trim($params['street'][1]) != "")
 			$data['address2'] = $params['street'][1];
 
-		//$response = $this->call('registration', $data);
+		$response = $this->call('registration', $data);
 	}
 
 	public function editProfile($params)
@@ -99,6 +110,32 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 			{
 				$customerObject = Mage::getModel('customer/customer')->load($orderObject->getCustomerId());
 
+				$checkoutMethod = Mage::getSingleton('core/session')->getAmbassadorCheckoutMethod();
+				if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
+				{
+					$billingAddress = $customerObject->getPrimaryBillingAddress();
+					
+					$params = array(
+						'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(),
+						'street' => array($billingAddress->getStreet1()),
+						'postcode' => $billingAddress->getPostcode(),
+						'email' => $customerObject->getEmail(),
+						'telephone' => $billingAddress->getTelephone()
+					);
+
+					foreach($orderObject->getAllItems() as $orderItem)
+					{
+						$productObject = Mage::getModel('catalog/product')->load($orderItem->getProductId());
+
+						if($productObject->getId())
+							$params['package'] = $productObject->getSku();
+					}					
+
+					$this->registration($params, $customerObject);
+
+					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+				}
+
 				$data = array(
 					'user_name' => $customerObject->getUsername(), 
 					'order_id' => $orderObject->getIncrementId(), 
@@ -126,9 +163,14 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
                     }
 				}
 				$data['total_amount'] = $totalAmount;
-				//$response = $this->call('purchase', $data);
+				$response = $this->call('purchase', $data);
 			}
 		}
+	}
+
+	public function getOnepage()
+	{
+		return Mage::getSingleton('checkout/type_onepage');
 	}
 
 	public function call($method, $data)

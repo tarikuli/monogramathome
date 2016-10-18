@@ -73,6 +73,7 @@
         <div class="col2-set">
             <div class="col-1 new-users">
                 <div class="buttons-set">
+                   <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
                     <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Create an Account')) ?>" class="button" onclick="window.location='<?php echo $this->getCreateAccountUrl() ?>';"><span><span><?php echo $this->__('Create an Account') ?></span></span></button>
                 </div>
             </div>

@@ -72,6 +72,15 @@
                     </customer_register_success_magento_api>
                 </observers>
             </customer_register_success>
+            <controller_action_postdispatch_checkout_onepage_saveBilling>
+                <observers>
+                    <controller_action_postdispatch_checkout_onepage_saveBillingAction_magento_api>
+                        <type>singleton</type>
+                        <class>Infinite_MagentoAPI_Model_Observer</class>
+                        <method>saveBillingDetail</method>
+                    </controller_action_postdispatch_checkout_onepage_saveBillingAction_magento_api>
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_saveBilling>
             <controller_action_postdispatch_customer_account_editPost>
                 <observers>
                     <controller_action_postdispatch_customer_account_editPost_magento_api>
