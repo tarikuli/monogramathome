@@ -114,7 +114,7 @@
 	                        <?php if($_product->getRatingSummary()): ?>
 	                        <?php echo $this->getReviewsSummaryHtml($_product) ?>
 	                        <?php endif; ?>
-	                        <?php //echo $this->getPriceHtml($_product, true) ?>
+	                        <?php echo $this->getPriceHtml($_product, true) ?>
 	                        <?php
 	                        // Provides extra blocks on which to hang some features for products in the list
 	                        // Features providing UI elements targeting this block will display directly below the product name
@@ -146,11 +146,8 @@
 					<div class="product-secondary actions-no actions-list clearfix">
 						<?php if($_product->isSaleable()): ?>
 							<p class="action">
-                                <?php if (false): //Changed "Add to cart" to "Coming soon"  ?>
                                 <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
-                                <?php endif; ?>
                             </p>
-                            <button type="button" title="<?php echo $this->__('Add To Cart coming soon') ?>" class="button " onclick="return false"><span><span><?php echo $this->__('Coming Soon') ?></span></span></button>
 						<?php else: ?>
 							<p class="action availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
 						<?php endif; ?>
@@ -221,7 +218,7 @@
 							}
 						}
 						?>
-						<?php //echo $this->getPriceHtml($_product, true) ?>
+						<?php echo $this->getPriceHtml($_product, true) ?>
 						<?php if($_product->getRatingSummary()): ?>
 				        	<?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
 				        <?php endif; ?>
@@ -232,10 +229,7 @@
 									<a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" title="<?php echo $this->__('Add to Wishlist') ?>" class="link-wishlist"><i class="fa fa-heart"></i><?php echo $this->__('Add to Wishlist') ?></a>
 								<?php endif; ?>
 								<?php if($_product->isSaleable()): ?>
-                                    <?php if (false): //Changed "Add to cart" to "Coming soon"  ?>
 									    <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart pull-left-none" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
-                                    <?php endif ?>
-                                    <button type="button" title="<?php echo $this->__('Add To Cart coming soon') ?>" class="button  pull-left-none" onclick="return false"><span><span><?php echo $this->__('Coming Soon') ?></span></span></button>
 								<?php else: ?>
 									<p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
 								<?php endif; ?>

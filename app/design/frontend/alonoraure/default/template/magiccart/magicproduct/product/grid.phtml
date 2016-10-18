@@ -66,7 +66,7 @@
                             <h2 class="product-name">
                                 <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a>
                             </h2>
-                            <?php //echo $this->getPriceHtml($_product, true) ?>
+                            <?php echo $this->getPriceHtml($_product, true) ?>
                             <?php if(in_array("review", $actions)):?>
                                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                             <?php endif ?>
@@ -82,10 +82,8 @@
 									<?php endif; ?>
                                     <?php if(in_array("cart", $actions)):?>
                                         <?php if($_product->isSaleable()): ?>
-                                            <?php if (false): //Changed "Add to cart" to "Coming soon"  ?>
                                             <button type="button" title="<?php echo $this->__('Add To Cart') ?>" class="button btn-cart pull-left-none" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add To Cart') ?></span></span></button>
-                                            <?php endif; ?>
-                                            <button type="button" title="<?php echo $this->__('Add To Cart coming soon') ?>" class="button pull-left-none" onclick="return false"><span><span><?php echo $this->__('Coming Soon') ?></span></span></button>
+
                                         <?php else: ?>
                                             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                                         <?php endif; ?>
