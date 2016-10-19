@@ -67,6 +67,18 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 ->setIsActive(1)
                 ->save();
              $q->setStatus(1)->save();
+
+            $websiteId = $website->getId();
+            $customerId = $q->getCustomerId();
+            $customer =  Mage::getModel('customer/customer')->load($customerId);
+
+            //Update customer with related website
+            $customer->setWebsiteId($websiteId)
+                ->setId($customerId)
+                ->setStore($store)
+                ->setIsActive(1)
+                ->save();
+
             }
             catch(\Exception $e) {
                 continue;
