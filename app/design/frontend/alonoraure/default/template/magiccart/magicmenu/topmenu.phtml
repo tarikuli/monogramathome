@@ -20,6 +20,8 @@ $drawHomeMenu = '';
 $home = $menu['home'];
 if($home) $drawHomeMenu  = $this->drawHomeMenu();
 
+$drawDashboardMenu  = $this->drawDashboardMenu();
+
 // drawMainMenu vs DrowMobileMenu
 $menuHtml = $this->drawMainMenu();
 $mobileMenu = $menuHtml['mobile'];
@@ -38,6 +40,7 @@ $drawExtraMenu = $menu['extraCat'] ? $this->drawExtraMenu() : '';
 <div class="magicmenu clearfix">
 	<ul class="nav-desktop <?php echo $sticker ?>">
 		<?php //echo $drawHomeMenu ?>
+		<?php echo $drawDashboardMenu; ?>
 		<?php echo $drawMainMenu ?>
 		<?php echo $drawExtraMenu ?>
 	</ul>

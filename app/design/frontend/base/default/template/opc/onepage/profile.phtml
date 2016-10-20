@@ -1,0 +1,83 @@
+<div id="co-profile-form">
+	<div class="page-title">
+	    <h1>
+	        <?php echo $this->__('Congratulations on Starting down the Path to a Life Changing Experience. We would like to learn a little more about business aspirations') ?>
+	    </h1>
+	</div>
+	<div class="fieldset">
+        <ul class="form-list">
+        	<li>
+                <label for="profile:why_are_you_interested" class="required"><em>*</em><?php echo $this->__('Why are you interested in this opportunity?') ?></label>
+                <div class="input-box">                    
+                    <select name="profile[why_are_you_interested]" id="profile:why_are_you_interested" class="required-entry">
+	                    <option value=""><?php echo $this->__('Select one')?></option>
+	                    <option value="Opportunity to socialize with my friends and family" <?php echo ($this->getFormData('why_are_you_interested') == "Opportunity to socialize with my friends and family"? 'selected="selected"': ''); ?>>
+	                    <?php echo $this->__('Opportunity to socialize with my friends and family') ?></option>
+	                    <option value="I would like to earn extra money to make ends meet" <?php echo ($this->getFormData('why_are_you_interested') == "I would like to earn extra money to make ends meet"? 'selected="selected"': ''); ?>>
+	                    <?php echo $this->__('I would like to earn extra money to make ends meet')?></option>
+	                    <option value="I want to be my own boss" <?php echo ($this->getFormData('why_are_you_interested') == "I want to be my own boss"? 'selected="selected"': ''); ?>><?php echo $this->__('I want to be my own boss')?></option>
+	                    <option value="Need or Want to replace my salary" <?php echo ($this->getFormData('why_are_you_interested') == "Need or Want to replace my salary"? 'selected="selected"': ''); ?>><?php echo $this->__('Need or Want to replace my salary')?></option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label for="profile:devote_building_business" class="required"><em>*</em><?php echo $this->__('How much time do you have to devote to building your business?') ?></label>
+                <div class="input-box">              
+                    <select name="profile[devote_building_business]" id="profile:devote_building_business" class="required-entry">
+	                    <option value=""><?php echo $this->__('Select one')?></option>
+	                    <option value="2-3 hours per week" <?php echo ($this->getFormData('devote_building_business') == "2-3 hours per week"?'selected="selected"':'');?>>
+	                    <?php echo $this->__('2-3 hours per week') ?></option>
+	                    <option value="4-6 hours per week" <?php echo ($this->getFormData('devote_building_business') == "4-6 hours per week"?'selected="selected"':'');?>>
+	                    <?php echo $this->__('4-6 hours per week')?></option>
+	                    <option value="7-10 hours per week" <?php echo ($this->getFormData('devote_building_business') == "7-10 hours per week"?'selected="selected"':'');?>><?php echo $this->__('7-10 hours per week')?></option>
+	                    <option value="I will give this as much time as necessary" <?php echo ($this->getFormData('devote_building_business') == "I will give this as much time as necessary"?'selected="selected"':'');?>><?php echo $this->__('I will give this as much time as necessary')?></option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label for="profile:what_needs_dreams" class="required"><em>*</em><?php echo $this->__('What needs, dreams or wants are you working towards achieving?') ?></label>
+                <div class="input-box">                    
+                    <select name="profile[what_needs_dreams]" id="profile:what_needs_dreams" class="required-entry">
+	                    <option value=""><?php echo $this->__('Select one')?></option>
+	                    <option value="Pay off my mortgage" <?php echo ($this->getFormData('what_needs_dreams') == "Pay off my mortgage"?'selected="selected"':'');?>>
+	                    <?php echo $this->__('Pay off my mortgage') ?></option>
+	                    <option value="Planning for college educations for my kids" <?php echo ($this->getFormData('what_needs_dreams') == "Planning for college educations for my kids"?'selected="selected"':'');?>>
+	                    <?php echo $this->__('Planning for college educations for my kids')?></option>
+	                    <option value="Make ends meet" <?php echo ($this->getFormData('what_needs_dreams') == "Make ends meet"?'selected="selected"':'');?>><?php echo $this->__('Make ends meet')?></option>
+	                    <option value="Planning a memorable family vacation" <?php echo ($this->getFormData('what_needs_dreams') == "Planning a memorable family vacation"?'selected="selected"':'');?>><?php echo $this->__('Planning a memorable family vacation')?></option>
+	                     <option value="I would like to become financially independent" <?php echo ($this->getFormData('what_needs_dreams') == "I would like to become financially independent"?'selected="selected"':'');?>><?php echo $this->__('I would like to become financially independent')?></option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label for="profile:how_familiar_social_media" class="required"><em>*</em><?php echo $this->__('How familiar are you with using social media to grow your business?') ?></label>
+                <div class="input-box">                    
+                    <select name="profile[how_familiar_social_media]" id="profile:how_familiar_social_media" class="required-entry">
+	                    <option value=""><?php echo $this->__('Select one')?></option>
+	                    <option value="Very" <?php echo ($this->getFormData('how_familiar_social_media') == "Very"?'selected="selected"':'');?>>
+	                    <?php echo $this->__('Very') ?></option>
+	                    <option value="Somewhat" <?php echo ($this->getFormData('how_familiar_social_media') == "Somewhat"?'selected="selected"':'');?>>
+	                    <?php echo $this->__('Somewhat')?></option>
+	                    <option value="I am beginner" <?php echo ($this->getFormData('how_familiar_social_media') == "I am beginner"?'selected="selected"':'');?>><?php echo $this->__('I am beginner')?></option>
+	                    <option value="Not at all" <?php echo ($this->getFormData('how_familiar_social_media') == "Not at all"?'selected="selected"':'');?>><?php echo $this->__('Not at all')?></option> 
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label for="profile:interested_building_business" class="required"><em>*</em><?php echo $this->__('Are you interested in building a business to make ends meet monthly or are you interested in replacing your salary?') ?></label>
+                <div class="input-box">              
+                    <select name="profile[interested_building_business]" id="profile:interested_building_business" class="required-entry">
+	                    <option value=""><?php echo $this->__('Select one')?></option>
+	                    <option value="Just enough to make ends meet" <?php echo ($this->getFormData('interested_building_business') == "Just enough to make ends meet"?'selected="selected"':'');?>>
+	                    <?php echo $this->__('Just enough to make ends meet') ?></option>
+	                    <option value="I would like to replace my salary within 3-6 months" <?php echo ($this->getFormData('interested_building_business') == "I would like to replace my salary within 3-6 months"?'selected="selected"':'');?>>
+	                    <?php echo $this->__('I would like to replace my salary within 3-6 months')?></option>
+	                    <option value="I am ready to get started building my business" <?php echo ($this->getFormData('interested_building_business') == "I am ready to get started building my business"?'selected="selected"':'');?>><?php echo $this->__('I am ready to get started building my business')?></option>
+	                    <option value="I am interested in creating enough money to secure my financial independence." <?php echo ($this->getFormData('interested_building_business') == "I am interested in creating enough money to secure my financial independence."?'selected="selected"':'');?>><?php echo $this->__('I am interested in creating enough money to secure my financial independence.')?></option>
+                    </select>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</div>

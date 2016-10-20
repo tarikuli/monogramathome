@@ -1,0 +1,180 @@
+<div class="review-detail">
+    <div class="personal">
+        <div class="page-title">
+            <h3>
+                <?php echo $this->__('Personal Information') ?>
+                <a href="javascript:void(0);" id="edit-personal" class="edit-info">(<?php echo $this->__('Edit'); ?>)</a>
+            </h3>
+        </div>
+        <div id="personal-information" class="page-content">            
+        </div>
+        <script type="text/javascript">
+        	var billingAddress = '', shippingAddress = ''; 
+            function getReviewDetials()
+            {
+                var personalInfoHtml = '<div class="left-section">';
+                	
+            	// NAME
+                personalInfoHtml += '<div>';
+                personalInfoHtml += '<div class="left-side"><?php echo $this->__("Name") ?> </div>';
+                personalInfoHtml += '<div class="right-side">' + jQuery('input[name="billing[firstname]"]').val();
+                if(jQuery('input[name="billing[middlename]"]').val() != "")
+                	personalInfoHtml += " " +  jQuery('input[name="billing[middlename]"]').val();
+                personalInfoHtml += " " +  jQuery('input[name="billing[lastname]"]').val() + '</div>';
+                personalInfoHtml += '</div>'; 
+            
+                // BIRTH DATE
+                personalInfoHtml += '<div>';
+                personalInfoHtml += '<div class="left-side"><?php echo $this->__("Date of Birth") ?> </div>';
+                personalInfoHtml += '<div class="right-side">' + getMonthName(jQuery('input[name="billing[month]"]').val());
+                personalInfoHtml += " " + jQuery('input[name="billing[day]"]').val() + ', ' + jQuery('input[name="billing[year]"]').val() + '</div>';
+                personalInfoHtml += '</div>';
+
+                // EMAIL ADDRESS
+                personalInfoHtml += '<div>';
+                personalInfoHtml += '<div class="left-side"><?php echo $this->__("Email") ?> </div>';
+                personalInfoHtml += '<div class="right-side">' + jQuery('input[name="billing[email]"]').val() + '</div>';
+                personalInfoHtml += '</div>';
+
+                // TELEPHONE
+                personalInfoHtml += '<div>';
+                personalInfoHtml += '<div class="left-side"><?php echo $this->__("Phone") ?> </div>';
+                personalInfoHtml += '<div class="right-side">' + jQuery('input[name="billing[telephone]"]').val() + '</div>';
+                personalInfoHtml += '</div>';
+
+                // USERNAME
+                personalInfoHtml += '<div>';
+                personalInfoHtml += '<div class="left-side"><?php echo $this->__("Username") ?> </div>';
+                personalInfoHtml += '<div class="right-side">' + jQuery('#username').val() + '</div>';
+                personalInfoHtml += '</div>';
+
+                // PASSWORD
+                personalInfoHtml += '<div>';
+                personalInfoHtml += '<div class="left-side"><?php echo $this->__("Password") ?> </div>';
+                personalInfoHtml += '<div class="right-side">' + maskPassword(jQuery('input[name="billing[customer_password]"]').val().length) + '</div>';
+                personalInfoHtml += '</div>';
+
+                personalInfoHtml += '</div>';  
+
+                personalInfoHtml += '<div class="right-section">';
+
+                // BILING ADDRESS
+                billingAddress = '';
+                jQuery('input[name="billing[street][]"]').each(function() {
+                    if(jQuery(this).val() != "")
+                	   billingAddress += jQuery(this).val() + ", ";
+                });
+                             
+            	billingAddress += "<br />" + jQuery('input[name="billing[city]"]').val();
+
+            	if(jQuery('select[name="billing[region_id]"]').css("display") == "none" && jQuery('input[name="billing[region]"]').val() != "")
+                	billingAddress += ", " + jQuery('input[name="billing[region]"]').val();
+            	else if(jQuery('select[name="billing[region_id]"]').val() != "")
+                	billingAddress += ", " +  jQuery('select[name="billing[region_id]"] option:selected').text();
+                billingAddress +=  ", " + jQuery('select[name="billing[country_id]"] option:selected').text();
+                billingAddress +=  ", " + jQuery('input[name="billing[postcode]"]').val();
+
+                // ADDRESS HTML
+                personalInfoHtml += '<div>';
+                personalInfoHtml += '<div class="left-side"><?php echo $this->__("Mailing Address") ?> </div>';
+                personalInfoHtml += '<div class="right-side">' +  billingAddress + '</div>';
+                personalInfoHtml += '</div>';
+
+                personalInfoHtml += '</div>';  
+
+                jQuery("#personal-information").html(personalInfoHtml); 
+
+                function getMonthName(monthNumber) {
+                    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                    return months[monthNumber - 1];
+                }
+
+                function maskPassword(pwdlen)
+                {
+                    var stars = '';
+                    for(var i = 0; i < pwdlen; i++)
+                        stars += '*';
+                    return stars;
+                }
+
+                
+            }
+        </script>
+    </div>
+    <div class="billing">
+        <div class="page-title">
+            <h3><?php echo $this->__('Billing & Shipping Information') ?><a href="javascript: void(0);" class="edit-info" data-tab="3"> (<?php echo $this->__('Edit'); ?>)</a></h3>
+        </div>
+        <div id="billing-information" class="page-content">
+            
+        </div>
+        <script type="text/javascript">
+            function getBillingDetails()
+            {
+            	if (!$j_opc('input[name="billing[use_for_shipping]"]').prop('checked'))
+        		{
+        			shippingAddress = '';
+	                jQuery('input[name="shipping[street][]"]').each(function() {
+                        if(jQuery(this).val() != "")
+	                	  shippingAddress += jQuery(this).val() + ", ";
+	                });
+	                             
+	            	shippingAddress += "<br />" + jQuery('input[name="shipping[city]"]').val();
+
+	            	if(jQuery('select[name="shipping[region_id]"]').css("display") == "none" && jQuery('input[name="shipping[region]"]').val() != "")
+	                	shippingAddress += ", " + jQuery('input[name="shipping[region]"]').val();
+	            	else if(jQuery('select[name="shipping[region_id]"]').val() != "")
+	                	shippingAddress += ", " +  jQuery('select[name="shipping[region_id]"] option:selected').text();
+	                shippingAddress +=  ", " + jQuery('select[name="shipping[country_id]"] option:selected').text();
+	                shippingAddress +=  ", " + jQuery('input[name="shipping[postcode]"]').val();
+        		}
+        		else
+        			shippingAddress = billingAddress;
+
+        		var billingInfoHtml = '<div class="left-section">';
+
+                // SHIPPING ADDRESS
+                billingInfoHtml += '<div>';
+                billingInfoHtml += '<div class="left-side"><?php echo $this->__("Shipping Address") ?> </div>';
+                billingInfoHtml += '<div class="right-side">' + shippingAddress + '</div>';
+                billingInfoHtml += '</div>';
+
+                // BILLING ADDRESS
+                billingInfoHtml += '<div>';
+                billingInfoHtml += '<div class="left-side"><?php echo $this->__("Billing Address") ?> </div>';
+                billingInfoHtml += '<div class="right-side">' + billingAddress + '</div>';
+                billingInfoHtml += '</div>';
+
+                billingInfoHtml += '</div>';
+
+                // PAYMENT DETAIL
+                // billingInfoHtml += '<div>';
+                // billingInfoHtml += '<div class="left-side"><?php echo $this->__("Payment Method:") ?> </div>';
+                // billingInfoHtml += jQuery('#ccsave_cc_type option:selected').text() + ' ending :';
+                //     var mon = jQuery('#expiration option:selected').text().split('-');
+                // billingInfoHtml += '*' + mon[0] + getYear(jQuery('#ccsave_expiration_yr option:selected').text());
+                // billingInfoHtml += '</div>';
+
+                jQuery("#billing-information").html(billingInfoHtml);
+            }
+        </script>
+    </div>
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	jQuery('.edit-info').click(function(){
+		tabredirect();	
+	});	
+
+});
+
+function tabredirect()
+{
+	jQuery(".navigation-content > div").hide(); 
+   	jQuery("#tab-1").show(); 
+   	jQuery(".navigation-tab li").removeClass("active"); 
+   	jQuery("li[data-content=tab-1]").addClass("active");
+}
+
+</script>

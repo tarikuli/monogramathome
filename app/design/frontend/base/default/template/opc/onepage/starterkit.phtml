@@ -1,0 +1,297 @@
+<?php $starterKitCollection = $this->getStarterKitCollection(); ?>
+<?php $currentProductId = $this->getCurrentProductId(); ?>
+<form id="co-starterkit-form">	
+	<div class="starterkit-container">
+		<h1>Choose Your Business Kit</h1>
+		<div class="row">
+    		<div class="col-lg-12 col-md-12 col-sm-12 ">
+    			<div class="table-responsive">
+        			<table class="table table-bordred table-striped">
+                		<thead>
+                			<tr>
+			                    <th><?php echo $this->__('Business kit'); ?></th>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<th><?php echo $starterKit->getName(); ?> <?php echo Mage::helper('core')->currency($starterKit->getFinalPrice(), true, false); ?></th>
+			                    <?php endforeach; ?>
+		                    </tr>
+                		</thead>
+                		<tbody>
+			                <tr>
+			                    <td><?php echo $this->__('credit towards merchandise to boost your business'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td><?php echo Mage::helper('core')->currency($starterKit->getCredit(), true, false); ?></td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr>
+			                    <td colspan="5" class="pink"><?php echo $this->__('Print Material'); ?></td>
+			                </tr>
+			                <tr>
+			                    <td><?php echo $this->__('Full size glossy catalogs'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('full_size')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('Business opportunity- recruiting flyers'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('business_opportunity')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('host an event flyers'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('host_event')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('certificate of welcome includes code for sample purchase'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('certification_welcome')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('tabel sign'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('table_sign')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('save the date postcards'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('save_date_postcards')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('Exclusive collection sales flyers'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('exclusive_collection_sales')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('order forms'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('order_forms')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('Seasonal look books'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('seasonal_look_book')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('branded tote bag'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('branded_tote_bag')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr>
+			                    <td  colspan="5" class="pink"><?php echo $this->__('Business management system'); ?></td>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('Personal e-store (website)'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('persconal_estore')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('24/7 access to succsess university'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('acess_university_24_7')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('marketing materials'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('marketing_materials')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('E-wallet'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('e_waller')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('email campaigns'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('email_campaigns')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('Social media support'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('social_media_support')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('sales reporting'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('sales_reporting')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('compensation reports'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('compensation_reports')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('team reports'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('team_reports')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('training webinars'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('training_webinars')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('training conference calls'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('training_conference_call')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('one on one training'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('one_on_one_training')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr> 
+			                    <td><?php echo $this->__('free 60 day trail'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td>
+			                    		<?php if($starterKit->getData('free_60_day_trail')): ?>
+			                    			<img src="<?php echo $this->getSkinUrl('css/iwd/opc/images/icon-correct.png') ?>">
+			                    		<?php endif; ?>
+	                    			</td>
+			                    <?php endforeach; ?>
+			                </tr>
+			                <tr class="border"> 
+			                    <td style="color:#ed2891;"><?php echo $this->__('Choose your kit'); ?></td>
+			                    <?php foreach($starterKitCollection as $starterKit): ?>
+			                    	<td class="radio-td <?php echo (intval($currentProductId) == $starterKit->getId()? 'active': ''); ?>">
+			                    		<label for="radio-<?php echo $starterKit->getId(); ?>"><?php echo $this->__('Select') ?></label>
+			                    		<input type="radio" name="starterkit" value="<?php echo $starterKit->getId(); ?>" id="radio-<?php echo $starterKit->getId(); ?>" <?php echo (intval($currentProductId) == $starterKit->getId()? 'checked="checked"': ''); ?> />
+			                    	</td>
+			                    <?php endforeach; ?>
+			                </tr>
+		                </tbody>
+            		</table>
+        		</div>
+            </div>
+        </div>
+	</div>
+</form>
+<div class="starterkit-info-wrapper">
+	<h2><?php echo $this->__('Business Management System') ?></h2>
+	<h3><?php echo $this->__('Free 60 Day Trial') ?></h3>
+	<div class="info">
+		<?php echo $this->__('Open your e-Store today using the Monogram at Home Business Management System (Dashboard) to create your own website. With the Dashboard you will also be able to track your sales and commissions in real time. The Business Management System gives you all the tools you will need to run your business without the added expenses of saleries or rent. Rest assured, the Monogram at Home Team will be there to support you every step of the way as your business grows.'); ?>
+	</div>
+</div>
+<form id="opc-website-form" method="post">
+	<div class="website-wrapper">
+	    <h4><?php echo $this->__('Select a name for your website'); ?></h4>
+	    <div class="website-box">
+	        <?php echo $this->__('www.'); ?><input type="input" name="username" id="username" placeholder="<?php echo $this->__('your name'); ?>" value="<?php echo $this->getWebsiteName(); ?>" /><?php echo $this->__('/monogramathome<b>.com/</b>'); ?>
+	        <span id="availablity_website" class="availablity required-entry"></span>
+	    </div>
+	    <p><?php echo $this->__('* There will not be any charge within 60 days of the Free Trial Period. After 60 days your credit card will be automatically charged for $39.99 quarterly. You can cancel it at any time if you wish to discontinue. <a href="%s">Click here to learn more.</a> Please note: Payment will be processed using the same credit card used to purchase kit. <a href="%s">More Details</a>', "#", "#"); ?></p>
+	    <div class="input-padding">
+	    	<input type="checkbox" id="confirm_website" name="confirm_website" class="required-entry" />
+	    	<label for="confirm_website"><?php echo $this->__('I acknowledge that I have read and accepted the <a href="%s">Terms & Conditions</a>', "#"); ?></label>
+	    </div>
+	</div>
+</form>

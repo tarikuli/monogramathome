@@ -66,13 +66,13 @@ echo "status = ".$response['status'].", ".$response['message'];
 //Assign all products to other store
 $runUrl = $baseUrl."products";
 echo "<br/> <br /> 5. Assigning products to other store ... <br />";
-//$response = call($runUrl);
+$response = call($runUrl);
 echo "status = ".$response['status'].", ".$response['message'];
 
 //Indexing catalog
 $runUrl = $baseUrl."indexing";
 echo "<br/> <br /> 6. Indexing all catalog ... <br />";
-//$response = call($runUrl);
+$response = call($runUrl);
 echo "status = ".$response['status'].", ".$response['message'];
 
 

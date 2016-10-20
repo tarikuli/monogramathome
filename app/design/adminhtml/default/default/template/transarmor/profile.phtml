@@ -1,0 +1,102 @@
+<?php
+if( $this->isTransarmor() ):
+	$_card	= $this->getPaymentInfo();
+	$info	= $this->getAllCards();
+	$select	= '';
+	if( count($info) ) {
+		foreach( $info as $inf ) {
+			$select .= '<option value="'.$inf->getId().'">'.$inf->getFormattedCc().'</option>';
+		}
+	}
+?>
+<table class="form-list">
+	<tr>
+		<td style="width:200px"><?php echo $this->__('Last Billed:'); ?></td>
+		<td><strong><?php echo $this->getLastBilled(); ?></strong></td>
+	</tr>
+	<tr>
+		<td><?php echo $this->__('Next Cycle:'); ?></td>
+		<td>
+			<div id="nextbill">
+				<strong><?php echo $this->getNextBilled(); ?></strong>
+				<a href="#">Change</a>
+			</div>
+			<div id="nextbill-form" style="display:none">
+				<form action="" method="post" style="display:block; padding:5px 0">
+					<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+					<input type="hidden" name="set_next_billed" value="1" />
+					<input type="text" name="next_billed" value="<?php echo $this->getNextBilled(); ?>" id="nextbill-input" />
+					<button class="button" type="submit"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+				</form>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td><?php echo $this->__('Payments&nbsp;Made:'); ?></td>
+		<td><strong><?php echo $this->getProfile()->getAdditionalInfo('billed_count'); ?></strong></td>
+	</tr>
+	<?php if( $this->getProfile()->getAdditionalInfo('failure_count') > 0 ): ?>
+		<tr>
+			<td><?php echo $this->__('Payments&nbsp;Failed:'); ?></td>
+			<td><strong><?php echo $this->getProfile()->getAdditionalInfo('failure_count'); ?></strong></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->__('Outstanding:'); ?></td>
+			<td><strong>$<?php echo round( $this->getProfile()->getAdditionalInfo('outstanding'), 2 ); ?></strong></td>
+		</tr>
+	<?php endif; ?>
+	<tr>
+		<td><?php echo $this->__('Credit Card:') ?></td>
+		<td>
+			<strong><?php echo $_card->getFormattedCc(); ?></strong><br />
+			<a href="#" onclick="$('transarmor_wrap').toggle();$(this).hide();return false;"><?php echo $this->__('Use a different card') ?></a>
+			<div id="transarmor_wrap" style="display:none">
+				<form action="" method="post" style="display:block; padding:5px 0">
+					<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+					<input type="hidden" name="set_cc" value="1" />
+					<select name="payment_id" id="transarmor_payment_id">
+						<option value=""><?php echo $this->__('-- Select One --') ?></option>
+						<?php echo $select ?>
+					</select>
+			    	<button class="button" type="submit"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+		    	</form>
+		    	<p><?php echo $this->__('Any change will take effect with the next payment.'); ?></p>
+		    	<a href="<?php echo Mage::helper('adminhtml')->getUrl( '*/customer/edit', array('id' => $this->getProfile()->getCustomerId() ) ) ?>"><?php echo $this->__('Manage Customer\'s Cards') ?></a>
+			</div>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+//<![CDATA[
+	document.observe("dom:loaded", function() {
+		$$('#nextbill a')[0].observe('click', function(event) {
+			event.stop();
+			
+			$('nextbill').hide();
+			$('nextbill-form').show();
+		});
+		
+		function dateCheckDisabled(date) {
+			/** Don't allow anything in the past. **/
+			if( date < new Date(<?php echo time()-86400; ?>000) ) {
+				return true;
+			}
+			
+			return '';
+		}
+		
+		Calendar.setup({
+			inputField: "nextbill-input",
+			ifFormat: "%e-%B %Y %H:%M",
+			dateStatusFunc: dateCheckDisabled,
+			showsTime: true,
+			singleClick : true,
+			weekNumbers: false,
+			cache: true,
+			range: [<?php echo date('Y'); ?>, <?php echo date('Y')+5; ?>],
+			date: new Date( <?php echo $this->getNextBilledRaw(); ?>000 )
+		});
+	});
+//]]>
+</script>
+<?php endif; ?>

@@ -69,6 +69,26 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
         return $drawHomeMenu;
     }
 
+    public function drawDashboardMenu()
+    {
+        $ambassadorCode = Mage::getSingleton('core/session')->getAmbassadorCode();
+        $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+
+        $drawHomeMenu = '';
+        if(isset($ambassadorCode) && isset($ambassadorObject) && Mage::getSingleton('customer/session')->isLoggedIn())
+        {
+            $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
+            if($currentCustomer->getId() == $ambassadorObject->getId())
+            {
+                $drawHomeMenu .= '<li class="level0">';
+                $drawHomeMenu .= '<a class="level-top" href="http://dashboard.monogramathome.com"><span class="icon-text">' .$this->__('Dashboard') .'</span>';
+                $drawHomeMenu .= '</a>';
+                $drawHomeMenu .= '</li>';
+            }            
+        }
+        return $drawHomeMenu;
+    }
+
     public function drawMainMenu()
     {
         if($this->hasData('drawMainMenu')) return $this->getData('drawMainMenu');
@@ -192,10 +212,16 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
 
     public function getCatTop()
     {
+        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU);
+        $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+        if(isset($ambassadorObject))
+            $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU);
+
         $collection = Mage::getModel('magicmenu/category')->getCollection()
                         ->addAttributeToSelect(array('entity_id','name','magic_label','short_desc','url_path','magic_thumbnail'))
                         ->addAttributeToFilter('parent_id', Mage::app()->getStore()->getRootCategoryId())
                         ->addAttributeToFilter('include_in_menu', 1)
+                        ->addAttributeToFilter('include_menu', array('in' => $includeMenuSite))
                         ->addIsActiveFilter()
                         ->addLevelFilter(2)
                         ->addAttributeToSort('position', 'asc'); //->addOrderField('name');
@@ -204,10 +230,16 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
 
     public function getTopChild($parentId)
     {
+        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU);
+        $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+        if(isset($ambassadorObject))
+            $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU);
+        
         $collection = Mage::getModel('magicmenu/category')->getCollection()
                         ->addAttributeToSelect(array('entity_id','name','magic_label','short_desc','url_path','magic_image'))
                         ->addAttributeToFilter('parent_id', $parentId)
                         ->addAttributeToFilter('include_in_menu', 1)
+                        ->addAttributeToFilter('include_menu', array('in' => $includeMenuSite))
                         ->addAttributeToFilter('level',3)
                         ->addIsActiveFilter()
                         ->addAttributeToSort('position', 'asc'); //->addOrderField('name');
@@ -263,10 +295,16 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
 
     public function  getTreeCategoriesExt($parentId) // include Magic_Label
     { 
+        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU);
+        $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+        if(isset($ambassadorObject))
+            $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU);
+
         $categories = Mage::getModel('magicmenu/category')->getCollection()
                         ->addAttributeToSelect(array('name','magic_label','url_path'))
                         ->addAttributeToFilter('include_in_menu', 1)
                         ->addAttributeToFilter('parent_id',array('eq' => $parentId))
+                        ->addAttributeToFilter('include_menu', array('in' => $includeMenuSite))
 						->addIsActiveFilter()
                         ->addAttributeToSort('position', 'asc'); 
         $html = '';

@@ -1,0 +1,60 @@
+<?php 
+if( $this->isTransarmor() ):
+	$_card	= $this->getPaymentInfo();
+	$info	= $this->getAllCards();
+	$select	= '';
+	if( count($info) ) {
+		foreach( $info as $inf ) {
+			$select .= '<option value="'.$inf->getId().'">XXXX-'.$inf->getLast4().'</option>';
+		}
+	}
+?>
+<table class="info-table">
+	<tr>
+		<th><?php echo $this->__('Last Billed:'); ?></th>
+		<td><?php echo $this->getLastBilled(); ?></td>
+	</tr>
+	<tr>
+		<th><?php echo $this->__('Next Cycle:'); ?></th>
+		<td><?php echo $this->getNextBilled(); ?></td>
+	</tr>
+	<tr>
+		<th><?php echo $this->__('Payments&nbsp;Made:'); ?></th>
+		<td><?php echo $this->getProfile()->getAdditionalInfo('billed_count'); ?></td>
+	</tr>
+	<?php if( $this->getProfile()->getAdditionalInfo('failure_count') > 0 ): ?>
+		<tr>
+			<th><?php echo $this->__('Payments&nbsp;Failed:'); ?></th>
+			<td><?php echo $this->getProfile()->getAdditionalInfo('failure_count'); ?></td>
+		</tr>
+		<tr>
+			<th><?php echo $this->__('Outstanding:'); ?></th>
+			<td>$<?php echo round( $this->getProfile()->getAdditionalInfo('outstanding'), 2 ); ?></td>
+		</tr>
+	<?php endif; ?>
+	<tr>
+		<th><?php echo $this->__('Credit Card:') ?></th>
+		<td>
+			<?php if( $_card ): ?>
+				<?php echo 'XXXX-'.$_card->getLast4(); ?><br />
+			<?php else: ?>
+				<strong style="color: #c00;">None</strong><br />
+			<?php endif; ?>
+			<a href="#" onclick="$('transarmor_wrap').toggle();$(this).hide();return false;"><?php echo $this->__('Use a different card') ?></a>
+			<div id="transarmor_wrap" style="display:none">
+				<form action="" method="post" style="display:block; padding:5px 0">
+					<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+					<input type="hidden" name="set_cc" value="1" />
+					<select name="payment_id" id="transarmor_payment_id" style="width:111px;">
+						<option value=""><?php echo $this->__('-- Select One --') ?></option>
+						<?php echo $select ?>
+					</select>
+			    	<button class="button" type="submit"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+		    	</form>
+		    	<p><?php echo $this->__('Any change will take effect with<br />the next payment.'); ?></p>
+		    	<a href="<?php echo $this->getUrl( 'transarmor/manage', array( '_secure' => true ) ) ?>"><?php echo $this->__('Manage My Cards') ?></a>
+			</div>
+		</td>
+	</tr>
+</table>
+<?php endif; ?>

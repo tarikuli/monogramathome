@@ -40,18 +40,28 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		$data = array(
 			'username' => $customer->getUsername(), 
 			'password' => $params['password'],
-			'sponsor_name' => 'admin', 
+			'sponsor_name' => 'shop', 
 			'fullname' => $customer->getName(), 
 			'address1' => $params['street'][0], 
 			'address2' => 'N/A', 
 			'postcode' => $params['postcode'], 
 			'email' => $params['email'], 
-			'package' => 'TEST PACKAGE', 
+			'package' => 'null', 
 			'mobile' => $params['telephone'], 
 		);
 
 		if(isset($params['package']))
 			$data['package'] = $params['package'];
+
+		if(isset($params['sponsor_name']))
+			$data['sponsor_name'] = $params['sponsor_name'];
+
+		$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+		if(isset($ambassadorObject))
+		{
+			$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
+			$data['sponsor_name'] = $websitecode;
+		}
 
 		if(isset($params['street'][1]) && trim($params['street'][1]) != "")
 			$data['address2'] = $params['street'][1];
@@ -120,7 +130,8 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 						'street' => array($billingAddress->getStreet1()),
 						'postcode' => $billingAddress->getPostcode(),
 						'email' => $customerObject->getEmail(),
-						'telephone' => $billingAddress->getTelephone()
+						'telephone' => $billingAddress->getTelephone(),
+						'sponsor_name' => 'admin'
 					);
 
 					foreach($orderObject->getAllItems() as $orderItem)

@@ -1,0 +1,6 @@
+.ambassador-success { text-align: center; margin: 15px; }
+.ambassador-success .page-title { margin: 0; }
+.ambassador-success .page-title h1 { font-size: 52px; text-transform: initial; font-family: Oswald; color: #ec008b; font-weight: lighter; margin: 0 0 25px; }
+.ambassador-success p { margin: 0; font-size: 17px; }
+.ambassador-success p.break { margin-bottom: 25px; }
+.ambassador-success p span.name { font-size: 17px; color: #ec008b; font-style: italic; }

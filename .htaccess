@@ -113,35 +113,14 @@ DirectoryIndex index.php
          RewriteCond %{HTTP_HOST} ^abcd.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:abcd_store_en]
 
-         RewriteCond %{HTTP_HOST} ^ambassador1.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:ambassador1_en]
-
-         RewriteCond %{HTTP_HOST} ^ambassador2.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:ambassador2_en]
-
          RewriteCond %{HTTP_HOST} ^dhruvipatel.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:dhruvipatel_store_en]
 
          RewriteCond %{HTTP_HOST} ^hitarthpattani.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:hitarthpattani_store_en]
 
-         RewriteCond %{HTTP_HOST} ^jewel.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:jewel_store_en]
-
-         RewriteCond %{HTTP_HOST} ^julfiker.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:julfiker_store_en]
-
          RewriteCond %{HTTP_HOST} ^lana.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:lana_store_en]
-
-         RewriteCond %{HTTP_HOST} ^lanaabc.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:lanaabc_store_en]
-
-         RewriteCond %{HTTP_HOST} ^monday.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:monday_store_en]
-
-         RewriteCond %{HTTP_HOST} ^shlomi.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:shlomi_store_en]
 
          RewriteCond %{HTTP_HOST} ^shop.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:shop_store_en]

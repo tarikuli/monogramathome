@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Infinite_CustomerLogin>
+			<active>true</active>
+			<codePool>local</codePool>	
+		</Infinite_CustomerLogin>
+	</modules>
+</config>

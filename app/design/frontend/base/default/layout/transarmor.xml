@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<layout version="1.0.0">
+	<customer_account>
+		<reference name="customer_account_navigation">
+        	<block type="transarmor/profilelink" name="transarmor_profilelink">
+                <action method="addProfileLink"></action>
+        	</block>
+		</reference>
+	</customer_account>
+	<transarmor_manage_index>
+        <label>Customer My Account Card Manager</label>
+        <update handle="customer_account"/>
+        <reference name="content">
+			<block type="transarmor/manage" name="transarmor_manage" template="transarmor/manage.phtml" />
+            <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+        </reference>
+	</transarmor_manage_index>
+	
+	<sales_recurring_profile_view>
+		<reference name="billing_info">
+			<block type="transarmor/profile" name="transarmor_profile" template="transarmor/profile.phtml" />
+		</reference>
+	</sales_recurring_profile_view>
+</layout>

@@ -1,0 +1,89 @@
+<?php $cardTypes = Mage::getModel('transarmor/source_cardtypes')->toArray(); ?>
+
+<?php if( !$this->isAjax() ): ?>
+<table id="transarmor-edit" class="form-edit" cellspacing="0">
+<?php endif; ?>
+	<tr>
+		<td class="address-list">
+			<div class="entry-edit-head">
+				<h4 class="icon-head head-customer-address-list"><?php echo $this->__('My Credit Cards') ?></h4>
+			</div>
+			<div class="fieldset" style="padding:0;">
+				<ol style="width:400px">
+					<?php $cards = $this->getCards(); ?>
+					<?php if( $cards !== false && count($cards) ): ?>
+						<?php foreach( $cards as $card ): ?>
+						<li class="item info-box" id="trans_card-<?php echo $card->getId(); ?>" style="cursor:default">
+							<h3 class="box-title"><?php echo $card->getFormattedCc(); ?> <small style="font-weight:normal">(<?php echo $cardTypes[ $card->getType() ]; ?>)</small></h3>
+							<address class="box-content" style="overflow:auto">
+								<?php echo $card->getFirstname().' '.$card->getLastname() ?><br />
+								<?php echo $card->getAdditionalInfo('addr1') ?><br />
+								<?php echo $card->getAdditionalInfo('city') ?>, <?php echo $card->getAdditionalInfo('state') ?>, <?php echo $card->getAdditionalInfo('zip') ?><br />
+								<div class="right">
+									<?php if( $card->getInUse() == 1 ): ?>
+										<abbr title="<?php echo $this->__('This card cannot be modified while associated with open orders.'); ?>"><?php echo $this->__('Card In Use'); ?></abbr>
+									<?php else: ?>
+										<button class="button" type="button" onclick="transEditCard(<?php echo $card->getId(); ?>);"><span><span><?php echo $this->__('Edit'); ?></span></span></button> 
+										<button class="button" type="button" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete? This cannot be reversed.'); ?>')){transDeleteCard( <?php echo $card->getId(); ?> );}"><span><span><?php echo $this->__('Delete'); ?></span></span></button>
+									<?php endif; ?>
+								</div>
+							</address>
+						</li>
+						<?php endforeach; ?>
+					<?php else: ?>
+					<li class="item"><?php echo $this->__('You have not yet saved any credit cards.') ?></li>
+					<?php endif; ?>
+				</ol>
+			</div>
+		</td>
+		<td id="trans-card-form">
+			<?php echo $this->getChildHtml(); ?>
+		</td>
+	</tr>
+<?php if( !$this->isAjax() ): ?>
+</table>
+<?php endif; ?>
+
+<?php if( !$this->isAjax() ): ?>
+<script type="text/javascript">
+function transDeleteCard( id ) {
+	$('trans_card-'+id).hide();
+	
+	Element.show('loading-mask');
+	new Ajax.Request("<?php echo $this->getUrl('*/transarmor/delete', array('id' => $this->getCustomer()->getId())); ?>", {
+		method: 'post',
+		parameters: "c="+id,
+		evalScripts: true,
+		onComplete: function(data) {
+			Element.hide('loading-mask');
+		}
+	});
+}
+
+function transEditCard( id ) {
+	Element.show('loading-mask');
+	new Ajax.Updater('trans-card-form', "<?php echo $this->getUrl('*/transarmor/edit', array('id' => $this->getCustomer()->getId())); ?>", {
+		method: 'post',
+		parameters: "c="+id,
+		evalScripts: true,
+		onComplete: function(data) {
+			Element.hide('loading-mask');
+		}
+	});
+}
+
+function transSaveCard() {
+	Element.show('loading-mask');
+	new Ajax.Updater('transarmor-edit', "<?php echo $this->getUrl('*/transarmor/save', array('id' => $this->getCustomer()->getId())); ?>", {
+		method: 'post',
+		parameters: Form.serialize('edit_form'),
+		evalScripts: true,
+		onComplete: function(data) {
+			Element.hide('loading-mask');
+			
+			transEditCard(0);
+		}
+	});
+}
+</script>
+<?php endif; ?>

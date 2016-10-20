@@ -1,0 +1,118 @@
+<?php
+class Infinite_CustomerLogin_Model_Observer
+{
+	const KEYSALT = "aghtUJ6y";
+	const GROUP_CODE = 'Ambassador';
+
+	public function redirectCustomerToRelativeWebsite($observer)
+	{
+		if($postData = Mage::app()->getRequest()->getParams('login'))
+		{
+			if(isset($postData['login']['username']) && isset($postData['login']['password']))
+			{
+				$email = $postData['login']['username'];
+				$password = $postData['login']['password'];				
+
+				$customerGroupCollection = Mage::getModel("customer/group")->getCollection()
+					->addFieldToFilter('customer_group_code', self::GROUP_CODE); 
+
+				if($customerGroupCollection->count())
+				{
+					$customerCollection = Mage::getModel("customer/customer")->getCollection()
+						->addAttributeToSelect("*")
+						->addAttributeToFilter('email', $email)
+						->addAttributeToFilter('group_id', $customerGroupCollection->getFirstItem()->getId());
+
+					if($customerCollection->count())
+					{
+						$customerObject = $customerCollection->getFirstItem(); 
+						if($customerObject->getId())
+			        	{
+			        		$websiteCode = $customerObject->getUsername();
+			        		$websiteObject = Mage::getModel('core/website')->load($websiteCode);
+
+			        		if($websiteObject->getId())
+			        		{
+			        			$queryString = "email={$email}&password={$password}";
+		    					$queryString = base64_encode(urlencode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5(self::KEYSALT), $queryString, MCRYPT_MODE_CBC, md5(md5(self::KEYSALT)))));
+		    					$websiteUrl = $websiteObject->getDefaultStore()->getBaseUrl();
+								$websiteUrl .= "?{$queryString}";
+								Mage::app()->getFrontController()->getResponse()->setRedirect($websiteUrl);
+							    Mage::app()->getResponse()->sendResponse();
+							    exit;
+			        		}
+						}
+					}
+				}
+	        }
+		}
+	}
+
+	public function checkLogin($observer)
+	{
+		$queryString = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5(self::KEYSALT), urldecode(base64_decode($_SERVER['QUERY_STRING'])), MCRYPT_MODE_CBC, md5(md5(self::KEYSALT))), "\0");
+		parse_str($queryString);
+		if(!empty($email) && !empty($password)) 
+		{		
+		    $session = $this->_getCustomerSession();
+
+		    $params = Mage::app()->getRequest()->getParams();
+		    $params = array_merge($params, array('password' => $password));
+		    Mage::app()->getRequest()->setParams($params);
+		    
+		    try 
+		    {
+                $session->login($email, $password);
+            } 
+            catch (Mage_Core_Exception $e) 
+            {
+                switch ($e->getCode()) 
+                {
+                    case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
+                        $value = $this->_getHelper('customer')->getEmailConfirmationUrl($email);
+                        $message = $this->_getHelper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.', $value);
+                        break;
+                    case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
+                        $message = $e->getMessage();
+                        break;
+                    default:
+                        $message = $e->getMessage();
+                }
+                $session->addError($message);
+                $session->setUsername($email);
+            } 
+            catch (Exception $e) 
+            {
+                Mage::logException($e);
+                $session->setUsername($e->getMessage());
+            }
+
+		    $redirectUrl = Mage::getUrl('customer/account');
+		    Mage::app()->getFrontController()->getResponse()->setRedirect($redirectUrl);
+		    Mage::app()->getResponse()->sendResponse();
+		    exit;
+		}
+
+		$websitecode = Mage::app()->getWebsite()->getCode();
+		$currentAmbassadorCode = Mage::getSingleton('core/session')->getAmbassadorCode();
+
+		if(!isset($currentAmbassadorCode) || $currentAmbassadorCode != $websitecode)
+		{
+			Mage::getSingleton('core/session')->setAmbassadorCode($websitecode);
+
+			$customerCollection = Mage::getModel("customer/customer")->getCollection()
+				->addAttributeToSelect("*")
+				->addAttributeToFilter('username', $websitecode);
+			if($customerCollection->count())
+				Mage::getSingleton('core/session')->setAmbassadorObject($customerCollection->getFirstItem());
+			else
+				Mage::getSingleton('core/session')->unsAmbassadorObject();
+		}
+	}
+
+	protected function _getCustomerSession()
+    {
+        return Mage::getSingleton('customer/session');
+    }
+}
+?>
