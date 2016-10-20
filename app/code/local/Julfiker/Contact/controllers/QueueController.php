@@ -68,7 +68,6 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 ->save();
              $q->setStatus(1)->save();
 
-
                 // 1. make ambassador active after their domains has been created.
                 // 2. assign ambassador to their website and store, so that they will get logged in to
                 //    their website automatically after redirecting from main website to their website.
@@ -83,7 +82,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                         $customer->setStoreId($store->getId());
                         $customer->save();
                     }
-                }   
+                }  
             }
             catch(\Exception $e) {
                 continue;
