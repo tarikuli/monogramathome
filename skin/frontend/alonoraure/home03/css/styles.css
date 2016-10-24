@@ -2617,3 +2617,68 @@ button.button.btn-checkout:hover {
     border-color: #ec008b;
     color: #ffffff;
 }
+
+.success-university .border-around {border: 2px solid #f1008d; text-align: center; margin-bottom: 10px;  -webkit-border-radius: 3px;-moz-border-radius: 3px;-ms-border-radius: 3px;-o-border-radius: 3px;border-radius: 3px;}
+.success-university .border-around a {font-size: 55px; line-height: 55px; padding: 50px 10px; font-family: 'Roboto',sans-serif; font-weight: 100; display: block;}
+.success-university .coaches-corner a, .success-university .host-a-sip a, .success-university .prospecting-recruiting a, .success-university .upcoming-events a, .success-university .marketing-videos a {font-size: 42px; line-height: 44px;}
+.success-university .upcoming-events a, .success-university .marketing-videos a {padding-bottom: 30px;}
+h3.indep-title
+{
+	color: #ec008b;
+    text-align: center;
+    font-size: 25px;
+    font-family: "Open san-serif";
+}
+h3.disclosure-title
+{
+	color: #ec008b;
+    font-size: 20px;
+    text-align:center;	
+}
+h3.review-title
+{
+	color:#ec008b;
+	font-size:16px;
+}
+.tag-title
+{
+	color:#ec008b;
+}  
+.popup-title h1
+{
+	font-size: 30px;
+    text-align: center;
+    color: #ec008b;
+    font-family: "Open sans-serif";
+    margin-bottom: 20px;
+}
+
+#agreement_block
+{
+	max-width:520px;
+	height:535px;
+	box-sizing:border-box;
+}
+#agreement_block p
+{
+	text-align:justify;
+	margin-left: 3px;
+    margin-right: 10px;
+}
+.opc-address-agreement
+{
+	width:550px;
+	
+}
+.confirm-content-wrapper
+{
+	height:260px;
+	overflow:auto;
+	margin-left:35px;
+}
+
+.confirm-content-wrapper p
+{
+	text-align: justify;
+	margin-right:19px;
+}

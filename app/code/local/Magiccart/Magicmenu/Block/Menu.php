@@ -212,10 +212,19 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
 
     public function getCatTop()
     {
-        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU);
+        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MEMBER_MENU);
         $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
         if(isset($ambassadorObject))
-            $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU);
+        {
+            if(Mage::getSingleton('customer/session')->isLoggedIn())
+            {
+                $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
+                if($currentCustomer->getId() == $ambassadorObject->getId())
+                    $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_ONLY);
+                else
+                    $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MEMBER_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MEMBER_MENU);
+            }
+        }
 
         $collection = Mage::getModel('magicmenu/category')->getCollection()
                         ->addAttributeToSelect(array('entity_id','name','magic_label','short_desc','url_path','magic_thumbnail'))
@@ -230,11 +239,20 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
 
     public function getTopChild($parentId)
     {
-        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU);
+        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MEMBER_MENU);
         $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
         if(isset($ambassadorObject))
-            $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU);
-        
+        {
+            if(Mage::getSingleton('customer/session')->isLoggedIn())
+            {
+                $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
+                if($currentCustomer->getId() == $ambassadorObject->getId())
+                    $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_ONLY);
+                else
+                    $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MEMBER_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MEMBER_MENU);
+            }
+        }
+
         $collection = Mage::getModel('magicmenu/category')->getCollection()
                         ->addAttributeToSelect(array('entity_id','name','magic_label','short_desc','url_path','magic_image'))
                         ->addAttributeToFilter('parent_id', $parentId)
@@ -295,10 +313,19 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
 
     public function  getTreeCategoriesExt($parentId) // include Magic_Label
     { 
-        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU);
+        $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MEMBER_MENU);
         $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
         if(isset($ambassadorObject))
-            $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU);
+        {
+            if(Mage::getSingleton('customer/session')->isLoggedIn())
+            {
+                $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
+                if($currentCustomer->getId() == $ambassadorObject->getId())
+                    $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_ONLY);
+                else
+                    $includeMenuSite = array(IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_BOTH, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_MAIN_MEMBER_MENU, IWD_Opc_Model_Attribute_Source_Menu_Type::TYPE_AMBASSADOR_MEMBER_MENU);
+            }
+        }
 
         $categories = Mage::getModel('magicmenu/category')->getCollection()
                         ->addAttributeToSelect(array('name','magic_label','url_path'))
@@ -372,7 +399,7 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
         $label = explode(',', $cat->getMagicLabel());
         foreach ($label as $lab) {
           if($lab) $html .= '<span class="cat_label '.$lab.'">'.$this->__(trim($lab)) .'</span>';
-        }
+        } 
         $short_desc = trim($cat->getShortDesc());
         if($short_desc) $html .= '<span class="short_desc">'.$this->__($short_desc) .'</span>';
 

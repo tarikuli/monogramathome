@@ -2,7 +2,8 @@
 class Infinite_CustomerLogin_Model_Observer
 {
 	const KEYSALT = "aghtUJ6y";
-	const GROUP_CODE = 'Ambassador';
+	const AMBASSADOR_GROUP_CODE = 'Ambassador';
+	const MEMBER_GROUP_CODE = 'Member';
 
 	public function redirectCustomerToRelativeWebsite($observer)
 	{
@@ -14,7 +15,7 @@ class Infinite_CustomerLogin_Model_Observer
 				$password = $postData['login']['password'];				
 
 				$customerGroupCollection = Mage::getModel("customer/group")->getCollection()
-					->addFieldToFilter('customer_group_code', self::GROUP_CODE); 
+					->addFieldToFilter('customer_group_code', self::AMBASSADOR_GROUP_CODE); 
 
 				if($customerGroupCollection->count())
 				{
@@ -114,5 +115,23 @@ class Infinite_CustomerLogin_Model_Observer
     {
         return Mage::getSingleton('customer/session');
     }
+
+    public function customerRegisterSuccess($observer)
+	{
+		$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+		if(isset($ambassadorObject))
+		{
+			$customerObject = $observer->getCustomer();
+
+			$customerGroupCollection = Mage::getModel("customer/group")->getCollection()
+				->addFieldToFilter('customer_group_code', self::MEMBER_GROUP_CODE);
+
+			if($customerGroupCollection->count())
+			{
+				$customerObject->setGroupId($customerGroupCollection->getFirstItem()->getId());
+				$customerObject->save();
+			}
+		}
+	}
 }
 ?>

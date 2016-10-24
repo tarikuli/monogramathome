@@ -1,0 +1,110 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Infinite_ImageGallery>
+            <version>1.0.3</version>
+        </Infinite_ImageGallery>
+    </modules>
+    <global>
+        <models>
+            <imagegallery>
+                <class>Infinite_ImageGallery_Model</class>
+                <resourceModel>imagegallery_mysql4</resourceModel>
+            </imagegallery>
+            <imagegallery_mysql4>
+                <class>Infinite_ImageGallery_Model_Mysql4</class>
+                <entities>
+                    <gallery>
+                        <table>imagegallery_gallery</table>
+                    </gallery>
+                    <image>
+                        <table>imagegallery_image</table>
+                    </image>
+                </entities>
+            </imagegallery_mysql4>
+        </models>
+        <resources>
+            <imagegallery_setup>
+                <setup>
+                    <module>Infinite_ImageGallery</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </imagegallery_setup>
+            <imagegallery_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </imagegallery_write>
+            <imagegallery_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </imagegallery_read>
+        </resources>
+        <blocks>
+            <imagegallery>
+                <class>Infinite_ImageGallery_Block</class>
+            </imagegallery>
+        </blocks>
+        <helpers>
+            <imagegallery>
+                <class>Infinite_ImageGallery_Helper</class>
+            </imagegallery>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <use>admin</use>
+                <args>
+                    <modules>                   
+                        <Infinite_ImageGallery after="Mage_Adminhtml">Infinite_ImageGallery_Adminhtml</Infinite_ImageGallery>
+                    </modules>                                  
+                </args>
+            </adminhtml>                
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <cms>
+                <children>
+                    <imagegallery module="imagegallery">
+                        <title>Image Gallery</title>
+                        <sort_order>100</sort_order>
+                        <children>
+		                    <manage_gallery module="imagegallery">
+		                        <title>Manage Gallery</title>
+		                        <sort_order>10</sort_order>
+		                        <action>adminhtml/gallery</action>
+		                    </manage_gallery>
+		                </children>
+                    </imagegallery>
+                </children>
+            </cms>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <cms>
+                            <children>
+                                <imagegallery module="imagegallery">
+                                    <title>Image Gallery</title>
+                                    <sort_order>100</sort_order>
+                                    <children>
+					                    <manage_gallery module="imagegallery">
+					                        <title>Manage Gallery</title>
+					                        <sort_order>10</sort_order>
+					                    </manage_gallery>
+					                </children>
+                                </imagegallery>
+                            </children>
+                        </cms>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+</config>

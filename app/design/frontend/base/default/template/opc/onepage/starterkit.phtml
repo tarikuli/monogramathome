@@ -23,7 +23,7 @@
 			                    <?php endforeach; ?>
 			                </tr>
 			                <tr>
-			                    <td colspan="5" class="pink"><?php echo $this->__('Print Material'); ?></td>
+			                    <td colspan="5" class="pink"><?php echo $this->__('Print Materials'); ?></td>
 			                </tr>
 			                <tr>
 			                    <td><?php echo $this->__('Full size glossy catalogs'); ?></td>
@@ -66,7 +66,7 @@
 			                    <?php endforeach; ?>
 			                </tr>
 			                <tr> 
-			                    <td><?php echo $this->__('tabel sign'); ?></td>
+			                    <td><?php echo $this->__('table sign'); ?></td>
 			                    <?php foreach($starterKitCollection as $starterKit): ?>
 			                    	<td>
 			                    		<?php if($starterKit->getData('table_sign')): ?>
@@ -126,7 +126,7 @@
 			                    <?php endforeach; ?>
 			                </tr>
 			                <tr>
-			                    <td  colspan="5" class="pink"><?php echo $this->__('Business management system'); ?></td>
+			                    <td  colspan="5" class="pink"><?php echo $this->__('Business management system*'); ?></td>
 			                </tr>
 			                <tr> 
 			                    <td><?php echo $this->__('Personal e-store (website)'); ?></td>
@@ -286,12 +286,12 @@
 	    <h4><?php echo $this->__('Select a name for your website'); ?></h4>
 	    <div class="website-box">
 	        <?php echo $this->__('www.'); ?><input type="input" name="username" id="username" placeholder="<?php echo $this->__('your name'); ?>" value="<?php echo $this->getWebsiteName(); ?>" /><?php echo $this->__('/monogramathome<b>.com/</b>'); ?>
-	        <span id="availablity_website" class="availablity required-entry"></span>
+	        <span id="availablity_website" class="availablity required-entry"><?php echo $this->__('available');?></span>
 	    </div>
-	    <p><?php echo $this->__('* There will not be any charge within 60 days of the Free Trial Period. After 60 days your credit card will be automatically charged for $39.99 quarterly. You can cancel it at any time if you wish to discontinue. <a href="%s">Click here to learn more.</a> Please note: Payment will be processed using the same credit card used to purchase kit. <a href="%s">More Details</a>', "#", "#"); ?></p>
+	    <p><?php echo $this->__('* You will not be charged during the first 60 days of the Business Management System (Dashboard) Free Introductory Trial period.After your trial period has ended,the credit card on file will be automatically charged for $39.99,quartely.You may cancel your Business Management System (Dashboard) at any time.<a href="%s">Click here to learn more.</a>',"#"); ?></p>
 	    <div class="input-padding">
 	    	<input type="checkbox" id="confirm_website" name="confirm_website" class="required-entry" />
-	    	<label for="confirm_website"><?php echo $this->__('I acknowledge that I have read and accepted the <a href="%s">Terms & Conditions</a>', "#"); ?></label>
+	    	<label for="confirm_website"><?php echo $this->__('I acknowledge that I have read and accepted the <a href="%s">Terms and Conditions of the Business Management System (Dashboard) Use</a>', "#"); ?></label>
 	    </div>
 	</div>
 </form>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <ZMage_CartUrl>
+            <active>true</active>
+            <codePool>local</codePool>
+        </ZMage_CartUrl>
+    </modules>
+</config>

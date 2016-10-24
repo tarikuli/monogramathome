@@ -16,28 +16,32 @@
                         <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $this->helper('opc')->getAttributeValidationClass('company') ?>" />
                     </div>
                 </div>
-                <div class="field">
-                    <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
-                    <div class="input-box">
-                        <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                <?php if(!$this->isCustomerLoggedIn()): ?>
+                    <div class="field">
+                        <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
             </li>
-            <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
-            <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
-            <?php if ($_dob->isEnabled() || $_gender->isEnabled()): ?>
-                <li class="fields">
-                    <?php if ($_dob->isEnabled()): ?>
-                        <div class="field">
-                        <?php echo $_dob->setDate($this->getQuote()->getCustomerDob())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($_gender->isEnabled()): ?>
-                        <div class="field">
-                        <?php echo $_gender->setGender($this->getQuote()->getCustomerGender())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
-                        </div>
-                    <?php endif ?>
-                </li>
+            <?php if(!$this->isCustomerLoggedIn()): ?>
+                <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+                <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+                <?php if ($_dob->isEnabled() || $_gender->isEnabled()): ?>
+                    <li class="fields">
+                        <?php if ($_dob->isEnabled()): ?>
+                            <div class="field">
+                            <?php echo $_dob->setDate($this->getQuote()->getCustomerDob())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($_gender->isEnabled()): ?>
+                            <div class="field">
+                            <?php echo $_gender->setGender($this->getQuote()->getCustomerGender())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                            </div>
+                        <?php endif ?>
+                    </li>
+                <?php endif ?>
             <?php endif ?>
             <li class="fields">
                 <div class="field">
@@ -123,28 +127,30 @@
             <?php echo $this->getChildHtml('checkout.onepage.billing.extra')?>
         </ul>
     </div>
+    <div style="display:none !important">
+        <input type="text" autocomplete="off" value="" />
+        <input type="password" autocomplete="off" value=""/>
+    </div>
     <div class="fieldset">
         <h2 class="legend"><?php echo $this->__('Login Information')?></h2>
-        <div style="display:none !important">
-            <input type="text" autocomplete="off" value="" />
-            <input type="password" autocomplete="off" value=""/>
-        </div>
         <ul class="form-list">
-            <input type="hidden" name="billing[create_account]" id="billing:create_account" value="1" />
-            <li class="fields" id="register-customer-password">
-                <div class="field">
-                    <label for="billing:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
-                    <div class="input-box">
-                        <input type="password" name="billing[customer_password]" title="<?php echo $this->__('Password') ?>" id="billing:customer_password" class="input-text validate-password required-entry" autocomplete="off" value=""/>
+            <?php if(!$this->isCustomerLoggedIn()): ?>
+                <input type="hidden" name="billing[create_account]" id="billing:create_account" value="1" />
+                <li class="fields" id="register-customer-password">
+                    <div class="field">
+                        <label for="billing:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                        <div class="input-box">
+                            <input type="password" name="billing[customer_password]" title="<?php echo $this->__('Password') ?>" id="billing:customer_password" class="input-text validate-password required-entry" autocomplete="off" value=""/>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="billing:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
-                    <div class="input-box">
-                        <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text validate-cpassword required-entry" autocomplete="off" value=""/>
+                    <div class="field">
+                        <label for="billing:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+                        <div class="input-box">
+                            <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text validate-cpassword required-entry" autocomplete="off" value=""/>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            <?php endif; ?>
             <?php if ($this->canShip()): ?>
                 <li class="control hidden"><?php /* <?php if (!Mage::helper('opc')->isShowShippingForm()):?>hidden<?php endif;?> */ ?>
                     <input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo  $this->__('Ship to this address') ?>" class="checkbox   " /><label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label>
@@ -157,7 +163,7 @@
                 <input type="checkbox" name="terms_and_condition" title="<?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement'); ?>" value="1" id="terms_and_condition" class="checkbox required-entry" />
                 <label for="terms_and_condition"><?php echo $this->__('I have read and accept the Terms and Conditions of the <a class="agreement_block" id="agreement-content" href="#agreement_block">Independent Business Owner Agreement</a>', '#') ?></label>
                 <div id="agreement_block" style="display: none;">
-                    <h3><?php echo $this->__('Independent Business Owner Agreement'); ?></h3>
+                    <?php echo $this->getChildHtml('agreement_block'); ?>
                 </div>
                 <script type="text/javascript">
                     jQuery(document).ready(function() {

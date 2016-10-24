@@ -20,6 +20,7 @@
             <block type="opc/lipp" name="opc.lipp.js" as="">
                 <action method="setTemplate"><template>opc/lipp-js.phtml</template></action>
             </block>
+            <block type="core/template" name="correct.addtocart.links" template="opc/addtocart.phtml"></block>
         </reference>
 	</default>
 	
@@ -60,9 +61,12 @@
 					</block>
 				 	<!-- BILLING FORM -->
                     <block type="opc/onepage_billing" name="checkout.onepage.billing" as="billing" template="opc/onepage/billing.phtml">
+                        <block type="cms/block" name="agreement_block">
+                            <action method="setBlockId"><block_id>agreement_block</block_id></action>
+                        </block>
                         <block type="cms/block" name="disclosure_block">
                             <action method="setBlockId"><block_id>disclosure_block</block_id></action>
-                        </block>                        
+                        </block>
                     </block>
 
                     <block type="core/template" name="checkout.onepage.confirm" as="confirm_block" template="opc/onepage/confirm.phtml">
@@ -72,6 +76,9 @@
                     </block>
                    
                    <!--  <block type="core/template" name="checkout.onepage.disclosure" as="disclosure" template="opc/onepage/disclosure.phtml"/> -->
+
+                   <!-- SHIPPING FORM -->
+                    <block type="core/template" name="checkout.onepage.personal" as="personal" template="opc/onepage/personal.phtml"/>
 
                     <!-- SHIPPING FORM -->
                     <block type="opc/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="opc/onepage/shipping.phtml"/>

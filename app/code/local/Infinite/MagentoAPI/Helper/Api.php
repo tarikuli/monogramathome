@@ -146,6 +146,24 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
 				}
+				else
+				{
+					$checkoutMethod = $this->getOnepage()->getCheckoutMethod();
+
+					if(isset($checkoutMethod) && $checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
+					{
+						$billingAddress = $customerObject->getPrimaryBillingAddress();
+						
+						$params = array(
+							'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(),
+							'street' => array($billingAddress->getStreet1()),
+							'postcode' => $billingAddress->getPostcode(),
+							'email' => $customerObject->getEmail(),
+							'telephone' => $billingAddress->getTelephone()
+						);
+						$this->registration($params, $customerObject);
+					}
+				}
 
 				$data = array(
 					'user_name' => $customerObject->getUsername(), 
@@ -156,13 +174,24 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 				$totalAmount = 0; $orderItems = $orderObject->getAllItems();
 				foreach($orderItems as $item)
 				{
+					$productId = $item->getProductId();
+
+					$productObject = Mage::getModel('catalog/product')->load($productId);
+					$itemPrice = $item->getPrice();
+					if($productObject->getId())
+					{
+						$appliedCommission = $productObject->getApplyCommission();
+						if(isset($appliedCommission) && $appliedCommission == 0)
+							$itemPrice = 0;
+					}
+
 					$data['product_details'][] = array(
 						'product_name' => $item->getName(), 
 						'quantity' => intval($item->getQtyOrdered()), 
-						'price' => floatval($item->getPrice()), 
-						'sub_total' => (intval($item->getQtyOrdered()) * floatval($item->getPrice()))
+						'price' => floatval($itemPrice), 
+						'sub_total' => (intval($item->getQtyOrdered()) * floatval($itemPrice))
 					);
-					$totalAmount += (intval($item->getQtyOrdered()) * floatval($item->getPrice()));
+					$totalAmount += (intval($item->getQtyOrdered()) * floatval($itemPrice));
 
                     /** Adding to queue processing multi store dynamically */
                     $product = Mage::getModel('catalog/product')->load($item->getProductId());

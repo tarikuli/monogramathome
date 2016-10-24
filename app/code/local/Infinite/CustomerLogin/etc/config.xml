@@ -40,6 +40,15 @@
                     </controller_action_predispatch_customerlogin>
                 </observers>
             </controller_action_predispatch>
+            <customer_register_success>
+                <observers>
+                    <customer_register_success_customerlogin>
+                        <type>singleton</type>
+                        <class>Infinite_CustomerLogin_Model_Observer</class>
+                        <method>customerRegisterSuccess</method>
+                    </customer_register_success_customerlogin>
+                </observers>
+            </customer_register_success>
         </events>
     </global>
 </config> 

@@ -132,10 +132,10 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
 			$this->_getCart()->addProduct($product, array('qty' => 1));
 			$this->_getCart()->save();
 			$this->_getSession()->setCartWasUpdated(true);
-        }        
+        }
 
-		if(Mage::getSingleton('customer/session')->isLoggedIn())
-			Mage::getSingleton('customer/session')->logout();
+		//if(Mage::getSingleton('customer/session')->isLoggedIn())
+		//	Mage::getSingleton('customer/session')->logout();
 		
 		/* CUSTOM CODE ENDS */
 
@@ -209,14 +209,16 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
 	    }
     }*/
 
-    /* public function checkAction() {
+    /*
+    public function checkAction() {
     	$attributeModel = Mage::getModel('eav/entity_attribute')->loadByCode('customer', 'username');
     	echo "<pre />";
     	$validateRules = $attributeModel->getValidateRules();
     	$validateRules = unserialize($validateRules);
-    	$validateRules['max_text_length'] = 30;
+    	$validateRules['input_validation'] = 'alphanum';
     	$attributeModel->setValidateRules(serialize($validateRules));
     	$attributeModel->save();
     	print_r($validateRules);
-    } */
+    }
+    */
 }
