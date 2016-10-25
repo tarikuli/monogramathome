@@ -15,6 +15,11 @@
             <customerlogin>
                 <class>Infinite_CustomerLogin_Helper</class>
             </customerlogin>
+            <customer>
+                <rewrite>
+                    <data>Infinite_CustomerLogin_Helper_Customer_Data</data>
+                </rewrite>
+            </customer>
         </helpers>
         <blocks>
             <customerlogin>

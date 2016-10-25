@@ -2655,30 +2655,117 @@ h3.review-title
 
 #agreement_block
 {
-	max-width:520px;
+	width:1000px;
 	height:535px;
-	box-sizing:border-box;
+	box-sizing: border-box;
+	overflow-y: scroll;
 }
+
+#agreement_block_buttonset {
+	/*width:520px;*/
+	box-sizing: border-box;
+}
+
 #agreement_block p
 {
 	text-align:justify;
 	margin-left: 3px;
     margin-right: 10px;
+	padding:0px 0 0 120px;
 }
+#security-tool
+{
+	float: left;
+    margin-left: 15px;
+    text-decoration: underline;  
+}
+
+a.tooltips {
+  position: relative;
+  display: inline;
+  color: #ec008b;
+}
+
+a.tooltips span {
+    position: absolute;
+    width: 250px;
+    color: #000000;
+    background: #FFFFFF;
+    line-height: 17px;
+    text-align: justify;
+    visibility: hidden;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: solid 3px #ec008b;
+    padding: 14px;
+}
+a.tooltips span:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid #ec008b;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+a:hover.tooltips span {
+  visibility: visible;
+  opacity: 0.8;
+  bottom: 30px;
+  left: 50%;
+  margin-left: -76px;
+  z-index: 999;
+
+}
+#disclosure_block {
+    height: 325px;
+    width:1080px;
+    padding: 0;
+    margin: 0;
+    overflow-y: scroll;	
+}
+#disclosure_block_buttonset {
+    /*width: 475px;*/
+    padding: 0;
+    margin: 0;
+}
+#terms_condition {
+    height: 325px;
+    width: 475px;
+    padding: 0;
+    margin: 0;
+    overflow-y: scroll;
+}	
 .opc-address-agreement
 {
-	width:550px;
+	width:1080px;
 	
 }
 .confirm-content-wrapper
 {
 	height:260px;
 	overflow:auto;
-	margin-left:35px;
+	padding:0 0 0 120px;
+	margin-bottom:20px;
 }
 
 .confirm-content-wrapper p
 {
 	text-align: justify;
 	margin-right:19px;
+	color:#000; font-weight:bold;
 }
+#agreement_block_buttonset{ margin-top:20px; }
+#agreement_block_buttonset input.checkbox, #disclosure_block_buttonset input.checkbox{ display:inline-block !important;margin-right: 3px; float:none; }
+#agreement_block_buttonset  #disclosure_block_buttonset label{ width: calc(100% - 35px);font-size:15px;display: inline-block; margin-bottom:0 !important; float:none;vertical-align: top;    display: inline-block; }
+#agreement_block_buttonset button#terms_and_condition_continue, #disclosure_block_buttonset button#confirm_continue{ float:right; }
+#disclosure_block p{ padding:0 0 0 120px; font-size:18px; line-height:24px; }  
+#disclosure_block h3.disclosure-title{ margin-bottom:15px; }
+#disclosure_block .review-title{ margin-bottom:20px; font-size:18px; }
+#disclosure_block .review-title, #disclosure_block ol{ padding:0 0 0 120px; }
+#disclosure_block ol li{ font-family:Roboto; color:#000; font-weight:bold; font-size:14px; line-height:22px; }
+#disclosure_block ol li span{ padding:0 0 0 40px;   }

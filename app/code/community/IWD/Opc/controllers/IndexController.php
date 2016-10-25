@@ -134,6 +134,10 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
 			$this->_getSession()->setCartWasUpdated(true);
         }
 
+        Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+        Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+        Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+
 		//if(Mage::getSingleton('customer/session')->isLoggedIn())
 		//	Mage::getSingleton('customer/session')->logout();
 		

@@ -20,6 +20,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 			);
 
 			$response = $this->call('login', $data);
+			$_SESSION['inf_logged_in'] = $response['data'];
 		}
 	}
 

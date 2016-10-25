@@ -12,26 +12,22 @@ class Infinite_CustomerLogin_Model_Observer
 			if(isset($postData['login']['username']) && isset($postData['login']['password']))
 			{
 				$email = $postData['login']['username'];
-				$password = $postData['login']['password'];				
+				$password = $postData['login']['password'];
 
-				$customerGroupCollection = Mage::getModel("customer/group")->getCollection()
-					->addFieldToFilter('customer_group_code', self::AMBASSADOR_GROUP_CODE); 
-
-				if($customerGroupCollection->count())
-				{
-					$customerCollection = Mage::getModel("customer/customer")->getCollection()
+				$customerCollection = Mage::getModel("customer/customer")->getCollection()
 						->addAttributeToSelect("*")
-						->addAttributeToFilter('email', $email)
-						->addAttributeToFilter('group_id', $customerGroupCollection->getFirstItem()->getId());
+						->addAttributeToFilter('email', $email);
 
-					if($customerCollection->count())
-					{
-						$customerObject = $customerCollection->getFirstItem(); 
-						if($customerObject->getId())
-			        	{
-			        		$websiteCode = $customerObject->getUsername();
-			        		$websiteObject = Mage::getModel('core/website')->load($websiteCode);
+				if($customerCollection->count())
+				{
+					$customerObject = $customerCollection->getFirstItem();
 
+					if($customerObject->getId())
+		        	{
+	        			$websiteId = $customerObject->getWebsiteId();
+	        			if($websiteId != Mage::app()->getWebsite()->getId())
+	        			{
+							$websiteObject = Mage::getModel('core/website')->load($websiteId);
 			        		if($websiteObject->getId())
 			        		{
 			        			$queryString = "email={$email}&password={$password}";
@@ -42,8 +38,8 @@ class Infinite_CustomerLogin_Model_Observer
 							    Mage::app()->getResponse()->sendResponse();
 							    exit;
 			        		}
-						}
-					}
+	        			}
+		        	}
 				}
 	        }
 		}

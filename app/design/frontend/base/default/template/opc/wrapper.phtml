@@ -148,6 +148,13 @@
 			return false;
 		} 	
 
+		if($j_opc('.ambasador-container').attr('data-error') != undefined && $j_opc('.ambasador-container').attr('data-error') == 'true')
+		{
+			$j_opc('.opc-message-container').html($j_opc('.ambasador-container').attr('data-error-message'));
+			$j_opc('.opc-message-wrapper').show();
+			return false;
+		}
+
 		var content_confirm_block = '<?php echo $this->getChildHtml("confirm_block"); ?>';
 
 		jQuery.fancybox({
