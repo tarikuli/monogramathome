@@ -23,7 +23,7 @@
  */
 class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
 {
-    const ATTRIBUTE_SET = "Kit";
+    const ATTRIBUTE_SET = "AllOpen";
 
     /**
      * init the contact
