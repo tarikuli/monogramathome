@@ -119,6 +119,12 @@ DirectoryIndex index.php
          RewriteCond %{HTTP_HOST} ^hitarthpattani.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:hitarthpattani_store_en]
 
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt_store_en]
+
+         RewriteCond %{HTTP_HOST} ^kazi.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:kazi_store_en]
+
          RewriteCond %{HTTP_HOST} ^lana.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:lana_store_en]
 

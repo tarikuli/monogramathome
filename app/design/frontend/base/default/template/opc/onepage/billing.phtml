@@ -16,28 +16,32 @@
                         <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $this->helper('opc')->getAttributeValidationClass('company') ?>" />
                     </div>
                 </div>
-                <div class="field">
-                    <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
-                    <div class="input-box">
-                        <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                <?php if(!$this->isCustomerLoggedIn()): ?>
+                    <div class="field">
+                        <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
             </li>
-            <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
-            <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
-            <?php if ($_dob->isEnabled() || $_gender->isEnabled()): ?>
-                <li class="fields">
-                    <?php if ($_dob->isEnabled()): ?>
-                        <div class="field">
-                        <?php echo $_dob->setDate($this->getQuote()->getCustomerDob())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($_gender->isEnabled()): ?>
-                        <div class="field">
-                        <?php echo $_gender->setGender($this->getQuote()->getCustomerGender())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
-                        </div>
-                    <?php endif ?>
-                </li>
+            <?php if(!$this->isCustomerLoggedIn()): ?>
+                <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+                <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+                <?php if ($_dob->isEnabled() || $_gender->isEnabled()): ?>
+                    <li class="fields">
+                        <?php if ($_dob->isEnabled()): ?>
+                            <div class="field">
+                            <?php echo $_dob->setDate($this->getQuote()->getCustomerDob())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($_gender->isEnabled()): ?>
+                            <div class="field">
+                            <?php echo $_gender->setGender($this->getQuote()->getCustomerGender())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                            </div>
+                        <?php endif ?>
+                    </li>
+                <?php endif ?>
             <?php endif ?>
             <li class="fields">
                 <div class="field">
@@ -123,28 +127,30 @@
             <?php echo $this->getChildHtml('checkout.onepage.billing.extra')?>
         </ul>
     </div>
+    <div style="display:none !important">
+        <input type="text" autocomplete="off" value="" />
+        <input type="password" autocomplete="off" value=""/>
+    </div>
     <div class="fieldset">
         <h2 class="legend"><?php echo $this->__('Login Information')?></h2>
-        <div style="display:none !important">
-            <input type="text" autocomplete="off" value="" />
-            <input type="password" autocomplete="off" value=""/>
-        </div>
         <ul class="form-list">
-            <input type="hidden" name="billing[create_account]" id="billing:create_account" value="1" />
-            <li class="fields" id="register-customer-password">
-                <div class="field">
-                    <label for="billing:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
-                    <div class="input-box">
-                        <input type="password" name="billing[customer_password]" title="<?php echo $this->__('Password') ?>" id="billing:customer_password" class="input-text validate-password required-entry" autocomplete="off" value=""/>
+            <?php if(!$this->isCustomerLoggedIn()): ?>
+                <input type="hidden" name="billing[create_account]" id="billing:create_account" value="1" />
+                <li class="fields" id="register-customer-password">
+                    <div class="field">
+                        <label for="billing:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                        <div class="input-box">
+                            <input type="password" name="billing[customer_password]" title="<?php echo $this->__('Password') ?>" id="billing:customer_password" class="input-text validate-password required-entry" autocomplete="off" value=""/>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="billing:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
-                    <div class="input-box">
-                        <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text validate-cpassword required-entry" autocomplete="off" value=""/>
+                    <div class="field">
+                        <label for="billing:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+                        <div class="input-box">
+                            <input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text validate-cpassword required-entry" autocomplete="off" value=""/>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            <?php endif; ?>
             <?php if ($this->canShip()): ?>
                 <li class="control hidden"><?php /* <?php if (!Mage::helper('opc')->isShowShippingForm()):?>hidden<?php endif;?> */ ?>
                     <input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo  $this->__('Ship to this address') ?>" class="checkbox   " /><label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label>
@@ -154,28 +160,46 @@
                 <li><input type="hidden" name="billing[use_for_shipping]" value="1" /></li>
             <?php endif; ?>
             <li class="control input-padding">
-                <input type="checkbox" name="terms_and_condition" title="<?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement'); ?>" value="1" id="terms_and_condition" class="checkbox required-entry" />
-                <label for="terms_and_condition"><?php echo $this->__('I have read and accept the Terms and Conditions of the <a class="agreement_block" id="agreement-content" href="#agreement_block">Independent Business Owner Agreement</a>', '#') ?></label>
-                <div id="agreement_block" style="display: none;">
-                    <h3><?php echo $this->__('Independent Business Owner Agreement'); ?></h3>
+                <input type="checkbox" id="terms_and_condition_checkbox" name="terms_and_condition" title="<?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement'); ?>" data-wrapper="agreement_block_wrapper" data-object="terms_and_condition_checkbox" data-relative-object="terms_and_condition_checkbox_popup" value="1" class="checkbox required-entry" />
+                <label for="terms_and_condition_checkbox"><?php echo $this->__('I have read and accept the Terms and Conditions of the <a id="terms_and_condition_checkbox_link" href="javascript: void(0);" data-wrapper="agreement_block_wrapper" data-object="terms_and_condition_checkbox" data-relative-object="terms_and_condition_checkbox_popup">Independent Business Owner Agreement</a>') ?></label>
+                <div id="agreement_block_wrapper" style="display: none;">
+                    <div id="agreement_block">
+                        <?php echo $this->getChildHtml('agreement_block'); ?>
+                    </div>
+                    <div id="agreement_block_buttonset">
+                        <input type="checkbox" id="terms_and_condition_checkbox_popup" title="<?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement'); ?>" class="checkbox" />
+                        <label for="terms_and_condition_checkbox_popup"><?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement') ?></label>
+                        <div class="buttons-set">
+                            <button type="button" id="terms_and_condition_cancel" title="<?php echo $this->__("Cancel") ?>" class="button">
+                                <span><span><?php echo $this->__("Cancel"); ?></span></span>
+                            </button>
+                            <button type="button" id="terms_and_condition_continue" title="<?php echo $this->__("Continue") ?>" class="button">
+                                <span><span><?php echo $this->__("Continue"); ?></span></span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <script type="text/javascript">
-                    jQuery(document).ready(function() {
-                        jQuery(".agreement_block").fancybox();
-                    });
-                </script>
             </li>
             <li class="control input-padding">
-                <input type="checkbox" name="confirm" title="<?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the E-Sign Disclosure or Consent to Electronic Record'); ?>" value="1" id="confirm" class="checkbox required-entry" />
-                <label for="confirm"><?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the <a class="disclosure_block" id="fancybox-content" href="#disclosure_block">E-Sign Disclosure or Consent to Electronic Record</a>') ?></label>
-                <div id="disclosure_block" style="display: none;">
-                    <?php echo $this->getChildHtml('disclosure_block'); ?>
+                <input type="checkbox" id="confirm_checkbox" name="confirm" title="<?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the E-Sign Disclosure or Consent to Electronic Record'); ?>" data-wrapper="disclosure_block_wrapper" data-object="confirm_checkbox" data-relative-object="confirm_checkbox_popup" value="1" class="checkbox required-entry" />
+                <label for="confirm_checkbox"><?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the <a id="confirm_checkbox_link" href="javascript: void(0);" data-wrapper="disclosure_block_wrapper" data-object="confirm_checkbox" data-relative-object="confirm_checkbox_popup">E-Sign Disclosure or Consent to Electronic Record</a>') ?></label>
+                <div id="disclosure_block_wrapper" style="display: none;">
+                    <div id="disclosure_block">
+                        <?php echo $this->getChildHtml('disclosure_block'); ?>                        
+                    </div>
+                    <div id="disclosure_block_buttonset">
+                        <input type="checkbox" id="confirm_checkbox_popup" title="<?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the E-Sign Disclosure or Consent to Electronic Record'); ?>" class="checkbox" />
+                        <label for="confirm_checkbox_popup"><?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the E-Sign Disclosure or Consent to Electronic Record') ?></label>
+                        <div class="buttons-set">
+                            <button type="button" id="confirm_cancel" title="<?php echo $this->__("Cancel") ?>" class="button">
+                                <span><span><?php echo $this->__("Cancel"); ?></span></span>
+                            </button>
+                            <button type="button" id="confirm_continue" title="<?php echo $this->__("Continue") ?>" class="button">
+                                <span><span><?php echo $this->__("Continue"); ?></span></span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <script type="text/javascript">
-                    jQuery(document).ready(function() {
-                        jQuery(".disclosure_block").fancybox();
-                    });
-                </script>
             </li>            
         </ul>        	
     </div>
@@ -183,71 +207,47 @@
 <script type="text/javascript">
 //<![CDATA[
     var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
+
+    jQuery(document).ready(function() {
+
+        var currentCheckbox = undefined, relativeCheckbox = undefined;
+
+        jQuery('#confirm_checkbox, #confirm_checkbox_link, #terms_and_condition_checkbox, #terms_and_condition_checkbox_link').click(function() {
+            currentCheckbox = jQuery(this).attr('data-object');            
+            relativeCheckbox = jQuery(this).attr('data-relative-object');
+            jQuery('#' + currentCheckbox).prop('checked', true);
+            jQuery.fancybox("#" + jQuery(this).attr('data-wrapper'), {
+                closeBtn: false, // hide close button
+                closeClick: false, // prevents closing when clicking INSIDE fancybox
+                cyclic: false,
+                helpers: { // prevents closing when clicking OUTSIDE fancybox
+                    overlay: {closeClick: false} 
+                },
+                keys: { // prevents closing when press ESC button
+                    close: null
+                }
+            });
+        });
+
+        jQuery('#confirm_cancel, #terms_and_condition_cancel').click(function() {
+            if(currentCheckbox != undefined)
+            {
+                jQuery("#" + currentCheckbox).prop('checked', false);
+                jQuery("#" + relativeCheckbox).prop('checked', false);
+                parent.jQuery.fancybox.close();
+            }
+        });
+
+        jQuery('#confirm_continue, #terms_and_condition_continue').click(function() {
+            if(relativeCheckbox != undefined)
+            {
+                if(jQuery("#" + relativeCheckbox).prop('checked') == false)
+                    alert("<?php echo $this->__('Please agree the terms and conditions.'); ?>");
+                else
+                    parent.jQuery.fancybox.close();
+            }
+        });
+    });
 //]]>
 </script>
-<style>
-#security-tool
-{
-	float: left;
-    margin-left: 15px;
-    text-decoration: underline;  
-}
-
-a.tooltips {
-  position: relative;
-  display: inline;
-  color: #ec008b;
-}
-
-a.tooltips span {
-    position: absolute;
-    width: 250px;
-    color: #000000;
-    background: #FFFFFF;
-    line-height: 17px;
-    text-align: justify;
-    visibility: hidden;
-    border-radius: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: solid 3px #ec008b;
-    padding: 14px;
-}
-a.tooltips span:after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -8px;
-    width: 0;
-    height: 0;
-    border-top: 8px solid #ec008b;
-    border-right: 8px solid transparent;
-    border-left: 8px solid transparent;
-}
-a:hover.tooltips span {
-  visibility: visible;
-  opacity: 0.8;
-  bottom: 30px;
-  left: 50%;
-  margin-left: -76px;
-  z-index: 999;
-
-}
-#disclosure_block {
-    height: 325px;
-    width: 475px;
-    padding: 0;
-    margin: 0;
-    overflow-y: scroll;
-}
-#terms_condition {
-    height: 325px;
-    width: 475px;
-    padding: 0;
-    margin: 0;
-    overflow-y: scroll;
-}
-</style>
-
 

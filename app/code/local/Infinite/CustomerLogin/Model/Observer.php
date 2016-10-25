@@ -2,7 +2,8 @@
 class Infinite_CustomerLogin_Model_Observer
 {
 	const KEYSALT = "aghtUJ6y";
-	const GROUP_CODE = 'Ambassador';
+	const AMBASSADOR_GROUP_CODE = 'Ambassador';
+	const MEMBER_GROUP_CODE = 'Member';
 
 	public function redirectCustomerToRelativeWebsite($observer)
 	{
@@ -11,26 +12,22 @@ class Infinite_CustomerLogin_Model_Observer
 			if(isset($postData['login']['username']) && isset($postData['login']['password']))
 			{
 				$email = $postData['login']['username'];
-				$password = $postData['login']['password'];				
+				$password = $postData['login']['password'];
 
-				$customerGroupCollection = Mage::getModel("customer/group")->getCollection()
-					->addFieldToFilter('customer_group_code', self::GROUP_CODE); 
-
-				if($customerGroupCollection->count())
-				{
-					$customerCollection = Mage::getModel("customer/customer")->getCollection()
+				$customerCollection = Mage::getModel("customer/customer")->getCollection()
 						->addAttributeToSelect("*")
-						->addAttributeToFilter('email', $email)
-						->addAttributeToFilter('group_id', $customerGroupCollection->getFirstItem()->getId());
+						->addAttributeToFilter('email', $email);
 
-					if($customerCollection->count())
-					{
-						$customerObject = $customerCollection->getFirstItem(); 
-						if($customerObject->getId())
-			        	{
-			        		$websiteCode = $customerObject->getUsername();
-			        		$websiteObject = Mage::getModel('core/website')->load($websiteCode);
+				if($customerCollection->count())
+				{
+					$customerObject = $customerCollection->getFirstItem();
 
+					if($customerObject->getId())
+		        	{
+	        			$websiteId = $customerObject->getWebsiteId();
+	        			if($websiteId != Mage::app()->getWebsite()->getId())
+	        			{
+							$websiteObject = Mage::getModel('core/website')->load($websiteId);
 			        		if($websiteObject->getId())
 			        		{
 			        			$queryString = "email={$email}&password={$password}";
@@ -41,8 +38,8 @@ class Infinite_CustomerLogin_Model_Observer
 							    Mage::app()->getResponse()->sendResponse();
 							    exit;
 			        		}
-						}
-					}
+	        			}
+		        	}
 				}
 	        }
 		}
@@ -114,5 +111,23 @@ class Infinite_CustomerLogin_Model_Observer
     {
         return Mage::getSingleton('customer/session');
     }
+
+    public function customerRegisterSuccess($observer)
+	{
+		$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+		if(isset($ambassadorObject))
+		{
+			$customerObject = $observer->getCustomer();
+
+			$customerGroupCollection = Mage::getModel("customer/group")->getCollection()
+				->addFieldToFilter('customer_group_code', self::MEMBER_GROUP_CODE);
+
+			if($customerGroupCollection->count())
+			{
+				$customerObject->setGroupId($customerGroupCollection->getFirstItem()->getId());
+				$customerObject->save();
+			}
+		}
+	}
 }
 ?>

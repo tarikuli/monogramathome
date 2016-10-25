@@ -628,8 +628,11 @@ IWD.OPC.Checkout = {
 		/** PARSE RESPONSE FROM AJAX SAVE BILLING AND SHIPPING METHOD **/
 		prepareAddressResponse: function(response){
 			IWD.OPC.Checkout.xhr = null;
+
+			$j_opc('.ambasador-container').attr({'data-error': '', 'data-error-message': ''});
 			
 			if (typeof(response.error) != "undefined"){
+				$j_opc('.ambasador-container').attr({'data-error': 'true', 'data-error-message': response.message});
 				$j_opc('.opc-message-container').html(response.message);
 				$j_opc('.opc-message-wrapper').show();
 				IWD.OPC.Checkout.hideLoader();

@@ -1,0 +1,19 @@
+<?php $galleryImages = $this->getImages(); ?>
+<?php $noOfImagePerRow = $this->getNoOfImagePerRow(); ?>
+<?php $width = round(100 / intval($noOfImagePerRow), 2); ?>
+
+<?php if(isset($galleryImages) && $galleryImages->count()): ?>
+	<div id="lightgalleryWrapper">
+	    <div class="grid-sizer" style="width: <?php echo $width; ?>%;"><!-- - --></div>
+	    <div id="lightgallery" > 
+	    	<?php foreach($galleryImages as $image): ?>
+	    		<?php $imageUrl = $this->getImageUrl($image->getImage()); ?>
+	    		<div class="item" data-src="<?php echo $imageUrl; ?>" data-sub-html="<h4>Bowness Bay</h4><p>A beautiful Sunrise this morning taken En-route to Keswick not one as planned but I'm extremely happy I was passing the right place at the right time....</p>"  style="width: calc(<?php echo $width; ?>% - 2px); padding: 2px;">
+		            <a href="">
+		                <img class="img-responsive" src="<?php echo $imageUrl; ?>">
+		            </a>
+		        </div>
+	    	<?php endforeach; ?>	        
+	    </div>            
+	</div>
+<?php endif; ?>

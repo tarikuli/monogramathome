@@ -1,0 +1,22 @@
+<?php $maxRows = $this->getMaxRows(); ?>
+<?php $heightOfIcon = $this->getHeightOfIcon(); ?>
+
+<div id="lightgalleryWrapper">
+	<div id="lightgallery" > 
+		<?php for($row = 1; $row <= intval($maxRows); $row++): ?>
+			<?php $galleryImages = $this->getImages($row); ?>
+			<?php if(isset($galleryImages) && $galleryImages->count()): ?>
+				<?php $width = round(100 / $galleryImages->count(), 2); ?>
+				<?php foreach($galleryImages as $image): ?>
+		    		<?php $imageUrl = $this->getImageUrl($image->getImage()); ?>
+		    		<div class="item" data-src="<?php echo $imageUrl; ?>" data-sub-html="<?php echo $image->getDescription(); ?>"  style="width: calc(<?php echo $width; ?>% - 2px); padding: 2px; float: left;">
+			            <a href="">
+			                <img class="img-responsive" src="<?php echo $imageUrl; ?>" style="height: <?php  echo $heightOfIcon; ?>px; width: 100%;">
+			            </a>
+			        </div>
+		    	<?php endforeach; ?>
+			<?php endif; ?>
+		<?php endfor; ?>		
+	</div>
+	<div style="clear: both;"></div>
+</div>

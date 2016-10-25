@@ -1,0 +1,104 @@
+<div id="co-personal-form">
+    <div class="page-title">
+        <h1><?php echo $this->__('Create an Account')?></h1>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Personal Information')?></h2>
+        <ul class="form-list">
+        	<li class="fields">
+                <div class="customer-name-middlename">
+				    <div class="field name-firstname">
+				        <label for="personal:firstname" class="required"><em>*</em>First Name</label>
+				        <div class="input-box">
+				            <input type="text" id="personal:firstname" name="personal[firstname]" value="" title="First Name" maxlength="255" class="input-text required-entry">
+				        </div>
+				    </div>
+				    <div class="field name-middlename">
+				        <label for="personal:middlename">Middle Name/Initial</label>
+				        <div class="input-box">
+				            <input type="text" id="personal:middlename" name="personal[middlename]" value="" title="Middle Name/Initial" class="input-text ">
+				        </div>
+				    </div>
+				    <div class="field name-lastname">
+				        <label for="personal:lastname" class="required"><em>*</em>Last Name</label>
+				        <div class="input-box">
+				            <input type="text" id="personal:lastname" name="personal[lastname]" value="" title="Last Name" maxlength="255" class="input-text required-entry">
+				        </div>
+				    </div>
+				</div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="personal:company"><?php echo $this->__('Company') ?></label>
+                    <div class="input-box">
+                        <input type="text" id="personal:company" name="personal[company]" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $this->helper('opc')->getAttributeValidationClass('company') ?>" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="personal:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="personal[email]" id="personal:email" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                    </div>
+                </div>
+            </li>
+            <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
+            <li class="fields">
+                <?php if ($_dob->isEnabled()): ?>
+                    <div class="field">
+                    </div>
+                <?php endif; ?>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="personal:ssn_number" class="required"><em>*</em><?php echo $this->__('Social Security Number') ?></label><div id="security-tool"><a class="tooltips" href="#">?Why do we ask for it?<span><h5>Why do we ask for your Social Security Number?</h5>Your social security # is required so that we may report the proper tax information when you earn commissions</span></a></div>
+                    <div class="input-box">
+                        <input type="text" id="personal:ssn_number" name="personal[ssn_number]" title="<?php echo $this->__('Social Security Number') ?>" class="input-text required-entry validate-ssn" value="<?php echo $this->getSsnNumber(); ?>" />
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Login Information')?></h2>
+        <ul class="form-list">
+            <li class="fields" id="register-customer-password">
+                <div class="field">
+                    <label for="personal:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                    <div class="input-box">
+                        <input type="password" name="personal[customer_password]" title="<?php echo $this->__('Password') ?>" id="personal:customer_password" class="input-text validate-password required-entry" autocomplete="off" value=""/>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="personal:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+                    <div class="input-box">
+                        <input type="password" name="personal[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="personal:confirm_password" class="input-text validate-cpassword required-entry" autocomplete="off" value=""/>
+                    </div>
+                </div>
+            </li>
+            <li class="control input-padding">
+                <input type="checkbox" name="terms_and_condition" title="<?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement'); ?>" value="1" id="terms_and_condition" class="checkbox required-entry" />
+                <label for="terms_and_condition"><?php echo $this->__('I have read and accept the Terms and Conditions of the <a class="agreement_block" id="agreement-content" href="#agreement_block">Independent Business Owner Agreement</a>', '#') ?></label>
+                <div id="agreement_block" style="display: none;">
+                    <h3><?php echo $this->__('Independent Business Owner Agreement'); ?></h3>
+                </div>
+                <script type="text/javascript">
+                    jQuery(document).ready(function() {
+                        jQuery(".agreement_block").fancybox();
+                    });
+                </script>
+            </li>
+            <li class="control input-padding">
+                <input type="checkbox" name="confirm" title="<?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the E-Sign Disclosure or Consent to Electronic Record'); ?>" value="1" id="confirm" class="checkbox required-entry" />
+                <label for="confirm"><?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the <a class="disclosure_block" id="fancybox-content" href="#disclosure_block">E-Sign Disclosure or Consent to Electronic Record</a>') ?></label>
+                <div id="disclosure_block" style="display: none;">
+                    <?php echo $this->getChildHtml('disclosure_block'); ?>
+                </div>
+                <script type="text/javascript">
+                    jQuery(document).ready(function() {
+                        jQuery(".disclosure_block").fancybox();
+                    });
+                </script>
+            </li>
+        </ul>
+    </div>
+</div>
