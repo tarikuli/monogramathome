@@ -286,12 +286,105 @@
 	    <h4><?php echo $this->__('Select a name for your website'); ?></h4>
 	    <div class="website-box">
 	        <?php echo $this->__('www.'); ?><input type="input" name="username" id="username" placeholder="<?php echo $this->__('your name'); ?>" value="<?php echo $this->getWebsiteName(); ?>" /><?php echo $this->__('/monogramathome<b>.com/</b>'); ?>
-	        <span id="availablity_website" class="availablity required-entry"><?php echo $this->__('available');?></span>
+	        <span id="availablity_website" class="availablity required-entry"></span>
 	    </div>
-	    <p><?php echo $this->__('* You will not be charged during the first 60 days of the Business Management System (Dashboard) Free Introductory Trial period.After your trial period has ended,the credit card on file will be automatically charged for $39.99,quartely.You may cancel your Business Management System (Dashboard) at any time.<a href="%s">Click here to learn more.</a>',"#"); ?></p>
+	    <p><?php echo $this->__('* You will not be charged during the first 60 days of the Business Management System (Dashboard) Free Introductory Trial period.After your trial period has ended,the credit card on file will be automatically charged for $39.99,quartely.You may cancel your Business Management System (Dashboard) at any time.<a id="learn_more_link" href="javascript: void(0)">Click here to learn more.</a>'); ?></p>
+	    <div id="learn_more_block_wrapper" style="display: none;">
+            <div id="learn_more_block">
+                <?php echo $this->getChildHtml('learn_more_block'); ?>                        
+            </div>
+            <div id="learn_more_block_buttonset">
+                <div class="buttons-set">
+                    <button type="button" id="learn_more_continue" title="<?php echo $this->__("Close") ?>" class="button">
+                        <span><span><?php echo $this->__("Close"); ?></span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
 	    <div class="input-padding">
-	    	<input type="checkbox" id="confirm_website" name="confirm_website" class="required-entry" />
-	    	<label for="confirm_website"><?php echo $this->__('I acknowledge that I have read and accepted the <a href="%s">Terms and Conditions of the Business Management System (Dashboard) Use</a>', "#"); ?></label>
+	    	<input type="checkbox" id="terms_and_condition_dashboard_checkbox" name="terms_and_condition_dashboard_checkbox" class="required-entry" data-wrapper="terms_and_condition_dashboard_block_wrapper" data-object="terms_and_condition_dashboard_checkbox" data-relative-object="terms_and_condition_dashboard_checkbox_popup" />
+	    	<label for="terms_and_condition_dashboard_checkbox"><?php echo $this->__('I acknowledge that I have read and accepted the <a href="javascript: void(0);" id="terms_and_condition_dashboard_checkbox_link" data-wrapper="terms_and_condition_dashboard_block_wrapper" data-object="terms_and_condition_dashboard_checkbox" data-relative-object="terms_and_condition_dashboard_checkbox_popup">Terms and Conditions of the Business Management System (Dashboard) Use</a>'); ?></label>
+	    	<div id="terms_and_condition_dashboard_block_wrapper" style="display: none;">
+                <div id="terms_and_condition_dashboard_block">
+                    <?php echo $this->getChildHtml('terms_and_condition_dashboard_block'); ?>
+                </div>
+                <div id="terms_and_condition_dashboard_block_buttonset">
+                    <input type="checkbox" id="terms_and_condition_dashboard_checkbox_popup" class="checkbox" />
+                    <label for="terms_and_condition_dashboard_checkbox_popup"><?php echo $this->__('I acknowledge that I have read and accepted the Terms and Conditions of the Business Management System (Dashboard) Use') ?></label>
+                    <div class="buttons-set">
+                        <button type="button" id="terms_and_condition_dashboard_cancel" title="<?php echo $this->__("Cancel") ?>" class="button">
+                            <span><span><?php echo $this->__("Cancel"); ?></span></span>
+                        </button>
+                        <button type="button" id="terms_and_condition_dashboard_continue" title="<?php echo $this->__("Continue") ?>" class="button">
+                            <span><span><?php echo $this->__("Continue"); ?></span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
 	    </div>
 	</div>
 </form>
+<script type="text/javascript">
+//<![CDATA[
+	jQuery(document).ready(function() {
+
+        var currentCheckbox = undefined, relativeCheckbox = undefined;
+
+        jQuery('#learn_more_link').click(function() {
+            jQuery.fancybox("#learn_more_block_wrapper", {
+                closeBtn: false, // hide close button
+                closeClick: false, // prevents closing when clicking INSIDE fancybox
+                cyclic: false,
+                helpers: { // prevents closing when clicking OUTSIDE fancybox
+                    overlay: {closeClick: false} 
+                },
+                keys: { // prevents closing when press ESC button
+                    close: null
+                }
+            });
+        });
+
+        jQuery('#learn_more_continue').click(function() {
+            parent.jQuery.fancybox.close();
+        });
+
+        var currentCheckbox = undefined, relativeCheckbox = undefined;
+
+        jQuery('#terms_and_condition_dashboard_checkbox, #terms_and_condition_dashboard_checkbox_link').click(function() {
+            currentCheckbox = jQuery(this).attr('data-object');            
+            relativeCheckbox = jQuery(this).attr('data-relative-object');
+            jQuery('#' + currentCheckbox).prop('checked', true);
+            jQuery.fancybox("#" + jQuery(this).attr('data-wrapper'), {
+                closeBtn: false, // hide close button
+                closeClick: false, // prevents closing when clicking INSIDE fancybox
+                cyclic: false,
+                helpers: { // prevents closing when clicking OUTSIDE fancybox
+                    overlay: {closeClick: false} 
+                },
+                keys: { // prevents closing when press ESC button
+                    close: null
+                }
+            });
+        });
+
+        jQuery('#terms_and_condition_dashboard_cancel').click(function() {
+            if(currentCheckbox != undefined)
+            {
+                jQuery("#" + currentCheckbox).prop('checked', false);
+                jQuery("#" + relativeCheckbox).prop('checked', false);
+                parent.jQuery.fancybox.close();
+            }
+        });
+
+        jQuery('#terms_and_condition_dashboard_continue').click(function() {
+            if(relativeCheckbox != undefined)
+            {
+                if(jQuery("#" + relativeCheckbox).prop('checked') == false)
+                    alert("<?php echo $this->__('Please agree the terms and conditions.'); ?>");
+                else
+                    parent.jQuery.fancybox.close();
+            }
+        });
+    });
+//]]>
+</script>

@@ -198,6 +198,12 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 			$customerCollection = Mage::getModel('customer/customer')->getCollection()
 				->addAttributeToFilter('username', $data['username']);
+
+			if(Mage::getSingleton('customer/session')->isLoggedIn())
+			{
+				$customerObject = Mage::getSingleton('customer/session')->getCustomer();
+				$customerCollection->addAttributeToFilter('entity_id', array('neq' => $customerObject->getId()));
+			}
 			
 			$result['error'] = false;
 			$result['message'] = $this->__('Available');

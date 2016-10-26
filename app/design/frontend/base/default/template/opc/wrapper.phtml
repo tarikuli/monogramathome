@@ -81,6 +81,42 @@
 				<form id="opc-address-form-shipping" class="hidden" method="post">
 		        	<?php echo $this->getChildHtml('shipping')?>
 		        </form>
+		        <p><?php echo $this->__('** Please note: This is the same credit card that will be used to charge the $39.99 quarterly for the Business Management System after the 60 day trial ends. You may cancel it at any time. <a id="more_detail_link" href="javascript: void(0);">More Details</a>'); ?></p>
+			    <div id="more_detail_block_wrapper" style="display: none;">
+		            <div id="more_detail_block">
+		                <?php echo $this->getChildHtml('more_detail_block'); ?>                        
+		            </div>
+		            <div id="more_detail_block_buttonset">
+		                <div class="buttons-set">
+		                    <button type="button" id="more_detail_continue" title="<?php echo $this->__("Close") ?>" class="button">
+		                        <span><span><?php echo $this->__("Close"); ?></span></span>
+		                    </button>
+		                </div>
+		            </div>
+		        </div>
+		        <script type="text/javascript">
+				//<![CDATA[
+					jQuery(document).ready(function() {
+				        jQuery('#more_detail_link').click(function() {
+				            jQuery.fancybox("#more_detail_block_wrapper", {
+				                closeBtn: false, // hide close button
+				                closeClick: false, // prevents closing when clicking INSIDE fancybox
+				                cyclic: false,
+				                helpers: { // prevents closing when clicking OUTSIDE fancybox
+				                    overlay: {closeClick: false} 
+				                },
+				                keys: { // prevents closing when press ESC button
+				                    close: null
+				                }
+				            });
+				        });
+
+				        jQuery('#more_detail_continue').click(function() {
+				            parent.jQuery.fancybox.close();
+				        });
+			       	});
+		        //]]>
+				</script>
         		<div class="buttons-set">
 			        <button type="button" title="<?php echo $this->__('Previous'); ?>" class="button btn-prev" data-curr="4" data-prev="3"><span><span><?php echo $this->__('Previous'); ?></span></span></button>
 			        <button type="button" title="<?php echo $this->__('Next'); ?>" class="button btn-next" data-curr="4" data-next="5" data-validator="validateForth"><span><span><?php echo $this->__('Next'); ?></span></span></button>
@@ -157,6 +193,28 @@
 
 		var content_confirm_block = '<?php echo $this->getChildHtml("confirm_block"); ?>';
 
+		var ambassadorName = jQuery('input[name="billing[firstname]"]').val();
+        if(jQuery('input[name="billing[middlename]"]').val() != "")
+        	ambassadorName += " " +  jQuery('input[name="billing[middlename]"]').val();
+        ambassadorName += " " +  jQuery('input[name="billing[lastname]"]').val();
+
+        var billingAddress = '';
+        jQuery('input[name="billing[street][]"]').each(function() {
+            if(jQuery(this).val() != "")
+        	   billingAddress += jQuery(this).val() + ", ";
+        });                     
+    	billingAddress += jQuery('input[name="billing[city]"]').val();
+    	if(jQuery('select[name="billing[region_id]"]').css("display") == "none" && jQuery('input[name="billing[region]"]').val() != "")
+        	billingAddress += ", " + jQuery('input[name="billing[region]"]').val();
+    	else if(jQuery('select[name="billing[region_id]"]').val() != "")
+        	billingAddress += ", " +  jQuery('select[name="billing[region_id]"] option:selected').text();
+        billingAddress +=  ", " + jQuery('select[name="billing[country_id]"] option:selected').text();
+        billingAddress +=  ", " + jQuery('input[name="billing[postcode]"]').val();
+
+		content_confirm_block = content_confirm_block.replace('{{name}}', ambassadorName);
+		content_confirm_block = content_confirm_block.replace('{{address}}', billingAddress);
+		content_confirm_block = content_confirm_block.replace('{{ssn_number}}', jQuery('input[name="billing[ssn_number]"]').val());
+
 		jQuery.fancybox({
             type: 'inline',
             content: content_confirm_block,
@@ -199,7 +257,7 @@
     }
 
     function validateThird() {
-		if($j_opc("#username").val().trim() == "" || !$j_opc("#confirm_website").prop('checked'))
+		if($j_opc("#username").val().trim() == "" || !$j_opc("#terms_and_condition_dashboard_checkbox").prop('checked'))
 		{
 			alert('<?php echo $this->__("Please enter valid website name and accept the terms and conditions!") ?>');
 			return false;

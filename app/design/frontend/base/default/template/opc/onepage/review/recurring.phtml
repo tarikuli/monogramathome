@@ -8,8 +8,43 @@
 			<?php echo $this->__('After 60 Days<br/><span>%s/every 3 months</span>', Mage::helper('core')->currency(39.99, true, false)); ?>
 		</p>
 		<p class="cancel">
-			<?php echo $this->__('You may cancel it at any time. <a href="#">Click here to learn more.</a>', "#") ?>
+			<?php echo $this->__('You may cancel it at any time. <a id="learn_more_recurring_link" href="javascript: void(0);">Click here to learn more.</a>', "#") ?>
 		</p>
+		<div id="learn_more_recurring_block_wrapper" style="display: none;">
+            <div id="learn_more_recurring_block">
+                <?php echo $this->getChildHtml('learn_more_recurring_block'); ?>                        
+            </div>
+            <div id="learn_more_recurring_block_buttonset">
+                <div class="buttons-set">
+                    <button type="button" id="learn_more_recurring_continue" title="<?php echo $this->__("Close") ?>" class="button">
+                        <span><span><?php echo $this->__("Close"); ?></span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+		//<![CDATA[
+			jQuery(document).ready(function() {
+		        jQuery('#learn_more_recurring_link').click(function() {
+		            jQuery.fancybox("#learn_more_recurring_block_wrapper", {
+		                closeBtn: false, // hide close button
+		                closeClick: false, // prevents closing when clicking INSIDE fancybox
+		                cyclic: false,
+		                helpers: { // prevents closing when clicking OUTSIDE fancybox
+		                    overlay: {closeClick: false} 
+		                },
+		                keys: { // prevents closing when press ESC button
+		                    close: null
+		                }
+		            });
+		        });
+
+		        jQuery('#learn_more_recurring_continue').click(function() {
+		            parent.jQuery.fancybox.close();
+		        });
+	       	});
+        //]]>
+		</script>
 	</td>
 	<td></td>
 	<td></td>

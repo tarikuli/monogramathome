@@ -223,6 +223,12 @@
             <opc>
                 <class>IWD_Opc_Block</class>                
             </opc>
+
+            <page>
+                <rewrite>
+                    <html_topmenu>IWD_Opc_Block_Page_Html_Topmenu</html_topmenu>
+                </rewrite>
+            </page>            
             
             <customer>
 				<rewrite>

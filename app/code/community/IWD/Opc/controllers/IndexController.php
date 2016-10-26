@@ -138,6 +138,12 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
         Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
 
+        if(Mage::getSingleton('customer/session')->isLoggedIn())
+        {
+        	$customerObject = Mage::getSingleton('customer/session')->getCustomer();
+        	Mage::getSingleton('core/session')->setAmbassadorWebsiteName($customerObject->getUsername());
+        }
+
 		//if(Mage::getSingleton('customer/session')->isLoggedIn())
 		//	Mage::getSingleton('customer/session')->logout();
 		
