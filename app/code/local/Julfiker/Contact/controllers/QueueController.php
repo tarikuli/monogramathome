@@ -209,6 +209,8 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
     protected function _setConfigBaseUrlToStore() {
         Mage::getConfig()->cleanCache();
         foreach (Mage::app()->getWebsites() as $website) {
+            $config = Mage::getModel('core/config');
+            $config->saveConfig('carriers/tablerate/import','tablerates.csv','websites',$website->getId());
             if ($website->getCode() == "base") continue;
             foreach ($website->getGroups() as $group) {
                 $stores = $group->getStores();
