@@ -24,6 +24,7 @@
 class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
 {
     const ATTRIBUTE_SET = "AllOpen";
+    const TABLERATE_CONDITION_NAME = "package_weight";
 
     /**
      * init the contact
@@ -209,8 +210,24 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
     protected function _setConfigBaseUrlToStore() {
         Mage::getConfig()->cleanCache();
         foreach (Mage::app()->getWebsites() as $website) {
+
+            //TableRates automation
             $config = Mage::getModel('core/config');
             $config->saveConfig('carriers/tablerate/import','tablerates.csv','websites',$website->getId());
+            $tableRates = $this->_findWebsiteTableRate(1);
+            if (!count($tableRates)>0) {
+                $defaultRates = $this->_getDefaultTableRates();
+                foreach ($defaultRates as $tableRate) {
+                    $binds = array(
+                        'website_id' => $website->getId(),
+                        'condition_value' => $tableRate->getConditionValue(),
+                        'price' => $tableRate->getPrice(),
+                        'condition_name' => self::TABLERATE_CONDITION_NAME
+                    );
+                    $this->_insertTableRate($binds);
+                }
+            }
+
             if ($website->getCode() == "base") continue;
             foreach ($website->getGroups() as $group) {
                 $stores = $group->getStores();
@@ -253,5 +270,51 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
     protected function jsonResponse($response) {
         $this->getResponse()->clearHeaders()->setHeader('Content-type','application/json',true);
         $this->getResponse()->setBody(json_encode($response));
+    }
+
+    /**
+     * Collections of shipping table rates data based on website
+     *
+     * @param $websiteId
+     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection|Object
+     */
+    protected function _findWebsiteTableRate($websiteId) {
+        $tablerateColl = Mage::getResourceModel('shipping/carrier_tablerate_collection');
+        /* @var $tablerateColl Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection */
+        $tablerateColl->addFieldToFilter("website_id", $websiteId);
+        return $tablerateColl;
+    }
+
+    /**
+     * Add new row into the shipping table rates
+     *
+     * @param $binds
+     * @return bool
+     */
+    protected function _insertTableRate($binds) {
+        try {
+            $resource = Mage::getResourceModel('shipping/carrier_tablerate');
+            $adapter = Mage::getSingleton('core/resource')->getConnection('core_write');
+            $query = "insert into {$resource->getMainTable()} (website_id, condition_value, condition_name, price) "
+                . "values (:website_id, :condition_value, :condition_name, :price)";
+            $adapter->query($query, $binds);
+            return true;
+        }
+        catch (Exception $e) {
+            //Exception handling..
+            echo $e->getTraceAsString();
+        }
+
+        return false;
+    }
+
+    /**
+     * Get Default shipping table rates data, It must be import tablerates.csv with data under the default config scope
+     * Otherwise it won't work. Please check  data is exists in shipping table rates under the default config scope.
+     *
+     * @return Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection|Object
+     */
+    protected function _getDefaultTableRates() {
+        return $this->_findWebsiteTableRate(0);
     }
 }
