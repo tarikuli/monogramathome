@@ -214,7 +214,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
             //TableRates automation
             $config = Mage::getModel('core/config');
             $config->saveConfig('carriers/tablerate/import','tablerates.csv','websites',$website->getId());
-            $tableRates = $this->_findWebsiteTableRate(1);
+            $tableRates = $this->_findWebsiteTableRate($website->getId());
             if (!count($tableRates)>0) {
                 $defaultRates = $this->_getDefaultTableRates();
                 foreach ($defaultRates as $tableRate) {
