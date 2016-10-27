@@ -49,10 +49,13 @@
                 personalInfoHtml += '</div>';
 
                 // PASSWORD
-                personalInfoHtml += '<div>';
-                personalInfoHtml += '<div class="left-side"><?php echo $this->__("Password") ?> </div>';
-                personalInfoHtml += '<div class="right-side">' + maskPassword(jQuery('input[name="billing[customer_password]"]').val().length) + '</div>';
-                personalInfoHtml += '</div>';
+                if(jQuery('input[name="billing[customer_password]"]').val() != undefined)
+                {
+                    personalInfoHtml += '<div>';
+                    personalInfoHtml += '<div class="left-side"><?php echo $this->__("Password") ?> </div>';
+                    personalInfoHtml += '<div class="right-side">' + maskPassword(jQuery('input[name="billing[customer_password]"]').val().length) + '</div>';
+                    personalInfoHtml += '</div>';
+                }                
 
                 personalInfoHtml += '</div>';  
 

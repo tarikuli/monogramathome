@@ -122,8 +122,29 @@ DirectoryIndex index.php
          RewriteCond %{HTTP_HOST} ^hitarth_zwt.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt_store_en]
 
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt4.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt4_store_en]
+
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt5.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt5_store_en]
+
          RewriteCond %{HTTP_HOST} ^kazi.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:kazi_store_en]
+
+         RewriteCond %{HTTP_HOST} ^kazimehedi.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi_store_en]
+
+         RewriteCond %{HTTP_HOST} ^kazimehedi1.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi1_store_en]
+
+         RewriteCond %{HTTP_HOST} ^kazimehedi2.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi2_store_en]
+
+         RewriteCond %{HTTP_HOST} ^kazimehedi3.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi3_store_en]
+
+         RewriteCond %{HTTP_HOST} ^kazimehedi4.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi4_store_en]
 
          RewriteCond %{HTTP_HOST} ^lana.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:lana_store_en]

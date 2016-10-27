@@ -119,4 +119,26 @@
             </controller_action_layout_generate_blocks_before>
         </events>
     </frontend>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <magento_api>
+                                            <title>Magento API</title>
+                                            <sort_order>70</sort_order>
+                                        </magento_api>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>                    
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
 </config>

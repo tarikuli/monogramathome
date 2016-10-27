@@ -2629,11 +2629,25 @@ h3.indep-title
     font-size: 25px;
     font-family: "Open san-serif";
 }
+h3.moreabout-title
+{
+	color: #ec008b;
+    text-align: center;
+    font-size: 25px;
+    font-family: "Open san-serif";
+}
 h3.disclosure-title
 {
 	color: #ec008b;
     font-size: 20px;
     text-align:center;	
+}
+h3.termscondition-title
+{
+	color: #ec008b;
+    text-align: center;
+    font-size: 25px;
+    font-family: "Open san-serif";
 }
 h3.review-title
 {
@@ -2655,10 +2669,34 @@ h3.review-title
 
 #agreement_block
 {
-	width:1000px;
+	width:840px;
 	height:535px;
 	box-sizing: border-box;
 	overflow-y: scroll;
+}
+
+#more_detail_block
+{
+	width:840px;
+	height:330px;
+}
+
+#learn_more_recurring_block
+{
+	width:840px;
+	height:330px;
+}
+
+#terms_and_condition_dashboard_block
+{
+	width:840px;
+	height:325px;
+	box-sizing: border-box;
+	overflow-y: scroll;
+}
+
+#learn_more_block{
+	width:840px;
 }
 
 #agreement_block_buttonset {
@@ -2673,6 +2711,38 @@ h3.review-title
     margin-right: 10px;
 	padding:0px 0 0 120px;
 }
+
+#more_detail_block p
+{
+	text-align: justify;
+    margin-left: 3px;
+    margin-right: 10px;
+    padding: 13px 55px 0px 55px;
+}
+
+#learn_more_recurring_block p
+{
+	text-align: justify;
+    margin-left: 3px;
+    margin-right: 10px;
+    padding: 12px 31px 0px 47px;
+}
+
+#terms_and_condition_dashboard_block p
+{
+	text-align: justify;
+    margin-left: 3px;
+    margin-right: 10px;
+    padding: 22px 56px 0px 70px;
+}
+
+#learn_more_block p
+{
+	text-align: justify;
+	margin-right: 10px;
+    padding: 18px 54px 0px 52px;
+}
+
 #security-tool
 {
 	float: left;
@@ -2723,7 +2793,7 @@ a:hover.tooltips span {
 }
 #disclosure_block {
     height: 325px;
-    width:1080px;
+    width:840px;
     padding: 0;
     margin: 0;
     overflow-y: scroll;	
@@ -2742,7 +2812,7 @@ a:hover.tooltips span {
 }	
 .opc-address-agreement
 {
-	width:1080px;
+	width:840px;
 	
 }
 .confirm-content-wrapper
@@ -2769,3 +2839,16 @@ a:hover.tooltips span {
 #disclosure_block .review-title, #disclosure_block ol{ padding:0 0 0 120px; }
 #disclosure_block ol li{ font-family:Roboto; color:#000; font-weight:bold; font-size:14px; line-height:22px; }
 #disclosure_block ol li span{ padding:0 0 0 40px;   }
+
+#terms_and_condition_dashboard_block_wrapper button#terms_and_condition_dashboard_continue{ float:right;}
+#terms_and_condition_dashboard_block_wrapper input.checkbox { display:inline-block !important;margin-right: 3px; float:none; }
+
+#learn_more_block_wrapper button#learn_more_continue{ float:right; }
+
+#more_detail_block_wrapper button#more_detail_continue{ float:right; }
+
+#learn_more_recurring_block_wrapper button#learn_more_recurring_continue{ float:right; }
+
+.fancybox-wrap .buttons-set { margin: 20px 20px 5px; }
+
+.ambasador-container .navigation-content p a { color: #ec008b; text-decoration: underline; font-size: 16px;}

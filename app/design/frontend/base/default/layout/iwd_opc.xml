@@ -87,7 +87,18 @@
                     <block type="opc/onepage_profile" name="checkout.onepage.profile" as="profile" template="opc/onepage/profile.phtml"/>
 
                     <!-- STARTER KIT FORM -->
-                    <block type="opc/onepage_starterkit" name="checkout.onepage.starterkit" as="starterkit" template="opc/onepage/starterkit.phtml"/>
+                    <block type="opc/onepage_starterkit" name="checkout.onepage.starterkit" as="starterkit" template="opc/onepage/starterkit.phtml">
+                        <block type="cms/block" name="learn_more_block">
+                            <action method="setBlockId"><block_id>learn_more_block</block_id></action>
+                        </block>
+                        <block type="cms/block" name="terms_and_condition_dashboard_block">
+                            <action method="setBlockId"><block_id>terms_and_condition_dashboard_block</block_id></action>
+                        </block>
+                    </block>    
+
+                    <block type="cms/block" name="more_detail_block">
+                        <action method="setBlockId"><block_id>more_detail_block</block_id></action>
+                    </block>                
                     
                     <!-- COUPON FORM -->
                     <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon" template="opc/onepage/coupon.phtml"/>
@@ -139,7 +150,11 @@
 			<action method="setTemplate" ifconfig="opc/global/status"><template>opc/onepage/agreements.phtml</template></action>
 		</reference>	
         <reference name="root">
-            <block type="core/template" name="checkout.review.recurring" as="review_recurring" template="opc/onepage/review/recurring.phtml"/>
+            <block type="core/template" name="checkout.review.recurring" as="review_recurring" template="opc/onepage/review/recurring.phtml">
+                <block type="cms/block" name="learn_more_recurring_block">
+                    <action method="setBlockId"><block_id>more_detail_block</block_id></action>
+                </block>  
+            </block>
         </reference>
 	</checkout_onepage_review>
 	
