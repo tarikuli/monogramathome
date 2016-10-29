@@ -2542,14 +2542,14 @@ button.button.btn-checkout:hover {
     color: #282828;
 }
 .mean-container .mean-nav > ul {
-    background-color: #eeeeee;
+    background-color: #eeeeee !important;
 }
 .mean-container .mean-nav ul li a {
-    border-color: #cacaca;
+    border-color: #cacaca !important;
     color: #333333;
 }
 .mean-container .mean-nav ul li a:hover {
-    color: #ec008b;
+    color: #ec008b !important;
 }
 .magictabs {
     border-color: #eaeaea;
