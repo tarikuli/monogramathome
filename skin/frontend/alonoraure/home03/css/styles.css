@@ -2546,7 +2546,7 @@ button.button.btn-checkout:hover {
 }
 .mean-container .mean-nav ul li a {
     border-color: #cacaca !important;
-    color: #333333;
+    color: #333333 !important;
 }
 .mean-container .mean-nav ul li a:hover {
     color: #ec008b !important;
