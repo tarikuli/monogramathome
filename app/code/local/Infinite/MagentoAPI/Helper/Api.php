@@ -20,8 +20,24 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 			);
 
 			$response = $this->call('login', $data);
-			$_SESSION['inf_logged_in'] = $response['data'];
-			$_SESSION['is_logged_in'] = true;
+			
+			ini_set('session.cookie_domain','.monogramathome.com');
+			//echo ini_get('session.cookie_domain');
+			session_start();
+
+			$sess_array = array(
+				'user_id' => $response['data']['user_id'],
+				'user_name' => $response['data']['user_name'],
+				'user_type' => $response['data']['user_type'],
+				'admin_user_name' => $response['data']['admin_user_name'],
+				'admin_user_id' => $response['data']['admin_user_id'],
+				'table_prefix' => $response['data']['table_prefix'],
+				'mlm_plan' => $response['data']['mlm_plan'],
+				'is_logged_in' => true
+			);
+			$_SESSION['inf_logged_in'] = $sess_array;
+			//$_SESSION['inf_logged_in'] = $response['data'];
+			//$_SESSION['is_logged_in'] = true;
 		}
 	}
 
@@ -112,6 +128,16 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		$response = $this->call('change_password', $data);
 	}
 
+	public function changePackage($params)
+	{
+		$data = array(
+			'username' => $params['username'], 
+			'package' => $params['package']
+		);
+
+		$response = $this->call('change_package', $data);
+	}
+
 	public function purchase($orderIds)
 	{
 		foreach($orderIds as $orderId)
@@ -125,28 +151,50 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 				$checkoutMethod = Mage::getSingleton('core/session')->getAmbassadorCheckoutMethod();
 				if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
 				{
-					$billingAddress = $customerObject->getPrimaryBillingAddress();
-					
-					$params = array(
-						'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(),
-						'street' => array($billingAddress->getStreet1()),
-						'postcode' => $billingAddress->getPostcode(),
-						'email' => $customerObject->getEmail(),
-						'telephone' => $billingAddress->getTelephone(),
-						'sponsor_name' => 'admin'
-					);
-
-					foreach($orderObject->getAllItems() as $orderItem)
+					$websiteName = Mage::getSingleton('core/session')->getAmbassadorWebsiteNameForApi();
+					if(isset($websiteName))
 					{
-						$productObject = Mage::getModel('catalog/product')->load($orderItem->getProductId());
+						$params = array(
+							'username' => $websiteName
+						);
 
-						if($productObject->getId())
-							$params['package'] = $productObject->getSku();
-					}					
+						foreach($orderObject->getAllItems() as $orderItem)
+						{
+							$productObject = Mage::getModel('catalog/product')->load($orderItem->getProductId());
 
-					$this->registration($params, $customerObject);
+							if($productObject->getId())
+								$params['package'] = $productObject->getSku();
+						}	
+
+						$this->changePackage($params);
+					}
+					else
+					{
+						$billingAddress = $customerObject->getPrimaryBillingAddress();
+						
+						$params = array(
+							'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(),
+							'street' => array($billingAddress->getStreet1()),
+							'postcode' => $billingAddress->getPostcode(),
+							'email' => $customerObject->getEmail(),
+							'telephone' => $billingAddress->getTelephone(),
+							'sponsor_name' => 'admin'
+						);
+
+						foreach($orderObject->getAllItems() as $orderItem)
+						{
+							$productObject = Mage::getModel('catalog/product')->load($orderItem->getProductId());
+
+							if($productObject->getId())
+								$params['package'] = $productObject->getSku();
+						}					
+
+						$this->registration($params, $customerObject);
+					}
 
 					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+
+					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
 				}
 				else
 				{

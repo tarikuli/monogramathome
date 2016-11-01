@@ -29,11 +29,11 @@
 					<directpost_observer>ParadoxLabs_Transarmor_Model_Directpost</directpost_observer>
 				</rewrite>
 			</authorizenet>
-			<checkout>
+			<opc>
 				<rewrite>
-					<type_onepage>ParadoxLabs_Transarmor_Model_Onepage</type_onepage>
+					<checkout_type_onepage>ParadoxLabs_Transarmor_Model_Onepage</checkout_type_onepage>
 				</rewrite>
-			</checkout>
+			</opc>
 		</models>
 		<resources>
 			<transarmor_setup>

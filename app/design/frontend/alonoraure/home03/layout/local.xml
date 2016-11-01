@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<layout>
+    <default>
+        <reference name="head">
+        	<action method="addCss"><stylesheet>image-gallery/css/lightgallery.css</stylesheet></action>
+            <!-- <action method="addCss"><stylesheet>image-gallery/css/masonry.css</stylesheet></action> -->
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/picturefill.min.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/lightgallery.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/lg-fullscreen.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/lg-thumbnail.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/lg-video.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/lg-autoplay.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/lg-zoom.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/lg-hash.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/lg-pager.js</name></action>
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/jquery.mousewheel.min.js</name></action>
+            <!-- <action method="addItem"><type>skin_js</type><name>image-gallery/js/masonry.js</name></action> -->
+        	<action method="addItem"><type>skin_js</type><name>image-gallery/js/custom.js</name></action>
+        </reference>
+    </default>
+</layout>

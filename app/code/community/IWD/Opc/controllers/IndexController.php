@@ -197,27 +197,24 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
     			|| !Mage::helper('checkout')->isCustomerMustBeLogged();
     }
 
-    /*public function mailAction() {
-	    $registrationTemplateId = Mage::getStoreConfig('ambassador_email_settings/registration_email/template');
+    public function mailAction() 
+    {
+	    //$registrationTemplateId = Mage::getStoreConfig('ambassador_email_settings/registration_email/template');
+	    $registrationTemplateId = 11;
 	    if(isset($registrationTemplateId) && $registrationTemplateId != "")
 	    {
-	    	$orderObject = Mage::getModel('sales/order')->load(34);
-    		$customerObject = Mage::getModel('customer/customer')->load($orderObject->getCustomerId());
+    		$customerObject = Mage::getModel('customer/customer')->load(131);
 
 	    	//Variables for Confirmation Mail.
 			$emailTemplateVariables = array();
 			$emailTemplateVariables['ambassador_name'] = $customerObject->getName();
-			$emailTemplateVariables['ambassador_number'] = $orderObject->getIncrementId();
-			$emailTemplateVariables['ambassador_website'] = $customerObject->getUsername();
-			$emailTemplateVariables['ambassador_email'] = $customerObject->getEmail();
-			$emailTemplateVariables['ambassador_password'] = Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword();
 
 			$receiverDetail['name'] = "Hitarth Pattani";
 			$receiverDetail['email'] = "hitarth.zwt@gmail.com";
 
 	    	var_dump(Mage::helper('opc')->sendNewsletterMail($registrationTemplateId, $emailTemplateVariables, $receiverDetail));
 	    }
-    }*/
+    }
 
     /*
     public function checkAction() {
@@ -231,4 +228,9 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
     	print_r($validateRules);
     }
     */
+
+    /* public function configAction() {
+    	echo "<pre>";
+    	print_r(Mage::getConfig()->getNode()->xpath('//global/models//rewrite'));
+    } */
 }

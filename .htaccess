@@ -113,6 +113,9 @@ DirectoryIndex index.php
          RewriteCond %{HTTP_HOST} ^abcd.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:abcd_store_en]
 
+         RewriteCond %{HTTP_HOST} ^customer3.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:customer3_store_en]
+
          RewriteCond %{HTTP_HOST} ^dhruvipatel.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:dhruvipatel_store_en]
 
@@ -128,6 +131,15 @@ DirectoryIndex index.php
          RewriteCond %{HTTP_HOST} ^hitarth_zwt5.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt5_store_en]
 
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt7.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt7_store_en]
+
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt8.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt8_store_en]
+
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt9.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt9_store_en]
+
          RewriteCond %{HTTP_HOST} ^kazi.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:kazi_store_en]
 
@@ -140,6 +152,9 @@ DirectoryIndex index.php
          RewriteCond %{HTTP_HOST} ^kazimehedi2.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi2_store_en]
 
+         RewriteCond %{HTTP_HOST} ^kazimehedi23.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi23_store_en]
+
          RewriteCond %{HTTP_HOST} ^kazimehedi3.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi3_store_en]
 
@@ -151,6 +166,9 @@ DirectoryIndex index.php
 
          RewriteCond %{HTTP_HOST} ^shop.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:shop_store_en]
+
+         RewriteCond %{HTTP_HOST} ^testing_nancy.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:testing_nancy_store_en]
 
         ############################################
     ## enable rewrites

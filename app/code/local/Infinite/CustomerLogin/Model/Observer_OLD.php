@@ -14,6 +14,13 @@ class Infinite_CustomerLogin_Model_Observer
 				$email = $postData['login']['username'];
 				$password = $postData['login']['password'];
 
+				$customerGroupCollection = Mage::getModel("customer/group")->getCollection()
+					->addFieldToFilter('customer_group_code', self::AMBASSADOR_GROUP_CODE); 
+
+				$customerGroup = null;
+				if($customerGroupCollection->count())
+					$customerGroup = $customerGroupCollection->getFirstItem();
+
 				$customerCollection = Mage::getModel("customer/customer")->getCollection()
 						->addAttributeToSelect("*")
 						->addAttributeToFilter('email', $email);
@@ -24,10 +31,11 @@ class Infinite_CustomerLogin_Model_Observer
 
 					if($customerObject->getId())
 		        	{
-	        			$websiteId = $customerObject->getWebsiteId();
-	        			if($websiteId != Mage::app()->getWebsite()->getId())
-	        			{
-							$websiteObject = Mage::getModel('core/website')->load($websiteId);
+		        		if(isset($customerGroup) && $customerObject->getGroupId() == $customerGroup->getId())
+		        		{
+		        			$websiteCode = $customerObject->getUsername();
+			        		$websiteObject = Mage::getModel('core/website')->load($websiteCode);
+
 			        		if($websiteObject->getId())
 			        		{
 			        			$queryString = "email={$email}&password={$password}";
@@ -38,7 +46,25 @@ class Infinite_CustomerLogin_Model_Observer
 							    Mage::app()->getResponse()->sendResponse();
 							    exit;
 			        		}
-	        			}
+		        		}
+		        		else
+		        		{
+		        			$websiteId = $customerObject->getWebsiteId();
+		        			if($websiteId != Mage::app()->getWebsite()->getId())
+		        			{
+								$websiteObject = Mage::getModel('core/website')->load($websiteId);
+				        		if($websiteObject->getId())
+				        		{
+				        			$queryString = "email={$email}&password={$password}";
+			    					$queryString = base64_encode(urlencode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5(self::KEYSALT), $queryString, MCRYPT_MODE_CBC, md5(md5(self::KEYSALT)))));
+			    					$websiteUrl = $websiteObject->getDefaultStore()->getBaseUrl();
+									$websiteUrl .= "?{$queryString}";
+									Mage::app()->getFrontController()->getResponse()->setRedirect($websiteUrl);
+								    Mage::app()->getResponse()->sendResponse();
+								    exit;
+				        		}
+		        			}
+		        		}
 		        	}
 				}
 	        }
@@ -50,7 +76,7 @@ class Infinite_CustomerLogin_Model_Observer
 		$queryString = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5(self::KEYSALT), urldecode(base64_decode($_SERVER['QUERY_STRING'])), MCRYPT_MODE_CBC, md5(md5(self::KEYSALT))), "\0");
 		parse_str($queryString);
 		if(!empty($email) && !empty($password)) 
-		{
+		{		
 		    $session = $this->_getCustomerSession();
 
 		    $params = Mage::app()->getRequest()->getParams();

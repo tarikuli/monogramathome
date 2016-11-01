@@ -25,7 +25,7 @@
  * wasn't working for nominal items, but I don't know what that is.
  */
 
-class ParadoxLabs_Transarmor_Model_Onepage extends Mage_Checkout_Model_Type_Onepage
+class ParadoxLabs_Transarmor_Model_Onepage extends IWD_Opc_Model_Checkout_Type_Onepage
 {
     /**
      * Prepare quote for customer registration and customer order submit

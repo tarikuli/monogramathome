@@ -139,6 +139,15 @@
                     </checkout_type_onepage_save_order_after_ambassador>
                 </observers>
             </checkout_type_onepage_save_order_after>
+            <customer_customer_authenticated>
+                <observers>
+                    <customer_customer_authenticated_ambassador>
+                        <type>singleton</type>
+                        <class>opc/observer</class>
+                        <method>setAmbassadorParameters</method>
+                    </customer_customer_authenticated_ambassador>
+                </observers>
+            </customer_customer_authenticated>
         </events>
 
     </frontend>
@@ -180,6 +189,12 @@
                     <product_url>IWD_Opc_Model_Catalog_Product_Url</product_url>
                 </rewrite>
             </catalog>
+            
+            <checkout>
+                <rewrite>
+                    <type_onepage>IWD_Opc_Model_Checkout_Type_Onepage</type_onepage>
+                </rewrite>
+            </checkout>
 		</models>
 
 		<resources>
@@ -309,4 +324,12 @@
             </incontext>
         </payment>
     </default>
+    <crontab>
+        <jobs>
+            <inchoo_birthday_send>
+                <schedule><cron_expr>*/10 * * * *</cron_expr></schedule>
+                <run><model>opc/observer::sendAutoAmbassadorEmail</model></run>
+            </inchoo_birthday_send>
+        </jobs>
+    </crontab>
 </config>

@@ -2,6 +2,7 @@
 class IWD_Opc_Model_Observer
 {
 	const GROUP_AMBASSADOR = "Ambassador";
+	const KEYSALT = "aghtUJ8y";
 	
 	public function checkRequiredModules($observer){
 		$cache = Mage::app()->getCache();
@@ -113,6 +114,9 @@ class IWD_Opc_Model_Observer
     				$websiteName = Mage::getSingleton('core/session')->getAmbassadorWebsiteName();
 					if(isset($websiteName))
 					{
+						if($websiteName == $customerObject->getUsername())
+							Mage::getSingleton('core/session')->setAmbassadorWebsiteNameForApi($websiteName);
+
 						$customerObject->setIsActive(0);
 						
 						$customerObject->setUsername($websiteName);
@@ -194,5 +198,39 @@ class IWD_Opc_Model_Observer
 		    	$orderEmailStatus = Mage::helper('opc')->sendNewsletterMail($registrationTemplateId, $emailTemplateVariables, $receiverDetail);
 		    }
 		}
+    }
+
+    public function setAmbassadorParameters($observer)
+    {
+    	$code = self::GROUP_AMBASSADOR;
+        $groupCollection = Mage::getModel('customer/group')->getCollection()
+            ->addFieldToFilter('customer_group_code', $code); 
+
+        if($groupCollection->count())
+        {
+        	$currentGroupId = $groupCollection->getFirstItem()->getId();
+
+    		$customerObject = $observer->getModel();
+    		$groupId = $customerObject->getGroupId();
+
+        	if($currentGroupId == $groupId)
+        	{
+				$username = $customerObject->getUsername();
+    			$password = $observer->getPassword();
+
+        		$queryString = "username={$username}&password={$password}";
+				$queryString = base64_encode(urlencode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5(self::KEYSALT), $queryString, MCRYPT_MODE_CBC, md5(md5(self::KEYSALT)))));
+				$queryString = "?{$queryString}";
+				Mage::getSingleton('core/session')->setAmbassadorDashboardParams($queryString);
+				return;
+        	}
+        }
+
+    	Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+    }
+
+    public function sendAutoAmbassadorEmail()
+    {
+		// Mage::log('MAIL SENT', null, 'mylogfile.log');
     }
 }
