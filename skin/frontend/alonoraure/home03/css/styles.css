@@ -2245,6 +2245,10 @@ ul.ambassador-list li span {
     .nav-tabs.nav > li > a span{
         font-size: 25px !important;
     }
+
+    .text-slide {
+        margin-top:0 !important;
+    }
 }
 
 
