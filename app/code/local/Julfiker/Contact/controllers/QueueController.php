@@ -1,14 +1,14 @@
 <?php
 /**
  * Julfiker_Contact extension
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the MIT License
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/mit-license.php
- * 
+ *
  * @category       Julfiker
  * @package        Julfiker_Contact
  * @copyright      Copyright (c) 2016
@@ -38,36 +38,37 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
 
     public function runAction() {
 
-       $queques = Mage::getModel('julfiker_contact/ambassadorqueue')->getCollection()->load();
+        $queques = Mage::getModel('julfiker_contact/ambassadorqueue')->getCollection()
+            ->addFilter('status','0')->load();
 
         foreach ($queques as $q) {
             $domain = $q->getDomainId();
             try {
-            //#addWebsite
-            /** @var $website Mage_Core_Model_Website */
-            $website = Mage::getModel('core/website');
-            $website->setCode(strtolower($domain))
-                ->setName("$domain.monogramathome.com")
-                ->save();
+                //#addWebsite
+                /** @var $website Mage_Core_Model_Website */
+                $website = Mage::getModel('core/website');
+                $website->setCode(strtolower($domain))
+                    ->setName("$domain.monogramathome.com")
+                    ->save();
 
-            //#addStoreGroup
-            /** @var $storeGroup Mage_Core_Model_Store_Group */
-            $storeGroup = Mage::getModel('core/store_group');
-            $storeGroup->setWebsiteId($website->getId())
-                ->setName(strtolower($domain)."_store")
-                ->setRootCategoryId(2)
-                ->save();
+                //#addStoreGroup
+                /** @var $storeGroup Mage_Core_Model_Store_Group */
+                $storeGroup = Mage::getModel('core/store_group');
+                $storeGroup->setWebsiteId($website->getId())
+                    ->setName(strtolower($domain)."_store")
+                    ->setRootCategoryId(2)
+                    ->save();
 
-            //#addStore
-            /** @var $store Mage_Core_Model_Store */
-            $store = Mage::getModel('core/store');
-            $store->setCode(strtolower($domain)."_store_en")
-                ->setWebsiteId($storeGroup->getWebsiteId())
-                ->setGroupId($storeGroup->getId())
-                ->setName("$domain"."_en")
-                ->setIsActive(1)
-                ->save();
-             $q->setStatus(1)->save();
+                //#addStore
+                /** @var $store Mage_Core_Model_Store */
+                $store = Mage::getModel('core/store');
+                $store->setCode(strtolower($domain)."_store_en")
+                    ->setWebsiteId($storeGroup->getWebsiteId())
+                    ->setGroupId($storeGroup->getId())
+                    ->setName("$domain"."_en")
+                    ->setIsActive(1)
+                    ->save();
+
 
                 // 1. make ambassador active after their domains has been created.
                 // 2. assign ambassador to their website and store, so that they will get logged in to
@@ -83,7 +84,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                         $customer->setStoreId($store->getId());
                         $customer->save();
                     }
-                }  
+                }
             }
             catch(\Exception $e) {
                 continue;
@@ -159,18 +160,31 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
      * Dynamic indexing catalog and attributes
      */
     public function indexingAction() {
-        try {
-            /* @var $indexCollection Mage_Index_Model_Resource_Process_Collection */
-            $indexCollection = Mage::getModel('index/process')->getCollection();
-            foreach ($indexCollection as $index) {
-                /* @var $index Mage_Index_Model_Process */
-                $index->reindexAll();
+        $queques = Mage::getModel('julfiker_contact/ambassadorqueue')->getCollection()
+            ->addFilter('status','0')->load();
+
+        if (count($queques) > 0) {
+            try {
+                /* @var $indexCollection Mage_Index_Model_Resource_Process_Collection */
+                $indexCollection = Mage::getModel('index/process')->getCollection();
+                foreach ($indexCollection as $index) {
+                    /* @var $index Mage_Index_Model_Process */
+                    $index->reindexAll();
+                }
+
+                foreach ($queques as $q) {
+                    $q->setStatus(1)->save();
+                }
+                $response = array("status"=> "success", "message"=>"Indexing bas been done in dynamic way");
+                $this->jsonResponse($response);
             }
-            $response = array("status"=> "success", "message"=>"Indexing bas been done in dynamic way");
-            $this->jsonResponse($response);
+            catch(\Exception $e) {
+                $response = array("status"=> "failed", "message"=>$e->getMessage());
+                $this->jsonResponse($response);
+            }
         }
-        catch(\Exception $e) {
-            $response = array("status"=> "failed", "message"=>$e->getMessage());
+        else {
+            $response = array("status"=> "success", "message"=>"No domain in queue, so no need to run indexing");
             $this->jsonResponse($response);
         }
     }
