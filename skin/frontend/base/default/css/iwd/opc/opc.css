@@ -596,7 +596,7 @@
 
 .ambasador-container #opc-address-form-shipping .page-title, .ambasador-container #opc-address-form-shipping .fieldset{ padding:0; }
 .ambasador-container #opc-address-form-shipping h2{ display:none; }
-.ambasador-container #opc-address-form-shipping h1{ border-bottom: none; font-family: 'oswald'; font-size: 24px;  color: #ec008b; text-transform: uppercase; font-weight: 400; }
+.ambasador-container #opc-address-form-shipping h1, .ambasador-container #opc-address-form-billing h1{ border-bottom: none; font-family: 'oswald'; font-size: 24px;  color: #ec008b; text-transform: uppercase; font-weight: 400; }
 
 .ambasador-container #tab-5 .page-title{ padding:0; margin:5px 0; }
 .ambasador-container #tab-5 .page-title h3{ font-family:'Times New Roman'; text-transform:uppercase; color:#353535; font-size:18px; border-bottom:none; margin-bottom:0;}
@@ -775,3 +775,14 @@
 .ambasador-container .navigation ul.navigation-tab li span.texta{ font-size:10px; }
 } 
  
+.form-list .general-dob .dob-month,.form-list .general-dob .dob-day,.form-list .general-dob .dob-year{float:left;width:85px}
+.form-list .general-dob input.input-text{display:block;width:74px}
+.form-list .general-dob label{font-size:10px;font-weight:normal;color:#888}
+.form-list .general-dob .dob-day,.form-list .general-dob .dob-month{width:60px}
+.form-list .general-dob .dob-day input.input-text,.form-list .general-dob .dob-month input.input-text{width:46px}
+.form-list .general-dob .dob-year{width:140px}
+.form-list .general-dob .dob-year input.input-text{width:134px}
+
+#tab-4 #co-billing-form .page-title { padding: 0; }
+#tab-4 #co-billing-form .fieldset { padding-left: 0; padding-right: 0; }
+#tab-4 #co-billing-form .hidden-fieldset { overflow: hidden; height: 0; padding: 0; opacity: 0; }

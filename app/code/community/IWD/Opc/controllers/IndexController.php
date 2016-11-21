@@ -9,6 +9,8 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
 	
 	const XML_PATH_GEO_CITY = 'opc/geo/city';
 
+	const KEYSALT = "aghtUJ6y";
+
 	/**
 	 * Get one page checkout model
 	 *
@@ -197,10 +199,20 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
     			|| !Mage::helper('checkout')->isCustomerMustBeLogged();
     }
 
+    public function addressAction() 
+    {
+    	/* $addressModel = Mage::getModel('opc/address');
+    	var_dump($addressModel); */
+
+    	$addressCollection = Mage::getModel('opc/address')->getCollection();
+    	var_dump($addressCollection);
+    }
+
     public function mailAction() 
     {
 	    //$registrationTemplateId = Mage::getStoreConfig('ambassador_email_settings/registration_email/template');
-	    $registrationTemplateId = 11;
+	    
+	    /*$registrationTemplateId = 11;
 	    if(isset($registrationTemplateId) && $registrationTemplateId != "")
 	    {
     		$customerObject = Mage::getModel('customer/customer')->load(131);
@@ -213,7 +225,10 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
 			$receiverDetail['email'] = "hitarth.zwt@gmail.com";
 
 	    	var_dump(Mage::helper('opc')->sendNewsletterMail($registrationTemplateId, $emailTemplateVariables, $receiverDetail));
-	    }
+	    }*/
+
+	    $newsletterEmail = Mage::getModel('opc/newsletter_email')->getCollection();
+	    var_dump($newsletterEmail->getData());
     }
 
     /*
@@ -233,4 +248,35 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
     	echo "<pre>";
     	print_r(Mage::getConfig()->getNode()->xpath('//global/models//rewrite'));
     } */
+
+    public function headerAction()
+    {
+    	$queryString = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5(self::KEYSALT), urldecode(base64_decode($_SERVER['QUERY_STRING'])), MCRYPT_MODE_CBC, md5(md5(self::KEYSALT))), "\0");
+		parse_str($queryString);
+		
+		if(!empty($username) && !empty($password)) 
+		{
+			$customerCollection = Mage::getModel('customer/customer')->getCollection()
+				->addAttributeToFilter('username', $username);
+
+			if($customerCollection->count())
+			{
+				$email = $customerCollection->getFirstItem()->getEmail();
+
+				$session = Mage::getSingleton('customer/session');
+
+				try 
+			    {
+	                $session->login($email, $password);
+	            } 
+	            catch (Exception $e) { }
+			}			
+		}
+
+		Mage::getSingleton('core/session')->setMlmHeader(1);
+		
+    	$this->getResponse()->clearHeaders();
+    	$this->loadLayout();
+    	$this->renderLayout();
+    }
 }

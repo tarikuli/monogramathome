@@ -1,0 +1,238 @@
+<div id="co-general-form">
+    <div class="page-title">
+        <h1><?php echo $this->__('Create an Account')?></h1>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Personal Information')?></h2>
+        <ul class="form-list">
+        	<li class="fields">
+                <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('general:%s')->setFieldNameFormat('general[%s]')->toHtml() ?>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="general:company"><?php echo $this->__('Company') ?></label>
+                    <div class="input-box">
+                        <input type="text" id="general:company" name="general[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $this->helper('opc')->getAttributeValidationClass('company') ?>" />
+                    </div>
+                </div>
+                <?php if(!$this->isCustomerLoggedIn()): ?>
+                    <div class="field">
+                        <label for="general:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="general[email]" id="general:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="general:month" class="required"><em>*</em><?php echo $this->__('Date of Birth') ?></label>
+                    <div class="input-box general-dob">
+                        <div class="dob-month">
+                            <input type="text" id="general:month" name="general[month]" title="Month" class="input-text required-entry">
+                            <label for="general:month">MM</label>
+                        </div>
+                        <div class="dob-day">
+                            <input type="text" id="general:day" name="general[day]" title="Day" class="input-text required-entry">
+                            <label for="general:day">DD</label>
+                        </div>
+                        <div class="dob-year">
+                            <input type="text" id="general:year" name="general[year]" title="Year" class="input-text required-entry" autocomplete="off">
+                            <label for="general:year">YYYY</label>
+                        </div>    
+                        <div class="dob-full" style="display:none;">
+                            <input type="hidden" id="general:dob" name="general[dob]">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="general:ssn_number" class="required"><em>*</em><?php echo $this->__('Social Security Number') ?></label><div id="security-tool"><a class="tooltips" href="#">?Why do we ask for it?<span><h5>Why do we ask for your Social Security Number?</h5>Your social security # is required so that we may report the proper tax information when you earn commissions</span></a></div>
+                    <div class="input-box">
+                        <input type="text" id="general:ssn_number" name="general[ssn_number]" title="<?php echo $this->__('Social Security Number') ?>" class="input-text required-entry validate-ssn" value="<?php echo $this->getSsnNumber(); ?>" />
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Address Information')?></h2>
+        <ul class="form-list">
+            <?php $_streetValidationClass = $this->helper('opc')->getAttributeValidationClass('street'); ?>
+            <li class="wide">
+                <label for="general:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
+                <div class="input-box">
+                    <input type="text" title="<?php echo $this->__('Street Address') ?>" name="general[street][]" id="general:street1" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
+                </div>
+            </li>
+            <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+            <?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+                <li class="wide">
+                    <div class="input-box">
+                        <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="general[street][]" id="general:street<?php echo $_i ?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
+                    </div>
+                </li>
+            <?php endfor; ?>
+            <li class="fields">
+                <div class="field">
+                    <label for="general:city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                    <div class="input-box">
+                        <input type="text" title="<?php echo $this->__('City') ?>" name="general[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $this->helper('opc')->getAttributeValidationClass('city') ?>" id="general:city" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="general:region_id" class="required"><em>*</em><?php echo $this->__('State / Province') ?></label>
+                    <div class="input-box">
+                        <select id="general:region_id" name="general[region_id]" title="<?php echo $this->__('State / Province') ?>" class="validate-select" style="display:none;">
+                            <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                        </select>
+                        <script type="text/javascript">
+                        //<![CDATA[
+                            $('general:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
+                        //]]>
+                        </script>
+                        <input type="text" id="general:region" name="general[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State / Province') ?>" class="input-text <?php echo $this->helper('opc')->getAttributeValidationClass('region') ?>" style="display:none;" />
+                    </div>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="general:postcode" class="required"><em>*</em><?php echo $this->__('Zip') ?></label>
+                    <div class="input-box">
+                        <input type="text" title="<?php echo $this->__('Zip') ?>" name="general[postcode]" id="general:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('opc')->getAttributeValidationClass('postcode') ?>" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="general:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                    <div class="input-box">
+                        <?php echo $this->getCountryHtmlSelect('general') ?>
+                    </div>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="general:telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="general[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text <?php echo $this->helper('opc')->getAttributeValidationClass('telephone') ?>" id="general:telephone" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="general:fax"><?php echo $this->__('Fax') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="general[fax]" value="<?php echo $this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text <?php echo $this->helper('opc')->getAttributeValidationClass('fax') ?>" id="general:fax" />
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Login Information')?></h2>
+        <ul class="form-list">
+            <?php if(!$this->isCustomerLoggedIn()): ?>
+                <li class="fields" id="register-customer-password">
+                    <div class="field">
+                        <label for="general:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                        <div class="input-box">
+                            <input type="password" name="general[customer_password]" title="<?php echo $this->__('Password') ?>" id="general:customer_password" class="input-text validate-password required-entry" autocomplete="off" value=""/>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="general:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+                        <div class="input-box">
+                            <input type="password" name="general[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="general:confirm_password" class="input-text validate-cpassword required-entry" autocomplete="off" value=""/>
+                        </div>
+                    </div>
+                </li>
+            <?php endif; ?>
+            <li class="control input-padding">
+                <input type="checkbox" id="terms_and_condition_checkbox" name="terms_and_condition" title="<?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement'); ?>" data-wrapper="agreement_block_wrapper" data-object="terms_and_condition_checkbox" data-relative-object="terms_and_condition_checkbox_popup" value="1" class="checkbox required-entry" />
+                <label for="terms_and_condition_checkbox"><?php echo $this->__('I have read and accept the Terms and Conditions of the <a id="terms_and_condition_checkbox_link" href="javascript: void(0);" data-wrapper="agreement_block_wrapper" data-object="terms_and_condition_checkbox" data-relative-object="terms_and_condition_checkbox_popup">Independent Business Owner Agreement</a>') ?></label>
+                <div id="agreement_block_wrapper" style="display: none;">
+                    <div id="agreement_block">
+                        <?php echo $this->getChildHtml('agreement_block'); ?>
+                    </div>
+                    <div id="agreement_block_buttonset">
+                        <input type="checkbox" id="terms_and_condition_checkbox_popup" title="<?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement'); ?>" class="checkbox" />
+                        <label for="terms_and_condition_checkbox_popup"><?php echo $this->__('I have read and accept the Terms and Conditions of the Independent Business Owner Agreement') ?></label>
+                        <div class="buttons-set">
+                            <button type="button" id="terms_and_condition_cancel" title="<?php echo $this->__("Cancel") ?>" class="button">
+                                <span><span><?php echo $this->__("Cancel"); ?></span></span>
+                            </button>
+                            <button type="button" id="terms_and_condition_continue" title="<?php echo $this->__("Continue") ?>" class="button">
+                                <span><span><?php echo $this->__("Continue"); ?></span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="control input-padding">
+                <input type="checkbox" id="confirm_checkbox" name="confirm" title="<?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the E-Sign Disclosure or Consent to Electronic Record'); ?>" data-wrapper="disclosure_block_wrapper" data-object="confirm_checkbox" data-relative-object="confirm_checkbox_popup" value="1" class="checkbox required-entry" />
+                <label for="confirm_checkbox"><?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the <a id="confirm_checkbox_link" href="javascript: void(0);" data-wrapper="disclosure_block_wrapper" data-object="confirm_checkbox" data-relative-object="confirm_checkbox_popup">E-Sign Disclosure or Consent to Electronic Record</a>') ?></label>
+                <div id="disclosure_block_wrapper" style="display: none;">
+                    <div id="disclosure_block">
+                        <?php echo $this->getChildHtml('disclosure_block'); ?>                        
+                    </div>
+                    <div id="disclosure_block_buttonset">
+                        <input type="checkbox" id="confirm_checkbox_popup" title="<?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the E-Sign Disclosure or Consent to Electronic Record'); ?>" class="checkbox" />
+                        <label for="confirm_checkbox_popup"><?php echo $this->__('By checking this box, you confirm that you have read, understand, and consent to the E-Sign Disclosure or Consent to Electronic Record') ?></label>
+                        <div class="buttons-set">
+                            <button type="button" id="confirm_cancel" title="<?php echo $this->__("Cancel") ?>" class="button">
+                                <span><span><?php echo $this->__("Cancel"); ?></span></span>
+                            </button>
+                            <button type="button" id="confirm_continue" title="<?php echo $this->__("Continue") ?>" class="button">
+                                <span><span><?php echo $this->__("Continue"); ?></span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </li>            
+        </ul>        	
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    var generalRegionUpdater = new RegionUpdater('general:country_id', 'general:region', 'general:region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'general:postcode');
+    
+    jQuery(document).ready(function() {
+
+        var currentCheckbox = undefined, relativeCheckbox = undefined;
+
+        jQuery('#confirm_checkbox, #confirm_checkbox_link, #terms_and_condition_checkbox, #terms_and_condition_checkbox_link').click(function() {
+            currentCheckbox = jQuery(this).attr('data-object');            
+            relativeCheckbox = jQuery(this).attr('data-relative-object');
+            jQuery('#' + currentCheckbox).prop('checked', true);
+            jQuery.fancybox("#" + jQuery(this).attr('data-wrapper'), {
+                closeBtn: false, // hide close button
+                closeClick: false, // prevents closing when clicking INSIDE fancybox
+                cyclic: false,
+                helpers: { // prevents closing when clicking OUTSIDE fancybox
+                    overlay: {closeClick: false} 
+                },
+                keys: { // prevents closing when press ESC button
+                    close: null
+                }
+            });
+        });
+
+        jQuery('#confirm_cancel, #terms_and_condition_cancel').click(function() {
+            if(currentCheckbox != undefined)
+            {
+                jQuery("#" + currentCheckbox).prop('checked', false);
+                jQuery("#" + relativeCheckbox).prop('checked', false);
+                parent.jQuery.fancybox.close();
+            }
+        });
+
+        jQuery('#confirm_continue, #terms_and_condition_continue').click(function() {
+            if(relativeCheckbox != undefined)
+            {
+                if(jQuery("#" + relativeCheckbox).prop('checked') == false)
+                    alert("<?php echo $this->__('Please agree the terms and conditions.'); ?>");
+                else
+                    parent.jQuery.fancybox.close();
+            }
+        });
+    });
+//]]>
+</script>

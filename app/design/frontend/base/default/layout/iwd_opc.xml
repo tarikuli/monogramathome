@@ -59,6 +59,16 @@
 					<block type="opc/onepage_login" name="checkout.onepage.login" as="login" template="opc/onepage/login.phtml">
 						<block type="customer/account_forgotpassword" name="forgotPassword" template="opc/customer/form/forgotpassword.phtml"/>	
 					</block>
+
+                    <block type="opc/onepage_billing" name="checkout.onepage.general" as="general" template="opc/onepage/general.phtml">
+                        <block type="cms/block" name="agreement_block">
+                            <action method="setBlockId"><block_id>agreement_block</block_id></action>
+                        </block>
+                        <block type="cms/block" name="disclosure_block">
+                            <action method="setBlockId"><block_id>disclosure_block</block_id></action>
+                        </block>
+                    </block>
+
 				 	<!-- BILLING FORM -->
                     <block type="opc/onepage_billing" name="checkout.onepage.billing" as="billing" template="opc/onepage/billing.phtml">
                         <block type="cms/block" name="agreement_block">
@@ -235,5 +245,17 @@
              <block type="opc/customer_account_asklink" name="opc.paypal.auth" template="opc/customer/account/asklink.phtml"/>
          </reference>
     </opc_paypal_asklink>
+
+    <opc_index_header translate="label">
+        <reference name="head">     
+            <action method="addCss"><stylesheet>css/iwd/opc/header.css</stylesheet></action>
+            <action method="addItem"><type>skin_js</type><name>js/iwd/opc/header.js</name></action>            
+        </reference>
+        <reference name="root">
+            <action method="unsetChild"><name>footer</name></action>
+            <action method="unsetChild"><name>content</name></action>
+            <action method="unsetChild"><name>left</name></action>
+        </reference>
+    </opc_index_header>
 
 </layout>

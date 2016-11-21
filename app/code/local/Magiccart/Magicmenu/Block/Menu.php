@@ -80,13 +80,27 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
             $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
             if($currentCustomer->getId() == $ambassadorObject->getId())
             {
-                $queryString = Mage::getSingleton('core/session')->getAmbassadorDashboardParams();
-                $queryString = "http://dashboard.monogramathome.com" . $queryString;
+                $mlmHeader = Mage::getSingleton('core/session')->getMlmHeader();
+                if(isset($mlmHeader) && $mlmHeader == 1)
+                {
+                    $queryString = Mage::getBaseUrl();                    
+                    $drawHomeMenu .= '<li class="level0">';
+                    $drawHomeMenu .= '<a class="level-top" href="' . $queryString . '"><span class="icon-text">' .$this->__('Ambassador Office') .'</span>';
+                    $drawHomeMenu .= '</a>';
+                    $drawHomeMenu .= '</li>';
+                    Mage::getSingleton('core/session')->unsMlmHeader();
+                }
+                else
+                {
+                    $queryString = Mage::getSingleton('core/session')->getAmbassadorDashboardParams();
+                    $queryString = "http://dashboard.monogramathome.com" . $queryString;
+                    
+                    $drawHomeMenu .= '<li class="level0">';
+                    $drawHomeMenu .= '<a class="level-top" href="' . $queryString . '"><span class="icon-text">' .$this->__('Dashboard') .'</span>';
+                    $drawHomeMenu .= '</a>';
+                    $drawHomeMenu .= '</li>';
+                }
                 
-                $drawHomeMenu .= '<li class="level0">';
-                $drawHomeMenu .= '<a class="level-top" href="' . $queryString . '"><span class="icon-text">' .$this->__('Dashboard') .'</span>';
-                $drawHomeMenu .= '</a>';
-                $drawHomeMenu .= '</li>';
             }            
         }
         return $drawHomeMenu;

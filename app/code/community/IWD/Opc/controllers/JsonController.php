@@ -290,6 +290,20 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array()));
 		}
 	}
+
+	public function saveGeneralAction() {
+		if ($this->_expireAjax()) {
+			return;
+		}
+		if ($this->getRequest()->isPost()) {	
+			$data = $this->getRequest()->getPost('general', array());
+			Mage::getSingleton('core/session')->setGeneralData($data);
+
+			$result = array();
+			$this->getResponse()->setHeader('Content-type','application/json', true);
+			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+		}
+	}
 	
 	
 	public function saveBillingAction(){

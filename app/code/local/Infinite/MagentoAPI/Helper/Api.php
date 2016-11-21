@@ -20,24 +20,6 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 			);
 
 			$response = $this->call('login', $data);
-			
-			ini_set('session.cookie_domain','.monogramathome.com');
-			//echo ini_get('session.cookie_domain');
-			session_start();
-
-			$sess_array = array(
-				'user_id' => $response['data']['user_id'],
-				'user_name' => $response['data']['user_name'],
-				'user_type' => $response['data']['user_type'],
-				'admin_user_name' => $response['data']['admin_user_name'],
-				'admin_user_id' => $response['data']['admin_user_id'],
-				'table_prefix' => $response['data']['table_prefix'],
-				'mlm_plan' => $response['data']['mlm_plan'],
-				'is_logged_in' => true
-			);
-			$_SESSION['inf_logged_in'] = $sess_array;
-			//$_SESSION['inf_logged_in'] = $response['data'];
-			//$_SESSION['is_logged_in'] = true;
 		}
 	}
 

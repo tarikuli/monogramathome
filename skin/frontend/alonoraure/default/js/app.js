@@ -1285,4 +1285,16 @@ $j(document).ready(function() {
 });
 $j(document).ready(function() {
 	$j("#chpass").prepend($j("#chpm").html());
-	});
+    $j(".expand-section-link").click(function() {
+        if(jQuery(this).closest('.expand-section-link-wrapper').next().hasClass('open'))
+        {
+            jQuery(this).closest('.expand-section-link-wrapper').next().removeClass('open');
+            $j(this).html('+');
+        }
+        else
+        {
+            jQuery(this).closest('.expand-section-link-wrapper').next().addClass('open');
+            $j(this).html('-');
+        }
+    })
+});
