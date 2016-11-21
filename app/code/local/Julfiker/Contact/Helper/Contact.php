@@ -75,4 +75,24 @@ class Julfiker_Contact_Helper_Contact extends Mage_Core_Helper_Abstract
     {
         return Mage::getUrl('julfiker_contact/contact/rss');
     }
+
+    public function sendNotification($subject, $content) {
+
+        $toMail = Mage::getStoreConfig('trans_email/ident_support/email');
+        $mail = Mage::getModel('core/email');
+        $mail->setToName('Customer Support');
+        $mail->setToEmail($toMail);
+        $mail->setBody($content);
+        $mail->setSubject($subject);
+        $mail->setFromEmail('no-reply@monogramathome.com');
+        $mail->setFromName("Auto Notification");
+        $mail->setType('text');
+
+        try {
+            $mail->send();
+        }
+        catch (Exception $e) {
+            //Todo: add log with exception
+        }
+    }
 }

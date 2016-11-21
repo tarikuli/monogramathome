@@ -46,7 +46,6 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
     }
 
     public function indexAction() {
-
         if ($data = $this->getRequest()->getPost('contact')) {
             $translate = Mage::getSingleton('core/translate');
             /* @var $translate Mage_Core_Model_Translate */
@@ -78,6 +77,7 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
                     $mailTemplate = Mage::getModel('core/email_template');
                     $mailTemplate->setDesignConfig(array('area' => 'frontend'))
                         //->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
+                        //->addBcc('support@monogramathome.com ')
                         ->sendTransactional(
                             $template,
                             Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
@@ -85,6 +85,20 @@ class Julfiker_Contact_SaveController extends Mage_Core_Controller_Front_Action
                             null,
                             array('data' => $contact)
                         );
+
+                    $remoteIP = Mage::helper('core/http')->getRemoteAddr($ipToLong = false);
+                    $content = "Hi\n";
+                    $content .= "This is notification from customer contact, Customer information is following:\n\n";
+                    $content .= "Name: ". $contact->getFirstName(). " ". $contact->getLastName().".\n";
+                    $content .= "Email: ". $contact->getEmail().".\n";
+                    $content .= "Phone: ". $contact->getPhone().".\n";
+                    $content .= "Zip Code: ". $contact->getZipcode().".\n";
+                    $content .= "Contact Type: ". $contact->getContactType()."\n";
+                    $content .= "Request Note: ". $contact->getNote().".\n";
+                    $content .= "Remote IP: ". $remoteIP."\n";
+                    $subject = 'Notification - Customer contact';
+                    //Send auto notification to customer support
+                    Mage::helper('julfiker_contact/contact')->sendNotification($subject, $content);
 
                     if (!$mailTemplate->getSentSuccess()) {
                         Mage::getSingleton('core/session')->addError("Something went wrong! Please contact administration.");
