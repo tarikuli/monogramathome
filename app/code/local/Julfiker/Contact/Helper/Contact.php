@@ -93,7 +93,7 @@ class Julfiker_Contact_Helper_Contact extends Mage_Core_Helper_Abstract
         }
         catch (Exception $e) {
             //Todo: add log with exception
-            die($e->getMessage());
+            //die($e->getMessage());
         }
     }
 }
