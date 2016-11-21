@@ -3,6 +3,7 @@ class IWD_Opc_Model_Observer
 {
 	const GROUP_AMBASSADOR = "Ambassador";
 	const KEYSALT = "aghtUJ8y";
+	const EMAIL_HOUR_ELAPSE = 3;
 	
 	public function checkRequiredModules($observer){
 		$cache = Mage::app()->getCache();
@@ -141,6 +142,31 @@ class IWD_Opc_Model_Observer
 								->save();
 						}
 					}
+					$generalData = Mage::getSingleton('core/session')->getGeneralData();
+					if(isset($generalData))
+					{
+				        $addressObject = Mage::getModel('opc/address');
+				        $addressCollection = $addressObject->getCollection()->addFieldToFilter('customer_id', $customerId);
+				        if($addressCollection->count())
+				        	$addressObject->load($addressCollection->getFirstItem()->getId());
+				        $region = $generalData['region'];
+				        if(isset($generalData['region_id']) && $generalData['region_id'] != "")
+				        {
+				        	$regionObject = Mage::getModel('directory/region')->load(12);
+				        	$region = $regionObject->getName();
+				        }
+				        $addressObject->setCustomerId($customerId)
+				        	->setAddress(json_encode($generalData['street']))
+				        	->setCity($generalData['city'])
+				        	->setState($region)
+				        	->setCountry($generalData['country_id'])
+				        	->setZipcode($generalData['postcode'])
+				        	->setTelephone($generalData['telephone'])
+				        	->setFax($generalData['fax']);
+				        $addressObject->save();
+				        
+				        Mage::getSingleton('core/session')->unsGeneralData();
+					}
 					$socialSecurityNumber = Mage::getSingleton('core/session')->getAmbassadorBillingInfo();
 					if(isset($socialSecurityNumber) && is_array($socialSecurityNumber) && isset($socialSecurityNumber['ssn_number']))
 					{
@@ -196,6 +222,13 @@ class IWD_Opc_Model_Observer
 				$receiverDetail['email'] = $customerObject->getEmail();
 
 		    	$orderEmailStatus = Mage::helper('opc')->sendNewsletterMail($registrationTemplateId, $emailTemplateVariables, $receiverDetail);
+
+		    	Mage::log(json_encode(array(
+	    			'customer_id' => $customerObject->getId(), 
+	    			'newsletter_id' => $registrationTemplateId, 
+	    			'receiver' => $receiverDetail, 
+	    			'status' => $orderEmailStatus
+    			)), null, "ambassador_emails.log");
 		    }
 		}
     }
@@ -231,6 +264,135 @@ class IWD_Opc_Model_Observer
 
     public function sendAutoAmbassadorEmail()
     {
-		// Mage::log('MAIL SENT', null, 'mylogfile.log');
+		$code = self::GROUP_AMBASSADOR;
+        $groupCollection = Mage::getModel('customer/group')->getCollection()
+            ->addFieldToFilter('customer_group_code', $code);
+
+		if($groupCollection->count())
+		{
+			$customerCollection = Mage::getModel('customer/customer')->getCollection()
+				->addAttributeToSelect("*")
+        		->addAttributeToFilter('group_id', $groupCollection->getFirstItem()->getId());
+
+        	$emailTemplateConfiguration = Mage::getStoreConfig('ambassador_email_settings/other_emails/email_items');
+		    $emailTemplateConfiguration = unserialize($emailTemplateConfiguration); 
+		    foreach($emailTemplateConfiguration as $emailTemplates)
+		    	$emailTemplatesOptions[] = $emailTemplates;
+
+        	foreach($customerCollection as $customer)
+        		$this->_sendAmbassadorEmails($customer, $emailTemplateConfiguration);
+		}
+    }
+
+    protected function _sendAmbassadorEmails($customer, $emailTemplateConfiguration)
+    {
+    	Mage::log('Email Started for CUSTOMER: ' . $customer->getId(), null, "ambassador_emails.log");
+
+    	$customerId = $customer->getId();
+        		
+		// Time Difference
+		$customerSince = $customer->getCreatedAt();
+
+		$currentTimestamp = Mage::getModel('core/date')->timestamp(time());
+		$currentDate = date('Y-m-d H:i:s', $currentTimestamp);
+		$customerSince = Mage::getModel('core/date')->timestamp(strtotime($customerSince));
+		$customerSince = date('Y-m-d H:i:s', $customerSince);
+		
+		$hourdiff = round((strtotime($currentDate) - strtotime($customerSince)) / 3600, 1);
+
+		foreach($emailTemplateConfiguration as $emailTemplates)
+		{
+			$newsletterId = $emailTemplates['template'];
+
+			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
+				->addFieldToFilter('newsletter_id', $newsletterId)
+				->addFieldToFilter('customer_id', $customerId);
+
+			if(!$newsletterEmailCollection->count())
+			{
+				$timeHours = self::EMAIL_HOUR_ELAPSE + intval($emailTemplates['hours']);
+
+				if($hourdiff > $timeHours)
+				{
+			    	//Variables for Confirmation Mail.
+					$emailTemplateVariables = array();
+					$emailTemplateVariables['ambassador_name'] = $customer->getName();
+
+					$receiverDetail['name'] = $customer->getName();
+					$receiverDetail['email'] = $customer->getEmail();
+
+			    	$status = Mage::helper('opc')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
+
+			    	Mage::getModel('opc/newsletter_email')
+			    		->setNewsletterId($newsletterId)
+			    		->setCustomerId($customerId)
+			    		->save();
+
+	    			Mage::log(json_encode(array('customer_id' => $customerId, 'newsletter_id' => $newsletterId, 'receiver' => $receiverDetail, 'status' => $status)), null, "ambassador_emails.log");
+				}
+			}			
+		}
+    }
+
+    public function saveGeneralDetails($observer)
+    {
+    	$generalData = $observer->getRequest()->getPost('general');
+    	$customer = $observer->getCustomer();
+
+    	$addressObject = Mage::getModel('opc/address');
+        $addressCollection = $addressObject->getCollection()->addFieldToFilter('customer_id', $customer->getId());
+
+        if($addressCollection->count())
+        	$addressObject->load($addressCollection->getFirstItem()->getId());
+
+        $addressObject->setCustomerId($customerId)
+        	->setAddress(json_encode($generalData['address']))
+        	->setCity($generalData['city'])
+        	->setState($generalData['state'])
+        	->setCountry($generalData['country'])
+        	->setZipcode($generalData['zipcode'])
+        	->setTelephone($generalData['telephone'])
+        	->setFax($generalData['fax']);
+        $addressObject->save();
+    }
+
+    public function customerSaveBefore($observer)
+    {
+    	$adminUser = Mage::getSingleton('admin/session')->getUser();
+    	if(isset($adminUser) && $adminUser->getId())
+    	{
+    		if($adminUser->getUsername() == "admin")
+    		{
+	    		$customerObject = $observer->getEvent()->getDataObject();    	
+	    		$socialSecurityNumber = $customerObject->getSocialSecurityNumber();
+	    		if(isset($socialSecurityNumber) && trim($socialSecurityNumber) != "")
+	    		{
+	    			$encryptedSocialSecurityNumber = Mage::getSingleton('core/encryption')->encrypt($socialSecurityNumber); 
+	    			$customerObject->setSocialSecurityNumber($encryptedSocialSecurityNumber);
+	    		}
+	    	}
+		}
+    }
+
+    public function customerLoadAfter($observer)
+    {
+    	$customerObject = $observer->getEvent()->getDataObject();    	
+    	$socialSecurityNumber = $customerObject->getSocialSecurityNumber();
+    	if(isset($socialSecurityNumber) && trim($socialSecurityNumber) != "")
+    	{
+    		$descryptedSocialSecurityNumber = Mage::getSingleton('core/encryption')->decrypt($socialSecurityNumber); 
+    		$customerObject->setSocialSecurityNumber($descryptedSocialSecurityNumber);
+    	}
+
+    	$adminUser = Mage::getSingleton('admin/session')->getUser();
+    	if(isset($adminUser) && $adminUser->getId())
+    	{
+    		if($adminUser->getUsername() != "admin")
+    		{
+    			$socialSecurityNumber = $customerObject->getSocialSecurityNumber();
+    			$hiddenSocialSecurityNumber = "XXX-XX-" . substr($socialSecurityNumber, -4);
+    			$customerObject->setSocialSecurityNumber($hiddenSocialSecurityNumber);
+    		}
+    	}
     }
 }

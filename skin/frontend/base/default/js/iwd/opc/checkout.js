@@ -30,6 +30,7 @@ IWD.OPC = {
 		agreements : null,
 		saveOrderStatus:false,
 		is_subscribe:false,
+		checkoutCallback: undefined,
 		
 		initMessages: function(){
 			$j_opc('.close-message-wrapper, .opc-messages-action .button').click(function(){
@@ -605,6 +606,7 @@ IWD.OPC.Checkout = {
 			IWD.OPC.Profile.init();	
 			IWD.OPC.Website.init();
 			IWD.OPC.StarterKit.init();
+			IWD.OPC.General.init();
 			IWD.OPC.initMessages();
 			IWD.OPC.initSaveOrder();
 			
@@ -679,6 +681,9 @@ IWD.OPC.Checkout = {
 				$j_opc('.payment-block').addClass('clear-margin');
 				IWD.OPC.Checkout.pullPayments();
 			}
+
+			if(IWD.OPC.checkoutCallback != undefined)
+				IWD.OPC.checkoutCallback();
 		},
 		
 		/** PARSE RESPONSE FROM AJAX SAVE SHIPPING METHOD **/
@@ -1095,6 +1100,49 @@ IWD.OPC.StarterKit = {
 					IWD.OPC.Checkout.config.baseUrl + 'ambassador/json/saveStarterKit',
 					form, 
 					IWD.OPC.Checkout.prepareAddressResponse,
+				'json');
+		}, 500);
+	}
+};
+
+IWD.OPC.General = {
+	init: function() {
+		this.initChangeProfile();
+	},
+	initChangeProfile: function(){
+		
+	},
+	validateForm: function(){
+		var addressForm = new VarienForm('opc-address-form-general');
+		if (addressForm.validator.validate()) {
+			IWD.OPC.General.save();
+		}
+	},
+	save: function() {
+		if (IWD.OPC.Checkout.ajaxProgress!=false){
+			clearTimeout(IWD.OPC.Checkout.ajaxProgress);
+		}
+		if (IWD.OPC.Checkout.updateShippingPaymentProgress!=false)
+			clearTimeout(IWD.OPC.Checkout.updateShippingPaymentProgress);
+		
+		if (IWD.OPC.Checkout.xhr2!=null)
+			IWD.OPC.Checkout.xhr2.abort();
+		
+		IWD.OPC.Checkout.ajaxProgress = setTimeout(function(){
+				var form = $j_opc('#opc-address-form-general').serializeArray();
+				
+				if (IWD.OPC.Checkout.xhr!=null){
+					IWD.OPC.Checkout.xhr.abort();
+				}
+
+				IWD.OPC.Checkout.showLoader();
+
+				IWD.OPC.Checkout.xhr = $j_opc.post(
+					IWD.OPC.Checkout.config.baseUrl + 'ambassador/json/saveGeneral',
+					form, 
+					function() {
+						IWD.OPC.Billing.validateForm();
+					},
 				'json');
 		}, 500);
 	}

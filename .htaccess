@@ -125,11 +125,26 @@ DirectoryIndex index.php
          RewriteCond %{HTTP_HOST} ^hitarth_zwt.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt_store_en]
 
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt10.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt10_store_en]
+
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt11.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt11_store_en]
+
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt12.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt12_store_en]
+
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt13.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt13_store_en]
+
          RewriteCond %{HTTP_HOST} ^hitarth_zwt4.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt4_store_en]
 
          RewriteCond %{HTTP_HOST} ^hitarth_zwt5.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt5_store_en]
+
+         RewriteCond %{HTTP_HOST} ^hitarth_zwt6.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt6_store_en]
 
          RewriteCond %{HTTP_HOST} ^hitarth_zwt7.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt7_store_en]
@@ -163,6 +178,15 @@ DirectoryIndex index.php
 
          RewriteCond %{HTTP_HOST} ^lana.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:lana_store_en]
+
+         RewriteCond %{HTTP_HOST} ^shannon.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:shannon_store_en]
+
+         RewriteCond %{HTTP_HOST} ^shatundra.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:shatundra_store_en]
+
+         RewriteCond %{HTTP_HOST} ^sheba_zwt.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:sheba_zwt_store_en]
 
          RewriteCond %{HTTP_HOST} ^shop.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:shop_store_en]

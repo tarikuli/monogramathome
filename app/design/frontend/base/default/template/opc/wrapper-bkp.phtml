@@ -33,9 +33,9 @@
         <div class="navigation-content">
         	<div id="tab-1" style="display: block;">
 				<div>
-					<form id="opc-address-form-general" method="post">
-			        	<?php echo $this->getChildHtml('general')?>
-			        </form>        			
+        			<form id="opc-address-form-billing" method="post">
+			        	<?php echo $this->getChildHtml('billing')?>
+			        </form>
     			</div>
         		<div class="buttons-set">
 	           		<button type="button" title="Next" class="button btn-next" data-curr="1" data-next="2" data-validator="validateFirst"><span><span><?php echo $this->__('Next'); ?></span></span></button>
@@ -66,9 +66,6 @@
         			<h3><?php echo $this->__('Payment Information') ?></h3>
 					<?php echo $this->getChildHtml('payment') ?>
 				</div>
-				<form id="opc-address-form-billing" method="post">
-		        	<?php echo $this->getChildHtml('billing')?>
-		        </form>
 				<?php if ($this->canShip()): ?>
 					<div class="shipping_method_wrapper" class="<?php if (!Mage::helper('opc')->isShowShippingForm()):?>hidden<?php endif;?>">
 	                    <input type="checkbox" id="billing_use_for_shipping_yes" <?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo  $this->__('Ship to this address') ?>" class="checkbox" /><label for="billing_use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label>
@@ -181,58 +178,42 @@
     });
 
     function validateFirst() {
-
-    	var addressForm = new VarienForm('opc-address-form-general');
-		if (!addressForm.validator.validate()){
-			return false;
-		}
-
-		copyGeneralFieldsToBilling();
-
+    	
     	var addressForm = new VarienForm('opc-address-form-billing');
 		if (!addressForm.validator.validate()){
 			return false;
-		}
+		} 	
 
-		IWD.OPC.checkoutCallback = confirmBlock;
-		//IWD.OPC.Billing.validateForm();
-		IWD.OPC.General.validateForm();
-
-		/* if($j_opc('.ambasador-container').attr('data-error') != undefined && $j_opc('.ambasador-container').attr('data-error') == 'true')
+		if($j_opc('.ambasador-container').attr('data-error') != undefined && $j_opc('.ambasador-container').attr('data-error') == 'true')
 		{
 			$j_opc('.opc-message-container').html($j_opc('.ambasador-container').attr('data-error-message'));
 			$j_opc('.opc-message-wrapper').show();
 			return false;
-		}	*/	
-		
-		return false;
-    }
+		}
 
-    function confirmBlock()
-    {
-    	var content_confirm_block = '<?php echo $this->getChildHtml("confirm_block"); ?>';
+		var content_confirm_block = '<?php echo $this->getChildHtml("confirm_block"); ?>';
 
-		var ambassadorName = jQuery('input[name="general[firstname]"]').val();
-        if(jQuery('input[name="general[middlename]"]').val() != "")
-        	ambassadorName += " " +  jQuery('input[name="general[middlename]"]').val();
-        ambassadorName += " " +  jQuery('input[name="general[lastname]"]').val();
+		var ambassadorName = jQuery('input[name="billing[firstname]"]').val();
+        if(jQuery('input[name="billing[middlename]"]').val() != "")
+        	ambassadorName += " " +  jQuery('input[name="billing[middlename]"]').val();
+        ambassadorName += " " +  jQuery('input[name="billing[lastname]"]').val();
 
         var billingAddress = '';
-        jQuery('input[name="general[street][]"]').each(function() {
+        jQuery('input[name="billing[street][]"]').each(function() {
             if(jQuery(this).val() != "")
         	   billingAddress += jQuery(this).val() + ", ";
-        });
-    	billingAddress += jQuery('input[name="general[city]"]').val();
-    	if(jQuery('select[name="general[region_id]"]').css("display") == "none" && jQuery('input[name="general[region]"]').val() != "")
-        	billingAddress += ", " + jQuery('input[name="general[region]"]').val();
-    	else if(jQuery('select[name="general[region_id]"]').val() != "")
-        	billingAddress += ", " +  jQuery('select[name="general[region_id]"] option:selected').text();
-        billingAddress +=  ", " + jQuery('select[name="general[country_id]"] option:selected').text();
-        billingAddress +=  ", " + jQuery('input[name="general[postcode]"]').val();
+        });                     
+    	billingAddress += jQuery('input[name="billing[city]"]').val();
+    	if(jQuery('select[name="billing[region_id]"]').css("display") == "none" && jQuery('input[name="billing[region]"]').val() != "")
+        	billingAddress += ", " + jQuery('input[name="billing[region]"]').val();
+    	else if(jQuery('select[name="billing[region_id]"]').val() != "")
+        	billingAddress += ", " +  jQuery('select[name="billing[region_id]"] option:selected').text();
+        billingAddress +=  ", " + jQuery('select[name="billing[country_id]"] option:selected').text();
+        billingAddress +=  ", " + jQuery('input[name="billing[postcode]"]').val();
 
 		content_confirm_block = content_confirm_block.replace('{{name}}', ambassadorName);
 		content_confirm_block = content_confirm_block.replace('{{address}}', billingAddress);
-		content_confirm_block = content_confirm_block.replace('{{ssn_number}}', jQuery('input[name="general[ssn_number]"]').val());
+		content_confirm_block = content_confirm_block.replace('{{ssn_number}}', jQuery('input[name="billing[ssn_number]"]').val());
 
 		jQuery.fancybox({
             type: 'inline',
@@ -247,39 +228,7 @@
 		        close: null
 		    }
         });
-
-        IWD.OPC.checkoutCallback = undefined;
-    }
-
-    function copyGeneralFieldsToBilling()
-    {
-    	jQuery('input[name="billing[firstname]"]').val(jQuery('input[name="general[firstname]"]').val());
-    	jQuery('input[name="billing[middlename]"]').val(jQuery('input[name="general[middlename]"]').val());
-    	jQuery('input[name="billing[lastname]"]').val(jQuery('input[name="general[lastname]"]').val());
-    	jQuery('input[name="billing[company]"]').val(jQuery('input[name="general[company]"]').val());
-    	jQuery('input[name="billing[email]"]').val(jQuery('input[name="general[email]"]').val());
-    	jQuery('input[name="billing[month]"]').val(jQuery('input[name="general[month]"]').val());
-    	jQuery('input[name="billing[day]"]').val(jQuery('input[name="general[day]"]').val());
-    	jQuery('input[name="billing[year]"]').val(jQuery('input[name="general[year]"]').val());
-    	jQuery('input[name="billing[ssn_number]"]').val(jQuery('input[name="general[ssn_number]"]').val());    	
-
-    	// ADDRESS
-    	var total_street = jQuery('input[name="general[street][]"]').length;
-    	for(i = 0; i < total_street; i++) {
-    		jQuery('input[name="billing[street][]"]:eq(' + i + ')').val(jQuery('input[name="general[street][]"]:eq(' + i + ')').val());
-    	}
-    	jQuery('input[name="billing[city]"]').val(jQuery('input[name="general[city]"]').val());
-    	jQuery('select[name="billing[region_id]"]').val(jQuery('select[name="general[region_id]"]').val()).css('display', jQuery('select[name="general[region_id]"]').css('display'));
-    	jQuery('input[name="billing[region]"]').val(jQuery('input[name="general[region]"]').val()).css('display', jQuery('input[name="general[region]"]').css('display'));
-
-    	jQuery('select[name="billing[country_id]"]').val(jQuery('select[name="general[country_id]"]').val());
-    	jQuery('input[name="billing[postcode]"]').val(jQuery('input[name="general[postcode]"]').val());
-    	jQuery('input[name="billing[telephone]"]').val(jQuery('input[name="general[telephone]"]').val());
-    	jQuery('input[name="billing[fax]"]').val(jQuery('input[name="general[fax]"]').val());
-
-    	// PASSWORD
-    	jQuery('input[name="billing[customer_password]"]').val(jQuery('input[name="general[customer_password]"]').val());
-    	jQuery('input[name="billing[confirm_password]"]').val(jQuery('input[name="general[confirm_password]"]').val());
+		return false;
     }
 
     function validateConfirm() { 
@@ -331,11 +280,6 @@
     function validateForth() {
     	var paymentForm = new VarienForm('co-payment-form');
 		if (!paymentForm.validator.validate()) {
-			return false;
-		}
-
-		var addressForm = new VarienForm('opc-address-form-billing');
-		if (!addressForm.validator.validate()){
 			return false;
 		}
 
