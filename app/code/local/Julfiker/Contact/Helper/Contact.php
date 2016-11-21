@@ -96,4 +96,40 @@ class Julfiker_Contact_Helper_Contact extends Mage_Core_Helper_Abstract
             //die($e->getMessage());
         }
     }
+
+
+    public function sendCustomerNotification($customerId, $isAmbassador = false) {
+
+        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $website = Mage::getModel('core/website')->load($customer->getWebsiteId());
+        $address = $customer->getDefaultBillingAddress();
+        $country = Mage::getModel('directory/country')->loadByCode($address->getCountry());
+        if (!$isAmbassador) {
+            $subject = "Notification - Customer registration";
+            $content = "Hi, \n Here is the customer information based on recent customer registration \n\n";
+        }
+        else {
+            $subject = "Notification - New Ambassador";
+            $content = "Hi, \n Here is the Ambassador information based on recent Ambassador registration \n\n";
+        }
+        $content .= "General information: \n";
+        $content .= "Name: " .$customer->getName(). "\n";
+        $content .= "Username: " .$customer->getUsername(). "\n";
+        $content .= "Email: " .$customer->getEmail(). "\n";
+        $content .= "Username: " .$customer->getUsername(). "\n";
+        $content .= "Group: " . Mage::getModel('customer/group')->load($customer->getGroupId())->getCustomerGroupCode(). "\n";
+        $content .= 'website:' . $website->getName(). "\n";
+        $content .= "\nDefault address information:"."\n";
+        $content .= 'company:' . $address->getCompany(). "\n";
+        $content .= 'zip: ' . $address->getPostcode(). "\n";
+        $content .= 'city: '. $address->getCity(). "\n";
+        $street = $address->getStreet(). "\n";
+        $content .= 'street: '. $street[0]. "\n";
+        $content .= 'telephone:' . $address->getTelephone(). "\n";
+        $content .= 'fax: ' . $address->getFax(). "\n";
+        $content .= 'country:' . $country->getName(). "\n";
+        $content .= "\n...,\n Auto notification";
+
+        $this->sendCustomerNotification($subject, $content);
+    }
 }

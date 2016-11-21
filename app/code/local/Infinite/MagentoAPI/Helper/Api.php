@@ -66,6 +66,8 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		if(isset($params['street'][1]) && trim($params['street'][1]) != "")
 			$data['address2'] = $params['street'][1];
 
+        //Email notification to customer support
+        Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId());
 		$response = $this->call('registration', $data);
 	}
 
@@ -327,6 +329,8 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
         $customer->setData( 'group_id', $group->getId());
         $customer->save();
 
+        //Email notification for Ambassador update
+        Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId(), true);
         return $customer;
     }
 }
