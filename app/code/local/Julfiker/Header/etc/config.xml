@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Diglin GmbH
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    Diglin
+ * @package     Diglin_Username
+ * @copyright   Copyright (c) 2008-2015 Diglin GmbH (http://www.diglin.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Julfiker_Header>
+            <version>1.0</version>
+        </Julfiker_Header>
+    </modules>
+    <global>
+        <helpers>
+            <header>
+                <!-- Helper definition needed by Magento -->
+                <class>Mage_Core_Helper</class>
+            </header>
+        </helpers>
+
+        <blocks>
+        	<header>
+        		<class>Julfiker_Header_Block</class>
+        	</header>
+        </blocks>
+        <models>
+        	<header>
+        		<class>Julfiker_Header_Model</class>
+        	</header>
+        </models>
+    </global>
+
+    <frontend>
+        <routers>
+            <header>
+                <use>standard</use>
+                <args>
+                    <module>Julfiker_Header</module>
+                    <frontName>header</frontName>
+                </args>
+            </header>
+        </routers>
+        <layout>
+            <updates>
+                <header>
+                    <file>header.xml</file>
+                </header>
+            </updates>
+        </layout>
+    </frontend>
+</config>
