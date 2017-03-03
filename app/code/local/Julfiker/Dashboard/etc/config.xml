@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Julfiker_Dashboard>
+            <version>1.0</version>
+        </Julfiker_Dashboard>
+    </modules>
+    <global>
+        <helpers>
+            <dashboard>
+                <!-- Helper definition needed by Magento -->
+                <class>Mage_Core_Helper</class>
+            </dashboard>>
+        </helpers>
+
+        <blocks>
+        	<dashboard>
+        		<class>Julfiker_Dashboard_Block</class>
+        	</dashboard>>
+        </blocks>
+        <models>
+        	<dashboard>
+        		<class>Julfiker_Dashboard_Model</class>
+        	</dashboard>
+        </models>
+    </global>
+
+    <frontend>
+        <routers>
+            <dashboard>
+                <use>standard</use>
+                <args>
+                    <module>Julfiker_Dashboard</module>
+                    <frontName>dashboard</frontName>
+                </args>
+            </dashboard>>
+        </routers>
+        <layout>
+            <updates>
+                <dashboard>
+                    <file>dashboard.xml</file>
+                </dashboard>
+            </updates>
+        </layout>
+    </frontend>
+</config>
