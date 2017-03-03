@@ -33,6 +33,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
 <?php echo $this->getChildHtml('head') ?>
+    <style type="text/css">
+        .header-container .header-position {
+            position: relative;
+        }
+    </style>
 </head>
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 <?php echo $this->getChildHtml('after_body_start') ?>
@@ -40,7 +45,7 @@
     <?php echo $this->getChildHtml('global_notices') ?>
     <div class="page">
         <?php echo $this->getChildHtml('header') ?>
-        <div class="main-container col1-layout content-color color">
+        <div class="main-container col1-layout content-color color" style="clear: both; overflow: hidden">
 			<div class="container">
 				<div class="main">
 					<div class="row">
