@@ -2,13 +2,11 @@
 <layout version="0.1.0">
     <footer_index_index translate="label">
         <reference name="head">
-            <action method="setTitle" translate="title" module="footer"><title>Header</title></action>
+            <action method="setTitle" translate="title" module="footer"><title>Footer</title></action>
         </reference>
         <reference name="root">
-            <action method="setTemplate"><template>page/header.phtml</template></action>
-            <action method="setHeaderTitle" translate="title" module="header"><title>Header</title></action>
+            <action method="setTemplate"><template>page/footer.phtml</template></action>
+            <action method="setHeaderTitle" translate="title" module="footer"><title>Footer</title></action>
         </reference>
     </footer_index_index>
-    <reference name="content">
-    </reference>
 </layout>
