@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Julfiker_Dashboard>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Julfiker_Dashboard>
+        <depends>
+            <Mage_Core />
+        </depends>
+	</modules>
+</config>
