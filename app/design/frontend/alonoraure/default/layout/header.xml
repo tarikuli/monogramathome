@@ -5,11 +5,8 @@
             <action method="setTitle" translate="title" module="header"><title>Header</title></action>
         </reference>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>page/header.phtml</template></action>
             <action method="setHeaderTitle" translate="title" module="header"><title>Header</title></action>
         </reference>
     </header_index_index>
-    <reference name="content">
-        <block type="core/template" name="contactForm" template="contacts/form.phtml"/>
-    </reference>
 </layout>
