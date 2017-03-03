@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config>
 	<modules>
-		<Julfiker_Header>
+		<Julfiker_Footer>
 			<active>true</active>
 			<codePool>local</codePool>
-		</Julfiker_Header>
+		</Julfiker_Footer>
         <depends>
             <Mage_Core />
         </depends>
