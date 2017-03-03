@@ -70,10 +70,10 @@ $response = call($runUrl);
 echo "status = ".$response['status'].", ".$response['message'];
 
 //Indexing catalog
-$runUrl = $baseUrl."indexing";
-echo "<br/> <br /> 6. Indexing all catalog ... <br />";
-$response = call($runUrl);
-echo "status = ".$response['status'].", ".$response['message'];
+//$runUrl = $baseUrl."indexing";
+//echo "<br/> <br /> 6. Indexing all catalog ... <br />";
+//$response = call($runUrl);
+//echo "status = ".$response['status'].", ".$response['message'];
 
 
 
