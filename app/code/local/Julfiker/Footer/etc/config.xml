@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Julfiker_Footer>
+            <version>1.0</version>
+        </Julfiker_Footer>
+    </modules>
+    <global>
+        <helpers>
+            <footer>
+                <!-- Helper definition needed by Magento -->
+                <class>Mage_Core_Helper</class>
+            </footer>
+        </helpers>
+
+        <blocks>
+        	<footer>
+        		<class>Julfiker_Footer_Block</class>
+        	</footer>
+        </blocks>
+        <models>
+        	<footer>
+        		<class>Julfiker_Footer_Model</class>
+        	</footer>
+        </models>
+    </global>
+
+    <frontend>
+        <routers>
+            <footer>
+                <use>standard</use>
+                <args>
+                    <module>Julfiker_Footer</module>
+                    <frontName>footer</frontName>
+                </args>
+            </footer>
+        </routers>
+        <layout>
+            <updates>
+                <footer>
+                    <file>footer.xml</file>
+                </footer>
+            </updates>
+        </layout>
+    </frontend>
+</config>
