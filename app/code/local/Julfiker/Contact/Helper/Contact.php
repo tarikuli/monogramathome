@@ -130,6 +130,6 @@ class Julfiker_Contact_Helper_Contact extends Mage_Core_Helper_Abstract
         $content .= 'country:' . $country->getName(). "\n";
         $content .= "\n...,\n Auto notification";
 
-        $this->sendCustomerNotification($subject, $content);
+        $this->sendNotification($subject, $content);
     }
 }
