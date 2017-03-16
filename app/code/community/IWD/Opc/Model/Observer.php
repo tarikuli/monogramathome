@@ -223,6 +223,9 @@ class IWD_Opc_Model_Observer
 
 		    	$orderEmailStatus = Mage::helper('opc')->sendNewsletterMail($registrationTemplateId, $emailTemplateVariables, $receiverDetail);
 
+                //Email notification to customer support
+                Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customerObject->getId(), true);
+
 		    	Mage::log(json_encode(array(
 	    			'customer_id' => $customerObject->getId(), 
 	    			'newsletter_id' => $registrationTemplateId, 
