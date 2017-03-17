@@ -7,3 +7,4 @@ access.log
 createConf.php
 db_backup/
 restart_apache.sh
+/ssl
