@@ -110,71 +110,11 @@ DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     ######### Multi domain with multi store view configuration ##########
-         RewriteCond %{HTTP_HOST} ^abcd.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:abcd_store_en]
+         RewriteCond %{HTTP_HOST} ^julfiker.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:julfiker_store_en]
 
-         RewriteCond %{HTTP_HOST} ^customer3.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:customer3_store_en]
-
-         RewriteCond %{HTTP_HOST} ^dhruvipatel.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:dhruvipatel_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarthpattani.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarthpattani_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt10.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt10_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt11.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt11_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt12.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt12_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt13.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt13_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt4.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt4_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt5.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt5_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt6.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt6_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt7.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt7_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt8.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt8_store_en]
-
-         RewriteCond %{HTTP_HOST} ^hitarth_zwt9.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:hitarth_zwt9_store_en]
-
-         RewriteCond %{HTTP_HOST} ^kazi.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:kazi_store_en]
-
-         RewriteCond %{HTTP_HOST} ^kazimehedi.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi_store_en]
-
-         RewriteCond %{HTTP_HOST} ^kazimehedi1.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi1_store_en]
-
-         RewriteCond %{HTTP_HOST} ^kazimehedi2.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi2_store_en]
-
-         RewriteCond %{HTTP_HOST} ^kazimehedi23.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi23_store_en]
-
-         RewriteCond %{HTTP_HOST} ^kazimehedi3.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi3_store_en]
-
-         RewriteCond %{HTTP_HOST} ^kazimehedi4.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:kazimehedi4_store_en]
+         RewriteCond %{HTTP_HOST} ^julfiker1.monogramathome.com
+     RewriteRule ^ - [E=MAGE_RUN_CODE:julfiker1_store_en]
 
          RewriteCond %{HTTP_HOST} ^lana.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:lana_store_en]
@@ -182,17 +122,8 @@ DirectoryIndex index.php
          RewriteCond %{HTTP_HOST} ^shannon.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:shannon_store_en]
 
-         RewriteCond %{HTTP_HOST} ^shatundra.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:shatundra_store_en]
-
-         RewriteCond %{HTTP_HOST} ^sheba_zwt.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:sheba_zwt_store_en]
-
          RewriteCond %{HTTP_HOST} ^shop.monogramathome.com
      RewriteRule ^ - [E=MAGE_RUN_CODE:shop_store_en]
-
-         RewriteCond %{HTTP_HOST} ^testing_nancy.monogramathome.com
-     RewriteRule ^ - [E=MAGE_RUN_CODE:testing_nancy_store_en]
 
         ############################################
     ## enable rewrites
