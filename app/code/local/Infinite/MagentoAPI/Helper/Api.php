@@ -253,14 +253,14 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		$apiUrl .= DS . $method;
 
 		try {
+			$this->info('REQUEST (' . $method . ') : ' . json_encode($data));
+			
 			$handle = curl_init($apiUrl);
 			curl_setopt($handle, CURLOPT_POST, true);
 			curl_setopt($handle, CURLOPT_POSTFIELDS, http_build_query($data));
 			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 			$response = curl_exec($handle);
 			curl_close($handle);
-
-			$this->info('REQUEST (' . $method . ') : ' . json_encode($data));
 
 			$responseArray = json_decode($response, true);
 			if($responseArray['status'])
