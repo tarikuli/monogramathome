@@ -48,6 +48,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 			'email' => $params['email'], 
 			'package' => 'null', 
 			'mobile' => $params['telephone'], 
+			'package_id' => 0,
 		);
 
 		if(isset($params['package']))
