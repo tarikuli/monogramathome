@@ -94,9 +94,34 @@ class Julfiker_Contact_Helper_Contact extends Mage_Core_Helper_Abstract
         catch (Exception $e) {
             //Todo: add log with exception
             //die($e->getMessage());
+        	echo "<pre>"; var_dump($toMail); echo "</pre>"; die();
+        	Mage::log($e->getMessage());
+        	die("To: ".$toMail."<br>Subject: ".$subject."<br>Error Message: ".$e->getMessage());
         }
     }
 
+    public function sendByCustomerEmail($subject, $content, $toMail) {
+    
+    	$mail = Mage::getModel('core/email');
+    	$mail->setToName('Customer Support');
+    	$mail->setToEmail($toMail);
+    	$mail->setBody($content);
+    	$mail->setSubject($subject);
+    	$mail->setFromEmail('no-reply@monogramathome.com');
+    	$mail->setFromName("Auto Notification");
+    	$mail->setType('text');
+    
+    	try {
+    		$mail->send();
+    	}
+    	catch (Exception $e) {
+    		//Todo: add log with exception
+    		//die($e->getMessage());
+    		echo "<pre>"; var_dump($toMail); echo "</pre>"; die();
+    		Mage::log($e->getMessage());
+    		die("To: ".$toMail."<br>Subject: ".$subject."<br>Error Message: ".$e->getMessage());
+    	}
+    }
 
     public function sendCustomerNotification($customerId, $isAmbassador = false) {
 
@@ -123,13 +148,17 @@ class Julfiker_Contact_Helper_Contact extends Mage_Core_Helper_Abstract
         $content .= 'company:' . $address->getCompany(). "\n";
         $content .= 'zip: ' . $address->getPostcode(). "\n";
         $content .= 'city: '. $address->getCity(). "\n";
-        $street = $address->getStreet(). "\n";
+        $street = $address->getStreet();
         $content .= 'street: '. $street[0]. "\n";
         $content .= 'telephone:' . $address->getTelephone(). "\n";
         $content .= 'fax: ' . $address->getFax(). "\n";
         $content .= 'country:' . $country->getName(). "\n";
         $content .= "\n...,\n Auto notification";
 
+        # Send email from trans_email/ident_support/email
         $this->sendNotification($subject, $content);
+        
+        # Send email by Customer Email
+        $this->sendByCustomerEmail($subject, $content, $customer->getEmail());
     }
 }
