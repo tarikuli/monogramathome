@@ -8,5 +8,5 @@ createConf.php
 db_backup/
 restart_apache.sh
 /ssl
-/downloader
+downloader/
 .htaccess
