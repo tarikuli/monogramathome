@@ -19,7 +19,12 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 				'password' => (isset($params['login'])? $params['login']['password']: $params['password']),
 			);
 
-			$response = $this->call('login', $data);
+			if(!empty($data['username']) && !empty($data['password'])){
+				$response = $this->call('login', $data);				
+			}else{
+				$this->info('Problem (' . $method . ') : ' . json_encode($data));
+			}
+
 		}
 	}
 

@@ -1,11 +1,13 @@
 <?xml version="1.0" ?>
 <config>
     <modules>
+    	<!-- Name Our own Extension Vertion  -->
         <Infinite_MagentoAPI>
             <version>1.0.0</version>
         </Infinite_MagentoAPI>
     </modules>
     <global>
+ 	    <!-- Extension will be accessable from all site globaly -->
         <models>
             <magento_api>
                 <class>Infinite_MagentoAPI_Model</class>
