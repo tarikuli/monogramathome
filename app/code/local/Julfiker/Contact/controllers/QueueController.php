@@ -195,6 +195,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
      * return void
      */
     protected function _productAssignToWebsite() {
+        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
         $website_ids = array();
         $website_collection = Mage::app()->getWebsites(true);
         foreach($website_collection as $website) {
