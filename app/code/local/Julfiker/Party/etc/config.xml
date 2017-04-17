@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Julfiker_Party>
+            <version>1.0</version>
+        </Julfiker_Party>
+    </modules>
+    <global>
+        <helpers>
+            <party>
+                <!-- Helper definition needed by Magento -->
+                <class>Mage_Core_Helper</class>
+            </party>>
+        </helpers>
+
+        <blocks>
+        	<party>
+        		<class>Julfiker_Party_Block</class>
+        	</party>>
+        </blocks>
+        <models>
+            <party>
+                <class>Julfiker_Party_Model_Event</class>
+                <resourceModel>party_event_resource</resourceModel>
+            </party>
+            <partyresource>
+                <class>Julfiker_Party_Model_Resource</class>
+                <entities>
+                    <film>
+                        <table>party_event</table>
+                    </film>
+                </entities>
+            </partyresource>
+        </models>
+        <resources>
+            <party_setup>
+                <setup>
+                    <module>Julfiker_Party</module>
+                </setup>
+            </party_setup>
+            <party_event_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </party_event_write>
+            <!-- connection pour lire-->
+            <party_event_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </party_event_read>
+        </resources>
+    </global>
+
+    <frontend>
+        <routers>
+            <party>
+                <use>standard</use>
+                <args>
+                    <module>Julfiker_Party</module>
+                    <frontName>party</frontName>
+                </args>
+            </party>>
+        </routers>
+        <layout>
+            <updates>
+                <party>
+                    <file>party.xml</file>
+                </party>
+            </updates>
+        </layout>
+    </frontend>
+</config>
