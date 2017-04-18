@@ -1,42 +1,139 @@
 <?php
-
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event front contrller
+ *
+ * @category    Julfiker
+ * @package     Julfiker_Party
+ * @author      Julfiker
+ */
 class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
 {
+
+    /**
+      * default action
+      *
+      * @access public
+      * @return void
+      * @author Julfiker
+      */
     public function indexAction()
     {
         $this->loadLayout();
-
-        Mage::getSingleton('core/session', array('name' => 'frontend'));
-
-        $sessionCustomer = Mage::getSingleton("customer/session");
-
-        if($sessionCustomer->isLoggedIn()) {
-            $websitecode = Mage::app()->getWebsite()->getCode();
-            $currentAmbassadorCode = Mage::getSingleton('core/session')->getAmbassadorCode();
-            if ($websitecode == $currentAmbassadorCode) {
-                $params = $this->getRequest()->getParams();
-                $key = ($params) ? key($params) : "";
-                //$this->getLayout()->getBlock('party')->setKey($key);
+        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                $breadcrumbBlock->addCrumb(
+                    'home',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('Home'),
+                        'link'  => Mage::getUrl(),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'events',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('Events'),
+                        'link'  => '',
+                    )
+                );
             }
-           else {
-               Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account'));
-           }
-         } else {
-            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
         }
-
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->addLinkRel('canonical', Mage::helper('julfiker_party/event')->getEventsUrl());
+        }
         $this->renderLayout();
     }
 
-    public function createAction() {
-        $this->loadLayout();
-        $this->renderLayout();
-        //Todo: Rending event form
+    /**
+     * init Event
+     *
+     * @access protected
+     * @return Julfiker_Party_Model_Event
+     * @author Julfiker
+     */
+    protected function _initEvent()
+    {
+        $eventId   = $this->getRequest()->getParam('id', 0);
+        $event     = Mage::getModel('julfiker_party/event')
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->load($eventId);
+        if (!$event->getId()) {
+            return false;
+        } elseif (!$event->getStatus()) {
+            return false;
+        }
+        return $event;
     }
 
-    public function saveAction() {
+    /**
+     * view event action
+     *
+     * @access public
+     * @return void
+     * @author Julfiker
+     */
+    public function viewAction()
+    {
+        $event = $this->_initEvent();
+        if (!$event) {
+            $this->_forward('no-route');
+            return;
+        }
+        Mage::register('current_event', $event);
         $this->loadLayout();
+        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        if ($root = $this->getLayout()->getBlock('root')) {
+            $root->addBodyClass('party-event party-event' . $event->getId());
+        }
+        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                $breadcrumbBlock->addCrumb(
+                    'home',
+                    array(
+                        'label'    => Mage::helper('julfiker_party')->__('Home'),
+                        'link'     => Mage::getUrl(),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'events',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('Events'),
+                        'link'  => Mage::helper('julfiker_party/event')->getEventsUrl(),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'event',
+                    array(
+                        'label' => $event->getZip(),
+                        'link'  => '',
+                    )
+                );
+            }
+        }
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->addLinkRel('canonical', $event->getEventUrl());
+        }
         $this->renderLayout();
-        //Todo: save  event
     }
 }

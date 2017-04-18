@@ -1,73 +1,157 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
+<!--
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
 <config>
     <modules>
         <Julfiker_Party>
-            <version>1.0</version>
+            <version>1.0.0</version>
         </Julfiker_Party>
     </modules>
     <global>
-        <helpers>
-            <party>
-                <!-- Helper definition needed by Magento -->
-                <class>Mage_Core_Helper</class>
-            </party>>
-        </helpers>
-
-        <blocks>
-        	<party>
-        		<class>Julfiker_Party_Block</class>
-        	</party>>
-        </blocks>
-        <models>
-            <party>
-                <class>Julfiker_Party_Model_Event</class>
-                <resourceModel>party_event_resource</resourceModel>
-            </party>
-            <partyresource>
-                <class>Julfiker_Party_Model_Resource</class>
-                <entities>
-                    <film>
-                        <table>party_event</table>
-                    </film>
-                </entities>
-            </partyresource>
-        </models>
         <resources>
-            <party_setup>
+            <julfiker_party_setup>
                 <setup>
                     <module>Julfiker_Party</module>
+                    <class>Julfiker_Party_Model_Resource_Setup</class>
                 </setup>
-            </party_setup>
-            <party_event_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </party_event_write>
-            <!-- connection pour lire-->
-            <party_event_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </party_event_read>
+            </julfiker_party_setup>
         </resources>
+        <blocks>
+            <julfiker_party>
+                <class>Julfiker_Party_Block</class>
+            </julfiker_party>
+        </blocks>
+        <helpers>
+            <julfiker_party>
+                <class>Julfiker_Party_Helper</class>
+            </julfiker_party>
+        </helpers>
+        <models>
+            <julfiker_party>
+                <class>Julfiker_Party_Model</class>
+                <resourceModel>julfiker_party_resource</resourceModel>
+            </julfiker_party>
+            <julfiker_party_resource>
+                <class>Julfiker_Party_Model_Resource</class>
+                <entities>
+                    <event>
+                        <table>party_event</table>
+                    </event>
+                    <partyorderitem>
+                        <table>julfiker_party_partyorderitem</table>
+                    </partyorderitem>
+                    <partyparticipate>
+                        <table>party_partyparticipate</table>
+                    </partyparticipate>
+                    <partysuccesspromotion>
+                        <table>party_partysuccesspromotion</table>
+                    </partysuccesspromotion>
+                    <event_store>
+                        <table>party_event_store</table>
+                    </event_store>
+                    <partyorderitem_store>
+                        <table>party_partyorderitem_store</table>
+                    </partyorderitem_store>
+                </entities>
+            </julfiker_party_resource>
+        </models>
+        <events>
+            <controller_front_init_routers>
+                <observers>
+                    <julfiker_party>
+                        <class>Julfiker_Party_Controller_Router</class>
+                        <method>initControllerRouters</method>
+                    </julfiker_party>
+                </observers>
+            </controller_front_init_routers>
+        </events>
     </global>
-
+    <adminhtml>
+        <layout>
+            <updates>
+                <julfiker_party>
+                    <file>julfiker_party.xml</file>
+                </julfiker_party>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Julfiker_Party>
+                    <files>
+                        <default>Julfiker_Party.csv</default>
+                    </files>
+                </Julfiker_Party>
+            </modules>
+        </translate>
+        <global_search>
+            <event>
+                <class>julfiker_party/adminhtml_search_event</class>
+                <acl>julfiker_party</acl>
+            </event>
+            <partyorderitem>
+                <class>julfiker_party/adminhtml_search_partyorderitem</class>
+                <acl>julfiker_party</acl>
+            </partyorderitem>
+        </global_search>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Julfiker_Party before="Mage_Adminhtml">Julfiker_Party_Adminhtml</Julfiker_Party>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <frontend>
         <routers>
-            <party>
+            <julfiker_party>
                 <use>standard</use>
                 <args>
                     <module>Julfiker_Party</module>
                     <frontName>party</frontName>
                 </args>
-            </party>>
+            </julfiker_party>
         </routers>
         <layout>
             <updates>
-                <party>
-                    <file>party.xml</file>
-                </party>
+                <julfiker_party>
+                    <file>julfiker_party.xml</file>
+                </julfiker_party>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Julfiker_Party>
+                    <files>
+                        <default>Julfiker_Party.csv</default>
+                    </files>
+                </Julfiker_Party>
+            </modules>
+        </translate>
     </frontend>
+    <default>
+        <julfiker_party>
+            <event>
+                <breadcrumbs>1</breadcrumbs>
+            </event>
+        </julfiker_party>
+    </default>
 </config>

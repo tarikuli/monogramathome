@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <julfiker_party translate="title" module="julfiker_party">
+                                        <title>Party</title>
+                                    </julfiker_party>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <julfiker_party translate="title" module="julfiker_party">
+                        <title>Manage event</title>
+                        <children>
+                            <event translate="title" module="julfiker_party">
+                                <title>Event</title>
+                                <sort_order>0</sort_order>
+                            </event>
+                            <partyorderitem translate="title" module="julfiker_party">
+                                <title>Party Order Item</title>
+                                <sort_order>10</sort_order>
+                            </partyorderitem>
+                            <partyparticipate translate="title" module="julfiker_party">
+                                <title>Party_participate</title>
+                                <sort_order>20</sort_order>
+                            </partyparticipate>
+                            <partysuccesspromotion translate="title" module="julfiker_party">
+                                <title>Party_success_promotion</title>
+                                <sort_order>30</sort_order>
+                            </partysuccesspromotion>
+                        </children>
+                    </julfiker_party>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <julfiker_party translate="title" module="julfiker_party">
+            <title>Manage event</title>
+            <sort_order>0</sort_order>
+            <children>
+                <event translate="title" module="julfiker_party">
+                    <title>Event</title>
+                    <action>adminhtml/party_event</action>
+                    <sort_order>0</sort_order>
+                </event>
+                <partyorderitem translate="title" module="julfiker_party">
+                    <title>Party Order Item</title>
+                    <action>adminhtml/party_partyorderitem</action>
+                    <sort_order>10</sort_order>
+                </partyorderitem>
+                <partyparticipate translate="title" module="julfiker_party">
+                    <title>Party_participate</title>
+                    <action>adminhtml/party_partyparticipate</action>
+                    <sort_order>20</sort_order>
+                </partyparticipate>
+                <partysuccesspromotion translate="title" module="julfiker_party">
+                    <title>Party_success_promotion</title>
+                    <action>adminhtml/party_partysuccesspromotion</action>
+                    <sort_order>30</sort_order>
+                </partysuccesspromotion>
+            </children>
+        </julfiker_party>
+    </menu>
+</config>
