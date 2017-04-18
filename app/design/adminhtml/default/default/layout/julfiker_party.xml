@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+--> 
+<layout>
+    <adminhtml_party_event_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_party/event</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/adminhtml_event" name="event" />
+
+        </reference>
+    </adminhtml_party_event_index>
+    <adminhtml_party_event_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="julfiker_party/adminhtml_event_grid" name="event_grid"/>
+        </block>
+    </adminhtml_party_event_grid>
+    <!-- Event add/edit action -->
+    <adminhtml_party_event_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_party/event</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/adminhtml_event_edit" name="event_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="julfiker_party/adminhtml_event_edit_tabs" name="event_tabs"></block>
+        </reference>
+    </adminhtml_party_event_edit>
+
+    <adminhtml_party_partyorderitem_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_party/partyorderitem</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/adminhtml_partyorderitem" name="partyorderitem" />
+
+        </reference>
+    </adminhtml_party_partyorderitem_index>
+    <adminhtml_party_partyorderitem_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="julfiker_party/adminhtml_partyorderitem_grid" name="partyorderitem_grid"/>
+        </block>
+    </adminhtml_party_partyorderitem_grid>
+    <!-- Partyorderitem add/edit action -->
+    <adminhtml_party_partyorderitem_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_party/partyorderitem</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/adminhtml_partyorderitem_edit" name="partyorderitem_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="julfiker_party/adminhtml_partyorderitem_edit_tabs" name="partyorderitem_tabs"></block>
+        </reference>
+    </adminhtml_party_partyorderitem_edit>
+
+    <adminhtml_party_partyparticipate_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_party/partyparticipate</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/adminhtml_partyparticipate" name="partyparticipate" />
+
+        </reference>
+    </adminhtml_party_partyparticipate_index>
+    <adminhtml_party_partyparticipate_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="julfiker_party/adminhtml_partyparticipate_grid" name="partyparticipate_grid"/>
+        </block>
+    </adminhtml_party_partyparticipate_grid>
+    <!-- Partyparticipate add/edit action -->
+    <adminhtml_party_partyparticipate_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_party/partyparticipate</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/adminhtml_partyparticipate_edit" name="partyparticipate_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="julfiker_party/adminhtml_partyparticipate_edit_tabs" name="partyparticipate_tabs"></block>
+        </reference>
+    </adminhtml_party_partyparticipate_edit>
+
+    <adminhtml_party_partysuccesspromotion_index>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_party/partysuccesspromotion</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/adminhtml_partysuccesspromotion" name="partysuccesspromotion" />
+
+        </reference>
+    </adminhtml_party_partysuccesspromotion_index>
+    <adminhtml_party_partysuccesspromotion_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="julfiker_party/adminhtml_partysuccesspromotion_grid" name="partysuccesspromotion_grid"/>
+        </block>
+    </adminhtml_party_partysuccesspromotion_grid>
+    <!-- Partysuccesspromotion add/edit action -->
+    <adminhtml_party_partysuccesspromotion_edit>
+        <update handle="editor"/>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>julfiker_party/partysuccesspromotion</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/adminhtml_partysuccesspromotion_edit" name="partysuccesspromotion_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="julfiker_party/adminhtml_partysuccesspromotion_edit_tabs" name="partysuccesspromotion_tabs"></block>
+        </reference>
+    </adminhtml_party_partysuccesspromotion_edit>
+
+</layout>
