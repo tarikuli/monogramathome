@@ -1,0 +1,38 @@
+<?php 
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event Party order item list template
+ *
+ * @category    Julfiker
+ * @package     Julfiker_Party
+ * @author      Ultimate Module Creator
+ */
+?>
+<?php $_partyorderitems = $this->getPartyorderitems(); ?>
+<?php if ($_partyorderitems->getSize() > 0) :?>
+<div class="partyorderitem-title">
+    <h2><?php echo Mage::helper('julfiker_party')->__('Party order items') ?></h2>
+</div>
+<div class="partyorderitems-list-container">
+    <?php foreach ($_partyorderitems as $_partyorderitem) : ?>
+        <div class="partyorderitem-list-item">
+            <?php echo $_partyorderitem->getQty();?>
+<br />
+        </div>
+    <?php endforeach;?>
+</div>
+<?php endif;?>

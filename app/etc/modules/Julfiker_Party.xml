@@ -1,12 +1,29 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
 <config>
-	<modules>
-		<Julfiker_Party>
-			<active>true</active>
-			<codePool>local</codePool>
-		</Julfiker_Party>
-        <depends>
-            <Mage_Core />
-        </depends>
-	</modules>
+    <modules>
+        <Julfiker_Party>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Core />
+             </depends>
+        </Julfiker_Party>
+    </modules>
 </config>
