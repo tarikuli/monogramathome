@@ -42,4 +42,32 @@ class Julfiker_Party_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $converted;
     }
+
+    /**
+     * Get All customers for drop-down options
+     *
+     * @return array
+     */
+    public function getCustomerOptions(){
+        $options[] = array();
+        $customers = Mage::getModel('customer/customer');
+        $ids = $customers->getCollection()->getAllIds();
+
+        if ($ids)
+        {
+            foreach ($ids as $id)
+            {
+                $customer = Mage::getModel('customer/customer');
+                $customer->load($id);
+
+                $options[] = array(
+                    'value' => $customer->getID(),
+                    'label' => $customer->getName()
+                );
+            }
+        }
+
+        return $options;
+
+    }
 }

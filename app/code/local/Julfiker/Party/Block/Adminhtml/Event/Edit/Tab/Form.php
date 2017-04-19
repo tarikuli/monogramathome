@@ -139,6 +139,34 @@ class Julfiker_Party_Block_Adminhtml_Event_Edit_Tab_Form extends Mage_Adminhtml_
 
            )
         );
+
+        $fieldset->addField(
+            'host',
+            'select',
+            array(
+                'label' => Mage::helper('julfiker_party')->__('Host'),
+                'name'  => 'host',
+                'required'  => true,
+                'class' => 'required-entry',
+
+                'values'=> Mage::helper('julfiker_party/data')->getCustomerOptions(),
+            )
+        );
+
+        $fieldset->addField(
+            'created_by',
+            'select',
+            array(
+                'label' => Mage::helper('julfiker_party')->__('Created By'),
+                'name'  => 'created_by',
+                'required'  => true,
+                'class' => 'required-entry',
+
+                'values'=> Mage::helper('julfiker_party/data')->getCustomerOptions(),
+            )
+        );
+
+
         $fieldset->addField(
             'url_key',
             'text',

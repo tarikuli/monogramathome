@@ -72,15 +72,7 @@ class Julfiker_Party_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_Block_Wid
                 'type'   => 'number'
             )
         );
-        $this->addColumn(
-            'zip',
-            array(
-                'header'    => Mage::helper('julfiker_party')->__('Zip'),
-                'align'     => 'left',
-                'index'     => 'zip',
-            )
-        );
-        
+
         $this->addColumn(
             'status',
             array(
@@ -121,15 +113,6 @@ class Julfiker_Party_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_Block_Wid
             )
         );
         $this->addColumn(
-            'country',
-            array(
-                'header' => Mage::helper('julfiker_party')->__('Country'),
-                'index'  => 'country',
-                'type'=> 'country',
-
-            )
-        );
-        $this->addColumn(
             'city',
             array(
                 'header' => Mage::helper('julfiker_party')->__('City'),
@@ -139,21 +122,24 @@ class Julfiker_Party_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_Block_Wid
             )
         );
         $this->addColumn(
-            'address',
+            'host',
             array(
-                'header' => Mage::helper('julfiker_party')->__('Address'),
-                'index'  => 'address',
+                'header' => Mage::helper('julfiker_party')->__('Host'),
+                'index'  => 'host',
                 'type'=> 'text',
-
+                'renderer' => 'Julfiker_Party_ExtendedGrid_Block_Customer',
             )
         );
         $this->addColumn(
-            'url_key',
+            'created_by',
             array(
-                'header' => Mage::helper('julfiker_party')->__('URL key'),
-                'index'  => 'url_key',
+                'header' => Mage::helper('julfiker_party')->__('Created by'),
+                'index'  => 'created_by',
+                'type'=> 'text',
+                 'renderer' => 'Julfiker_Party_ExtendedGrid_Block_Customer',
             )
         );
+
         if (!Mage::app()->isSingleStoreMode() && !$this->_isExport) {
             $this->addColumn(
                 'store_id',
