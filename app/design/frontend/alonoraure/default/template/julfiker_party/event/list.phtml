@@ -27,18 +27,27 @@
 <div class="page-title event-title">
     <h1><?php echo Mage::helper('julfiker_party')->__('Events') ?></h1>
 </div>
+<div class="row" style="overflow: hidden; clear: both">
 <?php if ($_events->getSize() > 0) :?>
-    <?php echo $this->getPagerHtml(); ?>
-    <div class="event-list-container">
-    <?php foreach ($_events as $_event) : ?>
-        <div class="event-list-item">
-            <a href="<?php echo $_event->getEventUrl()?>">
-                <?php echo $_event->getZip();?>
-            </a><br />
-        </div>
-    <?php endforeach;?>
+    <div class="col-sm-12" style="overflow: hidden">
+        <?php echo $this->getPagerHtml(); ?>
     </div>
-    <?php echo $this->getPagerHtml(); ?>
+    <div class="col-md-12">
+        <ul class="list-group" style="margin: 20px 0px;">
+            <?php foreach ($_events as $_event) : ?>
+            <li class="list-group-item">
+                <span class="badge" style="background: #fff; border: 1px solid #e6008b; color:#e6008b"><?php echo date("d.m.Y", strtotime($_event->getStartAt()))?> - <?php echo date("d.m.Y", strtotime($_event->getEndAt()))?></span>
+                <a href="<?php echo $_event->getEventUrl()?>">
+                    <?php echo $_event->getTitle();?>
+                </a>
+            </li>
+            <?php endforeach;?>
+         </ul>
+    </div>
+    <div class="col-sm-12" style="overflow: hidden">
+        <?php echo $this->getPagerHtml(); ?>
+    </div>
+</div>
 <?php else : ?>
     <?php echo Mage::helper('julfiker_party')->__('There are no events at this moment');?>
 <?php endif;?>

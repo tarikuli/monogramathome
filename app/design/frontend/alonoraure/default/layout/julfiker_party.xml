@@ -17,7 +17,20 @@
  */
 -->
 <layout>
-    
+    <default module="julfiker_party">
+        <reference name="left">
+            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
+                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_invites</name><path>party/event/invites</path><label>View invites</label></action>
+            </block>
+            <remove name="tags_popular"/>
+            <remove name="catalog.compare.sidebar"/>
+            <remove name="right.poll"/>
+            <remove name="static_image_left"/>
+            <remove name="amenu"/>
+        </reference>
+    </default>
     <julfiker_party_event_index translate="label" module="julfiker_party">
         <label>Events list</label>
         <update handle="page_two_columns_left" />
@@ -25,14 +38,27 @@
             <block type="julfiker_party/event_list" name="event_list" template="julfiker_party/event/list.phtml" />
         </reference>
     </julfiker_party_event_index>
+    <julfiker_party_event_create translate="label" module="julfiker_party">
+        <label>Book an event</label>
+        <update handle="page_two_columns_left" />
+        <reference name="head">
+            <action method="setTitle"><title>Monogram at home :: Book an event </title></action>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/event_event" name="event_create" template="julfiker_party/event/form/event.phtml" />
+        </reference>
+    </julfiker_party_event_create>
     <julfiker_party_event_view translate="label" module="julfiker_party">
-        <label>Event view page</label>
+        <label>Event create page</label>
+        <reference name="head">
+            <action method="setTitle"><title>Event view title </title></action>
+        </reference>
         <update handle="page_two_columns_left" />
         <reference name="content">
             <block type="julfiker_party/event_view" name="event_view" template="julfiker_party/event/view.phtml" />
-            <block type="julfiker_party/event_partyorderitem_list" name="event.partyorderitem_list" as="event_partyorderitems" template="julfiker_party/event/partyorderitem/list.phtml" />
-            <block type="julfiker_party/event_partyparticipate_list" name="event.partyparticipate_list" as="event_partyparticipates" template="julfiker_party/event/partyparticipate/list.phtml" />
-            <block type="julfiker_party/event_partysuccesspromotion_list" name="event.partysuccesspromotion_list" as="event_partysuccesspromotions" template="julfiker_party/event/partysuccesspromotion/list.phtml" />
+            <!--<block type="julfiker_party/event_partyorderitem_list" name="event.partyorderitem_list" as="event_partyorderitems" template="julfiker_party/event/partyorderitem/list.phtml" />-->
+            <!--<block type="julfiker_party/event_partyparticipate_list" name="event.partyparticipate_list" as="event_partyparticipates" template="julfiker_party/event/partyparticipate/list.phtml" />-->
+            <!--<block type="julfiker_party/event_partysuccesspromotion_list" name="event.partysuccesspromotion_list" as="event_partysuccesspromotions" template="julfiker_party/event/partysuccesspromotion/list.phtml" />-->
         </reference>
     </julfiker_party_event_view>
 </layout>

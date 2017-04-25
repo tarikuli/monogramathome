@@ -1,0 +1,78 @@
+<form class="form-horizontal" action="<?php echo $this->getSavingAction()?>" method="post">
+    <fieldset>
+        <legend style="display: block">Book an event</legend>
+        <div class="col-sm-10">
+            <div class="form-group">
+                <label for="inputTitle" class="control-label">Event Title</label>
+                <div class="">
+                    <input class="form-control" name="event[title]" id="inputTitle" placeholder="Title" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="desc" class="control-label">Event detail</label>
+                <textarea class="form-control" name="event[description]" rows="3" id="desc"></textarea>
+                <span class="help-block">Some information about the event.</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Hostess information</label>
+                <div class="radio">
+                    <label>
+                        <input name="data[host]" id="optionsRadios1" value="1" checked="" type="radio">
+                        A customer host this event.
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input name="data[host]" id="optionsRadios2" value="2" type="radio">
+                        I am hosting this event
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Event location</label>
+                <div class="radio">
+                    <label>
+                        <input name="data[loc_type]" value="1" checked="" type="radio">
+                        A customer host this event.
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input name="data[loc_type]"  value="2" type="radio">
+                        I am hosting this event
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Event date and time</label>
+                <div class="">
+                    <label class="control-label">
+                        Start at
+                    </label>
+                    <input name="data[start_at]" class="form-control"  type="text">
+                    <span class="help-block">Only oder are accepted for 3 weeks for this event.</span>
+                </div>
+                <div class="">
+                    <label class="control-label" class="form-control" >
+                        End at
+                    </label>
+                    <input name="data[end_at]" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="">
+                    <button class="button pink-button" title="Cancel"  type="reset">
+                        <span>
+                            <span>Reset</span>
+                        </span>
+                    </button>
+                    <button class="button pink-button" title="Book NOW"  type="submit">
+                        <span>
+                            <span>Book Now</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>

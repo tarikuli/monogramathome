@@ -49,7 +49,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
                 $breadcrumbBlock->addCrumb(
                     'events',
                     array(
-                        'label' => Mage::helper('julfiker_party')->__('Events'),
+                        'label' => Mage::helper('julfiker_party')->__('View all events'),
                         'link'  => '',
                     )
                 );
@@ -117,14 +117,14 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
                 $breadcrumbBlock->addCrumb(
                     'events',
                     array(
-                        'label' => Mage::helper('julfiker_party')->__('Events'),
+                        'label' => Mage::helper('julfiker_party')->__('View all events'),
                         'link'  => Mage::helper('julfiker_party/event')->getEventsUrl(),
                     )
                 );
                 $breadcrumbBlock->addCrumb(
                     'event',
                     array(
-                        'label' => $event->getZip(),
+                        'label' => $event->getTitle(),
                         'link'  => '',
                     )
                 );
@@ -133,6 +133,36 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->addLinkRel('canonical', $event->getEventUrl());
+        }
+        $this->renderLayout();
+    }
+
+    public function createAction() {
+        $this->loadLayout();
+        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                $breadcrumbBlock->addCrumb(
+                    'home',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('Home'),
+                        'link'  => Mage::getUrl(),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'events',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('Book an event'),
+                        'link'  => '',
+                    )
+                );
+            }
+        }
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->addLinkRel('canonical', Mage::helper('julfiker_party/event')->getEventsUrl());
         }
         $this->renderLayout();
     }
