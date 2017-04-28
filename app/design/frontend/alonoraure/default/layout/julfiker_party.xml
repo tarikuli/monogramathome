@@ -42,7 +42,11 @@
         <label>Book an event</label>
         <update handle="page_two_columns_left" />
         <reference name="head">
-            <action method="setTitle"><title>Monogram at home :: Book an event </title></action>
+            <action method="setTitle"><title>Monogram at home :: Book an event </title></action><!--
+            <action  method="addItem"><type>js</type><name>party/moment.min.js</name></action>
+            <action  method="addItem"><type>js</type><name>party/bootstrap-datetimepicker.min.js</name></action>-->
+            <action  method="addItem"><type>js</type><name>party/event.js</name></action>
+            <action method="addItem"><type>js_css</type><name>party/css/bootstrap-datetimepicker.min.css</name></action>
         </reference>
         <reference name="content">
             <block type="julfiker_party/event_event" name="event_create" template="julfiker_party/event/form/event.phtml" />
@@ -52,6 +56,7 @@
         <label>Event create page</label>
         <reference name="head">
             <action method="setTitle"><title>Event view title </title></action>
+            <action  method="addItem"><type>js</type><name>party/event.js</name></action>
         </reference>
         <update handle="page_two_columns_left" />
         <reference name="content">
