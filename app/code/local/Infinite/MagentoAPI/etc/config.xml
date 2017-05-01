@@ -46,6 +46,17 @@
         </helpers>
     </global>
     <frontend>
+    
+		<routers>
+		   <Infinite_MagentoAPI>
+		       <use>standard</use>
+		       <args>
+		          <module>Infinite_MagentoAPI</module>
+		          <frontName>jeweltestmodule</frontName>
+		       </args>
+		    </Infinite_MagentoAPI>
+		</routers>
+     
         <events>
             <customer_login>
                 <observers>
