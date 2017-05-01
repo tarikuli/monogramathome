@@ -64,7 +64,7 @@ class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 				$purchaseData['Item-Taxable-'.$index]	= 'Yes';
 				$purchaseData['Item-Unit-Price-'.$index]	= $item->getRowTotal();
 				$purchaseData['Item-Url-'.$index]	= "http://shop.monogramathome.com/".$productObject->getUrlPath();
-				$purchaseData['Item-Thumb-'.$index]	= $productObject->getImageUrl();
+				$purchaseData['Item-Thumb-'.$index]	= "<img border=0 width=70 height=70 src=".$productObject->getImageUrl().">";
 				
 				# Another for loop for Parameter Options
 				$itemOptions = $item->getProductOptions();
