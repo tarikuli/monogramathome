@@ -106,14 +106,15 @@ class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 			$purchaseData['Tax-Charge']	= $orderObject->getBaseTaxAmount(); //'0.00';
 			$purchaseData['Total']	= $orderObject->getGrandTotal(); // '17.95';
 
-			echo "<pre>1XXXXXX"; print_r($purchaseData); echo "</pre>";	
+			
+			echo "Requested Array<br><pre>"; print_r($purchaseData); echo "</pre>";	
 					
-			$client = new Zend_Http_Client('http://5p.monogramonline.com/hook');
+			$client = new Zend_Http_Client('http://dev.monogramonline.com//hook');
 			$client->setMethod(Zend_Http_Client::POST);
 			$client->setParameterPost($purchaseData);
 			$json = $client->request()->getBody();
 			
-			echo "<pre>2XXXXXX"; print_r($json); echo "</pre>"; die();
+			echo "<pre>Returned Array<br>"; print_r($json); echo "</pre>"; die();
 
 		}
 	}
