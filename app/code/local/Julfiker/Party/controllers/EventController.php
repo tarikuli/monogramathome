@@ -166,4 +166,25 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         }
         $this->renderLayout();
     }
+
+    public function addressAction() {
+        $customerId = $this->getRequest()->get("id");
+        if(!$customerId) {
+            $customerObj = Mage::getSingleton('customer/session')->getCustomer();
+            $customerId = $customerObj->getId();
+        }
+        $customer =  Mage::getModel('customer/customer')->load($customerId);
+        $data = array();
+        foreach ($customer->getAddresses() as $address) {
+            $street = $address->getStreet();
+            $data[$address->getId()] = $street[0].", ".$address->getCity().", ".$address->getPostcode().", ".$address->getCountry();
+        }
+        $this->getResponse()->clearHeaders()->setHeader(
+            'Content-type',
+            'application/json'
+        );
+        $this->getResponse()->setBody(
+            Mage::helper('core')->jsonEncode($data)
+        );
+    }
 }
