@@ -29,11 +29,14 @@
                 </div>
             </div>
             <div class="form-group" id="customer_block">
-                <label for="inputTitle" class="control-label">Choose customer</label>
+                <label for="inputTitle" class="control-label">Choose customer<?php echo $this->getCustomers() ?></label>
                 <div style="overflow: hidden">
                     <div class="col-md-8" style="padding-left: 0">
-                        <select class="form-control" name="customer">
-                            <option>Customer name</option>
+                        <select class="form-control" name="customer" id="customers">
+                            <option value="">Select member</option>
+                            <?php foreach($this->getCustomers() as $customer):?>
+                                <option value="<?php echo $customer->getId()?>"><?php echo $customer->getName()?></option>
+                            <?php endforeach ?>
                         </select>
                     </div>
                     <div class="col-md-4" style="padding-left:0;"> OR <a href="#new_customer" class="btn btn-default">Add new customer</a></div>
@@ -58,7 +61,7 @@
                 <label class="control-label">Choose address</label>
                 <div style="overflow: hidden">
                     <div class="col-md-8" style="padding-left: 0">
-                        <select class="form-control" name="data[address]">
+                        <select class="form-control" id="addresses" name="data[address]">
                             <option>Address</option>
                         </select>
                     </div>
