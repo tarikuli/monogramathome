@@ -104,8 +104,30 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
 	
 	/**
      * Checkout page
+     * One page checkout consists of following steps
+     * (1) Customer login method aka Checkout method
+     * (2) Billing information (address)
+     * (3) Shipping information (address)
+     * (4) Shipping method
+     * (5) Payment information
+     * (6) Order review, in short: DO THE ORDER
+     * // STEP(1)
+     * $checkout->saveCheckoutMethod('guest');
+     * // STEP(2)
+     * $checkout->saveBilling($billingAddress, false);
+     * // STEP(3)
+     * $checkout->saveShipping($shippingAddress, false);
+     * // STEP(4)
+     * $checkout->saveShippingMethod('flatrate_flatrate');
+     * // STEP(5)
+     * $checkout->savePayment(array('method'=>'checkmo'));
+     * // STEP(6)
+     * $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
+     * $checkout->saveOrder();
      */
+	
     public function indexAction(){
+    	# Check is One Page Check Out Enable or Disable.
         if (!Mage::helper('checkout')->canOnepageCheckout()) {
             Mage::getSingleton('checkout/session')->addError($this->__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
@@ -178,7 +200,7 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure' => true)));
         
         
-
+        #echo "<pre>"; print_r($this->getOnepage()->initCheckout()); echo "</pre>"; die();
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
