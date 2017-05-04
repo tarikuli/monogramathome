@@ -20,7 +20,7 @@
 .mini-contentCart .subtotal .price{ color: #484848; display: inline-block;font-size: 16px;font-family: oswald;}
 .mini-contentCart .actions a.view-cart { margin: 0 0 15px;}
 .mini-contentCart .actions a{background-color:transparent; color:#747474;text-decoration:none;font-size:13px;line-height:36px;padding:0 13px;display:block;margin:5px 0; text-transform: uppercase;transition:all 500ms ease-in-out 0s;-moz-transition:all 500ms ease-in-out 0s;-webkit-transition:all 500ms ease-in-out 0s;-o-transition:all 500ms ease-in-out 0s;border: 1px solid #dcdcdc; border-radius: 20px; -moz-border-radius: 20px; -webkit-border-radius: 20px; -o-border-radius: 20px; font-family: oswald;}
-.mini-contentCart .actions a:hover{background-color:#ce9634;color: #fff;}
+.mini-contentCart .actions a:hover{background-color:#ec008b;color: #fff;}
 #miniMagiccart .item:hover{background-color:#dddddd}
 #miniMagiccart a.btn-remove,a.btn-edit,a.btn-remove{float:none;margin:0 5px 0 0;display: inline-block;vertical-align: top;}
 #miniMagiccart a.btn-remove .fa,a.btn-edit .fa,a.btn-remove .fa{ border-radius: 50%;  height: 18px; line-height: 16px; width: 18px;}
