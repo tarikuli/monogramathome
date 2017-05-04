@@ -72,14 +72,15 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
     protected function _initEvent()
     {
         $eventId   = $this->getRequest()->getParam('id', 0);
-        $event     = Mage::getModel('julfiker_party/event')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($eventId);
-        if (!$event->getId()) {
-            return false;
-        } elseif (!$event->getStatus()) {
-            return false;
+        $event     = Mage::getModel('julfiker_party/event');
+
+        if ($eventId) {
+            $event->setStoreId(Mage::app()->getStore()->getId())
+                ->load($eventId);
         }
+// elseif (!$event->getStatus()) {
+//            return false;
+//        }
         return $event;
     }
 
@@ -188,9 +189,87 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         );
     }
 
-    public function saveAction() {
-        $request = $this->getRequest()->get('event');
-        print_r($request);
-        die();
+    public function saveAction()
+    {
+        //$request = $this->getRequest()->get('event');
+        $iDefaultStoreId = Mage::app()
+            ->getWebsite()
+            ->getDefaultGroup()
+            ->getDefaultStoreId();
+
+        if ($data = $this->getRequest()->getPost('event')) {
+            $data['stores'][] = $iDefaultStoreId;
+            $data['start_at'] = date("Y-m-d H:i:s", strtotime($data['start_at'] . " " . $data['start_time']));
+            $data['end_at'] = date("Y-m-d H:i:s", strtotime($data['end_at'] . " " . $data['end_time']));
+            try {
+                unset($data['start_time']);
+                unset($data['end_time']);
+                $data = $this->_setData($data);
+                //$data = $this->_filterDates($data, array('start_at' ,'end_at'));
+                $event = $this->_initEvent();
+                $event->addData($data);
+                $event->save();
+                $this->_redirect('*/*/');
+                return;
+            } catch (Mage_Core_Exception $e) {
+                Mage::getSingleton('fronted/session')->addError($e->getMessage());
+                Mage::getSingleton('frontend/session')->setEventData($data);
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                return;
+            } catch (Exception $e) {
+                Mage::logException($e);
+                Mage::getSingleton('frontend/session')->addError(
+                    Mage::helper('julfiker_party')->__('There was a problem saving the event.')
+                );
+                Mage::getSingleton('frontend/session')->setEventData($data);
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                return;
+            }
+        }
+        Mage::getSingleton('frontend/session')->addError(
+            Mage::helper('julfiker_party')->__('Unable to find event to save.')
+        );
+        $this->_redirect('*/*/');
+    }
+
+    private function _setData($data) {
+        $customerId = 0;
+        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $customerData = Mage::getSingleton('customer/session')->getCustomer();
+            $customerId = $customerData->getId();
+        }
+        $data['created_by'] = $customerId;
+
+        if ($data['host'] == "self") {
+            $data['host'] = $customerId;
+        }
+        else if ($data['host'] == "member") {
+            $data['host'] = $data['member'];
+        }
+
+        if ($data['loc_type'] == "default") {
+            $customer = Mage::getSingleton('customer/customer')->load($data['host']);
+            $address = $customer->getPrimaryBillingAddress();
+        }
+        else if ($data['loc_type'] == "diff") {
+            $address = Mage::getModel('customer/address')->load($data['addressId']);
+        }
+        //var_dump($address);
+        $data = $this->_setLocation($data, $address);
+        $data['status'] = 1;
+        $data['url_key'] = strtolower(str_replace(" ", "_",$data['title']));
+        return $data;
+    }
+
+    private function _setLocation($data, $address) {
+        $street = $address->getStreet();
+        $data['city'] = $address->getCity();
+        $data['zip'] = $address->getPostcode();
+        $data['country'] = $address->getCountry();
+        $data['address'] = $street[0];
+        if (isset($street[1])) {
+            $data['address'] .= " ". $street[1];
+        }
+        return $data;
     }
 }

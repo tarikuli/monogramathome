@@ -10,7 +10,7 @@
             </div>
             <div class="form-group">
                 <label for="desc" class="control-label">Event detail</label>
-                <textarea class="form-control" name="event[description]" rows="3" id="desc"></textarea>
+                <textarea class="form-control" name="event[desc]" rows="3" id="desc"></textarea>
                 <span class="help-block">Some information about the event.</span>
             </div>
             <div class="form-group">
@@ -32,7 +32,7 @@
                 <label for="inputTitle" class="control-label">Choose member<?php echo $this->getCustomers() ?></label>
                 <div style="overflow: hidden">
                     <div class="col-md-8" style="padding-left: 0">
-                        <select class="form-control required-entry" name="event[customer]" id="customers">
+                        <select class="form-control required-entry" name="event[member]" id="customers">
                             <option value="">Select member</option>
                             <?php foreach($this->getCustomers() as $customer):?>
                                 <option value="<?php echo $customer->getId()?>"><?php echo $customer->getName()?></option>
@@ -61,7 +61,7 @@
                 <label class="control-label">Choose location</label>
                 <div style="overflow: hidden">
                     <div class="col-md-8" style="padding-left: 0">
-                        <select class="form-control required" id="addresses" name="event[address]">
+                        <select class="form-control required-entry" id="addresses" name="event[addressId]">
                             <option value="">Address</option>
                         </select>
                     </div>
@@ -78,7 +78,7 @@
                         <img title="Select date" id="_start_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
                     </div>
                     <div class="col-xs-2" style="padding-left:0;">
-                        <select class="timeSelect">
+                        <select class="timeSelect" name="event[start_time]">
                         </select>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                         <img title="Select date" id="_end_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
                     </div>
                     <div class="col-xs-2" style="padding-left:0;">
-                        <select class="timeSelect">
+                        <select class="timeSelect" name="event[end_time]">
                         </select>
                     </div>
                 </div>
