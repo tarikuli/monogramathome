@@ -54,7 +54,54 @@
             return html;
         }
 
+        var form = new VarienForm('event_form', true);
+        //Validation.add('start_at','You failed to enter baz!',function(the_field_value){
+        //    if(the_field_value == 'baz')
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //});
+
         //$('#datetimepicker1').datetimepicker();
         //$('#datetimepicker2').datetimepicker();
+
+        function populate(selector) {
+            var select = $(selector);
+            var hours, minutes, ampm;
+            for(var i = 420; i <= 1320; i += 15){
+                hours = Math.floor(i / 60);
+                minutes = i % 60;
+                if (minutes < 10){
+                    minutes = '0' + minutes; // adding leading zero
+                }
+                ampm = hours % 24 < 12 ? 'AM' : 'PM';
+                hours = hours % 12;
+                if (hours === 0){
+                    hours = 12;
+                }
+                select.append($('<option></option>')
+                    .attr('value', hours + ':' + minutes + ' ' + ampm)
+                    .text(hours + ':' + minutes + ' ' + ampm));
+            }
+        }
+
+        populate('.timeSelect'); // use selector for your select
+
+        Calendar.setup({
+            inputField : 'start_at',
+            ifFormat : '%m/%e/%y',
+            button : '_start_at',
+            align : 'Bl',
+            singleClick : true
+        });
+
+        Calendar.setup({
+            inputField : 'end_at',
+            ifFormat : '%m/%e/%y',
+            button : '_end_at',
+            align : 'Bl',
+            singleClick : true
+        });
     });
 })(jQuery);

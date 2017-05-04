@@ -42,11 +42,9 @@
         <label>Book an event</label>
         <update handle="page_two_columns_left" />
         <reference name="head">
-            <action method="setTitle"><title>Monogram at home :: Book an event </title></action><!--
-            <action  method="addItem"><type>js</type><name>party/moment.min.js</name></action>
-            <action  method="addItem"><type>js</type><name>party/bootstrap-datetimepicker.min.js</name></action>-->
+            <action method="setTitle"><title>Monogram at home :: Book an event </title></action>
             <action  method="addItem"><type>js</type><name>party/event.js</name></action>
-            <action method="addItem"><type>js_css</type><name>party/css/bootstrap-datetimepicker.min.css</name></action>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
         </reference>
         <reference name="content">
             <block type="julfiker_party/event_event" name="event_create" template="julfiker_party/event/form/event.phtml" />
@@ -60,6 +58,7 @@
         </reference>
         <update handle="page_two_columns_left" />
         <reference name="content">
+
             <block type="julfiker_party/event_view" name="event_view" template="julfiker_party/event/view.phtml" />
             <!--<block type="julfiker_party/event_partyorderitem_list" name="event.partyorderitem_list" as="event_partyorderitems" template="julfiker_party/event/partyorderitem/list.phtml" />-->
             <!--<block type="julfiker_party/event_partyparticipate_list" name="event.partyparticipate_list" as="event_partyparticipates" template="julfiker_party/event/partyparticipate/list.phtml" />-->

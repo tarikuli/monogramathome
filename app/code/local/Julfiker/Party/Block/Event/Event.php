@@ -25,7 +25,7 @@ class Julfiker_Party_Block_Event_Event extends Mage_Core_Block_Template
 {
 
     public function getSavingAction() {
-        return "/party/event/save";
+        return "/monogramathome/party/event/save";
     }
 
     public function getCustomers() {

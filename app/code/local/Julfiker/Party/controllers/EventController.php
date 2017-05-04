@@ -187,4 +187,10 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             Mage::helper('core')->jsonEncode($data)
         );
     }
+
+    public function saveAction() {
+        $request = $this->getRequest()->get('event');
+        print_r($request);
+        die();
+    }
 }

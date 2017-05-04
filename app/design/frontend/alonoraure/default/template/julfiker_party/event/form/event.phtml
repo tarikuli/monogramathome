@@ -1,11 +1,11 @@
-<form class="form-horizontal" action="<?php echo $this->getSavingAction()?>" method="post">
+<form class="form-horizontal" action="<?php echo $this->getSavingAction()?>" method="post" id="event_form">
     <fieldset>
         <legend style="display: block">Book an event</legend>
         <div class="col-sm-10">
             <div class="form-group">
-                <label for="inputTitle" class="control-label">Event Title</label>
+                <label for="inputTitle" class="control-label required">Event Title</label>
                 <div class="">
-                    <input class="form-control" name="event[title]" id="inputTitle" placeholder="Title" type="text">
+                    <input class="form-control required-entry" name="event[title]" id="inputTitle" placeholder="Title" type="text">
                 </div>
             </div>
             <div class="form-group">
@@ -17,74 +17,84 @@
                 <label class="control-label">Hostess information</label>
                 <div class="radio">
                     <label>
-                        <input name="data[host]" id="optionsRadios1" class="customer_host" value="1" checked="" type="radio">
+                        <input name="event[host]" id="optionsRadios1" class="customer_host" value="member" checked="" type="radio">
                         A customer host this event.
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input name="data[host]" id="optionsRadios2" class="self_host" value="2" type="radio">
+                        <input name="event[host]" id="optionsRadios2" class="self_host" value="self" type="radio">
                         I am hosting this event
                     </label>
                 </div>
             </div>
             <div class="form-group" id="customer_block">
-                <label for="inputTitle" class="control-label">Choose customer<?php echo $this->getCustomers() ?></label>
+                <label for="inputTitle" class="control-label">Choose member<?php echo $this->getCustomers() ?></label>
                 <div style="overflow: hidden">
                     <div class="col-md-8" style="padding-left: 0">
-                        <select class="form-control" name="customer" id="customers">
+                        <select class="form-control required-entry" name="event[customer]" id="customers">
                             <option value="">Select member</option>
                             <?php foreach($this->getCustomers() as $customer):?>
                                 <option value="<?php echo $customer->getId()?>"><?php echo $customer->getName()?></option>
                             <?php endforeach ?>
                         </select>
                     </div>
-                    <div class="col-md-4" style="padding-left:0;"> OR <a href="#new_customer" class="btn btn-default">Add new customer</a></div>
+                    <div class="col-md-4" style="padding-left:0;"> OR &nbsp;<a href="#new_customer" class="btn btn-default">Add new member</a></div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label">Event location</label>
                 <div class="radio">
                     <label>
-                        <input name="data[loc_type]" class="host_loc" value="1" checked="" type="radio">
+                        <input name="event[loc_type]" class="host_loc" value="default" checked="" type="radio">
                         Host default address.
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input name="data[loc_type]" class="diff_loc" value="2" type="radio">
+                        <input name="event[loc_type]" class="diff_loc" value="diff" type="radio">
                         Different Location
                     </label>
                 </div>
             </div>
             <div class="form-group" id="address_block" style="display: none">
-                <label class="control-label">Choose address</label>
+                <label class="control-label">Choose location</label>
                 <div style="overflow: hidden">
                     <div class="col-md-8" style="padding-left: 0">
-                        <select class="form-control" id="addresses" name="data[address]">
-                            <option>Address</option>
+                        <select class="form-control required" id="addresses" name="event[address]">
+                            <option value="">Address</option>
                         </select>
                     </div>
-                    <div class="col-md-4" style="padding-left:0;"> OR <a href="#new_address" class="btn btn-default">Add new location</a></div>
+                    <div class="col-md-4" style="padding-left:0;"> OR &nbsp; <a href="#new_address" class="btn btn-default">Add new location</a></div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="" id="datetimepicker2">
-                    <div class='input-group date' id='datetimepicker1'>
-                        <label class="control-label">
-                            Start at
-                        </label>
-                        <input type='text' class="form-control" />
+                <label class="control-label">
+                    Start at
+                </label>
+                <div style="overflow: hidden">
+                    <div class="col-xs-7" style="padding-left:0;">
+                        <input type='text' class="form-control required-entry" id="start_at" name="event['start_at]" style="float: left; width: 90%" />
+                        <img title="Select date" id="_start_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
+                    </div>
+                    <div class="col-xs-2" style="padding-left:0;">
+                        <select class="timeSelect">
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="" id="datetimepicker2">
-                    <div class='input-group date' id='datetimepicker1'>
-                        <label class="control-label">
-                            End at
-                        </label>
-                        <input type='text' class="form-control" />
+                <label class="control-label">
+                    End at
+                </label>
+                <div style="overflow: hidden">
+                    <div class="col-xs-7" style="padding-left:0; overflow: hidden">
+                        <input type='text' class="form-control required-entry" id="end_at" name="event['end_at]" style="float: left; width: 90%" />
+                        <img title="Select date" id="_end_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
+                    </div>
+                    <div class="col-xs-2" style="padding-left:0;">
+                        <select class="timeSelect">
+                        </select>
                     </div>
                 </div>
             </div>
