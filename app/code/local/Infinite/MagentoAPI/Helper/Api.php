@@ -247,7 +247,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
                     $attributeSetModel->load($product->getAttributeSetId());
                     $attributeSetName  = $attributeSetModel->getAttributeSetName();
                     
-                    /* Comment by Jewel */
+                    /*  Comment by Jewel */
                     #if(0 == strcmp($attributeSetName, self::ATTRIBUTE_SET)) {
                     #    $this->_addQueue($customerObject);
                     #}
