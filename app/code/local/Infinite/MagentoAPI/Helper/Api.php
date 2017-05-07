@@ -42,39 +42,46 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 	public function registration($params, $customer)
 	{
-		$data = array(
-			'username' => $customer->getUsername(), 
-			'password' => $params['password'],
-			'sponsor_name' => 'shop', 
-			'fullname' => $customer->getName(), 
-			'address1' => $params['street'][0], 
-			'address2' => 'N/A', 
-			'postcode' => $params['postcode'], 
-			'email' => $params['email'], 
-			'package' => 'null', 
-			'mobile' => $params['telephone'], 
-			'package_id' => 0,
-		);
-
-		if(isset($params['package']))
-			$data['package'] = $params['package'];
-
-		if(isset($params['sponsor_name']))
-			$data['sponsor_name'] = $params['sponsor_name'];
-
-		$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
-		if(isset($ambassadorObject))
-		{
-			$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
-			$data['sponsor_name'] = $websitecode;
-		}
-
-		if(isset($params['street'][1]) && trim($params['street'][1]) != "")
-			$data['address2'] = $params['street'][1];
-
-        //Email notification to customer support
-        Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId());
-		$response = $this->call('registration', $data);
+// 		// Get group Id
+// 		$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+// 		//Get customer Group name
+// 		$group = Mage::getModel('customer/group')->load($groupId);
+		
+// 		if($group->getCode() == self::GROUP_AMBASSADOR ){
+			$data = array(
+				'username' => $customer->getUsername(), 
+				'password' => $params['password'],
+				'sponsor_name' => 'shop', 
+				'fullname' => $customer->getName(), 
+				'address1' => $params['street'][0], 
+				'address2' => 'N/A', 
+				'postcode' => $params['postcode'], 
+				'email' => $params['email'], 
+				'package' => 'null', 
+				'mobile' => $params['telephone'], 
+				'package_id' => 0,
+			);
+	
+			if(isset($params['package']))
+				$data['package'] = $params['package'];
+	
+			if(isset($params['sponsor_name']))
+				$data['sponsor_name'] = $params['sponsor_name'];
+	
+			$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+			if(isset($ambassadorObject))
+			{
+				$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
+				$data['sponsor_name'] = $websitecode;
+			}
+	
+			if(isset($params['street'][1]) && trim($params['street'][1]) != "")
+				$data['address2'] = $params['street'][1];
+	
+	        //Email notification to customer support
+	        Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId());
+			$response = $this->call('registration', $data);
+// 		}
 	}
 
 	public function editProfile($params)
@@ -211,7 +218,8 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 					'purchase_datetime' => $orderObject->getCreatedAt(),
 				);
 
-				$totalAmount = 0; $orderItems = $orderObject->getAllItems();
+				$totalAmount = 0; 
+				$orderItems = $orderObject->getAllItems();
 				foreach($orderItems as $item)
 				{
 					$productId = $item->getProductId();
@@ -238,10 +246,25 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
                     $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
                     $attributeSetModel->load($product->getAttributeSetId());
                     $attributeSetName  = $attributeSetModel->getAttributeSetName();
+                    
+                    /* Comment by Jewel */
+                    #if(0 == strcmp($attributeSetName, self::ATTRIBUTE_SET)) {
+                    #    $this->_addQueue($customerObject);
+                    #}
+                    
                     if(0 == strcmp($attributeSetName, self::ATTRIBUTE_SET)) {
-                        $this->_addQueue($customerObject);
+                    	$attributeCheck[] = 1;
+                    }else{
+                    	$attributeCheck[] = 0;
                     }
 				}
+				
+				/* Check If any non kit Product exist */
+				if(array_sum($attributeCheck) == count($attributeCheck)) {
+					/* If only KIT in Product then Add to QUE for create sub domain */
+					$this->_addQueue($customerObject);
+				}
+				
 				$data['total_amount'] = $totalAmount;
 				$response = $this->call('purchase', $data);
 			}
