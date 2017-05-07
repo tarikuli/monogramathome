@@ -138,7 +138,9 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         $this->_getCart()->truncate()->save();
         $this->_getSession()->setCartWasUpdated(true);
 
+        # Get Kit ID by request onclick="setLocation('{{store url="ambassador/index/index/starterkit/1467"
         $starterKitId = $this->getRequest()->getParam('starterkit');
+        
         if(!isset($starterKitId))
         {
         	$starterKitCollection = Mage::getModel('catalog/product')->getCollection()
@@ -149,9 +151,10 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         	if($starterKitCollection->count())
         		$starterKitId = $starterKitCollection->getFirstItem()->getId();
         }
-
+        
         if(isset($starterKitId))
         {
+        	# Insert KIT in Cart.
 	        $product = Mage::getModel('catalog/product')->load($starterKitId);
 			$this->_getCart()->addProduct($product, array('qty' => 1));
 			$this->_getCart()->save();
@@ -168,7 +171,7 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         	Mage::getSingleton('core/session')->setAmbassadorWebsiteName($customerObject->getUsername());
         }
 
-		//if(Mage::getSingleton('customer/session')->isLoggedIn())
+		//  if(Mage::getSingleton('customer/session')->isLoggedIn())
 		//	Mage::getSingleton('customer/session')->logout();
 		
 		/* CUSTOM CODE ENDS */
