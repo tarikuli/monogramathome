@@ -30,8 +30,7 @@ class Infinite_MagentoAPI_Model_Observer
 		if((count($cart->getAllVisibleItems()) > 1) &&  in_array(1, $attributeCheck)) {
 			/* If only KIT in Product then Add to QUE for create sub domain */
 			Mage::getSingleton('checkout/cart')->truncate();
-			Mage::getSingleton('core/session')->addWarning('Can Not Mix Product and Kit');
-			
+			Mage::getSingleton('core/session')->addError('Cannot add the Kit and General item to shopping cart.');
 		}
 	
 	}
