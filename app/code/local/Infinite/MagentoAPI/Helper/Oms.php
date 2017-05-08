@@ -2,12 +2,8 @@
 
 class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 {
-    const GROUP_AMBASSADOR = "Ambassador";
-    const ATTRIBUTE_SET = "Kit";
-    const API_URL = "http://www.dashboard.monogramathome.com/backoffice/magento_api";
+    const OMS_URL = "http://dev.monogramonline.com//hook";
 
-    protected $_apiUrl;
-    private $needExecuted = true;
 
 
 
@@ -107,14 +103,15 @@ class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 			$purchaseData['Total']	= $orderObject->getGrandTotal(); // '17.95';
 
 			
-			echo "Requested Array<br><pre>"; print_r($purchaseData); echo "</pre>";	
+			#echo "Requested Array<br><pre>"; print_r($purchaseData); echo "</pre>";	
 					
-			$client = new Zend_Http_Client('http://dev.monogramonline.com//hook');
+			$client = new Zend_Http_Client(self::OMS_URL);
 			$client->setMethod(Zend_Http_Client::POST);
 			$client->setParameterPost($purchaseData);
 			$json = $client->request()->getBody();
 			
-			echo "<pre>Returned Array<br>"; print_r($json); echo "</pre>"; die();
+			$this->info('OMS Order_ID = (' . $orderId . ') sent. ');
+			#echo "<pre>Returned Array<br>"; print_r($json); echo "</pre>"; die();
 
 		}
 	}
