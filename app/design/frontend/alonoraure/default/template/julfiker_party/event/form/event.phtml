@@ -39,7 +39,7 @@
                             <?php endforeach ?>
                         </select>
                     </div>
-                    <div class="col-md-4" style="padding-left:0;"> OR &nbsp;<a href="#new_customer" class="btn btn-default">Add new member</a></div>
+                    <div class="col-md-4" style="padding-left:0;"> OR &nbsp;<a href="#new_customer" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-target="#customer_popup" class="btn btn-default"><?php echo $this->__("Add new member")?></a></div>
                 </div>
             </div>
             <div class="form-group">
@@ -65,7 +65,7 @@
                             <option value="">Address</option>
                         </select>
                     </div>
-                    <div class="col-md-4" style="padding-left:0;"> OR &nbsp; <a href="#new_address" class="btn btn-default">Add new location</a></div>
+                    <div class="col-md-4" style="padding-left:0;"> OR &nbsp; <a href="#" class="btn btn-default"  data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-target="#location_popup" ><?php echo $this->__("Add new location")?></a></div>
                 </div>
             </div>
             <div class="form-group">
@@ -74,7 +74,7 @@
                 </label>
                 <div style="overflow: hidden">
                     <div class="col-xs-7" style="padding-left:0;">
-                        <input type='text' class="form-control required-entry" id="start_at" name="event['start_at]" style="float: left; width: 90%" />
+                        <input type='text' class="form-control required-entry" id="start_at" name="event[start_at]" style="float: left; width: 90%" />
                         <img title="Select date" id="_start_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
                     </div>
                     <div class="col-xs-2" style="padding-left:0;">
@@ -89,7 +89,7 @@
                 </label>
                 <div style="overflow: hidden">
                     <div class="col-xs-7" style="padding-left:0; overflow: hidden">
-                        <input type='text' class="form-control required-entry" id="end_at" name="event['end_at]" style="float: left; width: 90%" />
+                        <input type='text' class="form-control required-entry" id="end_at" name="event[end_at]" style="float: left; width: 90%" />
                         <img title="Select date" id="_end_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
                     </div>
                     <div class="col-xs-2" style="padding-left:0;">
@@ -115,3 +115,24 @@
         </div>
     </fieldset>
 </form>
+
+
+<script>
+    jQuery(document).ready(function(){
+        Calendar.setup({
+            inputField : 'start_at',
+            ifFormat : '%m/%e/%Y',
+            button : '_start_at',
+            align : 'Bl',
+            singleClick : true
+        });
+
+        Calendar.setup({
+            inputField : 'end_at',
+            ifFormat : '%m/%e/%Y',
+            button : '_end_at',
+            align : 'Bl',
+            singleClick : true
+        });
+    });
+</script>
