@@ -63,9 +63,6 @@
         //    return false;
         //});
 
-        //$('#datetimepicker1').datetimepicker();
-        //$('#datetimepicker2').datetimepicker();
-
         function populate(selector) {
             var select = $(selector);
             var hours, minutes, ampm;
