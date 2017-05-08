@@ -49,6 +49,10 @@
         <reference name="content">
             <block type="julfiker_party/event_event" name="event_create" template="julfiker_party/event/form/event.phtml" />
         </reference>
+        <reference name="before_body_end">
+            <block type="customer/form_register" name="customer_popup" as="customer_popup" template="julfiker_party/event/form/customer.phtml" />
+            <block type="customer/form_register" name="address_popup" as="address_popup" template="julfiker_party/event/form/address.phtml" />
+        </reference>
     </julfiker_party_event_create>
     <julfiker_party_event_view translate="label" module="julfiker_party">
         <label>Event create page</label>
