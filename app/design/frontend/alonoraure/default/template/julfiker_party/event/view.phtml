@@ -1,0 +1,64 @@
+<?php
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event view template
+ *
+ * @category    Julfiker
+ * @package     Julfiker_Party
+ * @author      Ultimate Module Creator
+ */
+?>
+<?php $_event = $this->getCurrentEvent();?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="page-title event-title">
+    <h1><?php echo $_event->getZip(); ?></h1>
+</div>
+<div class="event-view">
+    <div class="event-title">
+        <?php echo Mage::helper('julfiker_party')->__('Title');?>:<?php echo $_event->getTitle();?>
+
+    </div>
+    <div class="event-desc">
+        <?php echo Mage::helper('julfiker_party')->__('Description');?>:<?php echo $_event->getDesc();?>
+
+    </div>
+    <div class="event-start_at">
+        <?php echo Mage::helper('julfiker_party')->__("Start time");?>: <?php echo Mage::helper('core')->formatDate($_event->getStartAt(), 'full');?>
+
+    </div>
+    <div class="event-end_at">
+        <?php echo Mage::helper('julfiker_party')->__("End time");?>: <?php echo Mage::helper('core')->formatDate($_event->getEndAt(), 'full');?>
+
+    </div>
+    <div class="event-country">
+        <?php echo Mage::helper('julfiker_party')->__("Country");?>:<?php echo ($_event->getCountry()) ? Mage::getModel('directory/country')->load($_event->getCountry())->getName():Mage::helper('julfiker_party')->__('None') ?>
+
+    </div>
+    <div class="event-city">
+        <?php echo Mage::helper('julfiker_party')->__('City');?>:<?php echo $_event->getCity();?>
+
+    </div>
+    <div class="event-zip">
+        <?php echo Mage::helper('julfiker_party')->__('Zip');?>:<?php echo $_event->getZip();?>
+
+    </div>
+    <div class="event-address">
+        <?php echo Mage::helper('julfiker_party')->__('Address');?>:<?php echo $_event->getAddress();?>
+
+    </div>
+
+</div>
