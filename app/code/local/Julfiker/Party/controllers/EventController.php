@@ -199,13 +199,14 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
 
         if ($data = $this->getRequest()->getPost('event')) {
             $data['stores'][] = $iDefaultStoreId;
-            $data['start_at'] = date("Y-m-d H:i:s", strtotime($data['start_at'] . " " . $data['start_time']));
-            $data['end_at'] = date("Y-m-d H:i:s", strtotime($data['end_at'] . " " . $data['end_time']));
+            $data['start_at'] = $data['start_at'] . " " . $data['start_time'];
+            $data['end_at'] = $data['end_at'] . " " . $data['end_time'];
+
             try {
                 unset($data['start_time']);
                 unset($data['end_time']);
                 $data = $this->_setData($data);
-                //$data = $this->_filterDates($data, array('start_at' ,'end_at'));
+                $data = $this->_filterDateTime($data, array('start_at' ,'end_at'));
                 $event = $this->_initEvent();
                 $event->addData($data);
                 $event->save();
@@ -230,6 +231,13 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             Mage::helper('julfiker_party')->__('Unable to find event to save.')
         );
         $this->_redirect('*/*/');
+    }
+
+    public function joinAction() {
+        $request = $this->getRequest();
+        $status = $request->get('status');
+        $email = $request->get('email');
+        $event = $request->get('event');
     }
 
     private function _setData($data) {
@@ -272,4 +280,5 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         }
         return $data;
     }
+
 }

@@ -63,9 +63,6 @@
         //    return false;
         //});
 
-        //$('#datetimepicker1').datetimepicker();
-        //$('#datetimepicker2').datetimepicker();
-
         function populate(selector) {
             var select = $(selector);
             var hours, minutes, ampm;
@@ -88,20 +85,6 @@
 
         populate('.timeSelect'); // use selector for your select
 
-        Calendar.setup({
-            inputField : 'start_at',
-            ifFormat : '%m/%e/%y',
-            button : '_start_at',
-            align : 'Bl',
-            singleClick : true
-        });
 
-        Calendar.setup({
-            inputField : 'end_at',
-            ifFormat : '%m/%e/%y',
-            button : '_end_at',
-            align : 'Bl',
-            singleClick : true
-        });
     });
 })(jQuery);
