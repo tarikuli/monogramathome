@@ -1,0 +1,38 @@
+<?php 
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event Party_success_promotion list template
+ *
+ * @category    Julfiker
+ * @package     Julfiker_Party
+ * @author      Ultimate Module Creator
+ */
+?>
+<?php $_partysuccesspromotions = $this->getPartysuccesspromotions(); ?>
+<?php if ($_partysuccesspromotions->getSize() > 0) :?>
+<div class="partysuccesspromotion-title">
+    <h2><?php echo Mage::helper('julfiker_party')->__('Party_success_promotion') ?></h2>
+</div>
+<div class="partysuccesspromotions-list-container">
+    <?php foreach ($_partysuccesspromotions as $_partysuccesspromotion) : ?>
+        <div class="partysuccesspromotion-list-item">
+            <?php echo $_partysuccesspromotion->getPromoCode();?>
+<br />
+        </div>
+    <?php endforeach;?>
+</div>
+<?php endif;?>

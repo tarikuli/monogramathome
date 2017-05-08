@@ -1,0 +1,104 @@
+<?php 
+/**
+ * Julfiker_Party extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event list template
+ *
+ * @category    Julfiker
+ * @package     Julfiker_Party
+ * @author      Ultimate Module Creator
+ */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_events = $this->getEvents(); ?>
+<div class="page-title event-title">
+    <h1><?php echo Mage::helper('julfiker_party')->__('Events') ?></h1>
+</div>
+<div class="row" style="overflow: hidden; clear: both">
+<?php if ($_events->getSize() > 0) :?>
+    <div class="col-sm-12" style="overflow: hidden">
+        <?php echo $this->getPagerHtml(); ?>
+    </div>
+    <div class="col-md-12">
+        <div class="panel-group" id="accordion">
+            <?php
+            $activeClass = "in";
+            foreach ($_events as $_event) : ?>
+                <?php
+                $startAt = date_create($_event->getStartAt());
+                $endAt = date_create($_event->getEndAt());
+                ?>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                       <h4 class="panel-title" >
+                           <a data-toggle="collapse" data-parent="#accordion"  href="#event_<?php echo $_event->getId()?>">
+                               <div style="overflow: hidden" >
+                               <span class="pull-left"><?php echo $_event->getTitle();?></span>
+                               <span style="color:#ec008b; background: #fff" class="badge pull-right">
+                                   <i class="fa fa-calendar" aria-hidden="true"></i>
+                                   <?php echo date_format($startAt, 'M - d, Y') ?>
+                               </span>
+                               </div>
+                           </a>
+                       </h4>
+                    </div>
+                    <div id="event_<?php echo $_event->getId()?>" class="panel-collapse collapse <?php echo $activeClass?>">
+                        <div class="panel-body">
+                            <div style="overflow: hidden">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-xs"><i class="fa fa-star" aria-hidden="true"></i> Interested</a>
+                                    <a href="#" class="btn btn-default btn-xs"><i class="fa fa-check" aria-hidden="true"></i> Going</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-xs"> <i class="fa fa-share-square-o" aria-hidden="true"></i> Invite </a>
+                                </div>
+                            </div>
+                            <hr />
+                            <?php if ($_event->getDesc()): ?>
+                                <p>
+                                    <b><i class="fa fa-info-circle"  style="color:#ec008b" aria-hidden="true"></i> About the event <br /> </b>
+                                    <?php echo $_event->getDesc()?>
+                                </p>
+                            <?php endif ?>
+                            <p>
+                                <b> <i class="fa fa-location-arrow" aria-hidden="true" style="color:#ec008b"></i> Location <br /> </b>
+                                <?php echo $_event->getAddress() ?>, <?php echo $_event->getCity() ?> - <?php echo $_event->getZip() ?>, <?php echo $_event->getCountry() ?>
+                            </p>
+                            <p>
+                                <b><i class="fa fa-clock-o" aria-hidden="true" style="color:#ec008b"></i> Event time   </b> <br />
+                                <span> Start At  </span> - <?php echo date_format($startAt,"d.m.Y h:i A"); ?> <br />
+                                <span> Start At  </span> End At - <?php echo date_format($endAt,"d.m.Y h:i A"); ?>
+                            </p>
+
+                            <hr />
+                            <p>
+                                <a href="" class="btn btn-default btn-xs"><i class="fa fa-check-circle" aria-hidden="true"></i> More details..</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <?php if ($activeClass == "in") $activeClass = ""; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <div class="col-sm-12" style="overflow: hidden">
+        <?php echo $this->getPagerHtml(); ?>
+    </div>
+</div>
+<?php else : ?>
+    <?php echo Mage::helper('julfiker_party')->__('There are no events at this moment');?>
+<?php endif;?>
+
