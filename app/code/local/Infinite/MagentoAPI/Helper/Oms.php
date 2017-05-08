@@ -110,7 +110,7 @@ class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 			$client->setParameterPost($purchaseData);
 			$json = $client->request()->getBody();
 			
-			$this->info('OMS Order_ID = (' . $orderId . ') sent.');
+			$this->info('OMS Order_ID = (' . $orderId . ') sent. ');
 			#echo "<pre>Returned Array<br>"; print_r($json); echo "</pre>"; die();
 
 		}
