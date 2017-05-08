@@ -2,6 +2,40 @@
 
 class Infinite_MagentoAPI_Model_Observer
 {
+	public function checkoutCartAttribute($observer)
+	{
+
+		$cart = Mage::getSingleton('checkout/session')->getQuote();
+	
+
+	
+		foreach ($cart->getAllVisibleItems() as $item) 
+		{ 
+			
+		   /** Adding to queue processing multi store dynamically */
+			$product = Mage::getModel('catalog/product')->load($item->getProductId());
+			$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+			$attributeSetModel->load($product->getAttributeSetId());
+			$attributeSetName  = $attributeSetModel->getAttributeSetName();
+		  
+			if(0 == strcmp($attributeSetName, "Kit")) {
+				$attributeCheck[] = 1;
+			}else{
+				$attributeCheck[] = 0;
+			}
+		   
+		 }
+	
+		/* Check If any non kit Product exist */
+		if((count($cart->getAllVisibleItems()) > 1) &&  in_array(1, $attributeCheck)) {
+			/* If only KIT in Product then Add to QUE for create sub domain */
+			Mage::getSingleton('checkout/cart')->truncate();
+			Mage::getSingleton('core/session')->addWarning('Can Not Mix Product and Kit');
+			
+		}
+	
+	}
+	
 	public function customerLoggedIn($observer)
 	{
 		$params = Mage::app()->getRequest()->getParams();

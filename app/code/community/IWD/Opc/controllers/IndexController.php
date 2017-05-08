@@ -104,8 +104,30 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
 	
 	/**
      * Checkout page
+     * One page checkout consists of following steps
+     * (1) Customer login method aka Checkout method
+     * (2) Billing information (address)
+     * (3) Shipping information (address)
+     * (4) Shipping method
+     * (5) Payment information
+     * (6) Order review, in short: DO THE ORDER
+     * // STEP(1)
+     * $checkout->saveCheckoutMethod('guest');
+     * // STEP(2)
+     * $checkout->saveBilling($billingAddress, false);
+     * // STEP(3)
+     * $checkout->saveShipping($shippingAddress, false);
+     * // STEP(4)
+     * $checkout->saveShippingMethod('flatrate_flatrate');
+     * // STEP(5)
+     * $checkout->savePayment(array('method'=>'checkmo'));
+     * // STEP(6)
+     * $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
+     * $checkout->saveOrder();
      */
+	
     public function indexAction(){
+    	# Check is One Page Check Out Enable or Disable.
         if (!Mage::helper('checkout')->canOnepageCheckout()) {
             Mage::getSingleton('checkout/session')->addError($this->__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
@@ -116,7 +138,9 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         $this->_getCart()->truncate()->save();
         $this->_getSession()->setCartWasUpdated(true);
 
+        # Get Kit ID by request onclick="setLocation('{{store url="ambassador/index/index/starterkit/1467"
         $starterKitId = $this->getRequest()->getParam('starterkit');
+        
         if(!isset($starterKitId))
         {
         	$starterKitCollection = Mage::getModel('catalog/product')->getCollection()
@@ -127,9 +151,10 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         	if($starterKitCollection->count())
         		$starterKitId = $starterKitCollection->getFirstItem()->getId();
         }
-
+        
         if(isset($starterKitId))
         {
+        	# Insert KIT in Cart.
 	        $product = Mage::getModel('catalog/product')->load($starterKitId);
 			$this->_getCart()->addProduct($product, array('qty' => 1));
 			$this->_getCart()->save();
@@ -146,7 +171,7 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         	Mage::getSingleton('core/session')->setAmbassadorWebsiteName($customerObject->getUsername());
         }
 
-		//if(Mage::getSingleton('customer/session')->isLoggedIn())
+		//  if(Mage::getSingleton('customer/session')->isLoggedIn())
 		//	Mage::getSingleton('customer/session')->logout();
 		
 		/* CUSTOM CODE ENDS */
@@ -178,7 +203,7 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
         Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure' => true)));
         
         
-
+        #echo "<pre>"; print_r($this->getOnepage()->initCheckout()); echo "</pre>"; die();
         $this->getOnepage()->initCheckout();
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');

@@ -6,6 +6,7 @@ class IWD_Opc_Model_Checkout_Type_Onepage extends Mage_Checkout_Model_Type_Onepa
     {
         $this->validate();
         $isNewCustomer = false;
+        # Formatting and Prepare Order Data for Save in DataBase
         switch ($this->getCheckoutMethod()) {
             case self::METHOD_GUEST:
                 $this->_prepareGuestQuote();
@@ -18,7 +19,8 @@ class IWD_Opc_Model_Checkout_Type_Onepage extends Mage_Checkout_Model_Type_Onepa
                 $this->_prepareCustomerQuote();
                 break;
         }
-
+		
+        # Save Order data in Table 
         $service = Mage::getModel('sales/service_quote', $this->getQuote());
         $service->submitAll();
 
