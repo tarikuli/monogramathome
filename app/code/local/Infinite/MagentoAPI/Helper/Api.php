@@ -262,7 +262,9 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 				/* Check If any non kit Product exist */
 				if(array_sum($attributeCheck) == count($attributeCheck)) {
 					/* If only KIT in Product then Add to QUE for create sub domain */
+					$this->needExecuted = true;
 					$this->_addQueue($customerObject);
+					$this->info('_addQueue function called');
 				}
 				
 				$data['total_amount'] = $totalAmount;
