@@ -141,16 +141,30 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		{
 			$orderObject = Mage::getModel('sales/order')->load($orderId);
 
+			/* If Order details exist by Order ID */
 			if($orderObject->getCustomerId())
 			{
+				# Get group Id
+				$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+				
+				# Get customer Group name
+				$group = Mage::getModel('customer/group')->load($groupId);
+				
+				# Load Customer details by Customer ID
 				$customerObject = Mage::getModel('customer/customer')->load($orderObject->getCustomerId());
 
+				# Get BECOME AN AMBASSADOR 5 step Data
 				$checkoutMethod = Mage::getSingleton('core/session')->getAmbassadorCheckoutMethod();
+				
+				# IF checkoutMethod data load BECOME AN AMBASSADOR 5 step Data. From AMBASSADOR  
 				if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
 				{
+					# Get Ambassador sud domain name
 					$websiteName = Mage::getSingleton('core/session')->getAmbassadorWebsiteNameForApi();
+					
 					if(isset($websiteName))
 					{
+						# If sub domain ( Ambassador web site ) exist
 						$params = array(
 							'username' => $websiteName
 						);
@@ -166,9 +180,10 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 						$this->changePackage($params);
 					}
 					else
-					{
+					{ 
+						# If no sub domain exist and new AMBASSADOR going to register. 
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
-						
+
 						$params = array(
 							'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(),
 							'street' => array($billingAddress->getStreet1()),
@@ -194,11 +209,14 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
 				}
 				else
-				{
+				{   # IF checkoutMethod data load from Member or Customer
+					
+					# Load Customer  checkoutMethod data.
 					$checkoutMethod = $this->getOnepage()->getCheckoutMethod();
-
+					
 					if(isset($checkoutMethod) && $checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
 					{
+
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
 						
 						$params = array(
@@ -208,12 +226,22 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 							'email' => $customerObject->getEmail(),
 							'telephone' => $billingAddress->getTelephone()
 						);
-						$this->registration($params, $customerObject);
+						/* Comment By Jewel If  coming from Defult checkout/cart/ page then Dont Register Member or Customer in MLM*/
+						#$this->registration($params, $customerObject);
 					}
 				}
 
+				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
+				if($group->getCode() != self::GROUP_AMBASSADOR ){
+$this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
+					$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
+				}else {
+					$userName = $customerObject->getUsername();
+				}
+				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
+				
 				$data = array(
-					'user_name' => $customerObject->getUsername(), 
+					'user_name' => $userName, 
 					'order_id' => $orderObject->getIncrementId(), 
 					'purchase_datetime' => $orderObject->getCreatedAt(),
 				);
@@ -363,5 +391,18 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
         //Email notification for Ambassador update
         Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId(), true);
         return $customer;
+    }
+    
+    /**
+     * Get Store ID by Web_Site_ID
+     * 
+     * @param string
+     * @return string
+     */
+    protected function _getStoreNameByWebSiteId($websiteId){
+    	$website = Mage::getModel('core/website')->load($websiteId);
+    	$website = explode(".", $website->getName());
+    	$this->info('8	REQUEST WebSite Name: '. $website[0]);
+    	return $website[0];
     }
 }
