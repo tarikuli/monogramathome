@@ -56,7 +56,8 @@ class Infinite_MagentoAPI_Model_Observer
 		$customer = $observer->getCustomer();
 
     	$apiHelper = Mage::helper('magento_api/api');
-		$apiHelper->registration($params, $customer);
+		/* Comment by Jewel */
+    	#$apiHelper->registration($params, $customer);
 	}
 
 	public function customerAccountEditPost($observer)
