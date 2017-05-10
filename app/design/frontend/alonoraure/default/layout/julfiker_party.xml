@@ -50,19 +50,17 @@
             <block type="julfiker_party/event_event" name="event_create" template="julfiker_party/event/form/event.phtml" />
         </reference>
         <reference name="before_body_end">
-            <block type="customer/form_register" name="customer_popup" as="customer_popup" template="julfiker_party/event/form/customer.phtml" />
+            <block type="customer/form_register" name="customer_popup" as="customer_popup" brefore="-" template="julfiker_party/event/form/customer.phtml"/>
             <block type="customer/form_register" name="address_popup" as="address_popup" template="julfiker_party/event/form/address.phtml" />
         </reference>
     </julfiker_party_event_create>
     <julfiker_party_event_view translate="label" module="julfiker_party">
-        <label>Event create page</label>
+        <label>Event view page</label>
         <reference name="head">
-            <action method="setTitle"><title>Event view title </title></action>
-            <action  method="addItem"><type>js</type><name>party/event.js</name></action>
+            <action  method="addItem"><type>js</type><name>party/jquery.circliful.min.js</name></action>
         </reference>
         <update handle="page_two_columns_left" />
         <reference name="content">
-
             <block type="julfiker_party/event_view" name="event_view" template="julfiker_party/event/view.phtml" />
             <!--<block type="julfiker_party/event_partyorderitem_list" name="event.partyorderitem_list" as="event_partyorderitems" template="julfiker_party/event/partyorderitem/list.phtml" />-->
             <!--<block type="julfiker_party/event_partyparticipate_list" name="event.partyparticipate_list" as="event_partyparticipates" template="julfiker_party/event/partyparticipate/list.phtml" />-->

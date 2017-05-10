@@ -129,9 +129,6 @@ class Julfiker_Party_Adminhtml_Party_EventController extends Julfiker_Party_Cont
 
             try {
                 $data = $this->_filterDates($data, array('start_at' ,'end_at'));
-                print_r($data);
-                die();
-
                 $event = $this->_initEvent();
                 $event->addData($data);
                 $event->save();
