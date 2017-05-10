@@ -24,41 +24,94 @@
 ?>
 <?php $_event = $this->getCurrentEvent();?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<div class="page-title event-title">
-    <h1><?php echo $_event->getZip(); ?></h1>
+<?php
+$startAt = date_create($_event->getStartAt());
+$endAt = date_create($_event->getEndAt());
+?>
+<div class="col-md-12">
+    <div class="page-title event-title">
+        <h1 class="panel-title" >
+            <div style="overflow: hidden" >
+               <span class="pull-left"><?php echo $_event->getTitle();?></span>
+               <span style="color:#ec008b; background: #fff" class="badge pull-right">
+                   <i class="fa fa-calendar" aria-hidden="true"></i>
+                   <?php echo date_format($startAt, 'M - d, Y') ?>
+               </span>
+            </div>
+        </h1>
+    </div>
+
+    <div style="overflow: hidden">
+        <div class="pull-left">
+            <a href="#" class="btn btn-default btn-xs"><i class="fa fa-star" aria-hidden="true"></i> Interested</a>
+            <a href="#" class="btn btn-default btn-xs"><i class="fa fa-check" aria-hidden="true"></i> Going</a>
+        </div>
+        <div class="pull-right">
+            <a href="#" class="btn btn-default btn-xs"> <i class="fa fa-share-square-o" aria-hidden="true"></i> Invite </a>
+        </div>
+    </div>
+    <hr />
+    <b>
+        <i class="fa fa-pie-chart" aria-hidden="true" style="color:#ec008b"></i>
+         <?php echo $this->__("Over view")?>
+    </b>
+    <div class="row">
+        <div class="col-md-3" style="text-align: center">
+            <div class="chart" data-percent="0"></div> <!--Todo: calculate percentage -->
+            <label><?php echo $this->__("Achieved order")?> <?php echo Mage::helper('core')->currency($this->getTotalOrderAmount(), true, false);?> </label>
+        </div>
+        <div class="col-md-9" style="padding-top: 20px;">
+            <div class="col-md-3" style="text-align: center">
+                <div class="chart" data-percent="<?php echo $this->getPercentageJoined() ?>"></div>
+                <label><?php echo $this->__("Joined")?> <?php echo $this->getTotalJoined() ?></label>
+            </div>
+            <div class="col-md-3" style="text-align: center">
+                <div class="chart" data-percent="<?php echo $this->getPercentageInterested() ?>"></div>
+                <label><?php echo $this->__("Interested")?> <?php echo $this->getTotalInterested() ?></label>
+            </div>
+            <div class="col-md-3" style="text-align: center">
+                <div class="chart" data-percent="<?php echo $this->getPercentageInvites()?>"></div>
+                <label><?php echo $this->__("Invited") ?> <?php echo $this->getTotalInvites()?> </label>
+            </div>
+            <div class="col-md-3" style="text-align: center">
+                <div class="chart" data-percent="<?php echo $this->getPercentageRejected()?>"></div>
+                <label><?php echo $this->__("Rejected") ?> <?php echo $this->getTotalReject()?> </label>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <?php if ($_event->getDesc()): ?>
+        <p>
+            <b><i class="fa fa-info-circle"  style="color:#ec008b" aria-hidden="true"></i> About the event <br /> </b>
+            <?php echo $_event->getDesc()?>
+        </p>
+    <?php endif ?>
+
+    <p>
+        <b> <i class="fa fa-location-arrow" aria-hidden="true" style="color:#ec008b"></i> Location <br /> </b>
+        <?php echo $_event->getAddress() ?>, <?php echo $_event->getCity() ?> - <?php echo $_event->getZip() ?>, <?php echo $_event->getCountry() ?>
+    </p>
+    <p>
+        <b><i class="fa fa-clock-o" aria-hidden="true" style="color:#ec008b"></i> Event time   </b> <br />
+        <span> Start At  </span> - <?php echo date_format($startAt,"d.m.Y h:i A"); ?> <br />
+        <span> End At </span> - <?php echo date_format($endAt,"d.m.Y h:i A"); ?>
+    </p>
 </div>
-<div class="event-view">
-    <div class="event-title">
-        <?php echo Mage::helper('julfiker_party')->__('Title');?>:<?php echo $_event->getTitle();?>
 
-    </div>
-    <div class="event-desc">
-        <?php echo Mage::helper('julfiker_party')->__('Description');?>:<?php echo $_event->getDesc();?>
+<script>
+    jQuery(document).ready(function() {
+        jQuery('.chart').circliful({
+            animate : true,
+            diameter : 5000,
+            guage: 2,
+            coverBg: '#fff',
+            bgColor: '#fff',
+            fillColor: '#fff',
+            foregroundColor: "#ec008b",
+            percentSize: '15px',
+            percentWeight: 'bold'
+        });
+    });
 
-    </div>
-    <div class="event-start_at">
-        <?php echo Mage::helper('julfiker_party')->__("Start time");?>: <?php echo Mage::helper('core')->formatDate($_event->getStartAt(), 'full');?>
-
-    </div>
-    <div class="event-end_at">
-        <?php echo Mage::helper('julfiker_party')->__("End time");?>: <?php echo Mage::helper('core')->formatDate($_event->getEndAt(), 'full');?>
-
-    </div>
-    <div class="event-country">
-        <?php echo Mage::helper('julfiker_party')->__("Country");?>:<?php echo ($_event->getCountry()) ? Mage::getModel('directory/country')->load($_event->getCountry())->getName():Mage::helper('julfiker_party')->__('None') ?>
-
-    </div>
-    <div class="event-city">
-        <?php echo Mage::helper('julfiker_party')->__('City');?>:<?php echo $_event->getCity();?>
-
-    </div>
-    <div class="event-zip">
-        <?php echo Mage::helper('julfiker_party')->__('Zip');?>:<?php echo $_event->getZip();?>
-
-    </div>
-    <div class="event-address">
-        <?php echo Mage::helper('julfiker_party')->__('Address');?>:<?php echo $_event->getAddress();?>
-
-    </div>
-
-</div>
+</script>

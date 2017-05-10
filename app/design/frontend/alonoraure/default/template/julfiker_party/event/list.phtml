@@ -80,12 +80,12 @@
                             <p>
                                 <b><i class="fa fa-clock-o" aria-hidden="true" style="color:#ec008b"></i> Event time   </b> <br />
                                 <span> Start At  </span> - <?php echo date_format($startAt,"d.m.Y h:i A"); ?> <br />
-                                <span> Start At  </span> End At - <?php echo date_format($endAt,"d.m.Y h:i A"); ?>
+                                <span> End At </span> - <?php echo date_format($endAt,"d.m.Y h:i A"); ?>
                             </p>
 
                             <hr />
                             <p>
-                                <a href="" class="btn btn-default btn-xs"><i class="fa fa-check-circle" aria-hidden="true"></i> More details..</a>
+                                <a href="<?php echo $_event->getEventUrl()?>" class="btn btn-default btn-xs"><i class="fa fa-check-circle" aria-hidden="true"></i> More details..</a>
                             </p>
                         </div>
                     </div>
