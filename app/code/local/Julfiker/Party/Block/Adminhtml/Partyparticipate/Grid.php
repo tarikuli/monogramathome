@@ -87,15 +87,7 @@ class Julfiker_Party_Block_Adminhtml_Partyparticipate_Grid extends Mage_Adminhtm
                 'base_link' => 'adminhtml/party_event/edit'
             )
         );
-        $this->addColumn(
-            'status',
-            array(
-                'header'    => Mage::helper('julfiker_party')->__('Status'),
-                'align'     => 'left',
-                'index'     => 'status',
-            )
-        );
-        
+        $status = Mage::helper('julfiker_party/event')->getAllEventStatus();
         $this->addColumn(
             'status',
             array(
@@ -103,8 +95,10 @@ class Julfiker_Party_Block_Adminhtml_Partyparticipate_Grid extends Mage_Adminhtm
                 'index'   => 'status',
                 'type'    => 'options',
                 'options' => array(
-                    '1' => Mage::helper('julfiker_party')->__('Enabled'),
-                    '0' => Mage::helper('julfiker_party')->__('Disabled'),
+                    $status['STATUS_INVITE'] => Mage::helper('julfiker_party')->__('Invites'),
+                    $status['STATUS_INVITE_REJECT']  => Mage::helper('julfiker_party')->__('Invite rejected'),
+                    $status['STATUS_JOINED'] => Mage::helper('julfiker_party')->__('Joined'),
+                    $status['STATUS_INTERESTED'] => Mage::helper('julfiker_party')->__('Interested')
                 )
             )
         );

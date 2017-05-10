@@ -85,18 +85,7 @@ class Julfiker_Party_Block_Adminhtml_Partyparticipate_Edit_Tab_Form extends Mage
 
            )
         );
-
-        $fieldset->addField(
-            'status',
-            'text',
-            array(
-                'label' => Mage::helper('julfiker_party')->__('Status'),
-                'name'  => 'status',
-                'required'  => true,
-                'class' => 'required-entry',
-
-           )
-        );
+        $status = Mage::helper('julfiker_party/event')->getAllEventStatus();
         $fieldset->addField(
             'status',
             'select',
@@ -105,12 +94,20 @@ class Julfiker_Party_Block_Adminhtml_Partyparticipate_Edit_Tab_Form extends Mage
                 'name'   => 'status',
                 'values' => array(
                     array(
-                        'value' => 1,
-                        'label' => Mage::helper('julfiker_party')->__('Enabled'),
+                        'value' => $status['STATUS_INVITE'],
+                        'label' => Mage::helper('julfiker_party')->__('Invites'),
                     ),
                     array(
-                        'value' => 0,
-                        'label' => Mage::helper('julfiker_party')->__('Disabled'),
+                        'value' => $status['STATUS_INVITE_REJECT'],
+                        'label' => Mage::helper('julfiker_party')->__('Rejected'),
+                    ),
+                    array(
+                        'value' => $status['STATUS_JOINED'],
+                        'label' => Mage::helper('julfiker_party')->__('Joined'),
+                    ),
+                    array(
+                        'value' => $status['STATUS_INTERESTED'],
+                        'label' => Mage::helper('julfiker_party')->__('Interested'),
                     ),
                 ),
             )

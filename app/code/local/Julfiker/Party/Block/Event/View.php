@@ -23,6 +23,13 @@
  */
 class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
 {
+
+    /**
+     * @return Julfiker_Party_Helper_Event
+     */
+    private function _eventHelper() {
+        return Mage::helper("julfiker_party/event");
+    }
     /**
      * get the current event
      *
@@ -33,5 +40,70 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
     public function getCurrentEvent()
     {
         return Mage::registry('current_event');
+    }
+
+    public function getTotalInvites() {
+        $event = $this->getCurrentEvent();
+        return $this->_eventHelper()->countInvites($event->getId());
+    }
+
+    public function getTotalParticipates() {
+        $event = $this->getCurrentEvent();
+        return $this->_eventHelper()->countTotalParticipates($event->getId());
+    }
+
+    public function getTotalJoined() {
+        $event = $this->getCurrentEvent();
+        return $this->_eventHelper()->countJoined($event->getId());
+    }
+
+    public function getTotalInterested() {
+        $event = $this->getCurrentEvent();
+        return $this->_eventHelper()->countInterested($event->getId());
+    }
+
+    public function getTotalReject() {
+        $event = $this->getCurrentEvent();
+        return $this->_eventHelper()->countInviteRejected($event->getId());
+    }
+
+    public function getTotalOrderAmount() {
+        $event = $this->getCurrentEvent();
+        return $this->_eventHelper()->sumOrders($event->getId());
+    }
+
+    public function getPercentageJoined() {
+        $baseTotal = $this->getTotalParticipates();
+        $total = $this->getTotalJoined();
+        $percent = $this->_percentage($baseTotal, $total);
+        return round($percent);
+    }
+
+    public function getPercentageInterested() {
+        $baseTotal = $this->getTotalParticipates();
+        $total = $this->getTotalInterested();
+        $percent = $this->_percentage($baseTotal, $total);
+        return round($percent);
+    }
+
+    public function getPercentageInvites() {
+        $baseTotal = $this->getTotalParticipates();
+        $total = $this->getTotalInvites();
+        $percent = $this->_percentage($baseTotal, $total);
+        return round($percent);
+    }
+
+    public function getPercentageRejected() {
+        $baseTotal = $this->getTotalParticipates();
+        $total = $this->getTotalReject();
+        $percent = $this->_percentage($baseTotal, $total);
+        return round($percent);
+    }
+
+    private function _percentage($totalAmount, $percentAmount) {
+        if ($totalAmount && $percentAmount)
+        return ($percentAmount * 100)/$totalAmount;
+
+        return 0;
     }
 }

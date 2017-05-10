@@ -2879,3 +2879,7 @@ button.pink-button:hover { color: #FFFFFF !important; }
 	/*.expand-section-link-wrapper { display: none; }
 	.expand-section { display: table-row; } */
 }
+
+.modal-backdrop {
+    z-index: -1;
+}

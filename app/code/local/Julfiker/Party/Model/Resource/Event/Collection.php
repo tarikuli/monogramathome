@@ -100,7 +100,7 @@ class Julfiker_Party_Model_Resource_Event_Collection extends Mage_Core_Model_Res
      * @return array
      * @author Julfiker
      */
-    protected function _toOptionArray($valueField='entity_id', $labelField='zip', $additional=array())
+    protected function _toOptionArray($valueField='entity_id', $labelField='title', $additional=array())
     {
         return parent::_toOptionArray($valueField, $labelField, $additional);
     }
@@ -114,7 +114,7 @@ class Julfiker_Party_Model_Resource_Event_Collection extends Mage_Core_Model_Res
      * @return array
      * @author Julfiker
      */
-    protected function _toOptionHash($valueField='entity_id', $labelField='zip')
+    protected function _toOptionHash($valueField='entity_id', $labelField='title')
     {
         return parent::_toOptionHash($valueField, $labelField);
     }

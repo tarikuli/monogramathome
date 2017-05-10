@@ -35,7 +35,7 @@ class Julfiker_Party_Block_Event_List extends Mage_Core_Block_Template
         $events = Mage::getResourceModel('julfiker_party/event_collection')
                          ->addStoreFilter(Mage::app()->getStore())
                          ->addFieldToFilter('status', 1);
-        $events->setOrder('zip', 'asc');
+        $events->setOrder('start_at', 'asc');
         $this->setEvents($events);
     }
 
