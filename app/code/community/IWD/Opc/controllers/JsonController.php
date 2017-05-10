@@ -187,6 +187,17 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}
 	}
 
+	private function _countDots($subDomainName){
+		
+		if (is_numeric($subDomainName[0])){
+			return true;
+		} elseif (preg_match('/[\'^£$%&*()}{@#~?><>,.|=_+¬-]/', $subDomainName)){
+			return true;
+		}
+		return false;
+
+	}
+	
 	public function checkWebsiteAction() {
 
 		if ($this->_expireAjax()) {
@@ -212,6 +223,9 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			{
 				$result['error'] = true;
 				$result['message'] = $this->__('Not Available');
+			}elseif ($this->_countDots($data['username'])){
+				$result['error'] = true;
+				$result['message'] = $this->__('Not Valide');
 			}
 			else
 				Mage::getSingleton('core/session')->setAmbassadorWebsiteName($data['username']);
