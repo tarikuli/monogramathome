@@ -28,6 +28,18 @@ class Julfiker_Party_Block_Event_Event extends Mage_Core_Block_Template
         return Mage::getUrl('party/event/save');
     }
 
+    public function getInviteAction() {
+        return Mage::getUrl('party/event/invite');
+    }
+
+    public function getInterestedAction() {
+        return Mage::getUrl('party/event/interested');
+    }
+
+    public function getGoingAction() {
+        return Mage::getUrl('party/event/going');
+    }
+
     public function getCustomers() {
         $targetGroup = Mage::getModel('customer/group');
         $group = $targetGroup->load('Member', 'customer_group_code');
@@ -45,5 +57,4 @@ class Julfiker_Party_Block_Event_Event extends Mage_Core_Block_Template
         $address->setCustomerFilter($customer);
         return $address->load();
     }
-
 }
