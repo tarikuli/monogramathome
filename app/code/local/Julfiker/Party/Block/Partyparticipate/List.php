@@ -32,9 +32,8 @@ class Julfiker_Party_Block_Partyparticipate_List extends Mage_Core_Block_Templat
     public function _construct()
     {
         parent::_construct();
-        $partyparticipates = Mage::getResourceModel('julfiker_party/partyparticipate_collection')
-                         ->addFieldToFilter('status', 1);
-        $partyparticipates->setOrder('status', 'asc');
+        $partyparticipates = Mage::getResourceModel('julfiker_party/partyparticipate_collection');
+        //$partyparticipates->setOrder('entity_id', 'asc');
         $this->setPartyparticipates($partyparticipates);
     }
 
