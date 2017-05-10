@@ -25,7 +25,7 @@ class Julfiker_Party_Block_Event_Event extends Mage_Core_Block_Template
 {
 
     public function getSavingAction() {
-        return "/monogramathome/party/event/save";
+        return Mage::getUrl('party/event/save');
     }
 
     public function getCustomers() {
@@ -38,10 +38,12 @@ class Julfiker_Party_Block_Event_Event extends Mage_Core_Block_Template
 
         return $customers;
     }
+
     public function getCustomerAddress($customerId) {
         $customer =  Mage::getModel('customer/customer')->load(171);
         $address = Mage::getModel("Customer/Entity_Address_Collection");
         $address->setCustomerFilter($customer);
         return $address->load();
     }
+
 }

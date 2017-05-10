@@ -171,4 +171,13 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
         }
         return $guests;
     }
+
+    public function getHostName($customerId) {
+        $customer = Mage::getSingleton('customer/customer')->load($customerId);
+        if ($customer)
+            return $customer->getName();
+
+
+         return null;
+    }
 }

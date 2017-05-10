@@ -83,19 +83,21 @@ $endAt = date_create($_event->getEndAt());
     <br />
     <?php if ($_event->getDesc()): ?>
         <p>
-            <b><i class="fa fa-info-circle"  style="color:#ec008b" aria-hidden="true"></i> About the event <br /> </b>
+            <b><i class="fa fa-info-circle"  style="color:#ec008b" aria-hidden="true"></i> <?php echo $this->__("About the event")?> <br /> </b>
             <?php echo $_event->getDesc()?>
         </p>
     <?php endif ?>
 
     <p>
-        <b> <i class="fa fa-location-arrow" aria-hidden="true" style="color:#ec008b"></i> Location <br /> </b>
+        <b> <i class="fa fa-location-arrow" aria-hidden="true" style="color:#ec008b"></i> <?php echo $this->__("Event host and location")?> <br /> </b>
+        <?php echo $this->__("Hosted by") ?> <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?> <br />
         <?php echo $_event->getAddress() ?>, <?php echo $_event->getCity() ?> - <?php echo $_event->getZip() ?>, <?php echo $_event->getCountry() ?>
     </p>
+
     <p>
-        <b><i class="fa fa-clock-o" aria-hidden="true" style="color:#ec008b"></i> Event time   </b> <br />
-        <span> Start At  </span> - <?php echo date_format($startAt,"d.m.Y h:i A"); ?> <br />
-        <span> End At </span> - <?php echo date_format($endAt,"d.m.Y h:i A"); ?>
+        <b><i class="fa fa-clock-o" aria-hidden="true" style="color:#ec008b"></i> <?php echo $this->__("Event date and time")?>   </b> <br />
+        <b> <?php echo $this->__("Start date")?>:</b> <?php echo date_format($startAt,"M - d, Y"); ?>,  <b><?php echo $this->__("Start time")?> :</b> <?php echo date_format($startAt,"h:i A"); ?> <br />
+        <b> <?php echo $this->__("End date")?>: </b> <?php echo date_format($endAt,"M - d, Y"); ?> ,  <b><?php echo $this->__("End time")?> :</b> <?php echo date_format($endAt,"h:i A"); ?>
     </p>
 </div>
 
