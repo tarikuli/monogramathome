@@ -307,6 +307,7 @@ class IWD_Opc_Model_Observer
 
 		foreach($emailTemplateConfiguration as $emailTemplates)
 		{
+			echo "<br>Called newsletterId: " . $newsletterId;
 			$newsletterId = $emailTemplates['template'];
 
 			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
@@ -315,10 +316,13 @@ class IWD_Opc_Model_Observer
 
 			if(!$newsletterEmailCollection->count())
 			{
+				echo "<br>Called newsletterEmailCollection: " . $newsletterEmailCollection->count();
 				$timeHours = self::EMAIL_HOUR_ELAPSE + intval($emailTemplates['hours']);
 
 				if($hourdiff > $timeHours)
 				{
+					echo "<br>Called hourdiff > timeHours: " . $hourdiff .">". $timeHours;
+					
 			    	//Variables for Confirmation Mail.
 					$emailTemplateVariables = array();
 					$emailTemplateVariables['ambassador_name'] = $customer->getName();
