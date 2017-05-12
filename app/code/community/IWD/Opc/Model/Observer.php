@@ -290,7 +290,7 @@ class IWD_Opc_Model_Observer
     protected function _sendAmbassadorEmails($customer, $emailTemplateConfiguration)
     {
     	Mage::log('Email Started for CUSTOMER: ' . $customer->getId(), null, "ambassador_emails.log");
-
+    	$newsletterEmailCollection[] = 0;
     	$customerId = $customer->getId();
         		
 		// Time Difference
@@ -324,17 +324,24 @@ class IWD_Opc_Model_Observer
 					$receiverDetail['name'] = $customer->getName();
 					$receiverDetail['email'] = $customer->getEmail();
 
-			    	$status = Mage::helper('opc')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
+			    	$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
 
 			    	Mage::getModel('opc/newsletter_email')
 			    		->setNewsletterId($newsletterId)
 			    		->setCustomerId($customerId)
 			    		->save();
 
-	    			Mage::log(json_encode(array('customer_id' => $customerId, 'newsletter_id' => $newsletterId, 'receiver' => $receiverDetail, 'status' => $status)), null, "ambassador_emails.log");
+	    			Mage::log(json_encode(array(
+		    			'customer_id' => $customerId."",
+		    			'newsletter_id' => $newsletterId,
+		    			'receiver' => $receiverDetail,
+		    			'status' => $status
+	    			)), null, "ambassador_emails.log");
 				}
 			}			
 		}
+		
+		Mage::log('Email Total Send : ' . $newsletterEmailCollection->count(), null, "ambassador_emails.log");
     }
 
     public function saveGeneralDetails($observer)

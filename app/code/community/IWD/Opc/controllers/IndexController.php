@@ -11,6 +11,13 @@ class IWD_Opc_IndexController extends Mage_Checkout_Controller_Action{
 
 	const KEYSALT = "aghtUJ6y";
 
+	public function ambassadorTestAction()
+	{
+		echo "Tigger sendAutoAmbassadorEmail<br>http://shop.monogramathome.com/ambassadorTest/index/ambassadorTest";
+		$api = Mage::getModel('opc/observer');
+		print_r($api->sendAutoAmbassadorEmail());
+	}
+		
 	/**
 	 * Get one page checkout model
 	 *
