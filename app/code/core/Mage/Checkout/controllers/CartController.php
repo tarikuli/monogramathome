@@ -504,7 +504,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $this->_getSession()->addError($this->__('Cannot remove the item.'));
         }
 
-        $this->_redirectReferer(Mage::getUrl('*/*'));
+        #$this->_redirectReferer(Mage::getUrl('*/*'));
+        $this->_redirect("*/cart");
     }
 
     /**

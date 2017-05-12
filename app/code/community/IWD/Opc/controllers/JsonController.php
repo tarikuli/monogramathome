@@ -225,7 +225,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				$result['message'] = $this->__('Not Available');
 			}elseif ($this->_countDots($data['username'])){
 				$result['error'] = true;
-				$result['message'] = $this->__('Not Valide');
+				$result['message'] = $this->__('Domain names can only accommodate alpha/numeric characters.<br>Please consider an alternate store name.');
 			}
 			else
 				Mage::getSingleton('core/session')->setAmbassadorWebsiteName($data['username']);
@@ -264,19 +264,22 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 			if(isset($productId))
 			{
+				Mage::getSingleton('checkout/cart')->truncate();
+				
 				$cartHelper = Mage::helper('checkout/cart');
-				$items = $cartHelper->getCart()->getItems();
-				$itemIds = array();
-				foreach ($items as $item) {
-					$itemIds[] = $item->getItemId();
-				}
+				
+// 				$items = $cartHelper->getCart()->getItems();
+// 				$itemIds = array();
+// 				foreach ($items as $item) {
+// 					$itemIds[] = $item->getItemId();
+// 				}
 
+// 				foreach ($itemIds as $itemId) {
+// 					$cartHelper->getCart()->removeItem($itemId)->save();
+// 				}
+				
 				$product = Mage::getModel('catalog/product')->load($productId);
 		        $cartHelper->getCart()->addProduct($product, array('qty' => 1))->save();
-
-				foreach ($itemIds as $itemId) {
-					$cartHelper->getCart()->removeItem($itemId)->save();
-				}
 			}
 
 			$result = array();
