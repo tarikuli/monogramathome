@@ -271,6 +271,7 @@ class IWD_Opc_Model_Observer
         $groupCollection = Mage::getModel('customer/group')->getCollection()
             ->addFieldToFilter('customer_group_code', $code);
 
+        echo "<br>1. Called GROUP_AMBASSADOR ".$groupCollection->count();
 		if($groupCollection->count())
 		{
 			$customerCollection = Mage::getModel('customer/customer')->getCollection()
@@ -283,6 +284,7 @@ class IWD_Opc_Model_Observer
 		    	$emailTemplatesOptions[] = $emailTemplates;
 
         	foreach($customerCollection as $customer)
+        		echo "<br>2. Called Customer email: ".$customer->getEmail();
         		$this->_sendAmbassadorEmails($customer, $emailTemplateConfiguration);
 		}
     }
@@ -340,7 +342,7 @@ class IWD_Opc_Model_Observer
 				}
 			}			
 		}
-		
+		echo "<br>Email Total Send : " . $newsletterEmailCollection->count();
 		Mage::log('Email Total Send : ' . $newsletterEmailCollection->count(), null, "ambassador_emails.log");
     }
 
