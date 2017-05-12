@@ -31,6 +31,8 @@ class Infinite_MagentoAPI_Model_Observer
 			/* If only KIT in Product then Add to QUE for create sub domain */
 			Mage::getSingleton('checkout/cart')->truncate();
 			Mage::getSingleton('core/session')->addError('Cannot add the Kit and General item to shopping cart.');
+			Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+			Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
 		}
 	
 	}

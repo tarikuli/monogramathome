@@ -209,7 +209,16 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
 				}
 				else
-				{   # IF checkoutMethod data load from Member or Customer
+				{  
+					Mage::getSingleton('core/session')->unsAmbassadorObject();
+					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+					Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+					Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+					Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+					Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+					
+					# IF checkoutMethod data load from Member or Customer
 					
 					# Load Customer  checkoutMethod data.
 					$checkoutMethod = $this->getOnepage()->getCheckoutMethod();
