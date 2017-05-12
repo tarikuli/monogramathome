@@ -313,10 +313,11 @@ class IWD_Opc_Model_Observer
 			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
 				->addFieldToFilter('newsletter_id', $newsletterId)
 				->addFieldToFilter('customer_id', $customerId);
-
+			
+			echo "<br>Called newsletterEmailCollection by newsletter_id: " . $newsletterId. " customer_id: ".$customerId;
+			echo "<br>Count newsletterEmailCollection: " . $newsletterEmailCollection->count();
 			if(!$newsletterEmailCollection->count())
 			{
-				echo "<br>Called newsletterEmailCollection: " . $newsletterEmailCollection->count();
 				$timeHours = self::EMAIL_HOUR_ELAPSE + intval($emailTemplates['hours']);
 
 				if($hourdiff > $timeHours)
