@@ -121,6 +121,17 @@
         </routers>
     </admin>
     <frontend>
+        <events>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <checkout_onepage_controller_success_action_event_order>
+                        <type>singleton</type>
+                        <class>Julfiker_Party_Model_Observer</class>
+                        <method>setEventOrder</method>
+                    </checkout_onepage_controller_success_action_event_order>
+                </observers>
+            </checkout_onepage_controller_success_action>
+        </events>
         <routers>
             <julfiker_party>
                 <use>standard</use>

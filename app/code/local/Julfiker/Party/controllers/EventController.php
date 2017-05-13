@@ -24,6 +24,7 @@
 class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
 {
     const AMABASSADOR_GROUP_NAME = 'AMBASSADOR';
+
     /**
       * default action
       *
@@ -332,6 +333,49 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         $partycipate->setCustomerId($customerId);
         $partycipate->save();
         $this->_redirectReferer();
+    }
+
+    public function orderAction() {
+        $this->loadLayout();
+        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+
+        $postData = $this->getRequest()->getPost();
+
+        if ($postData) {
+            $eventId = $postData['event'];
+            //Todo: check customer has joined this event and also time
+            Mage::getSingleton('core/session')->setEventId($eventId);
+            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('catalogsearch/advanced'));
+        }
+
+        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                $breadcrumbBlock->addCrumb(
+                    'home',
+                    array(
+                        'label'    => Mage::helper('julfiker_party')->__('Home'),
+                        'link'     => Mage::getUrl(),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'events',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('View all events'),
+                        'link'  => Mage::helper('julfiker_party/event')->getEventsUrl(),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'event',
+                    array(
+                        'label' => "Make an order",
+                        'link'  => '',
+                    )
+                );
+            }
+        }
+        $this->renderLayout();
     }
 
     private function _checkPermission() {
