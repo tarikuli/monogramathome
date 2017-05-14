@@ -46,6 +46,50 @@
             }
         });
 
+        $(document).on('submit', "#form-member", function(e) {
+            $.post($(this).attr('action')+"type/json",$(this).serialize(), function(result) {
+                if (result.error) {
+                    var message = result.message;
+                    alert(message);
+                }
+                else {
+                    $('#customer_popup').modal('toggle');
+                    $('#customer_popup').find('form').get(0).reset();
+                    $('#customers').append($('<option>', {
+                        value: result.id,
+                        text: result.name
+                    }));
+                    $('#customers option[value="'+result.id+'"]').attr('selected', 'selected');
+                }
+            });
+            e.preventDefault();
+        });
+
+        $(document).on('submit', "#form-address", function(e) {
+            var customerId = $('#customers').val();
+            if (customerId == ""){
+                alert("Please select member");
+                return;
+            }
+            $.post($(this).attr('action')+"id/"+customerId,$(this).serialize(), function(result) {
+                if (result.error) {
+                    var message = result.message;
+                    alert(message);
+                }
+                else {
+                    $('#location_popup').modal('toggle');
+                    $('#location_popup').find('form').get(0).reset();
+                    $('#addresses').append($('<option>', {
+                        value: result.id,
+                        text: result.location
+                    }));
+                    $('#addresses option[value="'+result.id+'"]').attr('selected', 'selected');
+                }
+            });
+            e.preventDefault();
+        });
+
+
         function jsonToHtml(json) {
             var html = ""
             $.each(json, function(key, val){
@@ -82,9 +126,6 @@
                     .text(hours + ':' + minutes + ' ' + ampm));
             }
         }
-
         populate('.timeSelect'); // use selector for your select
-
-
     });
 })(jQuery);
