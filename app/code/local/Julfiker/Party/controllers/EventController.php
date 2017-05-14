@@ -15,7 +15,7 @@
  * @license        http://opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * Event front contrller
+ * Event front controller
  *
  * @category    Julfiker
  * @package     Julfiker_Party
@@ -438,5 +438,4 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         }
         return $data;
     }
-
 }
