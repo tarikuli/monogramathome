@@ -65,29 +65,31 @@ class Julfiker_Party_Block_Adminhtml_Event_Edit_Tab_Form extends Mage_Adminhtml_
 
         $fieldset->addField(
             'start_at',
-            'date',
+            'datetime',
             array(
                 'label' => Mage::helper('julfiker_party')->__('Start time'),
                 'name'  => 'start_at',
+                'time'  => true,
                 'required'  => true,
                 'class' => 'required-entry',
 
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'  => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+            'format'  => Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
            )
         );
 
         $fieldset->addField(
             'end_at',
-            'date',
+            'datetime',
             array(
                 'label' => Mage::helper('julfiker_party')->__('End time'),
                 'name'  => 'end_at',
+                'time'  => true,
                 'required'  => true,
                 'class' => 'required-entry',
 
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'  => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+            'format'  => Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
            )
         );
 
@@ -165,7 +167,6 @@ class Julfiker_Party_Block_Adminhtml_Event_Edit_Tab_Form extends Mage_Adminhtml_
                 'values'=> Mage::helper('julfiker_party/data')->getCustomerOptions(),
             )
         );
-
 
         $fieldset->addField(
             'url_key',
