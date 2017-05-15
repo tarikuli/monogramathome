@@ -140,7 +140,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		foreach($orderIds as $orderId)
 		{
 			$orderObject = Mage::getModel('sales/order')->load($orderId);
-#echo "<pre>"; print_r($orderObject); echo "</pre>"; die();		
+echo "<pre>"; print_r($orderObject); echo "</pre>"; die();		
 Mage::log('1	Load orderId = '. $orderId);			
 $this->info('1	Load orderId = '. $orderId);
 			/* If Order details exist by Order ID */
