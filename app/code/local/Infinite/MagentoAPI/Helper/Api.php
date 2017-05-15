@@ -318,11 +318,11 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 					$this->info('_addQueue function called');
 				}
 				
-				$giftVoucherDiscount = (abs($orderObject->getGiftVoucherDiscount()) + abs($orderObject->getUseGiftCreditAmount()));
-				$data['total_amount'] = $totalAmount-$giftVoucherDiscount;
+				$giftVoucherDiscount = floatval(abs($orderObject->getGiftVoucherDiscount()) + abs($orderObject->getUseGiftCreditAmount()));
+				$data['total_amount'] = floatval(abs($totalAmount)- abs($giftVoucherDiscount));
 
-Mage::log("9	Order# = ". $orderId." SubTotal Amount = ".$totalAmount." GiftVoucherDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getUseGiftCreditAmount()));
-$this->info("9	Order# = ". $orderId." SubTotal Amount = ".$totalAmount." GiftVoucherDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getUseGiftCreditAmount()));
+Mage::log("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." GiftVoucherDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getUseGiftCreditAmount()));
+$this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." GiftVoucherDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getUseGiftCreditAmount()));
 				
 				$response = $this->call('purchase', $data);
 			}
