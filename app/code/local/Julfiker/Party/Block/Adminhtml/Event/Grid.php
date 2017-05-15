@@ -99,7 +99,7 @@ class Julfiker_Party_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_Block_Wid
             array(
                 'header' => Mage::helper('julfiker_party')->__('Start time'),
                 'index'  => 'start_at',
-                'type'=> 'date',
+                'type'=> 'datetime',
 
             )
         );
@@ -108,7 +108,7 @@ class Julfiker_Party_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_Block_Wid
             array(
                 'header' => Mage::helper('julfiker_party')->__('End time'),
                 'index'  => 'end_at',
-                'type'=> 'date',
+                'type'=> 'datetime',
 
             )
         );

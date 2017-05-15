@@ -128,7 +128,7 @@ class Julfiker_Party_Adminhtml_Party_EventController extends Julfiker_Party_Cont
         if ($data = $this->getRequest()->getPost('event')) {
 
             try {
-                $data = $this->_filterDates($data, array('start_at' ,'end_at'));
+                $data = $this->_filterDateTime($data, array('start_at' ,'end_at'));
                 $event = $this->_initEvent();
                 $event->addData($data);
                 $event->save();

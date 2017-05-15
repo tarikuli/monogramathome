@@ -1,0 +1,64 @@
+<?php
+/**
+ * Julfiker_Party extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ *
+ * @category       Julfiker
+ * @package        Julfiker_Party
+ * @copyright      Copyright (c) 2017
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * Event list template
+ *
+ * @category    Julfiker
+ * @package     Julfiker_Party
+ * @author      Ultimate Module Creator
+ */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_events = $this->getEvents(); ?>
+<div class="page-title event-title">
+    <h1><?php echo Mage::helper('julfiker_party')->__('Make an order') ?></h1>
+</div>
+<div class="row" style="overflow: hidden; clear: both">
+    <?php if ($_events->getSize() > 0) :?>
+        <div class="col-md-12">
+            <form method="post" action="" id="event_order_form">
+                <div class="form-group">
+                    <label for="select" class="control-label">Select an event</label>
+                    <select class="form-control required-entry" id="select" name="event">
+                        <option value="">Select an event to order</option>
+                        <?php foreach ($_events as $_event): ?>
+                            <option value="<?php echo $_event->getId()?>"><?php echo $_event->getTitle()?></option>
+                        <?php endforeach ?>
+                    </select>
+                    <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+                </div>
+                <div class="form-group" style="overflow: hidden">
+                    <div class="pull-right">
+                        <button type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Continue')) ?>" class="button">
+                            <span><span><?php echo $this->__('Continue') ?></span></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    <?php else : ?>
+        <div class="col-md-12">
+            <?php echo Mage::helper('julfiker_party')->__('There are no events at this moment');?>
+        </div>
+    <?php endif;?>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        new VarienForm('event_order_form', true);
+    })
+</script>
