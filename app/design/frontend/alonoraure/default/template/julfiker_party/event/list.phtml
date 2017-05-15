@@ -28,7 +28,7 @@
     <h1><?php echo Mage::helper('julfiker_party')->__('Events') ?></h1>
 </div>
 <div class="row" style="overflow: hidden; clear: both">
-<?php if ($_events->getSize() > 0) :?>
+<?php if ($_events->getSize() > 0): ?>
     <div class="col-sm-12" style="overflow: hidden">
         <?php echo $this->getPagerHtml(); ?>
     </div>
@@ -104,10 +104,14 @@
     <div class="col-sm-12" style="overflow: hidden">
         <?php echo $this->getPagerHtml(); ?>
     </div>
-</div>
 <?php else : ?>
-    <?php echo Mage::helper('julfiker_party')->__('There are no events at this moment');?>
+    <div class="col-sm-12" style="overflow: hidden">
+        <?php echo $this->getPagerHtml(); ?>
+    </div>
+        <?php echo Mage::helper('julfiker_party')->__('There are no events at this moment');?>
+    </div>
 <?php endif;?>
+</div>
 
 <div class="modal fade" id="invite_popup">
     <div class="modal-dialog modal-lg" role="document">
