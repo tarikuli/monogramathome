@@ -209,7 +209,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
 					
 					# Add Ambassador Marketing Emails
-					$this->_setAmbassadorMarketingEmail($customerObject->getId()); 
+					#$this->_setAmbassadorMarketingEmail($customerObject->getId()); 
 				}
 				else
 				{  
