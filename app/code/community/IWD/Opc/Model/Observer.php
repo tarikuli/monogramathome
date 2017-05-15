@@ -350,7 +350,7 @@ class IWD_Opc_Model_Observer
 				}
 			}			
 		}
-		echo "<br>Email Total Send : " . $newsletterEmailCollection->count();
+		echo "<br>8. Email Total Send : " . $newsletterEmailCollection->count();
 		Mage::log('Email Total Send : ' . $newsletterEmailCollection->count(), null, "ambassador_emails.log");
     }
 
