@@ -140,7 +140,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		foreach($orderIds as $orderId)
 		{
 			$orderObject = Mage::getModel('sales/order')->load($orderId);
-echo "<pre>"; print_r($orderObject); echo "</pre>"; die();		
+#echo "<pre>"; print_r($orderObject); echo "</pre>"; die();		
 Mage::log('1	Load orderId = '. $orderId);			
 $this->info('1	Load orderId = '. $orderId);
 			/* If Order details exist by Order ID */
@@ -318,11 +318,11 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 					$this->info('_addQueue function called');
 				}
 				
-				$giftVoucherDiscount = floatval(abs($orderObject->getGiftVoucherDiscount()) + abs($orderObject->getUseGiftCreditAmount()));
+				$giftVoucherDiscount = floatval(abs($orderObject->getGiftVoucherDiscount()) + abs($orderObject->getDiscountAmount()));
 				$data['total_amount'] = floatval(abs($totalAmount)- abs($giftVoucherDiscount));
 
-Mage::log("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." GiftVoucherDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getUseGiftCreditAmount()));
-$this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." GiftVoucherDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getUseGiftCreditAmount()));
+Mage::log("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." GiftVoucherCerDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getDiscountAmount()));
+$this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." GiftVoucherCerDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getDiscountAmount()));
 				
 				$response = $this->call('purchase', $data);
 			}
