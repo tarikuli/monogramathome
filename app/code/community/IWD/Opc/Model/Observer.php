@@ -271,6 +271,7 @@ class IWD_Opc_Model_Observer
         $groupCollection = Mage::getModel('customer/group')->getCollection()
             ->addFieldToFilter('customer_group_code', $code);
 
+        echo "<br>1. Called GROUP_AMBASSADOR ".$groupCollection->count();
 		if($groupCollection->count())
 		{
 			$customerCollection = Mage::getModel('customer/customer')->getCollection()
@@ -283,14 +284,16 @@ class IWD_Opc_Model_Observer
 		    	$emailTemplatesOptions[] = $emailTemplates;
 
         	foreach($customerCollection as $customer)
+        		echo "<br>2. Called Customer email: ".$customer->getEmail();
         		$this->_sendAmbassadorEmails($customer, $emailTemplateConfiguration);
 		}
     }
 
     protected function _sendAmbassadorEmails($customer, $emailTemplateConfiguration)
     {
+    	# http://www.monogramathome.com/ambassadorTest/index/ambassadorTest
     	Mage::log('Email Started for CUSTOMER: ' . $customer->getId(), null, "ambassador_emails.log");
-
+    	$newsletterEmailCollection[] = 0;
     	$customerId = $customer->getId();
         		
 		// Time Difference
@@ -305,18 +308,25 @@ class IWD_Opc_Model_Observer
 
 		foreach($emailTemplateConfiguration as $emailTemplates)
 		{
+			echo "<br>3. Called newsletterId: " . $newsletterId;
 			$newsletterId = $emailTemplates['template'];
 
 			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
 				->addFieldToFilter('newsletter_id', $newsletterId)
 				->addFieldToFilter('customer_id', $customerId);
-
+			
+			echo "<br>4. Called newsletterEmailCollection by newsletter_id: " . $newsletterId. " customer_id: ".$customerId;
+			echo "<br>5. Count newsletterEmailCollection: " . $newsletterEmailCollection->count();
 			if(!$newsletterEmailCollection->count())
 			{
 				$timeHours = self::EMAIL_HOUR_ELAPSE + intval($emailTemplates['hours']);
 
+				echo "<br>6. Before hourdiff > timeHours: " . $hourdiff .">". $timeHours;
+				
 				if($hourdiff > $timeHours)
 				{
+					echo "<br>7. After hourdiff > timeHours: " . $hourdiff .">". $timeHours;
+					
 			    	//Variables for Confirmation Mail.
 					$emailTemplateVariables = array();
 					$emailTemplateVariables['ambassador_name'] = $customer->getName();
@@ -324,17 +334,24 @@ class IWD_Opc_Model_Observer
 					$receiverDetail['name'] = $customer->getName();
 					$receiverDetail['email'] = $customer->getEmail();
 
-			    	$status = Mage::helper('opc')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
+			    	$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
 
 			    	Mage::getModel('opc/newsletter_email')
 			    		->setNewsletterId($newsletterId)
 			    		->setCustomerId($customerId)
 			    		->save();
 
-	    			Mage::log(json_encode(array('customer_id' => $customerId, 'newsletter_id' => $newsletterId, 'receiver' => $receiverDetail, 'status' => $status)), null, "ambassador_emails.log");
+	    			Mage::log(json_encode(array(
+		    			'customer_id' => $customerId."",
+		    			'newsletter_id' => $newsletterId,
+		    			'receiver' => $receiverDetail,
+		    			'status' => $status
+	    			)), null, "ambassador_emails.log");
 				}
 			}			
 		}
+		echo "<br>8. Email Total Send : " . $newsletterEmailCollection->count();
+		Mage::log('Email Total Send : ' . $newsletterEmailCollection->count(), null, "ambassador_emails.log");
     }
 
     public function saveGeneralDetails($observer)

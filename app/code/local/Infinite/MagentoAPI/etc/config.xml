@@ -46,7 +46,28 @@
         </helpers>
     </global>
     <frontend>
+    
+		<routers>
+		   <Infinite_MagentoAPI>
+		       <use>standard</use>
+		       <args>
+		          <module>Infinite_MagentoAPI</module>
+		          <frontName>jeweltestmodule</frontName>
+		       </args>
+		    </Infinite_MagentoAPI>
+		</routers>
+     
         <events>
+            <checkout_cart_product_add_after>
+                <observers>
+                    <checkout_cart_magento_api>
+                        <type>singleton</type>
+                        <class>Infinite_MagentoAPI_Model_Observer</class>
+                        <method>checkoutCartAttribute</method>
+                    </checkout_cart_magento_api>
+                </observers>
+            </checkout_cart_product_add_after>
+            
             <customer_login>
                 <observers>
                     <customer_login_magento_api>

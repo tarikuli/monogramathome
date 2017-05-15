@@ -54,7 +54,16 @@
                     </modules>
                 </args>
             </checkout>
-            </routers>
+            
+            <IWD_Opc>
+		       <use>standard</use>
+		       <args>
+		          <module>IWD_Opc</module>
+		          <frontName>ambassadorTest</frontName>
+		       </args>
+		    </IWD_Opc>
+		    
+        </routers>
         
         <layout>
             <updates>
@@ -75,6 +84,7 @@
         </translate>
         
         <events>
+        
             <controller_action_predispatch>
                 <observers>
                     <opc_remove_starterkit>

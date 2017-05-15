@@ -42,39 +42,46 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 	public function registration($params, $customer)
 	{
-		$data = array(
-			'username' => $customer->getUsername(), 
-			'password' => $params['password'],
-			'sponsor_name' => 'shop', 
-			'fullname' => $customer->getName(), 
-			'address1' => $params['street'][0], 
-			'address2' => 'N/A', 
-			'postcode' => $params['postcode'], 
-			'email' => $params['email'], 
-			'package' => 'null', 
-			'mobile' => $params['telephone'], 
-			'package_id' => 0,
-		);
-
-		if(isset($params['package']))
-			$data['package'] = $params['package'];
-
-		if(isset($params['sponsor_name']))
-			$data['sponsor_name'] = $params['sponsor_name'];
-
-		$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
-		if(isset($ambassadorObject))
-		{
-			$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
-			$data['sponsor_name'] = $websitecode;
-		}
-
-		if(isset($params['street'][1]) && trim($params['street'][1]) != "")
-			$data['address2'] = $params['street'][1];
-
-        //Email notification to customer support
-        Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId());
-		$response = $this->call('registration', $data);
+// 		// Get group Id
+// 		$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+// 		//Get customer Group name
+// 		$group = Mage::getModel('customer/group')->load($groupId);
+		
+// 		if($group->getCode() == self::GROUP_AMBASSADOR ){
+			$data = array(
+				'username' => $customer->getUsername(), 
+				'password' => $params['password'],
+				'sponsor_name' => 'shop', 
+				'fullname' => $customer->getName(), 
+				'address1' => $params['street'][0], 
+				'address2' => 'N/A', 
+				'postcode' => $params['postcode'], 
+				'email' => $params['email'], 
+				'package' => 'null', 
+				'mobile' => $params['telephone'], 
+				'package_id' => 0,
+			);
+	
+			if(isset($params['package']))
+				$data['package'] = $params['package'];
+	
+			if(isset($params['sponsor_name']))
+				$data['sponsor_name'] = $params['sponsor_name'];
+	
+			$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+			if(isset($ambassadorObject))
+			{
+				$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
+				$data['sponsor_name'] = $websitecode;
+			}
+	
+			if(isset($params['street'][1]) && trim($params['street'][1]) != "")
+				$data['address2'] = $params['street'][1];
+	
+	        //Email notification to customer support
+	        Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId());
+			$response = $this->call('registration', $data);
+// 		}
 	}
 
 	public function editProfile($params)
@@ -134,16 +141,30 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		{
 			$orderObject = Mage::getModel('sales/order')->load($orderId);
 
+			/* If Order details exist by Order ID */
 			if($orderObject->getCustomerId())
 			{
+				# Get group Id
+				$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+				
+				# Get customer Group name
+				$group = Mage::getModel('customer/group')->load($groupId);
+				
+				# Load Customer details by Customer ID
 				$customerObject = Mage::getModel('customer/customer')->load($orderObject->getCustomerId());
 
+				# Get BECOME AN AMBASSADOR 5 step Data
 				$checkoutMethod = Mage::getSingleton('core/session')->getAmbassadorCheckoutMethod();
+				
+				# IF checkoutMethod data load BECOME AN AMBASSADOR 5 step Data. From AMBASSADOR  
 				if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
 				{
+					# Get Ambassador sud domain name
 					$websiteName = Mage::getSingleton('core/session')->getAmbassadorWebsiteNameForApi();
+					
 					if(isset($websiteName))
 					{
+						# If sub domain ( Ambassador web site ) exist
 						$params = array(
 							'username' => $websiteName
 						);
@@ -159,9 +180,10 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 						$this->changePackage($params);
 					}
 					else
-					{
+					{ 
+						# If no sub domain exist and new AMBASSADOR going to register. 
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
-						
+
 						$params = array(
 							'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(),
 							'street' => array($billingAddress->getStreet1()),
@@ -185,13 +207,28 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
 
 					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+					
+					# Add Ambassador Marketing Emails
+					#$this->_setAmbassadorMarketingEmail($customerObject->getId()); 
 				}
 				else
-				{
+				{  
+					Mage::getSingleton('core/session')->unsAmbassadorObject();
+					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+					Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+					Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+					Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+					Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+					
+					# IF checkoutMethod data load from Member or Customer
+					
+					# Load Customer  checkoutMethod data.
 					$checkoutMethod = $this->getOnepage()->getCheckoutMethod();
-
+					
 					if(isset($checkoutMethod) && $checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
 					{
+
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
 						
 						$params = array(
@@ -201,17 +238,28 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 							'email' => $customerObject->getEmail(),
 							'telephone' => $billingAddress->getTelephone()
 						);
-						$this->registration($params, $customerObject);
+						/* Comment By Jewel If  coming from Defult checkout/cart/ page then Dont Register Member or Customer in MLM*/
+						#$this->registration($params, $customerObject);
 					}
 				}
 
+				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
+				if($group->getCode() != self::GROUP_AMBASSADOR ){
+$this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
+					$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
+				}else {
+					$userName = $customerObject->getUsername();
+				}
+				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
+				
 				$data = array(
-					'user_name' => $customerObject->getUsername(), 
+					'user_name' => $userName, 
 					'order_id' => $orderObject->getIncrementId(), 
 					'purchase_datetime' => $orderObject->getCreatedAt(),
 				);
 
-				$totalAmount = 0; $orderItems = $orderObject->getAllItems();
+				$totalAmount = 0; 
+				$orderItems = $orderObject->getAllItems();
 				foreach($orderItems as $item)
 				{
 					$productId = $item->getProductId();
@@ -238,10 +286,27 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
                     $attributeSetModel = Mage::getModel("eav/entity_attribute_set");
                     $attributeSetModel->load($product->getAttributeSetId());
                     $attributeSetName  = $attributeSetModel->getAttributeSetName();
+                    
+                    /*  Comment by Jewel */
+                    #if(0 == strcmp($attributeSetName, self::ATTRIBUTE_SET)) {
+                    #    $this->_addQueue($customerObject);
+                    #}
+                    
                     if(0 == strcmp($attributeSetName, self::ATTRIBUTE_SET)) {
-                        $this->_addQueue($customerObject);
+                    	$attributeCheck[] = 1;
+                    }else{
+                    	$attributeCheck[] = 0;
                     }
 				}
+				
+				/* Check If any non kit Product exist */
+				if(array_sum($attributeCheck) == count($attributeCheck)) {
+					/* If only KIT in Product then Add to QUE for create sub domain */
+					$this->needExecuted = true;
+					$this->_addQueue($customerObject);
+					$this->info('_addQueue function called');
+				}
+				
 				$data['total_amount'] = $totalAmount;
 				$response = $this->call('purchase', $data);
 			}
@@ -338,5 +403,37 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
         //Email notification for Ambassador update
         Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId(), true);
         return $customer;
+    }
+    
+    /**
+     * Get Store ID by Web_Site_ID
+     * 
+     * @param string
+     * @return string
+     */
+    protected function _getStoreNameByWebSiteId($websiteId){
+    	$website = Mage::getModel('core/website')->load($websiteId);
+    	$website = explode(".", $website->getName());
+    	$this->info('8	REQUEST WebSite Name: '. $website[0]);
+    	return $website[0];
+    }
+    
+    protected function _setAmbassadorMarketingEmail($customerId ){
+    	
+    	$emailTemplateConfiguration = Mage::getStoreConfig('ambassador_email_settings/other_emails/email_items');
+    	$emailTemplateConfiguration = unserialize($emailTemplateConfiguration);
+    	
+    	foreach($emailTemplateConfiguration as $emailTemplates)
+    	{
+    		$newsletterId = $emailTemplates['template'];
+    		
+    		Mage::getModel('opc/newsletter_email')
+	    		->setNewsletterId($newsletterId)
+	    		->setCustomerId($customerId)
+	    		->save();
+	    		
+	    	$this->info('opc/newsletter_email newsletterId = '. $newsletterId. " CustomerId". $customerId);
+    	}
+
     }
 }

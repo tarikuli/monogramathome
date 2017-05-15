@@ -187,6 +187,17 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}
 	}
 
+	private function _countDots($subDomainName){
+		
+		if (is_numeric($subDomainName[0])){
+			return true;
+		} elseif (preg_match('/[\'^£$%&*()}{@#~?><>,.|=_+¬-]/', $subDomainName)){
+			return true;
+		}
+		return false;
+
+	}
+	
 	public function checkWebsiteAction() {
 
 		if ($this->_expireAjax()) {
@@ -212,6 +223,9 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			{
 				$result['error'] = true;
 				$result['message'] = $this->__('Not Available');
+			}elseif ($this->_countDots($data['username'])){
+				$result['error'] = true;
+				$result['message'] = $this->__('Domain names can only accommodate alpha/numeric characters.<br>Please consider an alternate store name.');
 			}
 			else
 				Mage::getSingleton('core/session')->setAmbassadorWebsiteName($data['username']);
@@ -250,19 +264,22 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 			if(isset($productId))
 			{
+				Mage::getSingleton('checkout/cart')->truncate();
+				
 				$cartHelper = Mage::helper('checkout/cart');
-				$items = $cartHelper->getCart()->getItems();
-				$itemIds = array();
-				foreach ($items as $item) {
-					$itemIds[] = $item->getItemId();
-				}
+				
+// 				$items = $cartHelper->getCart()->getItems();
+// 				$itemIds = array();
+// 				foreach ($items as $item) {
+// 					$itemIds[] = $item->getItemId();
+// 				}
 
+// 				foreach ($itemIds as $itemId) {
+// 					$cartHelper->getCart()->removeItem($itemId)->save();
+// 				}
+				
 				$product = Mage::getModel('catalog/product')->load($productId);
 		        $cartHelper->getCart()->addProduct($product, array('qty' => 1))->save();
-
-				foreach ($itemIds as $itemId) {
-					$cartHelper->getCart()->removeItem($itemId)->save();
-				}
 			}
 
 			$result = array();
@@ -305,7 +322,13 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}
 	}
 	
-	
+	/*
+     * // STEP(1)
+     * $checkout->saveCheckoutMethod('guest');
+     * // STEP(2)
+     * $checkout->saveBilling($billingAddress, false);
+     * 
+	 */
 	public function saveBillingAction(){
 		
 		if ($this->_expireAjax()) {
@@ -317,7 +340,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			
 			$data = $this->getRequest()->getPost('billing', array());
 						
-			
+			# STEP(1)
 			if (!Mage::getSingleton('customer/session')->isLoggedIn()){
 				if (isset($data['create_account']) && $data['create_account']==1){
 					$this->getOnepage()->saveCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER);
@@ -351,7 +374,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			/// get list of available methods before billing changes
 			$methods_before = Mage::helper('opc')->getAvailablePaymentMethods();
 			///////
-			
+			# STEP(2)
 			$result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 	
 			if (!isset($result['error'])) {
@@ -426,6 +449,8 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 			$data = $this->getRequest()->getPost('shipping', array());
 			$customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
+			# // STEP(3)
+			# $checkout->saveShipping($shippingAddress, false);
 			$result = $this->getOnepage()->saveShipping($data, $customerAddressId);
 
 			if (isset($result['error'])){
@@ -599,6 +624,8 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			$this->checkNewslatter();
 			
 			$data = $this->getRequest()->getPost('shipping_method', '');
+			# // STEP(4)
+			# $checkout->saveShippingMethod('flatrate_flatrate');
 			$result = $this->getOnepage()->saveShippingMethod($data);
 			/*
 			 $result will have erro data if shipping method is empty
@@ -670,6 +697,8 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			{
 				$data['cc_number'] = str_replace(' ', '', $data['cc_number']);
 			}
+			# // STEP(5)
+			# $checkout->savePayment(array('method'=>'checkmo'));
 			$result = $this->getOnepage()->savePayment($data);
 	
 			// get section and redirect data
@@ -702,6 +731,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	
 	/**
 	* Create order action
+	* STEP(6)
 	*/
 	public function saveOrderAction(){
         if ($this->_expireAjax()) {
@@ -749,6 +779,8 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			}
 			///
 
+			# // STEP(6)
+			# $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
 			$this->getOnepage()->saveOrder();
 			
 			/** Magento CE 1.6 version**/
