@@ -105,6 +105,16 @@ $endAt = date_create($_event->getEndAt());
     </p>
 </div>
 
+
+<div  class="col-md-12" style="padding-top: 20px;">
+    <?php
+        if(Mage::getSingleton('customer/session')->isLoggedIn())
+            $customerId = Mage::getSingleton('customer/session')->getId();
+    ?>
+    <b><?php echo $this->__("Invite Url")?></b>
+    <div style="border: 1px solid #eee; padding: 10px 5px;"><?php echo $_event->getEventUrl()."?refer=".base64_encode($customerId) ?></div>
+</div>
+
 <script>
     jQuery(document).ready(function() {
         jQuery('.chart').circliful({
