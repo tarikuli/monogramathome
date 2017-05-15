@@ -291,6 +291,7 @@ class IWD_Opc_Model_Observer
 
     protected function _sendAmbassadorEmails($customer, $emailTemplateConfiguration)
     {
+    	# http://www.monogramathome.com/ambassadorTest/index/ambassadorTest
     	Mage::log('Email Started for CUSTOMER: ' . $customer->getId(), null, "ambassador_emails.log");
     	$newsletterEmailCollection[] = 0;
     	$customerId = $customer->getId();
@@ -307,22 +308,24 @@ class IWD_Opc_Model_Observer
 
 		foreach($emailTemplateConfiguration as $emailTemplates)
 		{
-			echo "<br>Called newsletterId: " . $newsletterId;
+			echo "<br>3. Called newsletterId: " . $newsletterId;
 			$newsletterId = $emailTemplates['template'];
 
 			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
 				->addFieldToFilter('newsletter_id', $newsletterId)
 				->addFieldToFilter('customer_id', $customerId);
 			
-			echo "<br>Called newsletterEmailCollection by newsletter_id: " . $newsletterId. " customer_id: ".$customerId;
-			echo "<br>Count newsletterEmailCollection: " . $newsletterEmailCollection->count();
+			echo "<br>4. Called newsletterEmailCollection by newsletter_id: " . $newsletterId. " customer_id: ".$customerId;
+			echo "<br>5. Count newsletterEmailCollection: " . $newsletterEmailCollection->count();
 			if(!$newsletterEmailCollection->count())
 			{
 				$timeHours = self::EMAIL_HOUR_ELAPSE + intval($emailTemplates['hours']);
 
+				echo "<br>6. Before hourdiff > timeHours: " . $hourdiff .">". $timeHours;
+				
 				if($hourdiff > $timeHours)
 				{
-					echo "<br>Called hourdiff > timeHours: " . $hourdiff .">". $timeHours;
+					echo "<br>7. After hourdiff > timeHours: " . $hourdiff .">". $timeHours;
 					
 			    	//Variables for Confirmation Mail.
 					$emailTemplateVariables = array();
