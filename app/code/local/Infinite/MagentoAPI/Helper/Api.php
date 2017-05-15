@@ -285,7 +285,7 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 					}
 #."<br>Purchaser email = ".$customerObject->getEmail()
 					$data['product_details'][] = array(
-						'product_name' => $item->getName(), 
+						'product_name' => $item->getName()."<br>Purchaser email = ".$customerObject->getEmail(), 
 						'quantity' => intval($item->getQtyOrdered()), 
 						'price' => floatval($itemPrice), 
 						'sub_total' => (intval($item->getQtyOrdered()) * floatval($itemPrice))
