@@ -311,6 +311,7 @@ class IWD_Opc_Model_Observer
 			echo "<br>3. Called newsletterId: " . $newsletterId;
 			$newsletterId = $emailTemplates['template'];
 
+			# Get Records who to sent email and tamplate
 			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
 				->addFieldToFilter('newsletter_id', $newsletterId)
 				->addFieldToFilter('customer_id', $customerId);
