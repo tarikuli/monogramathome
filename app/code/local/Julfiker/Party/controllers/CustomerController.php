@@ -9,7 +9,40 @@ class Julfiker_Party_CustomerController extends Mage_Core_Controller_Front_Actio
 {
 
     public function createAction() {
-        //Todo: create form action
+        $this->loadLayout();
+        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                $breadcrumbBlock->addCrumb(
+                    'home',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('Home'),
+                        'link'  => Mage::getUrl(),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'events',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('View all events'),
+                        'link'  => Mage::getUrl("julfiker_party/event"),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'member',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('Add new member'),
+                        'link'  => '',
+                    )
+                );
+            }
+        }
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->addLinkRel('canonical', Mage::helper('julfiker_party/event')->getEventsUrl());
+        }
+        $this->renderLayout();
     }
 
     /**
