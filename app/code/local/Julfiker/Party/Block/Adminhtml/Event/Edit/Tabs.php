@@ -57,6 +57,19 @@ class Julfiker_Party_Block_Adminhtml_Event_Edit_Tabs extends Mage_Adminhtml_Bloc
                 ->toHtml(),
             )
         );
+
+        $this->addTab(
+            'event_coupon_form',
+            array(
+                'label'   => Mage::helper('julfiker_party')->__('Coupon Or Voucher'),
+                'title'   => Mage::helper('julfiker_party')->__('Coupon Or Voucher'),
+                'content' => $this->getLayout()->createBlock(
+                    'julfiker_party/adminhtml_event_edit_tab_coupon'
+                )
+                ->toHtml(),
+            )
+        );
+
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addTab(
                 'form_store_event',
