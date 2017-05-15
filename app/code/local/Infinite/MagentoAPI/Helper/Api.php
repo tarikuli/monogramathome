@@ -283,9 +283,9 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 						if(isset($appliedCommission) && $appliedCommission == 0)
 							$itemPrice = 0;
 					}
-
+#."<br>Purchaser email = ".$customerObject->getEmail()
 					$data['product_details'][] = array(
-						'product_name' => $item->getName()."<br>Purchaser email = ".$customerObject->getEmail(), 
+						'product_name' => $item->getName(), 
 						'quantity' => intval($item->getQtyOrdered()), 
 						'price' => floatval($itemPrice), 
 						'sub_total' => (intval($item->getQtyOrdered()) * floatval($itemPrice))
