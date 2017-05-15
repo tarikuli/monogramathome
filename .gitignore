@@ -1,6 +1,7 @@
 /var
 /media
 access.log
+error.log
 .ssh
 .vim/
 .viminfo
