@@ -81,7 +81,6 @@ class Infinite_MagentoAPI_Model_Observer
 		$orderIds = $observer->getOrderIds();
 		$apiHelper = Mage::helper('magento_api/api');
 		$apiHelper->purchase($orderIds);
-		
 		$apiHelper = Mage::helper('magento_api/oms');
 		$apiHelper->pushPurchaseToOms($orderIds);
 	}

@@ -140,10 +140,14 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		foreach($orderIds as $orderId)
 		{
 			$orderObject = Mage::getModel('sales/order')->load($orderId);
-
+#echo "<pre>"; print_r($orderObject); echo "</pre>"; die();		
+Mage::log('1	Load orderId = '. $orderId);			
+$this->info('1	Load orderId = '. $orderId);
 			/* If Order details exist by Order ID */
 			if($orderObject->getCustomerId())
 			{
+Mage::log('2	Customer if exist = '. $orderObject->getCustomerId());				
+$this->info('2	Customer if exist = '. $orderObject->getCustomerId());				
 				# Get group Id
 				$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 				
@@ -164,6 +168,8 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 					
 					if(isset($websiteName))
 					{
+Mage::log('3	New Web_Site Create = '. $websiteName);						
+$this->info('3	New Web_Site Create = '. $websiteName);						
 						# If sub domain ( Ambassador web site ) exist
 						$params = array(
 							'username' => $websiteName
@@ -181,6 +187,8 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 					}
 					else
 					{ 
+Mage::log('4	If no sub domain exist and new AMBASSADOR going to register.');
+$this->info('4	If no sub domain exist and new AMBASSADOR going to register.');						
 						# If no sub domain exist and new AMBASSADOR going to register. 
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
 
@@ -203,13 +211,15 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 						$this->registration($params, $customerObject);
 					}
-
+Mage::log('5	orderObject->getCustomerId() = '. $orderObject->getCustomerId());
+$this->info('5	orderObject->getCustomerId() = '. $orderObject->getCustomerId());
+					# Add Ambassador Marketing Emails
+					$this->_setAmbassadorMarketingEmail($orderObject->getCustomerId());
+					
 					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
 
 					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
 					
-					# Add Ambassador Marketing Emails
-					$this->_setAmbassadorMarketingEmail($customerObject->getId()); 
 				}
 				else
 				{  
@@ -245,6 +255,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
 				if($group->getCode() != self::GROUP_AMBASSADOR ){
+Mage::log('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());					
 $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 					$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
 				}else {
@@ -274,7 +285,7 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 					}
 
 					$data['product_details'][] = array(
-						'product_name' => $item->getName(), 
+						'product_name' => $item->getName()."<br>Purchaser email = ".$customerObject->getEmail(), 
 						'quantity' => intval($item->getQtyOrdered()), 
 						'price' => floatval($itemPrice), 
 						'sub_total' => (intval($item->getQtyOrdered()) * floatval($itemPrice))
@@ -307,7 +318,12 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 					$this->info('_addQueue function called');
 				}
 				
-				$data['total_amount'] = $totalAmount;
+				$giftVoucherDiscount = (abs($orderObject->getGiftVoucherDiscount()) + abs($orderObject->getUseGiftCreditAmount()));
+				$data['total_amount'] = $totalAmount-$giftVoucherDiscount;
+
+Mage::log("9	Order# = ". $orderId." SubTotal Amount = ".$totalAmount." GiftVoucherDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getUseGiftCreditAmount()));
+$this->info("9	Order# = ". $orderId." SubTotal Amount = ".$totalAmount." GiftVoucherDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getUseGiftCreditAmount()));
+				
 				$response = $this->call('purchase', $data);
 			}
 		}
@@ -418,10 +434,15 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
     	return $website[0];
     }
     
-    protected function _setAmbassadorMarketingEmail($customerId ){
+    public function _setAmbassadorMarketingEmail($customerId ){
+    	
+    	#echo "<br>".$customerId;
+    
     	
     	$emailTemplateConfiguration = Mage::getStoreConfig('ambassador_email_settings/other_emails/email_items');
     	$emailTemplateConfiguration = unserialize($emailTemplateConfiguration);
+    	
+    	#echo "<pre>"; print_r($emailTemplateConfiguration); echo "</pre>";
     	
     	foreach($emailTemplateConfiguration as $emailTemplates)
     	{
@@ -431,8 +452,8 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 	    		->setNewsletterId($newsletterId)
 	    		->setCustomerId($customerId)
 	    		->save();
-	    		
-	    	$this->info('opc/newsletter_email newsletterId = '. $newsletterId. " CustomerId". $customerId);
+	    	#echo '<br>opc/newsletter_email newsletterId = '. $newsletterId. " CustomerId = ". $customerId;	
+	    	$this->info('Saved in /newsletter_email newsletterId = '. $newsletterId. " CustomerId = ". $customerId);
     	}
 
     }

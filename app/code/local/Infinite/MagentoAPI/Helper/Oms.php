@@ -65,10 +65,12 @@ class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 				# Another for loop for Parameter Options
 				$itemOptions = $item->getProductOptions();
 
-				foreach ($itemOptions['options'] as $value){
-// 				foreach ($item->getProductOptions() as $key => $value){
-// 					echo "<br>Item-Option-".$index."-".$value['label']." ".$value['print_value'];
-					$purchaseData['Item-Option-'.$index.'-'.trim(str_replace(":", "", $value['label']))] = $value['print_value'];
+				if(isset($itemOptions['options'])){
+					foreach ($itemOptions['options'] as $value){
+	// 				foreach ($item->getProductOptions() as $key => $value){
+	// 					echo "<br>Item-Option-".$index."-".$value['label']." ".$value['print_value'];
+						$purchaseData['Item-Option-'.$index.'-'.trim(str_replace(":", "", $value['label']))] = $value['print_value'];
+					}
 				}
 				
 				$index ++;

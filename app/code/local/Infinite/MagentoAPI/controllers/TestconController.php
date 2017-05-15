@@ -75,6 +75,19 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
     }
     
     
+    /**
+     * Call Helper calss _setAmbassadorMarketingEmail
+     * http://www.monogramathome.com/jeweltestmodule/testcon/setAmbassadorMarketingEmailMethod/customer_id/183/
+     */
+    public function setAmbassadorMarketingEmailMethodAction()
+    {
+    	echo "<br>setAmbassadorMarketingEmailMethod";
+    	$customerId = (int) $this->getRequest()->getParam('customer_id');
+    	$apiHelper = Mage::helper('magento_api/api');
+    	$apiHelper->setAmbassadorMarketingEmail($customerId);
+    
+    }
+    
     
     protected function _loadValidOrder($orderId = null)
     {
