@@ -207,6 +207,9 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
 
 					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+					
+					# Add Ambassador Marketing Emails
+					#$this->_setAmbassadorMarketingEmail($customerObject->getId()); 
 				}
 				else
 				{  
@@ -413,5 +416,24 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
     	$website = explode(".", $website->getName());
     	$this->info('8	REQUEST WebSite Name: '. $website[0]);
     	return $website[0];
+    }
+    
+    protected function _setAmbassadorMarketingEmail($customerId ){
+    	
+    	$emailTemplateConfiguration = Mage::getStoreConfig('ambassador_email_settings/other_emails/email_items');
+    	$emailTemplateConfiguration = unserialize($emailTemplateConfiguration);
+    	
+    	foreach($emailTemplateConfiguration as $emailTemplates)
+    	{
+    		$newsletterId = $emailTemplates['template'];
+    		
+    		Mage::getModel('opc/newsletter_email')
+	    		->setNewsletterId($newsletterId)
+	    		->setCustomerId($customerId)
+	    		->save();
+	    		
+	    	$this->info('opc/newsletter_email newsletterId = '. $newsletterId. " CustomerId". $customerId);
+    	}
+
     }
 }
