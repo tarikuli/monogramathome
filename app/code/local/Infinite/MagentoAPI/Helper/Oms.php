@@ -9,6 +9,7 @@ class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 
 	public function pushPurchaseToOms($orderIds)
 	{
+		return false;
 		foreach($orderIds as $orderId)
 		{
 			$orderObject = Mage::getModel('sales/order')->load($orderId);
