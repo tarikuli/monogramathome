@@ -448,8 +448,6 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
 			$emailTemplateConfiguration = Mage::getStoreConfig('ambassador_email_settings/other_emails/email_items');
 			$emailTemplateConfiguration = unserialize($emailTemplateConfiguration);
 			 
-			Mage::log();
-			 
 			foreach($emailTemplateConfiguration as $emailTemplates)
 			{
 				$newsletterId = $emailTemplates['template'];
