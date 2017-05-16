@@ -292,7 +292,7 @@ class IWD_Opc_Model_Observer
     protected function _sendAmbassadorEmails($customer, $emailTemplateConfiguration)
     {
     	# http://www.monogramathome.com/ambassadorTest/index/ambassadorTest
-    	Mage::log('Email Started for CUSTOMER: ' . $customer->getId(), null, "ambassador_emails.log");
+    	Mage::log('Email Started for CUSTOMER: ' . $customer->getId(), null, 'ambassador_emails.log');
     	$newsletterEmailCollection[] = 0;
     	$customerId = $customer->getId();
         		
@@ -318,7 +318,8 @@ class IWD_Opc_Model_Observer
 			
 			echo "<br>4. Called newsletterEmailCollection by newsletter_id: " . $newsletterId. " customer_id: ".$customerId;
 			echo "<br>5. Count newsletterEmailCollection: " . $newsletterEmailCollection->count();
-			if(!$newsletterEmailCollection->count())
+			#if(!$newsletterEmailCollection->count())
+			if($newsletterEmailCollection->count() > 0 )
 			{
 				$timeHours = self::EMAIL_HOUR_ELAPSE + intval($emailTemplates['hours']);
 

@@ -84,7 +84,7 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
     	echo "<br>setAmbassadorMarketingEmailMethod";
     	$customerId = (int) $this->getRequest()->getParam('customer_id');
     	$apiHelper = Mage::helper('magento_api/api');
-    	$apiHelper->setAmbassadorMarketingEmail($customerId);
+    	$apiHelper->_setAmbassadorMarketingEmail($customerId);
     
     }
     

@@ -438,22 +438,31 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
     	
     	#echo "<br>".$customerId;
     
-    	
-    	$emailTemplateConfiguration = Mage::getStoreConfig('ambassador_email_settings/other_emails/email_items');
-    	$emailTemplateConfiguration = unserialize($emailTemplateConfiguration);
-    	
-    	#echo "<pre>"; print_r($emailTemplateConfiguration); echo "</pre>";
-    	
-    	foreach($emailTemplateConfiguration as $emailTemplates)
-    	{
-    		$newsletterId = $emailTemplates['template'];
-    		
-    		Mage::getModel('opc/newsletter_email')
-	    		->setNewsletterId($newsletterId)
-	    		->setCustomerId($customerId)
-	    		->save();
-	    	#echo '<br>opc/newsletter_email newsletterId = '. $newsletterId. " CustomerId = ". $customerId;	
-	    	$this->info('Saved in /newsletter_email newsletterId = '. $newsletterId. " CustomerId = ". $customerId);
-    	}
+    	$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
+							    	->addFieldToFilter('customer_id', $customerId);
+	
+		Mage::log("From _setAmbassadorMarketingEmail newsletterEmailCollection count = ". $newsletterEmailCollection->count());
+							    	
+		if($newsletterEmailCollection->count() == 0 ){
+			
+			$emailTemplateConfiguration = Mage::getStoreConfig('ambassador_email_settings/other_emails/email_items');
+			$emailTemplateConfiguration = unserialize($emailTemplateConfiguration);
+			 
+			Mage::log();
+			 
+			foreach($emailTemplateConfiguration as $emailTemplates)
+			{
+				$newsletterId = $emailTemplates['template'];
+				
+				Mage::getModel('opc/newsletter_email')
+						->setNewsletterId($newsletterId)
+						->setCustomerId($customerId)
+						->save();
+				#echo '<br>opc/newsletter_email newsletterId = '. $newsletterId. " CustomerId = ". $customerId;
+				$this->info("Saved in /newsletter_email newsletterId = ". $newsletterId. " CustomerId = ". $customerId);
+				Mage::log("Saved in /newsletter_email newsletterId = ". $newsletterId. " CustomerId = ". $customerId);
+    		}
+		}
+
     }
 }
