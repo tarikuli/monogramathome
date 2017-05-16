@@ -1,5 +1,5 @@
 <?php
-class Infinite_CustomerLogin_Model_Observer extends Infinite_MagentoAPI_Helper_Log
+class Infinite_CustomerLogin_Model_Observer
 {
 	const KEYSALT = "aghtUJ6y";
 	const AMBASSADOR_GROUP_CODE = 'Ambassador';
@@ -114,27 +114,16 @@ class Infinite_CustomerLogin_Model_Observer extends Infinite_MagentoAPI_Helper_L
 
     public function customerRegisterSuccess($observer)
 	{
-		#$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
-		#if(isset($ambassadorObject))
-		# Get BECOME AN AMBASSADOR 5 step Data
-		$checkoutMethod = Mage::getSingleton('core/session')->getAmbassadorCheckoutMethod();
-		
-		Mage::log('11	checkoutMethod = '. $websiteName);
-		$this->info('11	checkoutMethod = '. $websiteName);
-		
-		# IF checkoutMethod data load BECOME AN AMBASSADOR 5 step Data. From AMBASSADOR  
-		if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
+		$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+		if(isset($ambassadorObject))
 		{
 			$customerObject = $observer->getCustomer();
 
 			$customerGroupCollection = Mage::getModel("customer/group")->getCollection()
-												->addFieldToFilter('customer_group_code', self::MEMBER_GROUP_CODE);
+				->addFieldToFilter('customer_group_code', self::MEMBER_GROUP_CODE);
 
 			if($customerGroupCollection->count())
 			{
-				Mage::log('22 '.	$customerGroupCollection);
-				$this->info('22 '.	$customerGroupCollection);
-				
 				$customerObject->setGroupId($customerGroupCollection->getFirstItem()->getId());
 				$customerObject->save();
 			}
