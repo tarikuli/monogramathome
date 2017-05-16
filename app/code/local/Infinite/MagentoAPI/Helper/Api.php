@@ -455,6 +455,5 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
 	    	#echo '<br>opc/newsletter_email newsletterId = '. $newsletterId. " CustomerId = ". $customerId;	
 	    	$this->info('Saved in /newsletter_email newsletterId = '. $newsletterId. " CustomerId = ". $customerId);
     	}
-
     }
 }
