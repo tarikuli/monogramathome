@@ -3,7 +3,7 @@ class IWD_Opc_Model_Observer
 {
 	const GROUP_AMBASSADOR = "Ambassador";
 	const KEYSALT = "aghtUJ8y";
-	const EMAIL_HOUR_ELAPSE = 3;
+	const EMAIL_HOUR_ELAPSE = 0;
 	
 	public function checkRequiredModules($observer){
 		$cache = Mage::app()->getCache();
@@ -338,10 +338,10 @@ class IWD_Opc_Model_Observer
 
 			    	$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
 
-			    	Mage::getModel('opc/newsletter_email')
-			    		->setNewsletterId($newsletterId)
-			    		->setCustomerId($customerId)
-			    		->save();
+// 			    	Mage::getModel('opc/newsletter_email')
+// 			    		->setNewsletterId($newsletterId)
+// 			    		->setCustomerId($customerId)
+// 			    		->save();
 
 	    			Mage::log(json_encode(array(
 		    			'customer_id' => $customerId."",
