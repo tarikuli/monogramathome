@@ -149,6 +149,7 @@
                     </checkout_cart_add_product_complete>
                 </observers>
             </checkout_cart_add_product_complete>
+            <!-- 
             <checkout_type_onepage_save_order_after>
                 <observers>
                     <checkout_type_onepage_save_order_after_ambassador>
@@ -158,6 +159,7 @@
                     </checkout_type_onepage_save_order_after_ambassador>
                 </observers>
             </checkout_type_onepage_save_order_after>
+            -->
             <customer_customer_authenticated>
                 <observers>
                     <customer_customer_authenticated_ambassador>

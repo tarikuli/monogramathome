@@ -315,6 +315,7 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 					/* If only KIT in Product then Add to QUE for create sub domain */
 					$this->needExecuted = true;
 					$this->_addQueue($customerObject);
+					$this->_sendAmbassadorWelcomeEmail($customerObject);
 					$this->info('_addQueue function called');
 				}
 				
@@ -462,5 +463,48 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
     		}
 		}
 
+    }
+    
+    protected function _sendAmbassadorWelcomeEmail($customerObject)
+    {
+    	
+    	$websiteName = Mage::getSingleton('core/session')->getAmbassadorWebsiteName();
+    	if(isset($websiteName))
+    	{
+	    	# Get Email#1 - welcome includes ambassador number ( Registration Email )
+	    	$registrationTemplateId = Mage::getStoreConfig('ambassador_email_settings/registration_email/template');
+	    	if(isset($registrationTemplateId) && $registrationTemplateId != "")
+	    	{
+		//     	$orderObject = $observer->getOrder();
+		    
+		//     	$orderObject->setCanSendNewEmailFlag(false);
+		    
+		//     	$customerObject = Mage::getModel('customer/customer')->load($orderObject->getCustomerId());
+		    
+		    	//Variables for Confirmation Mail.
+		    	$emailTemplateVariables = array();
+		    	$emailTemplateVariables['ambassador_name'] = $customerObject->getName();
+				//$emailTemplateVariables['ambassador_number'] = $orderObject->getIncrementId();
+		    	$emailTemplateVariables['ambassador_number'] = $customerObject->getId();
+				$emailTemplateVariables['ambassador_website'] = $websiteName;
+		    	$emailTemplateVariables['ambassador_email'] = $customerObject->getEmail();
+				$emailTemplateVariables['ambassador_password'] = Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword();
+		    
+		    	$receiverDetail['name'] = $customerObject->getName();
+		    	$receiverDetail['email'] = $customerObject->getEmail();
+		    
+		    	$orderEmailStatus = Mage::helper('opc/data')->sendNewsletterMail($registrationTemplateId, $emailTemplateVariables, $receiverDetail);
+		    
+		    	//Email notification to customer support
+		    	Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customerObject->getId(), true);
+		    
+		    	Mage::log('0. Send Ambassador Welcome Email'.json_encode(array(
+		    			'customer_id' => $customerObject->getId(),
+		    			'newsletter_id' => $registrationTemplateId,
+		    			'receiver' => $receiverDetail,
+		    			'status' => $orderEmailStatus
+		    	)), null, 'ambassador_emails.log');
+	    	}
+   		}
     }
 }
