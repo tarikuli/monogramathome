@@ -186,14 +186,14 @@ $this->info('3	New Web_Site Create = '. $websiteName);
 
 						$this->changePackage($params);
 						
-						## Write your code for member become an AMBASSADOR ##
-						$ambassadorQueueCollection = Mage::getModel('julfiker_contact/ambassadorqueue')
-														->getCollection()
-														->addFieldToFilter('domain_id', strtolower($customerObject->getUsername()));
+// 						## Write your code for member become an AMBASSADOR ##
+// 						$ambassadorQueueCollection = Mage::getModel('julfiker_contact/ambassadorqueue')
+// 														->getCollection()
+// 														->addFieldToFilter('domain_id', strtolower($customerObject->getUsername()));
 
-echo "<pre>"; print_r($ambassadorQueueCollection); echo "</pre>"; die();														
+// echo "<pre>"; print_r($ambassadorQueueCollection); echo "</pre>"; die();														
 												
-						## Write your code for member become an AMBASSADOR ##						
+// 						## Write your code for member become an AMBASSADOR ##						
 					}
 					else
 					{ 
@@ -203,7 +203,7 @@ $this->info('4	If no sub domain or existing Ambassador/Member exist and new AMBA
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
 
 						$params = array(
-							'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(),
+							'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(), // Get Real Pass
 							'street' => array($billingAddress->getStreet1()),
 							'postcode' => $billingAddress->getPostcode(),
 							'email' => $customerObject->getEmail(),
