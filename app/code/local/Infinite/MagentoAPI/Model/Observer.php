@@ -2,12 +2,20 @@
 
 class Infinite_MagentoAPI_Model_Observer
 {
+	const GROUP_AMBASSADOR = "Ambassador";
+	
 	public function checkoutCartAttribute($observer)
 	{
 
 		$cart = Mage::getSingleton('checkout/session')->getQuote();
-	
+		
+		# Get group Id
+		$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+				
+		# Get customer Group name
+		$group = Mage::getModel('customer/group')->load($groupId);
 
+		Mage::log('Test checkoutCartAttribute  group = '. $group->getCode());
 	
 		foreach ($cart->getAllVisibleItems() as $item) 
 		{ 
@@ -26,13 +34,35 @@ class Infinite_MagentoAPI_Model_Observer
 		   
 		 }
 	
+		 
+		 if(array_sum($attributeCheck)>1){
+		 	
+		 	/* If only KIT in Product then Add to QUE for create sub domain */
+		 	Mage::getSingleton('checkout/cart')->truncate();
+		 	Mage::getSingleton('core/session')->addError('Only purchase one Kit.');
+		 		
+		 	Mage::getSingleton('core/session')->unsAmbassadorObject();
+		 	Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+		 	Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+		 	Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+		 	Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+		 	Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+		 	Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+		 }
+		 
 		/* Check If any non kit Product exist */
 		if((count($cart->getAllVisibleItems()) > 1) &&  in_array(1, $attributeCheck)) {
 			/* If only KIT in Product then Add to QUE for create sub domain */
 			Mage::getSingleton('checkout/cart')->truncate();
 			Mage::getSingleton('core/session')->addError('Cannot add the Kit and General item to shopping cart.');
+			
+			Mage::getSingleton('core/session')->unsAmbassadorObject();
 			Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
 			Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+			Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+			Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+			Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+			Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
 		}
 	
 	}

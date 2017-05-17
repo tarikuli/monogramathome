@@ -168,8 +168,9 @@ $this->info('2	Customer if exist = '. $orderObject->getCustomerId());
 					
 					if(isset($websiteName))
 					{
-Mage::log('3	New Web_Site Create = '. $websiteName);						
-$this->info('3	New Web_Site Create = '. $websiteName);						
+Mage::log('3	New Web_Site Create = '. $websiteName);	// 3  New Web_Site Create = LanaB					
+$this->info('3	New Web_Site Create = '. $websiteName);		
+				
 						# If sub domain ( Ambassador web site ) exist
 						$params = array(
 							'username' => $websiteName
@@ -184,11 +185,20 @@ $this->info('3	New Web_Site Create = '. $websiteName);
 						}	
 
 						$this->changePackage($params);
+						
+						## Write your code for member become an AMBASSADOR ##
+						$ambassadorQueueCollection = Mage::getModel('julfiker_contact/ambassadorqueue')
+														->getCollection()
+														->addFieldToFilter('domain_id', strtolower($customerObject->getUsername()));
+
+echo "<pre>"; print_r($ambassadorQueueCollection); echo "</pre>"; die();														
+												
+						## Write your code for member become an AMBASSADOR ##						
 					}
 					else
 					{ 
-Mage::log('4	If no sub domain exist and new AMBASSADOR going to register.');
-$this->info('4	If no sub domain exist and new AMBASSADOR going to register.');						
+Mage::log('4	If no sub domain or existing Ambassador/Member exist and new AMBASSADOR going to register.');
+$this->info('4	If no sub domain or existing Ambassador/Member exist and new AMBASSADOR going to register.');						
 						# If no sub domain exist and new AMBASSADOR going to register. 
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
 
