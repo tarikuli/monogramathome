@@ -505,6 +505,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
         }
 
         #$this->_redirectReferer(Mage::getUrl('*/*'));
+       	Mage::getSingleton('core/session')->unsAmbassadorObject();
+		Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+		Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+		Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+		Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+		Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+		Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
         $this->_redirect("*/cart");
     }
 
