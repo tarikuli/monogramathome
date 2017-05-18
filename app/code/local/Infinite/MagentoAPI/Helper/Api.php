@@ -3,6 +3,7 @@
 class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 {
     const GROUP_AMBASSADOR = "Ambassador";
+    const GROUP_MEMBER = "Member";
     const ATTRIBUTE_SET = "Kit";
     const API_URL = "http://www.dashboard.monogramathome.com/backoffice/magento_api";
 
@@ -21,6 +22,12 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 			if(!empty($data['username']) && !empty($data['password'])){
 				$response = $this->call('login', $data);				
+				
+				$jewelParams['username'] = base64_encode($customer->getUsername());
+				$jewelParams['password'] = base64_encode((isset($params['login'])? $params['login']['password']: $params['password']));
+				$jewelParams['group_id'] = $customer->getGroupId();
+				Mage::getSingleton('core/session')->setJewelParams(json_encode($jewelParams));
+				
 			}else{
 				$this->info('Problem (' . $method . ') : ' . json_encode($data));
 			}
@@ -68,11 +75,16 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 			if(isset($params['sponsor_name']))
 				$data['sponsor_name'] = $params['sponsor_name'];
 	
-			$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
-			if(isset($ambassadorObject))
+// 			$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+// 			if(isset($ambassadorObject))
+// 			{
+// 				$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
+// 				$data['sponsor_name'] = $websitecode;
+// 			}
+
+			if(!isset($data['sponsor_name']))
 			{
-				$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
-				$data['sponsor_name'] = $websitecode;
+				$data['sponsor_name'] = "Admin";
 			}
 	
 			if(isset($params['street'][1]) && trim($params['street'][1]) != "")
@@ -148,15 +160,18 @@ $this->info('1	Load orderId = '. $orderId);
 			{
 Mage::log('2	Customer if exist = '. $orderObject->getCustomerId());				
 $this->info('2	Customer if exist = '. $orderObject->getCustomerId());				
+				# Get 
+				$memberParams = json_decode(Mage::getSingleton('core/session')->getJewelParams());
+
 				# Get group Id
-				$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-				
-				# Get customer Group name
-				$group = Mage::getModel('customer/group')->load($groupId);
+				#$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 				
 				# Load Customer details by Customer ID
 				$customerObject = Mage::getModel('customer/customer')->load($orderObject->getCustomerId());
 
+				# Get customer Group name
+				$group = Mage::getModel('customer/group')->load($customerObject->getGroupId());
+				
 				# Get BECOME AN AMBASSADOR 5 step Data
 				$checkoutMethod = Mage::getSingleton('core/session')->getAmbassadorCheckoutMethod();
 				
@@ -166,15 +181,40 @@ $this->info('2	Customer if exist = '. $orderObject->getCustomerId());
 					# Get Ambassador sud domain name
 					$websiteName = Mage::getSingleton('core/session')->getAmbassadorWebsiteNameForApi();
 					
-					if(isset($websiteName))
+					#if(isset($websiteName))
+					if(($memberParams->group_id == 5) && ($customerObject->getGroupId() == 4))
 					{
-Mage::log('3	New Web_Site Create = '. $websiteName);	// 3  New Web_Site Create = LanaB					
-$this->info('3	New Web_Site Create = '. $websiteName);		
+Mage::log('3	If websiteName exist = '. $websiteName);					
+$this->info('3	If websiteName exist = '. $websiteName);		
 				
 						# If sub domain ( Ambassador web site ) exist
-						$params = array(
-							'username' => $websiteName
-						);
+						#$params = array(
+						#	'username' => $websiteName
+						#);
+						
+						## Write your code for member become an AMBASSADOR ## 
+						if(($memberParams->group_id == 5) && ($customerObject->getGroupId() == 4)){
+
+							Mage::log('4	Logedin Member ID = 5 and Member become Ambassador ID = 4 then Create an Ambassador Account in MLM');
+							$this->info('4	Logedin Member ID = 5 and Member become Ambassador ID = 4 then Create an Ambassador Account in MLM');
+							
+							$billingAddress = $customerObject->getPrimaryBillingAddress();
+							
+							$params = array(
+									'username' => base64_decode($memberParams->username),
+									'password' => base64_decode($memberParams->password),
+									'street' => array($billingAddress->getStreet1()),
+									'postcode' => $billingAddress->getPostcode(),
+									'email' => $customerObject->getEmail(),
+									'telephone' => $billingAddress->getTelephone(),
+									'sponsor_name' => $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId())
+							);
+							
+							
+						}
+
+						
+						## Write your code for member become an AMBASSADOR ##
 
 						foreach($orderObject->getAllItems() as $orderItem)
 						{
@@ -183,32 +223,61 @@ $this->info('3	New Web_Site Create = '. $websiteName);
 							if($productObject->getId())
 								$params['package'] = $productObject->getSku();
 						}	
-
-						$this->changePackage($params);
 						
-// 						## Write your code for member become an AMBASSADOR ##
-// 						$ambassadorQueueCollection = Mage::getModel('julfiker_contact/ambassadorqueue')
-// 														->getCollection()
-// 														->addFieldToFilter('domain_id', strtolower($customerObject->getUsername()));
+						# Comment by Jewel on 05192017
+						#$this->changePackage($params);
+						$this->registration($params, $customerObject);
+						
+// ## Write your code for member become an AMBASSADOR ##
+// $ambassadorQueueCollection = Mage::getModel('julfiker_contact/ambassadorqueue')
+// 									->getCollection()
+// 									->addFieldToFilter('domain_id', strtolower($customerObject->getUsername()));
+														
+														
+// $queue = Mage::getModel('julfiker_contact/ambassadorqueue')->load($ambassadorQueueCollection->getFirstItem()->getId());
+						
 
-// echo "<pre>"; print_r($ambassadorQueueCollection); echo "</pre>"; die();														
-												
-// 						## Write your code for member become an AMBASSADOR ##						
+// $memberParams = json_decode(Mage::getSingleton('core/session')->getJewelParams());
+
+// echo "<pre>---------------------00------------------------------</pre>";
+// echo "<pre>"; print_r($memberParams); echo "</pre>";
+// echo "<pre>---------------------11------------------------------</pre>";
+
+// $queryString['username'] = base64_decode($memberParams->username);
+// $queryString['password'] = base64_decode($memberParams->password);
+// echo "<pre>"; print_r($queryString); echo "</pre>";
+
+// echo "<pre>---------------------33------------------------------</pre>";
+// echo "<pre>"; print_r($group); echo "</pre>";
+
+        		
+// echo "<pre>---------------------0------------------------------</pre>";
+// echo "<pre>"; print_r($queue); echo "</pre>";														
+// echo "<pre>---------------------1------------------------------</pre>";
+
+// Mage::log("-------------------2---------------------");
+// Mage::log($customerObject);
+// echo "<pre>"; print_r($customerObject); echo "</pre>"; die();
+
+// ## Write your code for member become an AMBASSADOR ##	
+	
 					}
 					else
 					{ 
-Mage::log('4	If no sub domain or existing Ambassador/Member exist and new AMBASSADOR going to register.');
-$this->info('4	If no sub domain or existing Ambassador/Member exist and new AMBASSADOR going to register.');						
+
+Mage::log('5	If new AMBASSADOR going to register without login as Member.');
+$this->info('5	If new AMBASSADOR going to register without login as Member.');
+
 						# If no sub domain exist and new AMBASSADOR going to register. 
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
 
 						$params = array(
-							'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(), // Get Real Pass
+							'password' => Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword(),
 							'street' => array($billingAddress->getStreet1()),
 							'postcode' => $billingAddress->getPostcode(),
 							'email' => $customerObject->getEmail(),
 							'telephone' => $billingAddress->getTelephone(),
-							'sponsor_name' => 'admin'
+							'sponsor_name' => $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId())
 						);
 
 						foreach($orderObject->getAllItems() as $orderItem)
@@ -221,18 +290,16 @@ $this->info('4	If no sub domain or existing Ambassador/Member exist and new AMBA
 
 						$this->registration($params, $customerObject);
 					}
-Mage::log('5	orderObject->getCustomerId() = '. $orderObject->getCustomerId());
-$this->info('5	orderObject->getCustomerId() = '. $orderObject->getCustomerId());
-					# Add Ambassador Marketing Emails
-					$this->_setAmbassadorMarketingEmail($orderObject->getCustomerId());
 					
 					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
 
 					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
-					
 				}
 				else
 				{  
+Mage::log('7 I am purchesing from Normal checkout Page');
+$this->info('7	I am purchesing from Normal checkout Page');
+					
 					Mage::getSingleton('core/session')->unsAmbassadorObject();
 					Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
 					Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
@@ -240,7 +307,7 @@ $this->info('5	orderObject->getCustomerId() = '. $orderObject->getCustomerId());
 					Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
 					Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
 					Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
-					
+
 					# IF checkoutMethod data load from Member or Customer
 					
 					# Load Customer  checkoutMethod data.
@@ -264,13 +331,16 @@ $this->info('5	orderObject->getCustomerId() = '. $orderObject->getCustomerId());
 				}
 
 				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
-				if($group->getCode() != self::GROUP_AMBASSADOR ){
-Mage::log('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());					
-$this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
-					$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
-				}else {
-					$userName = $customerObject->getUsername();
-				}
+// 				if($group->getCode() != self::GROUP_AMBASSADOR ){
+// Mage::log('8	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());					
+// $this->info('8	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
+// 					$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
+// 				}else {
+// 					$userName = $customerObject->getUsername();
+// 				}
+
+				# This purchase is occured from which website.
+				$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
 				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
 				
 				$data = array(
@@ -323,10 +393,15 @@ $this->info('6	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
 				/* Check If any non kit Product exist */
 				if(array_sum($attributeCheck) == count($attributeCheck)) {
 					/* If only KIT in Product then Add to QUE for create sub domain */
+					Mage::log('_addQueue function called');
+					$this->info('_addQueue function called');
+					
 					$this->needExecuted = true;
 					$this->_addQueue($customerObject);
 					$this->_sendAmbassadorWelcomeEmail($customerObject);
-					$this->info('_addQueue function called');
+					# Add Ambassador Marketing Emails
+					$this->_setAmbassadorMarketingEmail($customerObject->getId());
+	
 				}
 				
 				$giftVoucherDiscount = floatval(abs($orderObject->getGiftVoucherDiscount()) + abs($orderObject->getDiscountAmount()));
@@ -440,9 +515,12 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
      */
     protected function _getStoreNameByWebSiteId($websiteId){
     	$website = Mage::getModel('core/website')->load($websiteId);
-    	$website = explode(".", $website->getName());
-    	$this->info('8	REQUEST WebSite Name: '. $website[0]);
-    	return $website[0];
+    	#$website = explode(".", $website->getCode());
+    	$this->info('8	REQUEST WebSite Name: '. $website->getCode());
+    	if($website->getCode()== "base"){
+    		return "Admin";
+    	}
+    	return $website->getCode();
     }
     
     public function _setAmbassadorMarketingEmail($customerId ){

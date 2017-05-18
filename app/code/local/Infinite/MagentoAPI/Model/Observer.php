@@ -69,6 +69,15 @@ class Infinite_MagentoAPI_Model_Observer
 	
 	public function customerLoggedIn($observer)
 	{
+		Mage::getSingleton('core/session')->unsAmbassadorObject();
+		Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+		Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+		Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+		Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+		Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+		Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+		Mage::getSingleton('core/session')->unsJewelParams();
+		
 		$params = Mage::app()->getRequest()->getParams();
 		$customer = $observer->getCustomer();
 		$apiHelper = Mage::helper('magento_api/api');
@@ -80,6 +89,7 @@ class Infinite_MagentoAPI_Model_Observer
 		$customer = $observer->getCustomer();
 		$apiHelper = Mage::helper('magento_api/api');
 		$apiHelper->logout($customer);
+		
 	}
 
 	public function customerRegisterSuccess($observer)

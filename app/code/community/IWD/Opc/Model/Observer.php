@@ -2,6 +2,7 @@
 class IWD_Opc_Model_Observer
 {
 	const GROUP_AMBASSADOR = "Ambassador";
+	const GROUP_MEMBER = "Member";
 	const KEYSALT = "aghtUJ8y";
 	const EMAIL_HOUR_ELAPSE = 0;
 	
@@ -250,16 +251,43 @@ class IWD_Opc_Model_Observer
     		$customerObject = $observer->getModel();
     		$groupId = $customerObject->getGroupId();
 
+    		$username = $customerObject->getUsername();
+    		$password = $observer->getPassword();
+    		
         	if($currentGroupId == $groupId)
         	{
-				$username = $customerObject->getUsername();
-    			$password = $observer->getPassword();
-
         		$queryString = "username={$username}&password={$password}";
 				$queryString = base64_encode(urlencode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5(self::KEYSALT), $queryString, MCRYPT_MODE_CBC, md5(md5(self::KEYSALT)))));
 				$queryString = "?{$queryString}";
 				Mage::getSingleton('core/session')->setAmbassadorDashboardParams($queryString);
+				
+// 				$params['username'] = base64_encode($username);
+// 				$params['password'] = base64_encode($password);
+// 				$params['account_type'] = self::GROUP_AMBASSADOR;
+// 				Mage::getSingleton('core/session')->setJewelParams(json_encode($params));
+				
 				return;
+        	}else{
+//         		$params['username'] = base64_encode($username);
+//         		$params['password'] = base64_encode($password);
+//         		$params['account_type'] = self::GROUP_MEMBER;
+//         		Mage::getSingleton('core/session')->setJewelParams(json_encode($params));
+        		
+//         		$memberParams = json_decode(Mage::getSingleton('core/session')->getMemberParams(json_encode($queryString)));
+        		
+//         		echo "<pre>---------------------00------------------------------</pre>";
+//         		echo "<pre>"; print_r($memberParams); echo "</pre>";
+//         		echo "<pre>---------------------11------------------------------</pre>";
+        		
+//         		$queryString['username'] = base64_decode($memberParams->username);
+//         		$queryString['password'] = base64_decode($memberParams->password);
+//         		echo "<pre>"; print_r($queryString); echo "</pre>";
+        		
+//         		echo "<pre>---------------------33------------------------------</pre>";
+//         		print_r($currentGroupId."   --- ".$groupCollection->getFirstItem()->getCode());
+//         		echo "<pre>---------------------44------------------------------</pre>";
+//         		print_r($groupId);
+//         		exit();
         	}
         }
 
