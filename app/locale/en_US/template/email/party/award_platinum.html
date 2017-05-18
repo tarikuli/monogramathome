@@ -1,0 +1,45 @@
+<!--@subject Contacts submission success @-->
+
+{{template config_path="design/email/header"}}
+{{inlinecss file="email-inline.css"}}
+
+<div style="height: 200px;">
+    <!-- Banner image -->
+    <img src="{{skin url='images/email-banner.jpg'}}" />
+</div>
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td class="action-content">
+            <p>
+                Hi {{var data.first_name}},
+                Congratulation! You won platinum award from your hosted event. so you have a voucher code to purchases from monogramathome.com
+            </p>
+
+            <p>
+                Your voucher code: {{var data.voucher_code}}
+                Voucher amount : {{var data.amount}}
+                Voucher Expire at: {{var data.expire_at}}
+            </p>
+
+            <p>
+                <b>Your event information:</b>
+                {{var data.event_title}}
+                Hosted by {{var data.host}}
+            </p>
+
+            <p>
+                <b>Event time:</b>
+                {{var data.start_at}}
+                {{var data.end_at}}
+            </p>
+
+            <p>
+                <b>Event location:</b>
+                {{var data.location}}
+            </p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer"}}
