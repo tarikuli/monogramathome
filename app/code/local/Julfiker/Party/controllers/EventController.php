@@ -235,105 +235,105 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         }
     }
 
-    public function inviteAction() {
-        $eventId = $this->getRequest()->get('event_id');
-        $email = $this->getRequest()->get('email');
-        $customerId = 0;
-        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $customerData = Mage::getSingleton('customer/session')->getCustomer();
-            $customerId = $customerData->getId();
-        }
-
-        $partycipate   = Mage::getModel('julfiker_party/partyparticipate');
-        $partycipate->setEventId($eventId);
-        $partycipate->setStatus(1);
-        //$partycipate->setInviteBy($customerId);
-        $partycipate->setCustomerId(0);
-        $partycipate->save();
-
-        $this->_redirect('*/*/');
-
-//        $content =
-//        "Hi,
-//         Congratulations! You have invited to join an event.
-//          yes, I want to join <a href='
-//        ";
-//
-//        $subject = "Monogram invite notification!";
-//        $toMail = Mage::getStoreConfig('trans_email/ident_support/email');
-//        $mail = Mage::getModel('core/email');
-//        $mail->setToName('Event Notification');
-//        $mail->setToEmail($email);
-//        $mail->setBody($content);
-//        $mail->setSubject($subject);
-//        $mail->setFromEmail('no-reply@monogramathome.com');
-//        $mail->setFromName("Auto Notification");
-//        $mail->setType('text');
-//
-//        try {
-//            $mail->send();
+//    public function inviteAction() {
+//        $eventId = $this->getRequest()->get('event_id');
+//        $email = $this->getRequest()->get('email');
+//        $customerId = 0;
+//        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+//            $customerData = Mage::getSingleton('customer/session')->getCustomer();
+//            $customerId = $customerData->getId();
 //        }
-//        catch (Exception $e) {
-//            //Todo: add log with exception
-//            //die($e->getMessage());
-//            echo "<pre>"; var_dump($toMail); echo "</pre>"; die();
-//            Mage::log($e->getMessage());
-//            die("To: ".$toMail."<br>Subject: ".$subject."<br>Error Message: ".$e->getMessage());
+//
+//        $partycipate   = Mage::getModel('julfiker_party/partyparticipate');
+//        $partycipate->setEventId($eventId);
+//        $partycipate->setStatus(1);
+//        //$partycipate->setInviteBy($customerId);
+//        $partycipate->setCustomerId(0);
+//        $partycipate->save();
+//
+//        $this->_redirect('*/*/');
+//
+////        $content =
+////        "Hi,
+////         Congratulations! You have invited to join an event.
+////          yes, I want to join <a href='
+////        ";
+////
+////        $subject = "Monogram invite notification!";
+////        $toMail = Mage::getStoreConfig('trans_email/ident_support/email');
+////        $mail = Mage::getModel('core/email');
+////        $mail->setToName('Event Notification');
+////        $mail->setToEmail($email);
+////        $mail->setBody($content);
+////        $mail->setSubject($subject);
+////        $mail->setFromEmail('no-reply@monogramathome.com');
+////        $mail->setFromName("Auto Notification");
+////        $mail->setType('text');
+////
+////        try {
+////            $mail->send();
+////        }
+////        catch (Exception $e) {
+////            //Todo: add log with exception
+////            //die($e->getMessage());
+////            echo "<pre>"; var_dump($toMail); echo "</pre>"; die();
+////            Mage::log($e->getMessage());
+////            die("To: ".$toMail."<br>Subject: ".$subject."<br>Error Message: ".$e->getMessage());
+////        }
+//    }
+//
+//    public function goingAction() {
+//        $eventId = $this->getRequest()->get('event_id');
+//        $event     = Mage::getModel('julfiker_party/event');
+//        if ($eventId) {
+//            $event->setStoreId(Mage::app()->getStore()->getId())
+//                ->load($eventId);
 //        }
-    }
-
-    public function goingAction() {
-        $eventId = $this->getRequest()->get('event_id');
-        $event     = Mage::getModel('julfiker_party/event');
-        if ($eventId) {
-            $event->setStoreId(Mage::app()->getStore()->getId())
-                ->load($eventId);
-        }
-        $guest = $this->getRequest()->get('guest');
-
-        $customerId = 0;
-
-        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $customerData = Mage::getSingleton('customer/session')->getCustomer();
-            $customerId = $customerData->getId();
-        }
-        else {
-            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
-        }
-
-        $partycipate   = Mage::getModel('julfiker_party/partyparticipate');
-        $partycipate->setEventId($eventId);
-        $partycipate->setStatus(4);
-        $partycipate->setGuest($guest);
-        $partycipate->setCustomerId($customerId);
-        $partycipate->save();
-        $this->_redirectReferer();
-    }
-
-    public function interestedAction() {
-        $eventId = $this->getRequest()->get('event_id');
-        $event     = Mage::getModel('julfiker_party/event');
-        if ($eventId) {
-            $event->setStoreId(Mage::app()->getStore()->getId())
-                ->load($eventId);
-        }
-        $customerId = 0;
-        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $customerData = Mage::getSingleton('customer/session')->getCustomer();
-            $customerId = $customerData->getId();
-        }
-        else {
-            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
-        }
-
-        $partycipate   = Mage::getModel('julfiker_party/partyparticipate');
-        $partycipate->setEventId($eventId);
-        $partycipate->setStatus(3);
-        $partycipate->setGuest(0);
-        $partycipate->setCustomerId($customerId);
-        $partycipate->save();
-        $this->_redirectReferer();
-    }
+//        $guest = $this->getRequest()->get('guest');
+//
+//        $customerId = 0;
+//
+//        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+//            $customerData = Mage::getSingleton('customer/session')->getCustomer();
+//            $customerId = $customerData->getId();
+//        }
+//        else {
+//            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
+//        }
+//
+//        $partycipate   = Mage::getModel('julfiker_party/partyparticipate');
+//        $partycipate->setEventId($eventId);
+//        $partycipate->setStatus(4);
+//        $partycipate->setGuest($guest);
+//        $partycipate->setCustomerId($customerId);
+//        $partycipate->save();
+//        $this->_redirectReferer();
+//    }
+//
+//    public function interestedAction() {
+//        $eventId = $this->getRequest()->get('event_id');
+//        $event     = Mage::getModel('julfiker_party/event');
+//        if ($eventId) {
+//            $event->setStoreId(Mage::app()->getStore()->getId())
+//                ->load($eventId);
+//        }
+//        $customerId = 0;
+//        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+//            $customerData = Mage::getSingleton('customer/session')->getCustomer();
+//            $customerId = $customerData->getId();
+//        }
+//        else {
+//            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
+//        }
+//
+//        $partycipate   = Mage::getModel('julfiker_party/partyparticipate');
+//        $partycipate->setEventId($eventId);
+//        $partycipate->setStatus(3);
+//        $partycipate->setGuest(0);
+//        $partycipate->setCustomerId($customerId);
+//        $partycipate->save();
+//        $this->_redirectReferer();
+//    }
 
     public function orderAction() {
         $this->loadLayout();

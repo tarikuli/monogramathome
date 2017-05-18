@@ -177,7 +177,6 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
         if ($customer)
             return $customer->getName();
 
-
          return null;
     }
 }

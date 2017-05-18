@@ -26,7 +26,7 @@
     <sections>
         <julfiker_party translate="label" module="julfiker_party">
             <class>separator-top</class>
-            <label>Manage event</label>
+            <label>Event configuration</label>
             <tab>julfiker</tab>
             <frontend_type>text</frontend_type>
             <sort_order>100</sort_order>
@@ -80,6 +80,51 @@
                         </url_suffix>
                     </fields>
                 </event>
+                <email translate="label" module="julfiker_party">
+                    <label>Email Templates</label>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <silver_template translate="label">
+                            <label>Event sliver award email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </silver_template>
+                        <gold_template translate="label">
+                            <label>Event gold award email </label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </gold_template>
+                        <platinum_template translate="label">
+                            <label>Event platinum award email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </platinum_template>
+                        <invite_template translate="label">
+                            <label>Event invite email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invite_template>
+                    </fields>
+                </email>
             </groups>
         </julfiker_party>
     </sections>

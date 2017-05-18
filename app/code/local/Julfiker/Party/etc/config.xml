@@ -80,6 +80,30 @@
                 </observers>
             </controller_front_init_routers>
         </events>
+        <template>
+            <email>
+                <julfiker_party_email_silver_template translate="label" module="julfiker_party">
+                    <label>Event- Award Sliver notification </label>
+                    <file>party/award_sliver.html</file>
+                    <type>html</type>
+                </julfiker_party_email_silver_template>
+                <julfiker_party_email_gold_template translate="label" module="julfiker_party">
+                    <label>Event- Award Gold notification </label>
+                    <file>party/award_gold.html</file>
+                    <type>html</type>
+                </julfiker_party_email_gold_template>
+                <julfiker_party_email_platinum_template translate="label" module="julfiker_party">
+                    <label>Event- Award Platinum notification </label>
+                    <file>party/award_platinum.html</file>
+                    <type>html</type>
+                </julfiker_party_email_platinum_template>
+                <julfiker_party_email_invite_template translate="label" module="julfiker_party">
+                    <label>Event- Invite people joining event </label>
+                    <file>party/invite_people.html</file>
+                    <type>html</type>
+                </julfiker_party_email_invite_template>
+            </email>
+        </template>
     </global>
     <adminhtml>
         <layout>
