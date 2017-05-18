@@ -340,7 +340,11 @@ $this->info('7	I am purchesing from Normal checkout Page');
 // 				}
 
 				# This purchase is occured from which website.
-				$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
+				if($this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId()) == "Admin"){
+					$userName = $customerObject->getUsername();
+				}else{
+					$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
+				}
 				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
 				
 				$data = array(

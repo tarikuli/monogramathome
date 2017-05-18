@@ -30,7 +30,7 @@ class Diglin_Username_Model_Observer extends Mage_Customer_Model_Observer
         $customer = $observer->getEvent()->getModel();
         // Add the inactive option
         if ($customer->getIsActive() != '1') {
-            throw new Mage_Core_Exception(Mage::helper('customer')->__('This account is disabled.'), 0);
+            throw new Mage_Core_Exception(Mage::helper('customer')->__('This account in progress for Registration. Please Try again after 2 hour.'), 0);
         }
     }
 
