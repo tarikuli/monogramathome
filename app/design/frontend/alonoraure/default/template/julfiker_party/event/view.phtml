@@ -43,7 +43,7 @@ $endAt = date_create($_event->getEndAt());
 
     <div style="overflow: hidden">
         <div class="pull-left">
-            <a href="<?php echo Mage::getUrl('party/event/interested')?>?event_id=<?php echo $_event->getId()?>" class="btn btn-default btn-xs"><i class="fa fa-star" aria-hidden="true"></i> Interested</a>
+            <a href="<?php echo Mage::getUrl('party/participate/interested')?>?event_id=<?php echo $_event->getId()?>" class="btn btn-default btn-xs"><i class="fa fa-star" aria-hidden="true"></i> Interested</a>
             <a href="#" class="btn btn-default btn-xs" data-backdrop="static" data-keyboard="false"  data-id="<?php echo $_event->getId()?>" data-toggle="modal"  data-target="#going_popup">
                 <i class="fa fa-check" aria-hidden="true"></i> Going
             </a>
@@ -141,12 +141,13 @@ $endAt = date_create($_event->getEndAt());
                 <h4 class="modal-title"><?php echo $this->__('Invite peoples to join') ?></h4>
             </div>
             <div class="modal-body">
-                <form action="<?php echo Mage::getUrl('party/event/invite')?>" method="post">
+                <form action="<?php echo Mage::getUrl('party/participate/invite')?>" method="post">
                     <div class="form-group">
                         <label class="control-label" for="inputDefault">Input email</label>
-                        <input class="form-control" id="inputDefault" name="email" type="text">
+                        <input class="form-control" id="inputDefault" name="emails[1]" type="text">
                         <!--span class="help-block">Please provide comma(,) separate email address. And invitation will be notified through email.</span-->
                         <input type="hidden" value=""  id="event_id" name="event_id" />
+                        <input type="hidden" value=""  id="id" name="id" />
                     </div>
                     <div class="form-group">
                         <button type="button" data-dismiss="modal" aria-hidden="true" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close window')) ?>" class="button"><span><span><?php echo $this->__('Close') ?></span></span></button> &nbsp;
@@ -166,12 +167,13 @@ $endAt = date_create($_event->getEndAt());
                 <h4 class="modal-title"><?php echo $this->__('Join in event') ?></h4>
             </div>
             <div class="modal-body">
-                <form action="<?php echo Mage::getUrl('party/event/going')?>" method="post">
+                <form action="<?php echo Mage::getUrl('party/participate/going')?>" method="post">
                     <div class="form-group">
                         <label class="control-label" for="inputDefault">No. of Guest</label>
                         <input class="form-control" id="inputDefault" name="guest" type="text">
                         <!--span class="help-block">Please provide comma(,) separate email address. And invitation will be notified through email.</span-->
                         <input type="hidden" value="" class="event_id"  id="event_id" name="event_id" />
+                        <input type="hidden" value=""  id="id" name="id" />
                     </div>
                     <div class="form-group">
                         <button type="button" data-dismiss="modal" aria-hidden="true" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close window')) ?>" class="button"><span><span><?php echo $this->__('Close') ?></span></span></button> &nbsp;
