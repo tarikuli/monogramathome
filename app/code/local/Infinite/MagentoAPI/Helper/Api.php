@@ -268,8 +268,8 @@ $this->info('3	If websiteName exist = '. $websiteName);
 					else
 					{ 
 
-Mage::log('5	If new AMBASSADOR going to register without login as Member.');
-$this->info('5	If new AMBASSADOR going to register without login as Member.');
+Mage::log('5	If new AMBASSADOR going to register without login as Member Pass= '. base64_decode($memberParams->password));
+$this->info('5	If new AMBASSADOR going to register without login as Member Pass= '. base64_decode($memberParams->password));
 
 						# If no sub domain exist and new AMBASSADOR going to register. 
 						$billingAddress = $customerObject->getPrimaryBillingAddress();
