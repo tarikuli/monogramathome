@@ -35,7 +35,7 @@ class Julfiker_Party_Helper_Sender extends Mage_Core_Helper_Abstract
                 Mage::getStoreConfig('contacts/email/sender_email_identity'),
                 $email,
                 null,
-                array('data' => $data)
+                $data
             );
     }
 
@@ -45,9 +45,11 @@ class Julfiker_Party_Helper_Sender extends Mage_Core_Helper_Abstract
         $data = array();
         $data['location'] = $event->getAddress().", ".$event->getCity().", ".$event->getZip().", ".$event->getCountry();
         $data['title'] = $event->getTitle();
-        $data['start_at'] = $event->getStartAt();
-        $data['end_at'] = $event->getEndAt();
+        $data['start_at'] =  date("d-m-Y h:i A", strtotime($event->getStartAt()));;
+        $data['end_at'] = date("d-m-Y h:i A", strtotime($event->getEndAt()));;
         $data['host'] = $member->getName();
+        $data['joinUrl'] = Mage::getUrl("julfiker_party/participate/response");
+        $data['rejectUrl'] = Mage::getUrl("julfiker_party/participate/response");
 
         return $data;
     }

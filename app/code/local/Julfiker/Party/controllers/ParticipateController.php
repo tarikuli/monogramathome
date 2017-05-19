@@ -47,7 +47,8 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
                 if ($partycipate->getId()) {
                     $data = Mage::helper("julfiker_party/sender")->getEmailData($eventId);
                     $data['name'] = $member->getFirstName();
-
+                    $data['joinUrl'] .= "?status=".$status['STATUS_JOINED']."&id=".$eventId;
+                    $data['rejectUrl'] .= "?status=".$status['STATUS_INVITE_REJECT']."&id=".$eventId;
                     Mage::helper("julfiker_party/sender")->sendInviteEmail($member->getEmail(), $data);
                 }
             }
@@ -74,6 +75,8 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
                 if ($partycipate->getId()) {
                     $data = Mage::helper("julfiker_party/sender")->getEmailData($eventId);
                     $data['name'] = "Valued guest";
+                    $data['joinUrl'] .= "?status=".$status['STATUS_JOINED']."&id=".$eventId;
+                    $data['rejectUrl'] .= "?status=".$status['STATUS_INVITE_REJECT']."&id=".$eventId;
                     Mage::helper("julfiker_party/sender")->sendInviteEmail($val, $data);
                 }
             }
@@ -138,5 +141,12 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
             Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('You must be logged in to perform this action!'));
         }
         $this->_redirectReferer();
+    }
+
+
+    public function responseAction() {
+        $params = $this->getRequest()->getParams();
+        print_r($params);
+        die();
     }
 }
