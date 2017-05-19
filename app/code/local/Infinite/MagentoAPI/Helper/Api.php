@@ -347,7 +347,7 @@ $this->info('7	I am purchesing from Normal checkout Page');
 // 					$userName = $customerObject->getUsername();
 // 				}elseif(($memberParams->group_id == 5) && ($customerObject->getGroupId() == 4)){
 // 					$userName = $customerObject->getUsername();
-				if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER){
+				if($customerObject->getGroupId() == 4){
 					$userName = $customerObject->getUsername();
 				}else{
 					$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
