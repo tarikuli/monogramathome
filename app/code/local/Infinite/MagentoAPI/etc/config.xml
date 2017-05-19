@@ -58,6 +58,16 @@
 		</routers>
      
         <events>
+        
+            <catalog_product_type_prepare_full_options>
+                <observers>
+                    <checkout_cart_magento_api>
+                        <class>Infinite_MagentoAPI_Model_Observer</class>
+                        <method>catalogProductTypePrepare</method>
+                    </checkout_cart_magento_api>
+                </observers>
+            </catalog_product_type_prepare_full_options>
+        
             <checkout_cart_product_add_after>
                 <observers>
                     <checkout_cart_magento_api>

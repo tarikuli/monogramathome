@@ -4,6 +4,14 @@ class Infinite_MagentoAPI_Model_Observer
 {
 	const GROUP_AMBASSADOR = "Ambassador";
 	
+	public function catalogProductTypePrepare($observer)
+	{
+		#$quote = Mage::getSingleton('checkout/session')->getQuote();
+		#if($quote->getItemsCount()>=1){
+		#	Mage::throwException('You can only buy one product at a time.');
+		#}
+	}
+	
 	public function checkoutCartAttribute($observer)
 	{
 

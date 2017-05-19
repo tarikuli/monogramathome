@@ -28,6 +28,9 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 				$jewelParams['group_id'] = $customer->getGroupId();
 				Mage::getSingleton('core/session')->setJewelParams(json_encode($jewelParams));
 				
+				Mage::log('setJewelParams username = '. $customer->getUsername().' password = '.(isset($params['login'])? $params['login']['password']: $params['password']));
+				$this->info('setJewelParams username = '. $customer->getUsername().' password = '.(isset($params['login'])? $params['login']['password']: $params['password']));
+				
 			}else{
 				$this->info('Problem (' . $method . ') : ' . json_encode($data));
 			}
