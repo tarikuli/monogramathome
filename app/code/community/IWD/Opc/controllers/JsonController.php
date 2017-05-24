@@ -191,12 +191,24 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		
 		if (is_numeric($subDomainName[0])){
 			return true;
-		} elseif (preg_match('/[\'^£$%&*()}{@#~?><>,.|=_+¬-]/', $subDomainName)){
+		} elseif (preg_match('/[\'^£$%&*()} {@#~?><>,.|=_+¬-]/', $subDomainName)){
 			return true;
 		}
 		return false;
 
 	}
+	
+	
+	private function _countLength($subDomainName){
+	
+		Mage::log('_countLength  = '. strlen($subDomainName));
+		if ((strlen($subDomainName) < 5) || (strlen($subDomainName) > 8)){
+			return true;
+		} 
+		return false;
+	
+	}
+	
 	
 	public function checkWebsiteAction() {
 
@@ -223,9 +235,12 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			{
 				$result['error'] = true;
 				$result['message'] = $this->__('Not Available');
+			}elseif ($this->_countLength($data['username'])){
+				$result['error'] = true;
+				$result['message'] = $this->__('Minium 5 and Maximum 8  alpha/numeric characters required.');
 			}elseif ($this->_countDots($data['username'])){
 				$result['error'] = true;
-				$result['message'] = $this->__('Domain names can only accommodate alpha/numeric characters.<br>Please consider an alternate store name.');
+				$result['message'] = $this->__('Only accommodate alpha/numeric characters');
 			}
 			else
 				Mage::getSingleton('core/session')->setAmbassadorWebsiteName($data['username']);
