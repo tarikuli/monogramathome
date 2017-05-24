@@ -200,9 +200,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	
 	
 	private function _countLength($subDomainName){
-	
-		Mage::log('_countLength  = '. strlen($subDomainName));
-		if ((strlen($subDomainName) < 5) || (strlen($subDomainName) > 8)){
+		if ((strlen($subDomainName) < 5) || (strlen($subDomainName) > 10)){
 			return true;
 		} 
 		return false;
@@ -237,7 +235,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				$result['message'] = $this->__('Not Available');
 			}elseif ($this->_countLength($data['username'])){
 				$result['error'] = true;
-				$result['message'] = $this->__('Minium 5 and Maximum 8  alpha/numeric characters required.');
+				$result['message'] = $this->__('Minium 5 and Maximum 10 alpha/numeric characters required.');
 			}elseif ($this->_countDots($data['username'])){
 				$result['error'] = true;
 				$result['message'] = $this->__('Only accommodate alpha/numeric characters');
