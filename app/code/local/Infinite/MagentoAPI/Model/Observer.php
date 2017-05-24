@@ -12,9 +12,15 @@ class Infinite_MagentoAPI_Model_Observer
 		#}
 	}
 	
+	
 	public function checkoutCartAttribute($observer)
 	{
 
+		$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+		$url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
+		$path = $url->getPath();
+		
+		
 		$cart = Mage::getSingleton('checkout/session')->getQuote();
 		
 		# Get group Id
@@ -47,7 +53,8 @@ class Infinite_MagentoAPI_Model_Observer
 		 	
 		 	/* If only KIT in Product then Add to QUE for create sub domain */
 		 	Mage::getSingleton('checkout/cart')->truncate();
-		 	Mage::getSingleton('core/session')->addError('Only purchase one Kit.');
+		 	#Mage::getSingleton('core/session')->addError('Only purchase one Kit.');
+		 	Mage::throwException('Only purchase one Kit.');
 		 		
 		 	Mage::getSingleton('core/session')->unsAmbassadorObject();
 		 	Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
@@ -62,7 +69,8 @@ class Infinite_MagentoAPI_Model_Observer
 		if((count($cart->getAllVisibleItems()) > 1) &&  in_array(1, $attributeCheck)) {
 			/* If only KIT in Product then Add to QUE for create sub domain */
 			Mage::getSingleton('checkout/cart')->truncate();
-			Mage::getSingleton('core/session')->addError('Cannot add the Kit and General item to shopping cart.');
+			#Mage::getSingleton('core/session')->addError('Cannot add the Kit and General item to shopping cart.');
+			Mage::throwException('Cannot add the Kit and General item to shopping cart.');
 			
 			Mage::getSingleton('core/session')->unsAmbassadorObject();
 			Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
@@ -71,6 +79,23 @@ class Infinite_MagentoAPI_Model_Observer
 			Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
 			Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
 			Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+		}
+		
+
+		# Mage::log('attributeCheck = '. json_encode($attributeCheck));
+		# Mage::log('checkoutMethod = '. $checkoutMethod);
+		# IF checkoutMethod data load BECOME AN AMBASSADOR 5 step Data. From AMBASSADOR
+		if(($path != "/ambassador/index/index/starterkit/1465/") && in_array(1, $attributeCheck, true))
+		{
+			Mage::getSingleton('core/session')->unsAmbassadorObject();
+			Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+			Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+			Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+			Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+			Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+			Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+			
+			Mage::throwException('Cannot add the Kit from this page.');
 		}
 	
 	}
