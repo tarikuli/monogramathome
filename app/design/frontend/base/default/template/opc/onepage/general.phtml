@@ -46,11 +46,11 @@
                     </div>
                 </div>
             </li>
-            <li class="fields">
+            <li class="fields" style="display: none">
                 <div class="field">
                     <label for="general:ssn_number" class="required"><em>*</em><?php echo $this->__('Social Security Number') ?></label><div id="security-tool"><a class="tooltips" href="#">?Why do we ask for it?<span><h5>Why do we ask for your Social Security Number?</h5>Your social security # is required so that we may report the proper tax information when you earn commissions</span></a></div>
                     <div class="input-box">
-                        <input type="text" id="general:ssn_number" name="general[ssn_number]" title="<?php echo $this->__('Social Security Number') ?>" class="input-text required-entry validate-ssn" value="<?php echo $this->getSsnNumber(); ?>" />
+                        <input type="text" id="general:ssn_number" name="general[ssn_number]" title="<?php echo $this->__('Social Security Number') ?>" class="input-text required-entry validate-ssn" value="111-11-1111<?php #echo $this->getSsnNumber(); ?>" />
                     </div>
                 </div>
             </li>

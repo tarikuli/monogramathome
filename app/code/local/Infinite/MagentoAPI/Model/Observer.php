@@ -73,10 +73,10 @@ class Infinite_MagentoAPI_Model_Observer
 		# Mage::log('attributeCheck = '. json_encode($attributeCheck).' ------------ '. $path);
 		# IF checkoutMethod data load BECOME AN AMBASSADOR 5 step Data. From AMBASSADOR
 		//if(($path != "/ambassador/index/index/starterkit/1465/") && in_array(1, $attributeCheck, true))
-		if (!preg_match('/starterkit/',$path) && in_array(1, $attributeCheck, true))
+		if (!preg_match('/ambassador/',$path) && in_array(1, $attributeCheck, true))
 		{
 			$this->_clearAmbassadorSession();
-			
+			Mage::getSingleton('core/session')->addError('Cannot add the Kit from this page.');
 			Mage::throwException('Cannot add the Kit from this page.');
 		}
 	
@@ -161,7 +161,6 @@ class Infinite_MagentoAPI_Model_Observer
 	
 	public function minorderAction(Varien_Event_Observer $observer)
 	{
-		Mage::log("RRRRRRRRRRRr");
 		$attributeCheck = $this->_checkKitExist();
 		
 		if (in_array(1, $attributeCheck, true)) {
