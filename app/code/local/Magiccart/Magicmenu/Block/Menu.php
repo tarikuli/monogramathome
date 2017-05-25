@@ -12,7 +12,7 @@
 
 class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
 {
-
+    const AMABASSADOR_GROUP_NAME = 'AMBASSADOR';
     protected $cfgExt  = array();
     protected function _construct()
     {
@@ -69,17 +69,42 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
         return $drawHomeMenu;
     }
 
+    private function _isAmbassador() {
+        $sessionCustomer = Mage::getSingleton("customer/session");
+        if($sessionCustomer->isLoggedIn()) {
+            $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $group = Mage::getSingleton('customer/group')->load($groupId);
+            $groupName = strtoupper($group->getCustomerGroupCode());
+            if ($groupName === self::AMABASSADOR_GROUP_NAME) {
+                $ambassadorCode = Mage::getSingleton('core/session')->getAmbassadorCode();
+                if (!$ambassadorCode)
+                    Mage::getSingleton('core/session')->setAmbassadorCode(Mage::app()->getWebsite()->getCode());
+
+                $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+                if (!$ambassadorObject) {
+                    $customer = $sessionCustomer->getCustomer();
+                    Mage::getSingleton('core/session')->setAmbassadorObject($customer);
+                    //$customer = Mage::getModel("customer/customer")->load($customer->getId());
+                }
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function drawDashboardMenu()
     {
         $ambassadorCode = Mage::getSingleton('core/session')->getAmbassadorCode();
         $ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
 
         $drawHomeMenu = '';
-        if(isset($ambassadorCode) && isset($ambassadorObject) && Mage::getSingleton('customer/session')->isLoggedIn())
+        //if(isset($ambassadorCode) && isset($ambassadorObject) && Mage::getSingleton('customer/session')->isLoggedIn())
+        if ($this->_isAmbassador())
         {
             $currentCustomer = Mage::getSingleton('customer/session')->getCustomer();
-            if($currentCustomer->getId() == $ambassadorObject->getId())
-            {
+            //if($currentCustomer->getId() == $ambassadorObject->getId())
+            //{
                 $mlmHeader = Mage::getSingleton('core/session')->getMlmHeader();
                 if(isset($mlmHeader) && $mlmHeader == 1)
                 {
@@ -101,7 +126,7 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
                     $drawHomeMenu .= '</li>';
                 }
                 
-            }            
+            //}
         }
         return $drawHomeMenu;
     }
