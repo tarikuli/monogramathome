@@ -1,6 +1,6 @@
 <?php
 
-class Infinite_MagentoAPI_Model_Observer
+class Infinite_MagentoAPI_Model_Observer 
 {
 	const GROUP_AMBASSADOR = "Ambassador";
 	
@@ -29,25 +29,26 @@ class Infinite_MagentoAPI_Model_Observer
 		# Get customer Group name
 		$group = Mage::getModel('customer/group')->load($groupId);
 
-		Mage::log('Test checkoutCartAttribute  group = '. $group->getCode());
+		#Mage::log('Test checkoutCartAttribute  group = '. $group->getCode());
 	
-		foreach ($cart->getAllVisibleItems() as $item) 
-		{ 
+// 		foreach ($cart->getAllVisibleItems() as $item) 
+// 		{ 
 			
-		   /** Adding to queue processing multi store dynamically */
-			$product = Mage::getModel('catalog/product')->load($item->getProductId());
-			$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
-			$attributeSetModel->load($product->getAttributeSetId());
-			$attributeSetName  = $attributeSetModel->getAttributeSetName();
+// 		   /** Adding to queue processing multi store dynamically */
+// 			$product = Mage::getModel('catalog/product')->load($item->getProductId());
+// 			$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+// 			$attributeSetModel->load($product->getAttributeSetId());
+// 			$attributeSetName  = $attributeSetModel->getAttributeSetName();
 		  
-			if(0 == strcmp($attributeSetName, "Kit")) {
-				$attributeCheck[] = 1;
-			}else{
-				$attributeCheck[] = 0;
-			}
+// 			if(0 == strcmp($attributeSetName, "Kit")) {
+// 				$attributeCheck[] = 1;
+// 			}else{
+// 				$attributeCheck[] = 0;
+// 			}
 		   
-		 }
+// 		 }
 	
+		 $attributeCheck = $this->_checkKitExist();
 		 
 		 if(array_sum($attributeCheck)>1){
 		 	
@@ -55,14 +56,7 @@ class Infinite_MagentoAPI_Model_Observer
 		 	Mage::getSingleton('checkout/cart')->truncate();
 		 	#Mage::getSingleton('core/session')->addError('Only purchase one Kit.');
 		 	Mage::throwException('Only purchase one Kit.');
-		 		
-		 	Mage::getSingleton('core/session')->unsAmbassadorObject();
-		 	Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
-		 	Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
-		 	Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
-		 	Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
-		 	Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
-		 	Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+		 	$this->_clearAmbassadorSession();
 		 }
 		 
 		/* Check If any non kit Product exist */
@@ -72,13 +66,7 @@ class Infinite_MagentoAPI_Model_Observer
 			#Mage::getSingleton('core/session')->addError('Cannot add the Kit and General item to shopping cart.');
 			Mage::throwException('Cannot add the Kit and General item to shopping cart.');
 			
-			Mage::getSingleton('core/session')->unsAmbassadorObject();
-			Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
-			Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
-			Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
-			Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
-			Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
-			Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+			$this->_clearAmbassadorSession();
 		}
 		
 
@@ -87,13 +75,7 @@ class Infinite_MagentoAPI_Model_Observer
 		//if(($path != "/ambassador/index/index/starterkit/1465/") && in_array(1, $attributeCheck, true))
 		if (!preg_match('/starterkit/',$path) && in_array(1, $attributeCheck, true))
 		{
-			Mage::getSingleton('core/session')->unsAmbassadorObject();
-			Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
-			Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
-			Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
-			Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
-			Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
-			Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+			$this->_clearAmbassadorSession();
 			
 			Mage::throwException('Cannot add the Kit from this page.');
 		}
@@ -102,13 +84,7 @@ class Infinite_MagentoAPI_Model_Observer
 	
 	public function customerLoggedIn($observer)
 	{
-		Mage::getSingleton('core/session')->unsAmbassadorObject();
-		Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
-		Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
-		Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
-		Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
-		Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
-		Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+		$this->_clearAmbassadorSession();
 		Mage::getSingleton('core/session')->unsJewelParams();
 		
 		$params = Mage::app()->getRequest()->getParams();
@@ -182,4 +158,56 @@ class Infinite_MagentoAPI_Model_Observer
 			Mage::getSingleton('core/session')->setCurrentCheckoutCustomerPassword($data['customer_password']);
 		}
 	}
+	
+	public function minorderAction(Varien_Event_Observer $observer)
+	{
+		Mage::log("RRRRRRRRRRRr");
+		$attributeCheck = $this->_checkKitExist();
+		
+		if (in_array(1, $attributeCheck, true)) {
+			Mage::getSingleton('core/session')->addError('Cannot purchase the Kit from shopping cart.<br>Click BECOME AN AMBASSADOR');
+			$this->_clearAmbassadorSession();
+			$url = Mage::getUrl('checkout/cart');
+			$response = Mage::app()->getFrontController()->getResponse();
+			$response->setRedirect($url);
+			$response->sendResponse();
+			exit;
+
+		}
+	}
+	
+	protected function _checkKitExist(){
+
+		$cart = Mage::getSingleton('checkout/session')->getQuote();
+		foreach ($cart->getAllVisibleItems() as $item)
+		{
+			/** Adding to queue processing multi store dynamically */
+			$product = Mage::getModel('catalog/product')->load($item->getProductId());
+			$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+			$attributeSetModel->load($product->getAttributeSetId());
+			$attributeSetName  = $attributeSetModel->getAttributeSetName();
+		
+			if(0 == strcmp($attributeSetName, "Kit")) {
+				$attributeCheck[] = 1;
+			}else{
+				$attributeCheck[] = 0;
+			}
+			 
+		}
+		
+		return $attributeCheck;
+	}
+	
+	protected function _clearAmbassadorSession(){
+		
+		Mage::getSingleton('core/session')->unsAmbassadorObject();
+		Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
+		Mage::getSingleton('core/session')->unsAmbassadorWebsiteNameForApi();
+		Mage::getSingleton('core/session')->unsAmbassadorWebsiteName();
+		Mage::getSingleton('core/session')->unsAmbassadorBillingInfo();
+		Mage::getSingleton('core/session')->unsAmbassadorProfileInfo();
+		Mage::getSingleton('core/session')->unsAmbassadorDashboardParams();
+				
+	}
+	
 }

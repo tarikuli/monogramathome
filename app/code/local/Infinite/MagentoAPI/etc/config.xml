@@ -59,6 +59,16 @@
      
         <events>
         
+			<controller_action_predispatch_checkout_onepage_index>
+		        <observers>
+		          <checkout_cart_magento_api>
+			            <type>model</type>
+			            <class>Infinite_MagentoAPI_Model_Observer</class>
+			            <method>minorderAction</method>
+		          </checkout_cart_magento_api>
+		        </observers>
+		    </controller_action_predispatch_checkout_onepage_index>
+      
             <catalog_product_type_prepare_full_options>
                 <observers>
                     <checkout_cart_magento_api>
