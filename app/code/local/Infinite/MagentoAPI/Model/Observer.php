@@ -82,10 +82,10 @@ class Infinite_MagentoAPI_Model_Observer
 		}
 		
 
-		# Mage::log('attributeCheck = '. json_encode($attributeCheck));
-		# Mage::log('checkoutMethod = '. $checkoutMethod);
+		# Mage::log('attributeCheck = '. json_encode($attributeCheck).' ------------ '. $path);
 		# IF checkoutMethod data load BECOME AN AMBASSADOR 5 step Data. From AMBASSADOR
-		if(($path != "/ambassador/index/index/starterkit/1465/") && in_array(1, $attributeCheck, true))
+		//if(($path != "/ambassador/index/index/starterkit/1465/") && in_array(1, $attributeCheck, true))
+		if (!preg_match('/starterkit/',$path) && in_array(1, $attributeCheck, true))
 		{
 			Mage::getSingleton('core/session')->unsAmbassadorObject();
 			Mage::getSingleton('core/session')->unsAmbassadorCheckoutMethod();
