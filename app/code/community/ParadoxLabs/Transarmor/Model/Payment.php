@@ -1211,9 +1211,13 @@ class ParadoxLabs_Transarmor_Model_Payment extends Mage_Payment_Model_Method_Cc
 		$from = Mage::getStoreConfig('trans_email/ident_general/email');
 		$code = $this->api->getStatus();
 		
+		Mage::log( 'exact_resp_code = ' .$code, null, 'firstdata.log', true );
+		Mage::log( 'transarmor_token = ' .$this->api->getResponse('transarmor_token'), null, 'firstdata.log', true );
+		
 		// Bad credentials
 		if( $code == '43' || $this->api->getResponse('transarmor_token') == '' ) {
 			$subj = 'First Data TransArmor Payment Module - Invalid API details';
+			Mage::log( $subj, null, 'firstdata.log', true );
 			$body = "Warning: Your First Data Gateway ID, Password, or HMAC Key appears to be incorrect, or TransArmor has not been enabled. The payment module is unable to authenticate properly. The First Data payment method will not work properly until this is fixed.";
 			mail( $from, $subj, $body, "From: " . $from . "\r\n" );
 		}
