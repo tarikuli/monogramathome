@@ -122,6 +122,11 @@ DirectoryIndex index.php
     Options +FollowSymLinks
     RewriteEngine on
 
+    ##Shop redirect option
+    RewriteCond %{HTTP_HOST} ^www.monogramathome.com$ [NC]
+    RewriteCond %{REQUEST_URI} ^/?shop
+    RewriteRule (.*)$ http://shop.monogramathome.com/$1 [R=301,L]
+
     ############################################
     ## you can put here your magento root folder
     ## path relative to web root
