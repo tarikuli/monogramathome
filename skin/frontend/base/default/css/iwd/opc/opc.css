@@ -676,8 +676,14 @@
 .ambasador-container #co-payment-form ul.form-list li:last-child{ width:100%; margin:5px 0;  }
 .ambasador-container #co-payment-form ul.form-list li:last-child input{ height:auto; margin:0; vertical-align:middle; }
 .ambasador-container #co-payment-form ul.form-list li:last-child label{ vertical-align:middle; margin:0; padding:0; }
-
-
+.ambasador-container .table-responsive>.table>thead>tr>th,
+.ambasador-container .table-responsive>.table>tbody>tr>th,
+.ambasador-container .table-responsive>.table>tfoot>tr>th,
+.ambasador-container .table-responsive>.table>thead>tr>td,
+.ambasador-container .table-responsive>.table>tbody>tr>td,
+.ambasador-container .table-responsive>.table>tfoot>tr>td {
+	white-space: normal;
+}
 
 }
 
