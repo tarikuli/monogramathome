@@ -2,14 +2,14 @@
 
 class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 {
-    const OMS_URL = "http://dev.monogramonline.com//hook";
+    const OMS_URL = "http://order.monogramonline.com//hook";
 
 
 
 
 	public function pushPurchaseToOms($orderIds)
 	{
-		return false;
+		#return false;
 		foreach($orderIds as $orderId)
 		{
 			$orderObject = Mage::getModel('sales/order')->load($orderId);
