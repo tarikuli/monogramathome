@@ -74,6 +74,16 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
     
     }
     
+    /**
+     * Manual Registration Test
+     */
+    public function manualRegTest(){
+    	echo "<br>Hello3 world Jewel";
+
+		$apiHelper = Mage::helper('magento_api/api');
+     	$apiHelper->registration("a","b");
+    }
+    
     
     /**
      * Call Helper calss _setAmbassadorMarketingEmail
@@ -81,6 +91,8 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
      */
     public function setAmbassadorMarketingEmailMethodAction()
     {
+    	$this->manualRegTest();
+    	exit();
     	echo "<br>setAmbassadorMarketingEmailMethod";
     	$customerId = (int) $this->getRequest()->getParam('customer_id');
     	$apiHelper = Mage::helper('magento_api/api');

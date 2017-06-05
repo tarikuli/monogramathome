@@ -52,50 +52,66 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 	public function registration($params, $customer)
 	{
-// 		// Get group Id
-// 		$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-// 		//Get customer Group name
-// 		$group = Mage::getModel('customer/group')->load($groupId);
+// // 		// Get group Id
+// // 		$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+// // 		//Get customer Group name
+// // 		$group = Mage::getModel('customer/group')->load($groupId);
 		
-// 		if($group->getCode() == self::GROUP_AMBASSADOR ){
-			$data = array(
-				'username' => $customer->getUsername(), 
-				'password' => $params['password'],
-				'sponsor_name' => 'shop', 
-				'fullname' => $customer->getName(), 
-				'address1' => $params['street'][0], 
-				'address2' => 'N/A', 
-				'postcode' => $params['postcode'], 
-				'email' => $params['email'], 
-				'package' => 'null', 
-				'mobile' => $params['telephone'], 
-				'package_id' => 0,
-			);
+// // 		if($group->getCode() == self::GROUP_AMBASSADOR ){
+// 			$data = array(
+// 				'username' => $customer->getUsername(), 
+// 				'password' => $params['password'],
+// 				'sponsor_name' => 'shop', 
+// 				'fullname' => $customer->getName(), 
+// 				'address1' => $params['street'][0], 
+// 				'address2' => 'N/A', 
+// 				'postcode' => $params['postcode'], 
+// 				'email' => $params['email'], 
+// 				'package' => 'null', 
+// 				'mobile' => $params['telephone'], 
+// 				'package_id' => 0,
+// 			);
 	
-			if(isset($params['package']))
-				$data['package'] = $params['package'];
+// 			if(isset($params['package']))
+// 				$data['package'] = $params['package'];
 	
-			if(isset($params['sponsor_name']))
-				$data['sponsor_name'] = $params['sponsor_name'];
+// 			if(isset($params['sponsor_name']))
+// 				$data['sponsor_name'] = $params['sponsor_name'];
 	
-// 			$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
-// 			if(isset($ambassadorObject))
-// 			{
-// 				$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
-// 				$data['sponsor_name'] = $websitecode;
-// 			}
+// // 			$ambassadorObject = Mage::getSingleton('core/session')->getAmbassadorObject();
+// // 			if(isset($ambassadorObject))
+// // 			{
+// // 				$websitecode = Mage::getSingleton('core/session')->getAmbassadorCode();
+// // 				$data['sponsor_name'] = $websitecode;
+// // 			}
 
-			if(!isset($data['sponsor_name']))
-			{
-				$data['sponsor_name'] = "Admin";
-			}
+// 			if(!isset($data['sponsor_name']))
+// 			{
+// 				$data['sponsor_name'] = "Admin";
+// 			}
 	
-			if(isset($params['street'][1]) && trim($params['street'][1]) != "")
-				$data['address2'] = $params['street'][1];
+// 			if(isset($params['street'][1]) && trim($params['street'][1]) != "")
+// 				$data['address2'] = $params['street'][1];
 	
-	        //Email notification to customer support
-	        Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId());
+// 	        //Email notification to customer support
+// 	        #Mage::helper('julfiker_contact/contact')->sendCustomerNotification($customer->getId());
+echo "<br>Hello4 world Jewel";
+	        $data = array(
+	        		'username' => 'GreatGifts',
+	        		'password' => 'estie2015',
+	        		'sponsor_name' => 'Admin',
+	        		'fullname' => 'Angela Agee Alkattea',
+	        		'address1' => '149 Hedgerow Lane',
+	        		'address2' => 'N/A',
+	        		'postcode' => '75057',
+	        		'email' => 'Angela@skinrejuvenationstudios.com',
+	        		'package' => 'KIT-000',
+	        		'mobile' => '469-401-7371',
+	        		'package_id' => 0,
+	        );
+	        
 			$response = $this->call('registration', $data);
+			echo $response;
 // 		}
 	}
 
