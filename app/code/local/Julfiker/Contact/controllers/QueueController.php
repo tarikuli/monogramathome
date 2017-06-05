@@ -332,4 +332,21 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
     protected function _getDefaultTableRates() {
         return $this->_findWebsiteTableRate(0);
     }
+
+    public function configInfoAction() {
+        foreach (Mage::app()->getWebsites() as $website) {
+            if ($website->getCode() == "base") continue;
+            foreach ($website->getGroups() as $group) {
+                $stores = $group->getStores();
+                foreach ($stores as $store) {
+                    $websiteName = str_replace(".com", ".info",$website->getName());
+                    $config = Mage::getModel('core/config');
+                    $value = "http://".$websiteName."/";
+                    $sValue = "https://".$websiteName."/";
+                    $config->saveConfig('web/unsecure/base_url',$value,'stores',$store->getId());
+                    $config->saveConfig('web/secure/base_url',$sValue,'stores',$store->getId());
+                }
+            }
+        }
+    }
 }
