@@ -71,30 +71,30 @@
             </div>
             <div class="form-group">
                 <label class="control-label">
-                    Start at
+                    <?php echo $this->__("Start from at")?>
                 </label>
                 <div style="overflow: hidden">
                     <div class="col-xs-7" style="padding-left:0;">
-                        <input type='text' class="form-control required-entry" id="start_at" name="event[start_at]" style="float: left; width: 90%" />
+                        <input type='text' class="form-control required-entry validate-date-range validate-date date-range-custom_theme-from" id="start_at" name="event[start_at]" style="float: left; width: 90%" />
                         <img title="Select date" id="_start_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
                     </div>
                     <div class="col-xs-2" style="padding-left:0;">
-                        <select class="timeSelect" name="event[start_time]">
+                        <select class="timeSelect form-control start_time" name="event[start_time]">
                         </select>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label">
-                    End at
+                    <?php echo $this->__("End to at")?>
                 </label>
                 <div style="overflow: hidden">
                     <div class="col-xs-7" style="padding-left:0; overflow: hidden">
-                        <input type='text' class="form-control required-entry" id="end_at" name="event[end_at]" style="float: left; width: 90%" />
+                        <input type='text' class="form-control required-entry validate-date-range validate-date date-range-custom_theme-to" id="end_at" name="event[end_at]" style="float: left; width: 90%" />
                         <img title="Select date" id="_end_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
                     </div>
                     <div class="col-xs-2" style="padding-left:0;">
-                        <select class="timeSelect" name="event[end_time]">
+                        <select class="timeSelect end_time form-control" id="end_time"  name="event[end_time]">
                         </select>
                     </div>
                 </div>

@@ -99,13 +99,28 @@
         }
 
         var form = new VarienForm('event_form', true);
-        //Validation.add('start_at','You failed to enter baz!',function(the_field_value){
-        //    if(the_field_value == 'baz')
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //});
+        Validation.add('end_time','Please make sure that your start time is before your end time!',function(the_field_value){
+            //start time
+            var start_time = jQuery(document).find(".start_time").val();
+
+            //end time
+            var end_time = the_field_value;
+
+            //convert both time into timestamp
+            var start_at = jQuery(document).find("#start_at").val();
+            var stt = new Date("November 13, 2013 " + start_time);
+            stt = stt.getTime();
+
+            var end_at = jQuery(document).find("#end_at").val();
+            var endt = new Date("November 13, 2013 " + end_time);
+            endt = endt.getTime();
+
+            if(stt >= endt) {
+                return false;
+            }
+
+            return true;
+        });
 
         function populate(selector) {
             var select = $(selector);

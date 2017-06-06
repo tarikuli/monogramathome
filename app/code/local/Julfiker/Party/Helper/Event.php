@@ -28,6 +28,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     const STATUS_INVITE_REJECT = 2;
     const STATUS_INTERESTED = 3;
     const STATUS_JOINED = 4;
+    const GROUP_MEMBER_NAME = "Member";
 
     private $totalParticipates;
 
@@ -86,11 +87,11 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
      * @return int
      */
     public function countInvites($eventId) {
-        $partyparticipates = $this->getParticipates()
+        $participates = $this->getParticipates()
             ->addFieldToFilter('status', self::STATUS_INVITE)
             ->addFieldToFilter('event_id', $eventId);
 
-        return (int)($partyparticipates->getSize() + $this->_countGuest($partyparticipates));
+        return (int)($participates->getSize() + $this->_countGuest($participates));
     }
 
     /**
@@ -100,11 +101,11 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
      * @return int
      */
     public function countJoined($eventId) {
-        $partyparticipates = $this->getParticipates()
+        $participates = $this->getParticipates()
             ->addFieldToFilter('status', self::STATUS_JOINED)
             ->addFieldToFilter('event_id', $eventId);
 
-        return (int)($partyparticipates->getSize() + $this->_countGuest($partyparticipates));
+        return (int)($participates->getSize() + $this->_countGuest($participates));
     }
 
     /**
@@ -114,11 +115,11 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
      * @return int
      */
     public function countInterested($eventId) {
-        $partyparticipates = $this->getParticipates()
+        $participates = $this->getParticipates()
             ->addFieldToFilter('status', self::STATUS_INTERESTED)
             ->addFieldToFilter('event_id', $eventId);
 
-        return (int)($partyparticipates->getSize() + $this->_countGuest($partyparticipates));
+        return (int)($participates->getSize() + $this->_countGuest($participates));
     }
 
     /**
@@ -128,11 +129,11 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
      * @return int
      */
     public function countInviteRejected($eventId) {
-        $partyparticipates = $this->getParticipates()
+        $participates = $this->getParticipates()
             ->addFieldToFilter('status', self::STATUS_INVITE_REJECT)
             ->addFieldToFilter('event_id', $eventId);
 
-        return (int)($partyparticipates->getSize() + $this->_countGuest($partyparticipates));
+        return (int)($participates->getSize() + $this->_countGuest($participates));
     }
 
     /**
@@ -178,5 +179,97 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
             return $customer->getName();
 
          return null;
+    }
+
+    public function getAllMembers() {
+        $customers = Mage::getResourceModel('customer/customer_collection');
+
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customers->addAttributeToFilter('email', array('neq' => $customer->getEmail()));;
+        }
+        return $customers;
+    }
+
+    /**
+     * Get members who got invited for the event
+     *
+     * @param $eventId
+     * @return array
+     */
+    public function getInvitedMembers($eventId) {
+        $participates = $this->getParticipates()
+            ->addFieldToFilter('status', self::STATUS_INVITE)
+            ->addFieldToFilter('event_id', $eventId);
+        return $this->getMemberFromParticipates($participates);
+    }
+
+    /**
+     * Get members who joined invite for an event
+     *
+     * @param $eventId
+     * @return array
+     */
+    public function getJoinedMembers($eventId) {
+        $participates = $this->getParticipates()
+            ->addFieldToFilter('status', self::STATUS_JOINED)
+            ->addFieldToFilter('event_id', $eventId);
+        return $this->getMemberFromParticipates($participates);
+    }
+
+    /**
+     * Get members who interested for the event
+     *
+     * @param $eventId
+     * @return array
+     */
+    public function getInterestedMembers($eventId) {
+        $participates = $this->getParticipates()
+            ->addFieldToFilter('status', self::STATUS_INTERESTED)
+            ->addFieldToFilter('event_id', $eventId);
+        return $this->getMemberFromParticipates($participates);
+    }
+
+    /**
+     * Get members who rejected invite for an event
+     *
+     * @param $eventId
+     * @return array
+     */
+    public function getRejectMembers($eventId) {
+        $participates = $this->getParticipates()
+            ->addFieldToFilter('status', self::STATUS_INVITE_REJECT)
+            ->addFieldToFilter('event_id', $eventId);
+        return $this->getMemberFromParticipates($participates);
+    }
+
+    /**
+     * Get customer as member based on participate collection
+     *
+     * @param $participates
+     * @return array
+     */
+    public function getMemberFromParticipates($participates) {
+        $members = array();
+        foreach ($participates as $participate) {
+            $customerId = $participate->getCustomerId();
+            $invitedByCustomer = $participate->getInvitedBy();
+
+            $inviteBy = "Guest";
+            if ($invitedByCustomer) {
+               $cus = Mage::getModel('customer/customer')->load($invitedByCustomer);
+               $inviteBy = $cus->getName();
+            }
+
+            if ($customerId) {
+                $customer = Mage::getModel('customer/customer')->load($customerId);
+                $members[] = array("email" => $customer->getEmail(), "name" => $customer->getId(), "pid" => $participate->getId(), 'invitedBy' => $inviteBy);
+            }
+            else {
+                $members[] = array("email" => $participate->getInviteEmail(), "name" => "Guest", "pid" => $participate->getId(), 'invitedBy' => $inviteBy);
+            }
+        }
+
+        return json_encode($members);
     }
 }

@@ -75,8 +75,8 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
                 if ($partycipate->getId()) {
                     $data = Mage::helper("julfiker_party/sender")->getEmailData($eventId);
                     $data['name'] = "Valued guest";
-                    $data['joinUrl'] .= "?status=".$status['STATUS_JOINED']."&id=".$eventId;
-                    $data['rejectUrl'] .= "?status=".$status['STATUS_INVITE_REJECT']."&id=".$eventId;
+                    $data['joinUrl'] .= "?status=".$status['STATUS_JOINED']."&id=".$partycipate->getId();
+                    $data['rejectUrl'] .= "?status=".$status['STATUS_INVITE_REJECT']."&id=".$partycipate->getId();
                     Mage::helper("julfiker_party/sender")->sendInviteEmail($val, $data);
                 }
             }
@@ -143,10 +143,26 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
         $this->_redirectReferer();
     }
 
-
     public function responseAction() {
-        $params = $this->getRequest()->getParams();
-        print_r($params);
-        die();
+        $id = $this->getRequest()->get('id');
+        $status = $this->getRequest()->get('status');
+        if ($id && $status) {
+            $participate = Mage::getModel('julfiker_party/partyparticipate')->load($id);
+            $participate->getInviteEmail();
+
+            $customer = Mage::getModel("customer/customer");
+            $customer->setWebsiteId(Mage::app()->getWebsite()->getId());
+            $customer->loadByEmail($participate->getInviteEmail());
+            if ($customer->getId()) {
+                $participate->setCustomerId($customer->getId());
+            }
+            $participate->setStatus($status);
+            $participate->save();
+
+            $_event = $participate = Mage::getModel('julfiker_party/event')->load($participate->getEventId());
+            Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Thank you for your response!'));
+            $this->_redirectUrl($_event->getEventUrl());
+        } else
+        $this->_redirectReferer();
     }
 }

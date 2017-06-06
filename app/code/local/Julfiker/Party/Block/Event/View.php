@@ -27,7 +27,7 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
     /**
      * @return Julfiker_Party_Helper_Event
      */
-    private function _eventHelper() {
+    public function _eventHelper() {
         return Mage::helper("julfiker_party/event");
     }
     /**
@@ -98,6 +98,10 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         $total = $this->getTotalReject();
         $percent = $this->_percentage($baseTotal, $total);
         return round($percent);
+    }
+
+    public function getCustomers() {
+        return Mage::helper("julfiker_party/event")->getAllMembers();
     }
 
     private function _percentage($totalAmount, $percentAmount) {
