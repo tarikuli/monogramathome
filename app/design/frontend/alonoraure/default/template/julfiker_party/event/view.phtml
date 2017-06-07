@@ -67,19 +67,35 @@ $endAt = date_create($_event->getEndAt());
         <div class="col-md-9" style="padding-top: 20px;">
             <div class="col-md-3" style="text-align: center">
                 <div class="chart" data-percent="<?php echo $this->getPercentageJoined() ?>"></div>
-                <label><?php echo $this->__("Joined")?> <?php echo $this->getTotalJoined() ?></label>
+                <label>
+                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Joined" data-member='<?php echo $this->_eventHelper()->getJoinedMembers($_event->getId())?>' data-target="#member_popup">
+                    <?php echo $this->__("Joined")?> <?php echo $this->getTotalJoined() ?>
+                    </a>
+                </label>
             </div>
             <div class="col-md-3" style="text-align: center">
                 <div class="chart" data-percent="<?php echo $this->getPercentageInterested() ?>"></div>
-                <label><?php echo $this->__("Interested")?> <?php echo $this->getTotalInterested() ?></label>
+                <label>
+                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Interested" data-member='<?php echo $this->_eventHelper()->getInterestedMembers($_event->getId())?>' data-target="#member_popup">
+                        <?php echo $this->__("Interested")?> <?php echo $this->getTotalInterested() ?>
+                    </a>
+                </label>
             </div>
             <div class="col-md-3" style="text-align: center">
                 <div class="chart" data-percent="<?php echo $this->getPercentageInvites()?>"></div>
-                <label><?php echo $this->__("Invited") ?> <?php echo $this->getTotalInvites()?> </label>
+                <label>
+                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Invited" data-member='<?php echo $this->_eventHelper()->getInvitedMembers($_event->getId())?>' data-target="#member_popup">
+                        <?php echo $this->__("Invited") ?> <?php echo $this->getTotalInvites()?>
+                    </a>
+                </label>
             </div>
             <div class="col-md-3" style="text-align: center">
                 <div class="chart" data-percent="<?php echo $this->getPercentageRejected()?>"></div>
-                <label><?php echo $this->__("Rejected") ?> <?php echo $this->getTotalReject()?> </label>
+                <label>
+                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Rejected" data-member='<?php echo $this->_eventHelper()->getRejectMembers($_event->getId())?>' data-target="#member_popup">
+                        <?php echo $this->__("Rejected") ?> <?php echo $this->getTotalReject()?>
+                    </a>
+                </label>
             </div>
         </div>
     </div>
@@ -143,8 +159,18 @@ $endAt = date_create($_event->getEndAt());
             <div class="modal-body">
                 <form action="<?php echo Mage::getUrl('party/participate/invite')?>" method="post">
                     <div class="form-group">
+                        <label class="control-label" for="inputDefault">Member</label>
+                        <?php $customers = $this->getCustomers(); ?>
+                        <select class="form-control" name="members[]" multiple>
+                            <?php foreach ($customers as $cstmr):?>
+                                <?php $customer = Mage::getModel("customer/customer")->load($cstmr->getId());?>
+                                <option value="<?php echo $customer->getId()?>"><?php echo $customer->getName()?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label" for="inputDefault">Input email</label>
-                        <input class="form-control" id="inputDefault" name="emails[1]" type="text">
+                        <input class="form-control" id="inputDefault" name="emails[]" type="text">
                         <!--span class="help-block">Please provide comma(,) separate email address. And invitation will be notified through email.</span-->
                         <input type="hidden" value=""  id="event_id" name="event_id" />
                         <input type="hidden" value=""  id="id" name="id" />
@@ -154,6 +180,22 @@ $endAt = date_create($_event->getEndAt());
                         <button style="margin-left: 5px" type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Send')) ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="member_popup">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                </ul>
+                <button type="button" data-dismiss="modal" aria-hidden="true" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close window')) ?>" class="button"><span><span><?php echo $this->__('Close') ?></span></span></button> &nbsp;
             </div>
         </div>
     </div>
@@ -194,6 +236,16 @@ $endAt = date_create($_event->getEndAt());
         jQuery('#going_popup').on("show.bs.modal", function (e) {
             var id = jQuery(e.relatedTarget).data('id');
             jQuery(document).find(".event_id").val(id);
+        });
+        jQuery('#member_popup').on("show.bs.modal", function (e) {
+            var title = jQuery(e.relatedTarget).data('title');
+            jQuery(this).find('.modal-title').text(title);
+            var members = jQuery(e.relatedTarget).data('member');
+
+            var list = jQuery(this).find('.list-group').html("");
+            jQuery.each(members, function(key,value){
+                list.append('<li class="list-group-item">'+value.name+' ('+value.email+')<br /> <span class="small">Invited by '+value.invitedBy+' &nbsp; at '+value.createdAt+'</span></li>');
+            });
         });
     })
 </script>
