@@ -263,10 +263,22 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
 
             if ($customerId) {
                 $customer = Mage::getModel('customer/customer')->load($customerId);
-                $members[] = array("email" => $customer->getEmail(), "name" => $customer->getId(), "pid" => $participate->getId(), 'invitedBy' => $inviteBy);
+                $members[] = array(
+                    "email" => $customer->getEmail(),
+                    "name" => $customer->getName(),
+                    "pid" => $participate->getId(),
+                    'invitedBy' => $inviteBy,
+                    'createdAt' => date("d.m.Y h:i A", strtotime($participate->getUpdatedAt()))
+                );
             }
             else {
-                $members[] = array("email" => $participate->getInviteEmail(), "name" => "Guest", "pid" => $participate->getId(), 'invitedBy' => $inviteBy);
+                $members[] = array(
+                    "email" => $participate->getInviteEmail(),
+                    "name" => "Guest",
+                    "pid" => $participate->getId(),
+                    'invitedBy' => $inviteBy,
+                    'createdAt' => date("d.m.Y h:i A", strtotime($participate->getUpdatedAt()))
+                );
             }
         }
 
