@@ -87,7 +87,7 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 
 			if(!isset($data['sponsor_name']))
 			{
-				$data['sponsor_name'] = "Admin";
+				$data['sponsor_name'] = "shop";
 			}
 	
 			if(isset($params['street'][1]) && trim($params['street'][1]) != "")
