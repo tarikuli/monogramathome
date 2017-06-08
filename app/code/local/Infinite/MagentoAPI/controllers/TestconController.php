@@ -162,7 +162,8 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 							);
 							echo "<pre>"; print_r($data); echo "</pre>";
 							$apiHelper->call('purchase', $data);
-							break;
+							echo "<pre>Purchase call done</pre>";
+							exit();
 						}else{
 							echo "<pre> email ". $email ." did not order KIT</pre>";
 						}
