@@ -526,7 +526,7 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
      */
     protected function _getStoreNameByWebSiteId($websiteId){
     	$website = Mage::getModel('core/website')->load($websiteId);
-    	#$website = explode(".", $website->getCode());
+    	# $website = explode(".", $website->getCode());
     	$this->info('8	REQUEST WebSite Name: '. $website->getCode());
     	if($website->getCode()== "base"){
     		return "shop";
