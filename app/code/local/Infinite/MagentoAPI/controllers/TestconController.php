@@ -123,7 +123,7 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 				'password' => base64_decode($memberParams->password),
 				'sponsor_name' => "shop",// Update later
 				'fullname' => $customer->getFirstname()." ".$customer->getLastname(),
-				'address1' => $billingAddress->getStreet(),
+				'address1' => $billingAddress->getStreet()[0],
 				'address2' => "N/A",
 				'postcode' => $billingAddress->getPostcode(),
 				'email' => $customer->getEmail(),
@@ -135,7 +135,8 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 			echo "<pre>Called registration API.</pre>";
 			echo "<pre>"; print_r($params); echo "</pre>";
 		
-			$apiHelper->registration($params, $customer);
+			#$apiHelper->registration($params, $customer);
+			$apiHelper->call('registration', $params);
 			
 			if (Mage::getSingleton('customer/session')->isLoggedIn()) {
 			
