@@ -101,7 +101,7 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 				echo "Please login with user email = ".$email;
 				exit();
 			}elseif (empty($memberParams->username)){
-				echo "Email = ".$email. " ID Password not exist.";
+				echo "Email = ".$email. " ID Password not exist. ";
 				exit();
 			}
 			
