@@ -150,12 +150,14 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 					
 						if(strpos($item->getSku(), 'KIT') !== false) {
 							$order   = Mage::getModel('sales/order')->load($item->getOrderId());
-							
+// echo "<pre>"; print_r($order); echo "</pre>";
+// echo $order->getCreatedAt();
+// exit();							
 							$data = array(
 									'user_name' => base64_decode($memberParams->username),
-									'order_id' => base64_decode($memberParams->password),
-									'purchase_datetime' => $order->getIncrementId(),// Update later
-									'product_details' => ["product_name" => "".$item->getName()."<br>Purchaser email = ".$email."","quantity" => 1,"price" => 0,"sub_total" => 0],
+									'order_id' => $order->getIncrementId(),// Update later,
+									'purchase_datetime' => $order->getCreatedAt(),
+									'product_details' => array(["product_name" => "".$item->getName()."<br>Purchaser email = ".$email."","quantity" => 1,"price" => 0,"sub_total" => 0]),
 									'total_amount' => 0,
 							);
 							echo "<pre>"; print_r($data); echo "</pre>";
