@@ -6,7 +6,8 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
     const GROUP_MEMBER = "Member";
     const ATTRIBUTE_SET = "Kit";
     const API_URL = "http://www.dashboard.monogramathome.com/backoffice/magento_api";
-
+    const API_URL_INFO = "http://www.dashboard.monogramathome.info/backoffice/magento_api";
+    
     protected $_apiUrl;
     private $needExecuted = true;
 
@@ -459,12 +460,23 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
 		}
 	}
 
-	protected function _getApiUrl()
+	public function _getApiUrl()
 	{
-		if(!isset($this->_apiUrl))
-			$this->_apiUrl = self::API_URL;
+// 		if(!isset($this->_apiUrl))
+// 			$this->_apiUrl = self::API_URL;
 
-		return $this->_apiUrl;
+// 		return $this->_apiUrl;
+
+
+		$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+		$url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
+		echo $path = $url->getHost();
+		 
+		if(strpos($path, '.com') !== false) {
+			return self::API_URL;
+		}else{
+			return self::API_URL_INFO;
+		}
 	}
 
     /**
@@ -526,7 +538,7 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
      */
     protected function _getStoreNameByWebSiteId($websiteId){
     	$website = Mage::getModel('core/website')->load($websiteId);
-    	# $website = explode(".", $website->getCode());
+    	#$website = explode(".", $website->getCode());
     	$this->info('8	REQUEST WebSite Name: '. $website->getCode());
     	if($website->getCode()== "base"){
     		return "shop";
