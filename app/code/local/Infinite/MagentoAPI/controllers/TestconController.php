@@ -169,11 +169,12 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 						}
 					
 					endforeach;
+					exit();
 				}
+				exit();
 			}
 			
 		}
-		
 		
 		exit();
     }
