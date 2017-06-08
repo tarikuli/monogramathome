@@ -529,7 +529,7 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
     	#$website = explode(".", $website->getCode());
     	$this->info('8	REQUEST WebSite Name: '. $website->getCode());
     	if($website->getCode()== "base"){
-    		return "Admin";
+    		return "shop";
     	}
     	return $website->getCode();
     }
