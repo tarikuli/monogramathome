@@ -107,6 +107,9 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 			
 		
 			$billingAddress = $customer->getPrimaryBillingAddress();
+			if (empty($billingAddress->getTelephone())){
+				$billingAddress->setTelephone("9179071711");
+			}
 			#echo "<pre>"; print_r($memberParams); echo "</pre>";
 			#echo "<pre>"; print_r($customer); echo "</pre>";
 			#echo "<pre>"; print_r($billingAddress); echo "</pre>";
@@ -120,8 +123,8 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 				'password' => base64_decode($memberParams->password),
 				'sponsor_name' => "shop",// Update later
 				'fullname' => $customer->getFirstname()." ".$customer->getLastname(),
-				'address1' => $billingAddress->getStreet()[0],
-				'address2' => "N\/A",
+				'address1' => $billingAddress->getStreet(),
+				'address2' => "N/A",
 				'postcode' => $billingAddress->getPostcode(),
 				'email' => $customer->getEmail(),
 				'package' => "KIT-000",
