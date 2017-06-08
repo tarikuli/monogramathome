@@ -111,11 +111,10 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 			#echo "<pre>"; print_r($customer); echo "</pre>";
 			#echo "<pre>"; print_r($billingAddress); echo "</pre>";
 				
-			echo "<br>". $customer->getEmail()."  ---  ".$customer->getFirstname()." ".$customer->getLastname();
-			$apiHelper = Mage::helper('magento_api/api');
+// 			echo "<br>". $customer->getEmail()."  ---  ".$customer->getFirstname()." ".$customer->getLastname();
+// 			$apiHelper = Mage::helper('magento_api/api');
 			
-			echo $apiHelper->_getApiUrl();
-			exit();
+			echo "<br>".$apiHelper->_getApiUrl()." URL will be call";
 			$params = array(
 				'username' => base64_decode($memberParams->username),
 				'password' => base64_decode($memberParams->password),

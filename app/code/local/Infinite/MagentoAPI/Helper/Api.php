@@ -470,7 +470,7 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
 
 		$currentUrl = Mage::helper('core/url')->getCurrentUrl();
 		$url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
-		echo $path = $url->getHost();
+		$path = $url->getHost();
 		 
 		if(strpos($path, '.com') !== false) {
 			return self::API_URL;
