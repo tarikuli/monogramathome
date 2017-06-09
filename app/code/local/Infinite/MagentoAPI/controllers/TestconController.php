@@ -77,21 +77,25 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
     
     /**
      * Manual Registration Test
+     * /jeweltestmodule/testcon/manualRegTest/customer_id/tar2ikuli2@gmail.com/sponsor_name/shop
      */
     public function manualRegTestAction($id){
     	
 
 		$email = (string) $this->getRequest()->getParam('customer_id');
+		$sponsor_name = (string) $this->getRequest()->getParam('sponsor_name');
+
+	
 		$customer = Mage::getModel("customer/customer");
 		$customer->setWebsiteId(Mage::app()->getWebsite('admin')->getId());
 		$customer->loadByEmail($email);
 		#echo "<pre>"; print_r($customer); echo "</pre>";
 
-		if(empty($customer->getEmail())){
-			echo "Ambassador ". $customer->getFirstname()." ".$customer->getLastname(). " email ".$email." not exist.";
+		if(empty($customer->getEmail()) || $sponsor_name == null){
+			echo "Shop or Ambassador ". $customer->getFirstname()." ".$customer->getLastname(). " email ".$email." not exist.";
 			exit();	
 		}else{
-		
+			
 			$memberParams = json_decode(Mage::getSingleton('core/session')->getJewelParams());
 			
 			if(($customer->getEmail() != $email)){
@@ -121,7 +125,7 @@ class Infinite_MagentoAPI_TestconController extends Mage_Core_Controller_Front_A
 			$params = array(
 				'username' => base64_decode($memberParams->username),
 				'password' => base64_decode($memberParams->password),
-				'sponsor_name' => "shop",// Update later
+				'sponsor_name' => $sponsor_name,// Update later
 				'fullname' => $customer->getFirstname()." ".$customer->getLastname(),
 				'address1' => $billingAddress->getStreet()[0],
 				'address2' => "N/A",
