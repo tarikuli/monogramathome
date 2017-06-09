@@ -235,11 +235,11 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			}
 			else if (is_numeric($data['username'][0])) {
 				$result['error'] = true;
-				$result['message'] = $this->__('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Start from alphabetic character.');
+				$result['message'] = $this->__('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Your site name may only start from alphabetic character.');
 			}
 			else if ($this->_countDots($data['username'])){
 				$result['error'] = true;
-				$result['message'] = $this->__('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 5-10 alpha/numeric characters only.');
+				$result['message'] = $this->__('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Your site name may contain 5-10 alpha/numeric characters only.');
 			}
 			else
 				Mage::getSingleton('core/session')->setAmbassadorWebsiteName($data['username']);
