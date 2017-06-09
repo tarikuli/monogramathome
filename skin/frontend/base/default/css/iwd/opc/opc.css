@@ -525,8 +525,8 @@
 .ambasador-container .navigation div.navigation-content > div { display: none; }
 
 .website-wrapper{ width:100%;clear: both; float: left; position:relative;padding-bottom:25px; border-bottom:1px solid #e1e1e1;  margin-bottom:30px }
-.website-wrapper .website-box{ border:1px solid #e1e1e1; padding:15px; width:75%;font-family:'Roboto'; font-size: 16px;}
-.website-wrapper .website-box span{ position:absolute; right:12%;font-family:'Times New Roman'; font-size:26px; font-style:italic; color:#d31c81; font-weight:bold;  }
+.website-wrapper .website-box{ border:1px solid #e1e1e1; padding:15px; font-family:'Roboto'; font-size: 16px;}
+.website-wrapper span#availablity_website {font-size:16px; font-style:italic; color:#ed2891; font-weight:bold; }
 .website-wrapper .website-box input{ border: 1px solid #e1e1e1; padding: 5px; font-family: 'Roboto'; font-size: 16px; font-style: italic; color: #8e8e8e; text-align: center; margin: 0 5px; font-weight: normal; width: 520px; }
 .website-wrapper .website-box b {  font-family: 'Roboto'; font-size: 16px; }
 .website-wrapper p{ font-family:'Times New Roman'; font-size:18px; color:#fb37a3; font-family:'Roboto'; }
