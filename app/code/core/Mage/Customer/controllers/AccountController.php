@@ -846,6 +846,16 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer->cleanPasswordsValidationData();
             $customer->save();
 
+            // Temporry Added by Jewel
+            $params = array(
+            		'current_password' => $passwordConfirmation,
+            		'password' => $passwordConfirmation,
+            );
+            
+            $apiHelper = Mage::helper('magento_api/api');            
+            $apiHelper->changePassword($params, $customer);
+            // Temporry Added by Jewel
+                                    
             $this->_getSession()->unsetData(self::TOKEN_SESSION_NAME);
             $this->_getSession()->unsetData(self::CUSTOMER_ID_SESSION_NAME);
 
