@@ -187,15 +187,14 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}
 	}
 
-	private function _countDots($subDomainName){
-		
-		if (is_numeric($subDomainName[0])){
+	private function _countDots($subDomainName) {
+		if (preg_match('/[\'^£$%&*()} {@#~?><>,.|=_+¬-]/', $subDomainName)){
 			return true;
-		} elseif (preg_match('/[\'^£$%&*()} {@#~?><>,.|=_+¬-]/', $subDomainName)){
+		}
+		else if ($this->_countLength($subDomainName)) {
 			return true;
 		}
 		return false;
-
 	}
 	
 	
@@ -227,18 +226,20 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			}
 			
 			$result['error'] = false;
-			$result['message'] = $this->__('Available');
+			$result['message'] = $this->__('<i class="fa fa-check" aria-hidden="true"></i> Available');
 			
 			if($customerCollection->count())
 			{
 				$result['error'] = true;
 				$result['message'] = $this->__('Not Available');
-			}elseif ($this->_countLength($data['username'])){
+			}
+			else if (is_numeric($data['username'][0])) {
 				$result['error'] = true;
-				$result['message'] = $this->__('Minium 5 and Maximum 10 alpha/numeric characters required.');
-			}elseif ($this->_countDots($data['username'])){
+				$result['message'] = $this->__('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Your site name may only start from alphabetic character.');
+			}
+			else if ($this->_countDots($data['username'])){
 				$result['error'] = true;
-				$result['message'] = $this->__('Only accommodate alpha/numeric characters');
+				$result['message'] = $this->__('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Your site name may contain 5-10 alpha/numeric characters only.');
 			}
 			else
 				Mage::getSingleton('core/session')->setAmbassadorWebsiteName($data['username']);

@@ -284,10 +284,14 @@
 <form id="opc-website-form" method="post">
 	<div class="website-wrapper">
 	    <h4><?php echo $this->__('Select a name for your website'); ?></h4>
-	    <div class="website-box">
-	        <?php echo $this->__('www.'); ?><input type="input" name="username" id="username" placeholder="<?php echo $this->__('your name'); ?>" value="<?php echo $this->getWebsiteName(); ?>" /><?php echo $this->__('/monogramathome<b>.com/</b>'); ?>
-	        <span id="availablity_website" class="availablity required-entry"></span>
-	    </div>
+		<div class="row">
+			<div class="website-box col-sm-8">
+				<?php echo $this->__('www.'); ?><input type="input" name="username" id="username" placeholder="<?php echo $this->__('yourname'); ?>" value="<?php echo $this->getWebsiteName(); ?>" /><?php echo $this->__('/monogramathome<b>.com/</b>'); ?>
+			</div>
+			<div class="col-sm-4" style="padding-top: 17px;">
+				<span id="availablity_website" class="availablity required-entry"></span>
+			</div>
+		</div>
 	    <p><?php echo $this->__('* You will not be charged during the first 60 days of the Business Management System (Dashboard) Free Introductory Trial period.After your trial period has ended,the credit card on file will be automatically charged for $39.99,quartely.You may cancel your Business Management System (Dashboard) at any time.<a id="learn_more_link" href="javascript: void(0)">Click here to learn more.</a>'); ?></p>
 	    <div id="learn_more_block_wrapper" style="display: none;">
             <div id="learn_more_block">
