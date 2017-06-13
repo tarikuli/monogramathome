@@ -1,6 +1,6 @@
 <?php
 
-class Infinite_MagentoAPI_Model_Observer 
+class Infinite_MagentoAPI_Model_Observer
 {
 	const GROUP_AMBASSADOR = "Ambassador";
 	
