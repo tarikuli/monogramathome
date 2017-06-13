@@ -118,6 +118,13 @@ class Infinite_MagentoAPI_Model_Observer
 		$apiHelper->editProfile($params);
 	}
 
+	public function changePassword($observer)
+	{
+		#$params = Mage::app()->getRequest()->getParams();
+		#$apiHelper = Mage::helper('magento_api/api');
+		#$apiHelper->changePassword($params);
+	}
+	
 	public function customerAddressFormPost($observer)
 	{
 		$params = Mage::app()->getRequest()->getParams();
