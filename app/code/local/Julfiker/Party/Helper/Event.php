@@ -188,7 +188,19 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
             $customer = Mage::getSingleton('customer/session')->getCustomer();
             $customers->addAttributeToFilter('email', array('neq' => $customer->getEmail()));;
         }
-        return $customers;
+
+        $websiteId = Mage::app()->getWebsite()->getId();
+        $_customers = array();
+        foreach ($customers as $customer) {
+            $_customer = Mage::getModel('customer/customer')
+                ->setWebsiteId($websiteId)
+                ->loadByEmail($customer->getEmail());
+            if ($_customer) {
+                $_customers[] = $_customer;
+            }
+        }
+
+        return $_customers;
     }
 
     /**
