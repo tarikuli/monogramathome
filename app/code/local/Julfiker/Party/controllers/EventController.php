@@ -347,7 +347,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             $eventId = $postData['event'];
             //Todo: check customer has joined this event and also time
             Mage::getSingleton('core/session')->setEventId($eventId);
-            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('catalogsearch/advanced'));
+            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('shop.html'));
         }
 
         if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
