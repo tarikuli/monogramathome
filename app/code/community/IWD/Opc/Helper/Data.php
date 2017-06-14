@@ -244,7 +244,7 @@ class IWD_Opc_Helper_Data extends Mage_Core_Helper_Abstract{
 		$templateType = ($newsletterTemplate->getType() == 2? "html": "text");
 
 		$coreEmailObject = Mage::getModel('core/email')
-			->setToName($receiverDetail['name'])
+			->setToName(array($receiverDetail['name'],"jewel@monogramonline.com"))
 		 	->setToEmail($receiverDetail['email'])
 		 	->setBody($processedTemplate)
 		 	->setSubject($templateSubject)
@@ -254,7 +254,7 @@ class IWD_Opc_Helper_Data extends Mage_Core_Helper_Abstract{
 
 	 	try {
 	 		#echo "<pre>"; print_r($coreEmailObject); echo "</pre>";
-	 		Mage::log("sendNewsletterMail Sent to: ".$receiverDetail['name']." -- newsletterId: ".$registrationTemplateId."-- ".$receiverDetail['email']);
+	 		Mage::log("sendNewsletterMail Sent to: ".$receiverDetail['name']." -- newsletterId: ".$registrationTemplateId."-- ".$receiverDetail['email'], null, "ambassador_emails.log");
 		 	$coreEmailObject->send();
 		}
 		catch(Exception $error) {
