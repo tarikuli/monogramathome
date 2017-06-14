@@ -75,11 +75,11 @@ class Julfiker_Party_Block_Adminhtml_Partyorderitem_Edit_Tab_Form extends Mage_A
         );
 
         $fieldset->addField(
-            'qty',
+            'order_id',
             'text',
             array(
-                'label' => Mage::helper('julfiker_party')->__('Qty'),
-                'name'  => 'qty',
+                'label' => Mage::helper('julfiker_party')->__('Order Id'),
+                'name'  => 'order_id',
                 'required'  => true,
                 'class' => 'required-entry',
 
