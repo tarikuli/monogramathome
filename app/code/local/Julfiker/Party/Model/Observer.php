@@ -33,8 +33,8 @@ class Julfiker_Party_Model_Observer
             ->getDefaultStoreId();
         if ($eventId) {
             foreach ($orderIds as $orderId) {
-                $orderObject = Mage::getModel('sales/order')->load($orderId);
-                $orderId = $orderObject->getIncrementId();
+                //$orderObject = Mage::getModel('sales/order')->load($orderId);
+                //$orderId = $orderObject->getIncrementId();
                 $orderItem = Mage::getModel('julfiker_party/partyorderitem');
                 $orderItem->setStatus(1);
                 $orderItem->setEventId($eventId);
