@@ -301,21 +301,35 @@ class IWD_Opc_Model_Observer
         $groupCollection = Mage::getModel('customer/group')->getCollection()
             ->addFieldToFilter('customer_group_code', $code);
 
-        Mage::log("1. sendAutoAmbassadorEmail Total AMBASSADOR = ".$groupCollection->count(), null, "ambassador_emails.log");
+        Mage::log("sendAutoAmbassadorEmail call from Cron Job", null, "ambassador_emails.log");
+        
 		if($groupCollection->count())
 		{
-			$customerCollection = Mage::getModel('customer/customer')->getCollection()
-				->addAttributeToSelect("*")
-        		->addAttributeToFilter('group_id', $groupCollection->getFirstItem()->getId());
-
+			$customerIds = [];
+			$opcNewsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection();
+			foreach($opcNewsletterEmailCollection as $opcCusletter){
+				$customerIds[]= $opcCusletter->getCustomerId();
+			}
+			
+			$customerIds = array_unique($customerIds);
         	$emailTemplateConfiguration = Mage::getStoreConfig('ambassador_email_settings/other_emails/email_items');
 		    $emailTemplateConfiguration = unserialize($emailTemplateConfiguration); 
-		    foreach($emailTemplateConfiguration as $emailTemplates)
+		    foreach($emailTemplateConfiguration as $emailTemplates){
 		    	$emailTemplatesOptions[] = $emailTemplates;
-
-        	foreach($customerCollection as $customer)
-        		Mage::log("2. _sendAmbassadorEmails function called for Customer email: ".$customer->getEmail(), null, "ambassador_emails.log");
-        		$this->_sendAmbassadorEmails($customer, $emailTemplateConfiguration);
+		    }
+		    
+		    foreach ($customerIds as $customerId){
+		    	$customerCollection = Mage::getModel('customer/customer')->getCollection()
+		    		->addAttributeToSelect("*")
+		    		->addAttributeToFilter('entity_id', $customerId);
+		    	
+	    		foreach($customerCollection as $customer){
+		    		if(!empty($customer->getEmail())){
+		    			Mage::log("2. _sendAmbassadorEmails function called for Customer email: ".$customer->getEmail(), null, "ambassador_emails.log");
+		    			$this->_sendAmbassadorEmails($customer, $emailTemplateConfiguration);
+		    		}
+	    		}
+		    }
 		}
     }
 
@@ -364,10 +378,19 @@ class IWD_Opc_Model_Observer
 
 			    	$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
 
-// 			    	Mage::getModel('opc/newsletter_email')
-// 			    		->setNewsletterId($newsletterId)
-// 			    		->setCustomerId($customerId)
-// 			    		->save();
+			    		try {
+			    			$model = Mage::getModel('opc/newsletter_email');
+			    			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
+			    			->addFieldToFilter('customer_id', $customerId);
+			    		
+			    			foreach ($newsletterEmailCollection as $key => $value){
+			    				$model->setEntityId($key)->delete();
+			    			}
+			    			Mage::log("customer_id delete : ".$customerId, null, "ambassador_emails.log");
+			    		
+			    		} catch (Exception $e){
+			    			echo $e->getMessage();
+			    		}
 
 	    			Mage::log('7. Email send to = '.json_encode(array(
 		    			'customer_id' => $customerId."",
