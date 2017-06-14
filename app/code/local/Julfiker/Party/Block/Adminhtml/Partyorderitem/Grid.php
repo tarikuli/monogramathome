@@ -88,11 +88,11 @@ class Julfiker_Party_Block_Adminhtml_Partyorderitem_Grid extends Mage_Adminhtml_
             )
         );
         $this->addColumn(
-            'qty',
+            'order_id',
             array(
-                'header'    => Mage::helper('julfiker_party')->__('Qty'),
+                'header'    => Mage::helper('julfiker_party')->__('Order Id'),
                 'align'     => 'left',
-                'index'     => 'qty',
+                'index'     => 'order_id',
             )
         );
         
