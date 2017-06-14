@@ -244,7 +244,7 @@ class IWD_Opc_Helper_Data extends Mage_Core_Helper_Abstract{
 		$templateType = ($newsletterTemplate->getType() == 2? "html": "text");
 
 		$coreEmailObject = Mage::getModel('core/email')
-			->setToName(array($receiverDetail['name'], "jewel@monogramonline.com"))
+			->setToName($receiverDetail['name'])
 		 	->setToEmail($receiverDetail['email'])
 		 	->setBody($processedTemplate)
 		 	->setSubject($templateSubject)
