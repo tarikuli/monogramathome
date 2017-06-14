@@ -73,7 +73,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
         $amount = 0;
         foreach ($partyorderitems as $eventOrder) {
             $orderId = $eventOrder->getOrderId();
-            $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+            $order = Mage::getModel('sales/order')->load($orderId);
             if ($order)
                 $amount += $order->getGrandTotal();
         }
