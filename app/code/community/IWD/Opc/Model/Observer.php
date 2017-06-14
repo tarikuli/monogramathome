@@ -378,20 +378,6 @@ class IWD_Opc_Model_Observer
 
 			    	$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
 
-			    		try {
-			    			$model = Mage::getModel('opc/newsletter_email');
-			    			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
-			    			->addFieldToFilter('customer_id', $customerId);
-			    		
-			    			foreach ($newsletterEmailCollection as $key => $value){
-			    				$model->setEntityId($key)->delete();
-			    			}
-			    			Mage::log("customer_id delete : ".$customerId, null, "ambassador_emails.log");
-			    		
-			    		} catch (Exception $e){
-			    			echo $e->getMessage();
-			    		}
-
 	    			Mage::log('7. Email send to = '.json_encode(array(
 		    			'customer_id' => $customerId."",
 		    			'newsletter_id' => $newsletterId,
@@ -400,6 +386,20 @@ class IWD_Opc_Model_Observer
 	    			)), null, "ambassador_emails.log");
 				}
 			}			
+		}
+		
+		try {
+			$model = Mage::getModel('opc/newsletter_email');
+			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
+			->addFieldToFilter('customer_id', $customerId);
+			 
+			foreach ($newsletterEmailCollection as $key => $value){
+				$model->setEntityId($key)->delete();
+			}
+			Mage::log("customer_id delete : ".$customerId, null, "ambassador_emails.log");
+			 
+		} catch (Exception $e){
+			echo $e->getMessage();
 		}
     }
 
