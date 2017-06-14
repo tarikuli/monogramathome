@@ -194,8 +194,8 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
         foreach ($customers as $customer) {
             $_customer = Mage::getModel('customer/customer')
                 ->setWebsiteId($websiteId)
-                ->loadByEmail($customer->getEmail());
-            if ($_customer) {
+                ->load($customer->getId());
+            if ($_customer->getId()) {
                 $_customers[] = $_customer;
             }
         }
