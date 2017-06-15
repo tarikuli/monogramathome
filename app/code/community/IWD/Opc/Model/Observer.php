@@ -376,14 +376,29 @@ class IWD_Opc_Model_Observer
 					$receiverDetail['name'] = $customer->getName();
 					$receiverDetail['email'] = $customer->getEmail();
 
-			    	$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
+			    	#$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
 
-    				Mage::getModel('opc/newsletter_email')
-    				    		->setNewsletterId($newsletterId)
-    				    		->setCustomerId($customerId)
-    				    		->delete();
+//     				Mage::getModel('opc/newsletter_email')
+//     				    		->setNewsletterId($newsletterId)
+//     				    		->setCustomerId($customerId)
+//     				    		->delete();
+
+					try {
+						$model = Mage::getModel('opc/newsletter_email');
+						$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
+													->addFieldToFilter('newsletter_id', $newsletterId)
+													->addFieldToFilter('customer_id', $customerId);
+					
+						foreach ($newsletterEmailCollection as $key => $value){
+							$model->setEntityId($key)->delete();
+						}
+						Mage::log("customer_id delete : ".$customerId." NewsletterId : ".$newsletterId, null, "ambassador_emails.log");
+					
+					} catch (Exception $e){
+						echo $e->getMessage();
+					}
     				    		
-    				Mage::log("customer_id delete : ".$customerId." NewsletterId : ".$newsletterId, null, "ambassador_emails.log");
+    				
     				    		
 	    			Mage::log('7. Email send to = '.json_encode(array(
 		    			'customer_id' => $customerId."",
@@ -395,19 +410,7 @@ class IWD_Opc_Model_Observer
 			}			
 		}
 		
-// 		try {
-// 			$model = Mage::getModel('opc/newsletter_email');
-// 			$newsletterEmailCollection = Mage::getModel('opc/newsletter_email')->getCollection()
-// 			->addFieldToFilter('customer_id', $customerId);
-			 
-// 			foreach ($newsletterEmailCollection as $key => $value){
-// 				$model->setEntityId($key)->delete();
-// 			}
-// 			Mage::log("customer_id delete : ".$customerId, null, "ambassador_emails.log");
-			 
-// 		} catch (Exception $e){
-// 			echo $e->getMessage();
-// 		}
+
     }
 
     public function saveGeneralDetails($observer)
