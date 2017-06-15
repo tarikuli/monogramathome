@@ -376,12 +376,8 @@ class IWD_Opc_Model_Observer
 					$receiverDetail['name'] = $customer->getName();
 					$receiverDetail['email'] = $customer->getEmail();
 
-			    	#$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
+			    	$status = Mage::helper('opc/data')->sendNewsletterMail($newsletterId, $emailTemplateVariables, $receiverDetail);
 
-//     				Mage::getModel('opc/newsletter_email')
-//     				    		->setNewsletterId($newsletterId)
-//     				    		->setCustomerId($customerId)
-//     				    		->delete();
 
 					try {
 						$model = Mage::getModel('opc/newsletter_email');
