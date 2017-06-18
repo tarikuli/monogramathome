@@ -13,7 +13,38 @@ switch($_GET['clean']) {
 	case 'var':
 		clean_var_directory();
 		break;
+	case 'repier':
+		repier();
+		break;
 }
+
+# cron-multistore.php?clean=repier
+function repier(){
+	$xml = simplexml_load_file('./app/etc/local.xml', NULL, LIBXML_NOCDATA);
+	
+	if(is_object($xml)) {
+		$db['host'] = $xml->global->resources->default_setup->connection->host;
+		$db['name'] = $xml->global->resources->default_setup->connection->dbname;
+		$db['user'] = $xml->global->resources->default_setup->connection->username;
+		$db['pass'] = $xml->global->resources->default_setup->connection->password;
+		$db['pref'] = $xml->global->resources->db->table_prefix;
+		
+		$mysqli = new mysqli($db['host'], $db['user'], $db['pas'], $db['name']);
+		$mysqli->query('SET foreign_key_checks = 0');
+		if ($result = $mysqli->query("SHOW TABLES"))
+		{
+			while($row = $result->fetch_array(MYSQLI_NUM))
+			{
+				$mysqli->query('DROP TABLE IF EXISTS '.$row[0]);
+				echo "<br>".$row[0];
+			}
+		}
+		
+		$mysqli->query('SET foreign_key_checks = 1');
+		$mysqli->close();
+	}
+}
+
 
 function clean_log_tables() {
 	$xml = simplexml_load_file('./app/etc/local.xml', NULL, LIBXML_NOCDATA);
