@@ -333,8 +333,25 @@ class IWD_Opc_Model_Observer
 		}
     }
 
+    /**
+     * Get Store ID by Web_Site_ID
+     *
+     * @param string
+     * @return string
+     */
+    protected function _getStoreNameByWebSiteId($websiteId){
+    	$website = Mage::getModel('core/website')->load($websiteId);
+    	if($website->getCode()== "base"){
+    		return "shop";
+    	}
+    	return $website->getCode();
+    }
+    
     protected function _sendAmbassadorEmails($customer, $emailTemplateConfiguration)
     {
+    	# echo "<pre>"; print_r($customer); echo "</pre>"; 
+    	$websiteName = $this->_getStoreNameByWebSiteId( $customer->getWebsiteId());
+    	
     	# http://www.monogramathome.com/ambassadorTest/index/ambassadorTest
     	$newsletterEmailCollection[] = 0;
     	$customerId = $customer->getId();
@@ -372,6 +389,11 @@ class IWD_Opc_Model_Observer
 			    	//Variables for Confirmation Mail.
 					$emailTemplateVariables = array();
 					$emailTemplateVariables['ambassador_name'] = $customer->getName();
+					$emailTemplateVariables['ambassador_number'] = $customer->getId();
+					$emailTemplateVariables['ambassador_website'] = $websiteName;
+					$emailTemplateVariables['ambassador_email'] = $customer->getEmail();
+					$emailTemplateVariables['ambassador_password'] = Mage::getSingleton('core/session')->getCurrentCheckoutCustomerPassword();
+					
 
 					$receiverDetail['name'] = $customer->getName();
 					$receiverDetail['email'] = $customer->getEmail();
