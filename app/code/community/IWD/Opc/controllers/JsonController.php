@@ -241,6 +241,10 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				$result['error'] = true;
 				$result['message'] = $this->__('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Your site name may contain 5-10 alpha/numeric characters only.');
 			}
+			else if (empty(trim($data['username']))){
+				$result['error'] = true;
+				$result['message'] = $this->__('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Your site name may only start alphabetic character..');
+			}
 			else
 				Mage::getSingleton('core/session')->setAmbassadorWebsiteName($data['username']);
 
