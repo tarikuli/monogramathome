@@ -78,6 +78,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
             'index'     => 'subscriber_id'
         ));
 
+        /* Temp Added */
         $this->addColumn('change_status_at', array(
         		'header'    => Mage::helper('newsletter')->__('Date'),
         		'index'     => 'change_status_at',
