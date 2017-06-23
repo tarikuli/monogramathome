@@ -233,17 +233,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                 'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
-            $this->addColumn('websites',
-                array(
-                    'header'=> Mage::helper('catalog')->__('Websites'),
-                    'width' => '100px',
-                    'sortable'  => false,
-                    'index'     => 'websites',
-                    'type'      => 'options',
-                    'options'   => Mage::getModel('core/website')->getCollection()->toOptionHash(),
-            ));
-        }
+#        if (!Mage::app()->isSingleStoreMode()) {
+#            $this->addColumn('websites',
+#                array(
+#                    'header'=> Mage::helper('catalog')->__('Websites'),
+#                    'width' => '100px',
+#                    'sortable'  => false,
+#                    'index'     => 'websites',
+#                    'type'      => 'options',
+#                    'options'   => Mage::getModel('core/website')->getCollection()->toOptionHash(),
+#            ));
+#        }
 
         $this->addColumn('action',
             array(

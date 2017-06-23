@@ -314,6 +314,12 @@
 			return false;
 		}
 
+		if(!$j_opc("#username").val().trim())
+		{
+			alert('<?php echo $this->__("Please enter valid website name") ?>');
+			return false;
+		}
+		
 		var websiteForm = new VarienForm('opc-website-form');
 		if (!websiteForm.validator.validate()) {
 			return false;
