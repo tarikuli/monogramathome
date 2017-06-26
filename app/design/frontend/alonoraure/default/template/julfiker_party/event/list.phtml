@@ -28,6 +28,24 @@
     <h1><?php echo Mage::helper('julfiker_party')->__('Events') ?></h1>
 </div>
 <div class="row" style="overflow: hidden; clear: both">
+<div class="col-sm-4">
+    <div class="control-label" for="search"><?php echo $this->__("Search all events")?></div>
+    <div class="input-group">
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+                <i class="fa fa-search" aria-hidden="true" style="color:#ec008b"></i>
+            </button>
+        </div>
+        <input type="text" class="form-control" placeholder="Search by host name" id="txtSearch"/>
+    </div>
+</div>
+<div class="col-sm-8">
+    <div class="pull-right">
+        <div class="control-label" for="search">&nbsp;</div>
+        <a href="<?php echo Mage::getUrl("party/event/create")?>" class="btn btn-default" style="background:#ec008b; color: #fff; border: 0 "><?php echo $this->__("Book an event")?> <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
 <?php if ($_events->getSize() > 0): ?>
     <div class="col-sm-12" style="overflow: hidden">
         <?php echo $this->getPagerHtml(); ?>
@@ -46,10 +64,11 @@
                        <h4 class="panel-title" >
                            <a data-toggle="collapse" data-parent="#accordion"  href="#event_<?php echo $_event->getId()?>">
                                <div style="overflow: hidden" >
-                               <span class="pull-left"><?php echo $_event->getTitle();?></span>
+                               <span class="pull-left"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>'s <?php echo $this->__("Event")?></span>
                                <span style="color:#ec008b; background: #fff" class="badge pull-right">
                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                   <?php echo date_format($startAt, 'M - d, Y') ?>
+                                   <?php echo date_format($startAt, 'M d/y') ?>
                                </span>
                                </div>
                            </a>
@@ -57,21 +76,6 @@
                     </div>
                     <div id="event_<?php echo $_event->getId()?>" class="panel-collapse collapse <?php echo $activeClass?>">
                         <div class="panel-body">
-                            <div style="overflow: hidden">
-                                <div class="pull-left">
-                                    <a href="<?php echo $this->getInterestedAction()?>" class="btn btn-default btn-xs"><i class="fa fa-star" aria-hidden="true"></i> Interested</a>
-                                    <a href="#" class="btn btn-default btn-xs" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-id="<?php echo $_event->getId()?>"  data-target="#going_popup">
-                                        <i class="fa fa-check" aria-hidden="true"></i> Going
-                                    </a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-id="<?php echo $_event->getId()?>" data-target="#invite_popup" class="btn btn-default btn-xs">
-                                        <i class="fa fa-share-square-o" aria-hidden="true"></i> Invite
-                                    </a>
-                                </div>
-                            </div>
-                            <hr />
-
                             <?php if ($_event->getDesc()): ?>
                                 <p>
                                     <b><i class="fa fa-info-circle"  style="color:#ec008b" aria-hidden="true"></i> <?php echo $this->__("About the event")?> <br /> </b>
@@ -112,37 +116,3 @@
     </div>
 <?php endif;?>
 </div>
-
-<div class="modal fade" id="invite_popup">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><?php echo $this->__('Invite peoples to join') ?></h4>
-            </div>
-            <div class="modal-body">
-                <form action="<?php echo Mage::getUrl('party/event/invite')?>" method="post">
-                    <div class="form-group">
-                        <label class="control-label" for="inputDefault">Input email</label>
-                        <input class="form-control" id="inputDefault" name="email" type="text">
-                        <!--span class="help-block">Please provide comma(,) separate email address. And invitation will be notified through email.</span-->
-                        <input type="hidden" value=""  id="event_id" name="event_id" />
-                    </div>
-                    <div class="form-group">
-                        <button type="button" data-dismiss="modal" aria-hidden="true" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Close window')) ?>" class="button"><span><span><?php echo $this->__('Close') ?></span></span></button> &nbsp;
-                        <button style="margin-left: 5px" type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Send')) ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    jQuery(document).ready(function() {
-        jQuery('#invite_popup').on("show.bs.modal", function (e) {
-             var id = jQuery(e.relatedTarget).data('id');
-             jQuery(document).find("#event_id").val(id);
-        });
-    })
-</script>

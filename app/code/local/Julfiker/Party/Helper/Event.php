@@ -175,10 +175,10 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
 
     public function getHostName($customerId) {
         $customer = Mage::getSingleton('customer/customer')->load($customerId);
-        if ($customer)
+        if ($customer->getId())
             return $customer->getName();
 
-         return null;
+         return "Unavailable host";
     }
 
     public function getAllMembers() {
