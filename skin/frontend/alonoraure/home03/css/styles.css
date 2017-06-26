@@ -2883,3 +2883,41 @@ button.pink-button:hover { color: #FFFFFF !important; }
 .modal-backdrop {
     z-index: -1;
 }
+
+
+.event_tab {
+    background: #EEEEEE;
+    padding: 10px 0px 0px 10px;
+}
+.event_tab .nav.nav-tabs > li.active > a:hover,
+.event_tab.nav.nav-tabs > li.active > a:focus {http://local.all/monogramathome/party/event/create/
+    background : #fff;
+    border-color: #eee;
+    color:#000;
+}
+
+.event_tab .nav-tabs.nav > .active > a {
+    background : #fff !important;
+    border-color: #fff !important;
+    color:#000;
+    box-shadow:none;
+}
+
+.event_tab .nav-tabs.nav > li > a {
+    background: #EEEEEE;
+    border-color: #eee;
+    border-radius: 0;
+    font-size: 14px;
+    color:#000;
+    box-shadow: none;
+}
+
+.event_tab .nav-tabs.nav > li > a span {
+    font-size:14px;
+}
+.event_tab .nav.nav-tabs > li > a:hover {
+    background : #fff;
+    border-color: #eee;
+    color:#000;
+    box-shadow: none;
+}
