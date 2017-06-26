@@ -1,10 +1,10 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form class="form-horizontal" action="<?php echo $this->getSavingAction()?>" method="post" id="event_form">
     <fieldset>
-        <legend style="display: block">Book an event</legend>
+        <legend style="display: block"><?php echo $this->__("Book an event")?></legend>
         <div class="col-sm-10">
             <div class="form-group">
-                <label for="inputTitle" class="control-label required">Event Title</label>
+                <label for="inputTitle" class="control-label required"><?php echo $this->__("Event Title")?></label>
                 <div class="">
                     <input class="form-control required-entry" name="event[title]" id="inputTitle" placeholder="Title" type="text">
                 </div>
@@ -12,29 +12,29 @@
             <div class="form-group">
                 <label for="desc" class="control-label">Event detail</label>
                 <textarea class="form-control" name="event[desc]" rows="3" id="desc"></textarea>
-                <span class="help-block">Some information about the event.</span>
+                <span class="help-block"><?php echo $this->__("Some information about the event")?></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Hostess information</label>
+                <label class="control-label"><?php echo $this->__("Host Information")?></label>
                 <div class="radio">
                     <label>
                         <input name="event[host]" id="optionsRadios1" class="customer_host" value="member" checked="" type="radio">
-                        A customer host this event.
+                        <?php echo $this->__("A customer is hosting this event") ?>
                     </label>
                 </div>
                 <div class="radio">
                     <label>
                         <input name="event[host]" id="optionsRadios2" class="self_host" value="self" type="radio">
-                        I am hosting this event
+                        <?php echo $this->__("I am hosting this event")?>
                     </label>
                 </div>
             </div>
             <div class="form-group" id="customer_block">
-                <label for="inputTitle" class="control-label">Choose member<?php echo $this->getCustomers() ?></label>
+                <label for="inputTitle" class="control-label"><?php echo $this->__("Choose member")?></label>
                 <div style="overflow: hidden">
                     <div class="col-md-8" style="padding-left: 0">
                         <select class="form-control required-entry" name="event[member]" id="customers">
-                            <option value="">Select member</option>
+                            <option value=""><?php echo $this->__("Select member")?></option>
                             <?php foreach($this->getCustomers() as $customer):?>
                                 <option value="<?php echo $customer->getId()?>"><?php echo $customer->getName()?></option>
                             <?php endforeach ?>
@@ -44,31 +44,49 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label">Event location</label>
-                <div class="radio">
-                    <label>
-                        <input name="event[loc_type]" class="host_loc" value="default" checked="" type="radio">
-                        Host default address.
-                    </label>
+                <div class="event_tab">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" id="person_trigger" href="#person_event"><?php echo $this->__("In-person Event")?></a></li>
+                        <li><a data-toggle="tab" id="online_trigger" href="#online_event"><?php echo $this->__("Online event")?></a></li>
+                    </ul>
                 </div>
-                <div class="radio">
-                    <label>
-                        <input name="event[loc_type]" class="diff_loc" value="diff" type="radio">
-                        Different Location
-                    </label>
-                </div>
-            </div>
-            <div class="form-group" id="address_block" style="display: none">
-                <label class="control-label">Choose location</label>
-                <div style="overflow: hidden">
-                    <div class="col-md-8" style="padding-left: 0">
-                        <select class="form-control required-entry" id="addresses" name="event[addressId]">
-                            <option value="">Address</option>
-                        </select>
+                <div class="tab-content">
+                    <div id="person_event" class="tab-pane fade in active">
+                        <div class="">
+                            <label class="control-label"><?php echo $this->__("Event location")?></label>
+                            <div class="radio">
+                                <label>
+                                    <input name="event[loc_type]" class="host_loc" value="default" checked="" type="radio">
+                                    <?php echo $this->__("Host default address.")?>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input name="event[loc_type]" class="diff_loc" value="diff" type="radio">
+                                    <?php echo $this->__("Different Location")?>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="" id="address_block" style="display: none">
+                        <label class="control-label"><?php echo $this->__("Choose location")?></label>
+                        <div style="overflow: hidden">
+                            <div class="col-md-8" style="padding-left: 0">
+                                <select class="form-control required-entry" id="addresses" name="event[addressId]">
+                                    <option value=""><?php echo $this->__("Address")?></option>
+                                </select>
+                            </div>
+                            <div class="col-md-4" style="padding-left:0;"> OR &nbsp; <a href="#" class="btn btn-default"  data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-target="#location_popup" ><?php echo $this->__("Add new location")?></a></div>
+                        </div>
                     </div>
-                    <div class="col-md-4" style="padding-left:0;"> OR &nbsp; <a href="#" class="btn btn-default"  data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-target="#location_popup" ><?php echo $this->__("Add new location")?></a></div>
+                    </div>
+                    <div id="online_event" class="tab-pane fade out">
+                        <p>&nbsp;
+                            <input type="hidden" id="is_online" name="event[is_online]" value="0" />
+                        </p>
+                    </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <label class="control-label">
                     <?php echo $this->__("Start from at")?>
@@ -103,12 +121,12 @@
                 <div class="">
                     <button class="button pink-button" title="Cancel"  type="reset">
                         <span>
-                            <span>Reset</span>
+                            <span><?php echo $this->__("Reset")?></span>
                         </span>
                     </button>
                     <button class="button pink-button" title="Book NOW"  type="submit">
                         <span>
-                            <span>Book Now</span>
+                            <span><?php echo $this->__("Book Now")?></span>
                         </span>
                     </button>
                 </div>
@@ -134,5 +152,13 @@
             align : 'Bl',
             singleClick : true
         });
+
+        jQuery('#online_trigger').click(function() {
+            jQuery(document).find("#is_online").val(1);
+        });
+
+        jQuery('#person_trigger').click(function() {
+            jQuery(document).find("#is_online").val(0);
+        })
     });
 </script>
