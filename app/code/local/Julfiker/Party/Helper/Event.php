@@ -23,7 +23,7 @@
  */
 class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
 {
-
+    const AMBASSADOR_GROUP_NAME = 'AMBASSADOR';
     const STATUS_INVITE = 1;
     const STATUS_INVITE_REJECT = 2;
     const STATUS_INTERESTED = 3;
@@ -283,5 +283,28 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
         }
 
         return json_encode($members);
+    }
+
+    /**
+     * Checking permission for ambassador
+     *
+     * @return bool
+     */
+    public function checkPermission() {
+        $sessionCustomer = Mage::getSingleton("customer/session");
+        if($sessionCustomer->isLoggedIn()) {
+            $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $group = Mage::getSingleton('customer/group')->load($groupId);
+            $groupName = strtoupper($group->getCustomerGroupCode());
+            if ($groupName === self::AMBASSADOR_GROUP_NAME) {
+                return true;
+            }
+            else {
+                Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('Access denied!'));
+                Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('party/event'));
+            }
+        } else {
+            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
+        }
     }
 }

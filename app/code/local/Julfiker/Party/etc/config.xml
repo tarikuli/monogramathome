@@ -52,6 +52,9 @@
                     <event>
                         <table>party_event</table>
                     </event>
+                    <contact>
+                        <table>party_contact</table>
+                    </contact>
                     <partyorderitem>
                         <table>julfiker_party_partyorderitem</table>
                     </partyorderitem>
