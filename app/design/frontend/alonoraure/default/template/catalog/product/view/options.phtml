@@ -185,6 +185,15 @@
     var opConfig = new Product.Options(<?php echo $this->getJsonConfig() ?>);
     //]]>
     </script>
+    
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>js/lib/build.js"></script>
+    <script>
+		engraver.init('preview-canvas');
+		engraver.setProduct('adb2fc10-e55c-4bee-9f1c-945e5e8067c4').then(function() {
+			
+		});
+	</script>
+		
     <dl>
     <?php foreach($_options as $_option): ?>
         <?php echo $this->getOptionHtml($_option) ?>
