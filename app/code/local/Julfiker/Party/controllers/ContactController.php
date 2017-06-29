@@ -91,6 +91,8 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
                     }
 
                     try {
+                        $websiteId = Mage::app()->getStore()->getWebsiteId();
+                        $contact->setWebsiteId($websiteId);
                         $contact->save();
                         Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Contact was added successfully!'));
                     } catch (Exception $e) {

@@ -160,11 +160,10 @@ $endAt = date_create($_event->getEndAt());
                 <form action="<?php echo Mage::getUrl('party/participate/invite')?>" method="post">
                     <div class="form-group">
                         <label class="control-label" for="inputDefault">Member</label>
-                        <?php $customers = $this->getCustomers(); ?>
+                        <?php $contacts = $this->getContacts(); ?>
                         <select class="form-control" name="members[]" multiple>
-                            <?php foreach ($customers as $cstmr):?>
-                                <?php $customer = Mage::getModel("customer/customer")->load($cstmr->getId());?>
-                                <option value="<?php echo $customer->getId()?>"><?php echo $customer->getName()?></option>
+                            <?php foreach ($contacts as $contact):?>
+                                <option value="<?php echo $contact->getId()?>"><?php echo $contact->getFirstName()?> <?php echo $contact->getLastName()?></option>
                             <?php endforeach ?>
                         </select>
                     </div>
