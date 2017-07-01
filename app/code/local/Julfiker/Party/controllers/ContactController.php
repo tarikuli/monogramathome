@@ -8,6 +8,40 @@
 class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
 {
 
+    public function indexAction()
+    {
+        $this->loadLayout();
+        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                $breadcrumbBlock->addCrumb(
+                    'home',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('Home'),
+                        'link' => Mage::getUrl(),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'events',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('View all events'),
+                        'link' => Mage::getUrl("julfiker_party/event"),
+                    )
+                );
+                $breadcrumbBlock->addCrumb(
+                    'contacts',
+                    array(
+                        'label' => Mage::helper('julfiker_party')->__('View all contacts'),
+                        'link' => '',
+                    )
+                );
+            }
+        }
+        $this->renderLayout();
+    }
+
     public function createAction() {
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');

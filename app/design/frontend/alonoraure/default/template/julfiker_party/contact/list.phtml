@@ -1,0 +1,62 @@
+<div class="page-title event-title">
+    <h1><?php echo Mage::helper('julfiker_party')->__('Contacts') ?></h1>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="control-label" for="search"><?php echo $this->__("Search contacts")?></div>
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <i class="fa fa-search" aria-hidden="true" style="color:#ec008b"></i>
+                </button>
+            </div>
+            <input type="text" class="form-control" placeholder="Search" id="txtSearch"/>
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="pull-right">
+            <div class="control-label" for="search">&nbsp;</div>
+            <a href="<?php echo Mage::getUrl("party/contact/create")?>" class="btn btn-default" style=""><?php echo $this->__("Create contact")?> <i class="fa fa-plus" style="color:#ec008b;" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+<?php $_contacts = $this->getContacts(); ?>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Contact info</th>
+                    <th>Birthday month</th>
+                    <th>Contact type</th>
+                    <th>Interest</th>
+                    <th>Created at</th>
+                    <th>Last event</th>
+                    <th>Lifetime spend </th>
+                    <th>Action </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_contacts as $contact):?>
+                    <tr>
+                        <td><?php echo $contact->getFirstName()?> <?php echo $contact->getLastName() ?></td>
+                        <td>
+                            <?php echo $contact->getEmail()?> <br />
+                            <?php echo $contact->getTelephone()?>
+                        </td>
+                        <td><?php echo date("F", strtotime($this->getDob())) ?></td>
+                        <td>&nbsp; <!-- Todo: get type --></td>
+                        <td><?php echo str_replace(";","<br>",$contact->getNewsletter())?></td>
+                        <td><?php echo date("d/m/Y", strtotime($contact->getCreatedAt()))?></td>
+                        <td><?php //todo: get last event date ?></td>
+                        <td><?php //todo: get lief time event spend ?></td>
+                        <td>Email contacts <br />
+                            View contact
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+</div>
