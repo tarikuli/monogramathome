@@ -192,6 +192,18 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get all contacts based on website
+     *
+     * @return mixed
+     */
+    public function getAllContacts() {
+        $websiteId = Mage::app()->getStore()->getWebsiteId();
+        $contact = Mage::getModel("julfiker_party/contact");
+        return $contact->getCollection()
+            ->addFieldToFilter('website_id', $websiteId);
+    }
+
+    /**
      * Get members who got invited for the event
      *
      * @param $eventId

@@ -104,6 +104,15 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return Mage::helper("julfiker_party/event")->getAllMembers();
     }
 
+    /**
+     * Get all contacts
+     *
+     * @return mixed
+     */
+    public function getContacts() {
+        return Mage::helper("julfiker_party/event")->getAllContacts();
+    }
+
     private function _percentage($totalAmount, $percentAmount) {
         if ($totalAmount && $percentAmount)
         return ($percentAmount * 100)/$totalAmount;

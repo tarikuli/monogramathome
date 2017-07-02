@@ -22,7 +22,7 @@
             <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
                 <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_invites</name><path>party/contact/create</path><label>Add new contact</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
             </block>
             <remove name="tags_popular"/>
@@ -37,7 +37,7 @@
             <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
                 <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_invites</name><path>party/contact/create</path><label>Add new contact</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
             </block>
             <remove name="tags_popular"/>
@@ -59,7 +59,7 @@
             <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
                 <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_invites</name><path>party/contact/create</path><label>Add new contact</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
             </block>
             <remove name="tags_popular"/>
@@ -91,7 +91,7 @@
             <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
                 <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_invites</name><path>party/contact/create</path><label>Add new contact</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
             </block>
             <remove name="tags_popular"/>
@@ -114,7 +114,7 @@
             <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
                 <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_invites</name><path>party/contact/create</path><label>Add new contact</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
             </block>
             <remove name="tags_popular"/>
@@ -134,7 +134,7 @@
             <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
                 <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_invites</name><path>party/contact/create</path><label>Add new contact</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
             </block>
             <remove name="tags_popular"/>
@@ -154,7 +154,7 @@
             <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
                 <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_invites</name><path>party/contact/create</path><label>Add new contact</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
                 <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
             </block>
             <remove name="tags_popular"/>
@@ -167,4 +167,24 @@
             <block type="customer/form_register" name="create_member" template="julfiker_party/event/form/create-contact.phtml" />
         </reference>
     </julfiker_party_contact_create>
+    <julfiker_party_contact_index translate="label" module="julfiker_party">
+        <label>View all contacts</label>
+        <update handle="page_two_columns_left" />
+        <reference name="left">
+            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
+                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
+                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
+            </block>
+            <remove name="tags_popular"/>
+            <remove name="catalog.compare.sidebar"/>
+            <remove name="right.poll"/>
+            <remove name="static_image_left"/>
+            <remove name="amenu"/>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/contact_list" name="view_all_contacts" template="julfiker_party/contact/list.phtml" />
+        </reference>
+    </julfiker_party_contact_index>
 </layout>

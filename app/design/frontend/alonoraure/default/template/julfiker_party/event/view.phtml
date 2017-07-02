@@ -32,93 +32,124 @@ $endAt = date_create($_event->getEndAt());
     <div class="page-title event-title">
         <h1 class="panel-title" >
             <div style="overflow: hidden" >
-               <span class="pull-left"><?php echo $_event->getTitle();?></span>
-               <span style="color:#ec008b; background: #fff" class="badge pull-right">
-                   <i class="fa fa-calendar" aria-hidden="true"></i>
-                   <?php echo date_format($startAt, 'M - d, Y') ?>
-               </span>
+               <span class="pull-left"><?php echo $this->__("Event")?></span>
             </div>
         </h1>
     </div>
-
-    <div style="overflow: hidden">
-        <div class="pull-left">
-            <a href="<?php echo Mage::getUrl('party/participate/interested')?>?event_id=<?php echo $_event->getId()?>" class="btn btn-default btn-xs"><i class="fa fa-star" aria-hidden="true"></i> Interested</a>
-            <a href="#" class="btn btn-default btn-xs" data-backdrop="static" data-keyboard="false"  data-id="<?php echo $_event->getId()?>" data-toggle="modal"  data-target="#going_popup">
-                <i class="fa fa-check" aria-hidden="true"></i> Going
-            </a>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="control-label" for="search"><?php echo $this->__("Search all events")?></div>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <i class="fa fa-search" aria-hidden="true" style="color:#ec008b"></i>
+                    </button>
+                </div>
+                <input type="text" class="form-control" placeholder="Search by host name" id="txtSearch"/>
+            </div>
         </div>
-        <div class="pull-right">
-            <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-id="<?php echo $_event->getId()?>" data-target="#invite_popup" class="btn btn-default btn-xs">
-                <i class="fa fa-share-square-o" aria-hidden="true"></i> Invite
-            </a>
+        <div class="col-xs-8">
+            <div class="pull-right">
+                <div class="control-label" for="search">&nbsp;</div>
+                <a href="<?php echo Mage::getUrl("party/event/create")?>" class="btn btn-default" style="background:#ec008b; color: #fff; border: 0 "><?php echo $this->__("Book an event")?> <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
+            </div>
         </div>
     </div>
     <hr />
-    <b>
-        <i class="fa fa-pie-chart" aria-hidden="true" style="color:#ec008b"></i>
-         <?php echo $this->__("Over view")?>
-    </b>
-    <div class="row">
-        <div class="col-md-3" style="text-align: center">
-            <div class="chart" data-percent="0"></div> <!--Todo: calculate percentage -->
-            <label><?php echo $this->__("Achieved order")?> <?php echo Mage::helper('core')->currency($this->getTotalOrderAmount(), true, false);?> </label>
+
+    <!-- Event title here -->
+    <div class="page-title event-title" style="overflow: hidden">
+        <div>
+            <span class="pull-left">
+               <h3><?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>'s <?php echo $this->__("Event")?></h3>
+            </span>
+           <span style="color:#ec008b; background: #fff" class="badge pull-right">
+               <i class="fa fa-calendar" aria-hidden="true"></i>
+               <?php echo date_format($startAt, 'M - d, Y') ?>
+           </span>
         </div>
-        <div class="col-md-9" style="padding-top: 20px;">
-            <div class="col-md-3" style="text-align: center">
-                <div class="chart" data-percent="<?php echo $this->getPercentageJoined() ?>"></div>
-                <label>
-                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Joined" data-member='<?php echo $this->_eventHelper()->getJoinedMembers($_event->getId())?>' data-target="#member_popup">
-                    <?php echo $this->__("Joined")?> <?php echo $this->getTotalJoined() ?>
-                    </a>
-                </label>
+    </div>
+
+    <!-- Event information -->
+    <div class="col-md-12">
+        <div class="row">
+            <!-- About host -->
+            <div class="col-sm-3">
+                <b> <i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $this->__("Host info")?> <br /> </b>
+                <div>
+                    <?php $host =  Mage::getSingleton('customer/customer')->load($_event->getHost()); ?>
+                    <?php echo $host->getEmail(); ?> <br />
+                    <?php echo $host->getTelephone(); ?>
+                </div>
             </div>
-            <div class="col-md-3" style="text-align: center">
-                <div class="chart" data-percent="<?php echo $this->getPercentageInterested() ?>"></div>
-                <label>
-                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Interested" data-member='<?php echo $this->_eventHelper()->getInterestedMembers($_event->getId())?>' data-target="#member_popup">
-                        <?php echo $this->__("Interested")?> <?php echo $this->getTotalInterested() ?>
-                    </a>
-                </label>
+            <!-- Event date and time -->
+            <div class="col-sm-5">
+                <b><i class="fa fa-calendar" aria-hidden="true" ></i> <?php echo $this->__("Event date and time")?>   </b> <br />
+                <div>
+                    <?php echo $this->__("Start date")?>: <?php echo date_format($startAt,"M/d,y"); ?> <?php echo $this->__("Start time")?>: <?php echo date_format($startAt,"h:i A"); ?> <br />
+                    <?php echo $this->__("End date")?>:  <?php echo date_format($endAt,"M/d,y"); ?> <?php echo $this->__("End time")?>:  <?php echo date_format($endAt,"h:i A"); ?>
+                </div>
             </div>
-            <div class="col-md-3" style="text-align: center">
-                <div class="chart" data-percent="<?php echo $this->getPercentageInvites()?>"></div>
-                <label>
-                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Invited" data-member='<?php echo $this->_eventHelper()->getInvitedMembers($_event->getId())?>' data-target="#member_popup">
-                        <?php echo $this->__("Invited") ?> <?php echo $this->getTotalInvites()?>
-                    </a>
-                </label>
-            </div>
-            <div class="col-md-3" style="text-align: center">
-                <div class="chart" data-percent="<?php echo $this->getPercentageRejected()?>"></div>
-                <label>
-                    <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Rejected" data-member='<?php echo $this->_eventHelper()->getRejectMembers($_event->getId())?>' data-target="#member_popup">
-                        <?php echo $this->__("Rejected") ?> <?php echo $this->getTotalReject()?>
-                    </a>
-                </label>
+            <!-- Event location or address -->
+            <div class="col-sm-4">
+                <b> <i class="fa fa-map-marker" aria-hidden="true" ></i> <?php echo $this->__("Event location")?> </b><br />
+                <div>
+                    <?php echo $_event->getAddress() ?>, <?php echo $_event->getCity() ?> - <?php echo $_event->getZip() ?>, <?php echo $_event->getCountry() ?>
+                </div>
             </div>
         </div>
     </div>
 
-    <br />
-    <?php if ($_event->getDesc()): ?>
-        <p>
-            <b><i class="fa fa-info-circle"  style="color:#ec008b" aria-hidden="true"></i> <?php echo $this->__("About the event")?> <br /> </b>
-            <?php echo $_event->getDesc()?>
-        </p>
-    <?php endif ?>
+    <!-- circle graph -->
+    <div class="col-md-12" style="padding-top: 10px;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <!-- Invite circle -->
+                    <div class="col-md-4" style="text-align: center">
+                        <div class="chart" data-percent="<?php echo $this->getPercentageInvites()?>"></div>
+                        <label>
+                            <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Invited" data-member='<?php echo $this->_eventHelper()->getInvitedMembers($_event->getId())?>' data-target="#member_popup">
+                                <?php echo $this->__("Goal invites 40+") ?>
+                            </a>
+                        </label>
+                    </div>
+                    <!-- Joined circle -->
+                    <div class="col-md-4" style="text-align: center">
+                        <div class="chart" data-percent="<?php echo $this->getPercentageJoined() ?>"></div>
+                        <label>
+                            <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Joined" data-member='<?php echo $this->_eventHelper()->getJoinedMembers($_event->getId())?>' data-target="#member_popup">
+                            <?php echo $this->__("Goal 10 attending")?>
+                            </a>
+                        </label>
+                    </div>
+                    <!-- Order circle -->
+                    <div class="col-md-4" style="text-align: center">
+                        <div class="chart" data-percent="0"></div> <!--Todo: calculate percentage -->
+                        <label><?php echo $this->__("Goal 13 order")?> </label>
+                    </div>
+                </div>
+            </div>
 
-    <p>
-        <b> <i class="fa fa-location-arrow" aria-hidden="true" style="color:#ec008b"></i> <?php echo $this->__("Event host and location")?> <br /> </b>
-        <?php echo $this->__("Hosted by") ?> <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?> <br />
-        <?php echo $_event->getAddress() ?>, <?php echo $_event->getCity() ?> - <?php echo $_event->getZip() ?>, <?php echo $_event->getCountry() ?>
-    </p>
-
-    <p>
-        <b><i class="fa fa-clock-o" aria-hidden="true" style="color:#ec008b"></i> <?php echo $this->__("Event date and time")?>   </b> <br />
-        <b> <?php echo $this->__("Start date")?>:</b> <?php echo date_format($startAt,"M - d, Y"); ?>,  <b><?php echo $this->__("Start time")?> :</b> <?php echo date_format($startAt,"h:i A"); ?> <br />
-        <b> <?php echo $this->__("End date")?>: </b> <?php echo date_format($endAt,"M - d, Y"); ?> ,  <b><?php echo $this->__("End time")?> :</b> <?php echo date_format($endAt,"h:i A"); ?>
-    </p>
+            <div class="col-md-4" style="border-left: 1px solid #eee">
+                <div class="row" style="padding: 10px 10px;">
+                    <div>
+                        <h3><?php echo $this->__("Cash Earnings"); ?></h3>
+                        <span><?php echo Mage::helper('core')->currency($this->getTotalOrderAmount(), true, false);?></span>
+                    </div>
+                    <div style="padding-top: 10px;">
+                        <h3><?php echo $this->__("Retail Sales"); ?></h3>
+                        <span>$0</span>
+                    </div>
+                    <div style="padding-top: 10px;">
+                        <h3><?php echo $this->__("Host Rewards"); ?></h3>
+                        <span>$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -160,11 +191,10 @@ $endAt = date_create($_event->getEndAt());
                 <form action="<?php echo Mage::getUrl('party/participate/invite')?>" method="post">
                     <div class="form-group">
                         <label class="control-label" for="inputDefault">Member</label>
-                        <?php $customers = $this->getCustomers(); ?>
+                        <?php $contacts = $this->getContacts(); ?>
                         <select class="form-control" name="members[]" multiple>
-                            <?php foreach ($customers as $cstmr):?>
-                                <?php $customer = Mage::getModel("customer/customer")->load($cstmr->getId());?>
-                                <option value="<?php echo $customer->getId()?>"><?php echo $customer->getName()?></option>
+                            <?php foreach ($contacts as $contact):?>
+                                <option value="<?php echo $contact->getId()?>"><?php echo $contact->getFirstName()?> <?php echo $contact->getLastName()?></option>
                             <?php endforeach ?>
                         </select>
                     </div>
@@ -249,3 +279,19 @@ $endAt = date_create($_event->getEndAt());
         });
     })
 </script>
+
+<?php if(false):?>
+    <div style="overflow: hidden">
+        <div class="pull-left">
+            <a href="<?php echo Mage::getUrl('party/participate/interested')?>?event_id=<?php echo $_event->getId()?>" class="btn btn-default btn-xs"><i class="fa fa-star" aria-hidden="true"></i> Interested</a>
+            <a href="#" class="btn btn-default btn-xs" data-backdrop="static" data-keyboard="false"  data-id="<?php echo $_event->getId()?>" data-toggle="modal"  data-target="#going_popup">
+                <i class="fa fa-check" aria-hidden="true"></i> Going
+            </a>
+        </div>
+        <div class="pull-right">
+            <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-id="<?php echo $_event->getId()?>" data-target="#invite_popup" class="btn btn-default btn-xs">
+                <i class="fa fa-share-square-o" aria-hidden="true"></i> Invite
+            </a>
+        </div>
+    </div>
+<?php endif ?>

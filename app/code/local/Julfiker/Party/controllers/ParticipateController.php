@@ -27,31 +27,32 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
         $customer = $this->_initCustomer();
         $customerId = ($customer->getId())?$customer->getId():0;
 
-        //Sending invitation to existing members
+        //Sending invitation to existing contacts
         if (count($members)>0) {
             foreach ($members as $key => $val) {
                 $participated = Mage::getModel('julfiker_party/partyparticipate')
                     ->getCollection()
-                    ->addFieldToFilter('customer_id', $val)
+                    ->addFieldToFilter('contact_id', $val)
                     ->addFieldToFilter('event_id', $eventId)
                     ->getFirstItem();
 
                 $partycipate = Mage::getModel('julfiker_party/partyparticipate')->load($participated->getId());
                 if (!$partycipate->getId()) {
-                    $member = Mage::getSingleton('customer/customer')->load($val);
+                    $contact = Mage::getSingleton('julfiker_party/contact')->load($val);
                     $partycipate = Mage::getModel('julfiker_party/partyparticipate');
                     $partycipate->setEventId($eventId);
                     $partycipate->setStatus($status['STATUS_INVITE']);
                     $partycipate->setInvitedBy($customerId);
-                    $partycipate->setCustomerId($val);
+                    $partycipate->setContactId($contact->getId());
+                    $partycipate->setInviteEmail($contact->getEmail());
                     $partycipate->save();
 
                     if ($partycipate->getId()) {
                         $data = Mage::helper("julfiker_party/sender")->getEmailData($eventId);
-                        $data['name'] = $member->getFirstName();
+                        $data['name'] = $contact->getFirstName();
                         $data['joinUrl'] .= "?status=" . $status['STATUS_JOINED'] . "&id=" . $partycipate->getId();
                         $data['rejectUrl'] .= "?status=" . $status['STATUS_INVITE_REJECT'] . "&id=" . $partycipate->getId();
-                        Mage::helper("julfiker_party/sender")->sendInviteEmail($member->getEmail(), $data);
+                        Mage::helper("julfiker_party/sender")->sendInviteEmail($contact->getEmail(), $data);
                         $isInvited = true;
                     }
                 }
