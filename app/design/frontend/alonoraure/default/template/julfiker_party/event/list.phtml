@@ -86,7 +86,7 @@
                             <div>
                                 <b> <i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $this->__("Host info")?> <br /> </b>
                                 <div style="padding: 0px 20px;">
-                                    <?php $host =  Mage::getSingleton('customer/customer')->load($customerId); ?>
+                                    <?php $host =  Mage::getSingleton('customer/customer')->load($_event->getHost()); ?>
                                     <?php echo $host->getEmail(); ?> <br />
                                     <?php echo $host->getTelephone(); ?>
                                 </div>
