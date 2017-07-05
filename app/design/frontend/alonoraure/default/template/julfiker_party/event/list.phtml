@@ -88,9 +88,8 @@
                                 <div style="padding: 0px 20px;">
                                     <?php $host =  Mage::getSingleton('customer/customer')->load($_event->getHost()); ?>
                                     <?php echo $host->getEmail(); ?> <br />
-                                    <?php echo $host->getTelephone(); ?>
+                                    <?php echo ($host->getPrimaryBillingAddress())?$host->getPrimaryBillingAddress()->getTelephone():""; ?>
                                 </div>
-
                             </div>
                             <div>
                                 <b><i class="fa fa-calendar" aria-hidden="true" ></i> <?php echo $this->__("Event date and time")?>   </b> <br />
