@@ -138,10 +138,12 @@ class Infinite_MagentoAPI_Model_Observer
 		$apiHelper = Mage::helper('magento_api/api');
 		$apiHelper->purchase($orderIds);
 		
+		# 5P code
 		$currentUrl = Mage::helper('core/url')->getCurrentUrl();
 		$url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
 		$path = $url->getHost();
-			
+	
+		
 		if(strpos($path, '.com') !== false) {
 			$apiHelper = Mage::helper('magento_api/oms');
 			$apiHelper->pushPurchaseToOms($orderIds);
