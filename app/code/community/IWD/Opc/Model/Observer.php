@@ -325,7 +325,7 @@ class IWD_Opc_Model_Observer
 		    	
 	    		foreach($customerCollection as $customer){
 		    		if(!empty($customer->getEmail())){
-		    			Mage::log("2. _sendAmbassadorEmails function called for Customer email: ".$customer->getEmail(), null, "ambassador_emails.log");
+		    			Mage::log("2. _sendAmbassadorEmails function called for Customer Id: ".$customer->getId()." Customer email: ".$customer->getEmail(), null, "ambassador_emails.log");
 		    			$this->_sendAmbassadorEmails($customer, $emailTemplateConfiguration);
 		    		}
 	    		}
@@ -349,6 +349,7 @@ class IWD_Opc_Model_Observer
     
     protected function _sendAmbassadorEmails($customer, $emailTemplateConfiguration)
     {
+    	set_time_limit(0);
     	# echo "<pre>"; print_r($customer); echo "</pre>"; 
     	$websiteName = $this->_getStoreNameByWebSiteId( $customer->getWebsiteId());
     	

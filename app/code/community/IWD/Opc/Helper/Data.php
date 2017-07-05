@@ -254,7 +254,7 @@ class IWD_Opc_Helper_Data extends Mage_Core_Helper_Abstract{
 
 	 	try {
 	 		#echo "<pre>"; print_r($coreEmailObject); echo "</pre>";
-	 		Mage::log("sendNewsletterMail Sent to: ".$receiverDetail['name']." -- newsletterId: ".$registrationTemplateId."-- ".$receiverDetail['email'], null, "ambassador_emails.log");
+	 		Mage::log("sendNewsletterMail Sent to : ".$receiverDetail['name']." -- newsletterId: ".$registrationTemplateId."-- ".$receiverDetail['email'], null, "ambassador_emails.log");
 		 	$coreEmailObject->send();
 		}
 		catch(Exception $error) {
