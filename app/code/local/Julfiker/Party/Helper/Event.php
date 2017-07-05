@@ -311,6 +311,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
         return json_encode($members);
     }
 
+
     /**
      * Checking permission for ambassador
      *
@@ -333,4 +334,25 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
             Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
         }
     }
+
+
+    /**
+     * Checking permission for ambassador
+     *
+     * @return bool
+     */
+    public function checkEventPermission() {
+        $sessionCustomer = Mage::getSingleton("customer/session");
+        if($sessionCustomer->isLoggedIn()) {
+            $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $group = Mage::getSingleton('customer/group')->load($groupId);
+            $groupName = strtoupper($group->getCustomerGroupCode());
+            if ($groupName === self::AMBASSADOR_GROUP_NAME) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

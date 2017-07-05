@@ -106,6 +106,7 @@ $endAt = date_create($_event->getEndAt());
         </div>
     </div>
 
+    <?php if (Mage::helper("julfiker_party/event")->checkEventPermission()):?>
     <!-- circle graph -->
     <div class="col-md-12" style="padding-top: 10px;">
         <div class="row">
@@ -212,6 +213,8 @@ $endAt = date_create($_event->getEndAt());
             </div>
         </div>
     </div>
+    <?php endif ?>
+
 </div>
 
 
