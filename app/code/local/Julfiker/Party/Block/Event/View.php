@@ -72,8 +72,20 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return $this->_eventHelper()->sumOrders($event->getId());
     }
 
+    public function getTotalOrders() {
+        $event = $this->getCurrentEvent();
+        return $this->_eventHelper()->countOrders($event->getId());
+    }
+
+    public function getPercentageTotalOrders() {
+        $baseTotal = 13;
+        $total = $this->getTotalOrders();
+        $percent = $this->_percentage($baseTotal, $total);
+        return round($percent);
+    }
+
     public function getPercentageJoined() {
-        $baseTotal = $this->getTotalParticipates();
+        $baseTotal = 10;
         $total = $this->getTotalJoined();
         $percent = $this->_percentage($baseTotal, $total);
         return round($percent);
@@ -87,7 +99,7 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
     }
 
     public function getPercentageInvites() {
-        $baseTotal = $this->getTotalParticipates();
+        $baseTotal = 40;
         $total = $this->getTotalInvites();
         $percent = $this->_percentage($baseTotal, $total);
         return round($percent);

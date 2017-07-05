@@ -81,6 +81,20 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Count order item based on event
+     *
+     * @param $eventId
+     * @return mixed
+     */
+    public function countOrders($eventId) {
+        $partyOrderItems = Mage::getResourceModel('julfiker_party/partyorderitem_collection')
+            ->addFieldToFilter('status', 1)
+            ->addFieldToFilter('event_id', $eventId);
+
+        return $partyOrderItems->count();
+    }
+
+    /**
      * Calculate count invites user based on event
      *
      * @param $eventId

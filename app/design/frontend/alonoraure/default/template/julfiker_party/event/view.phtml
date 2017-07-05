@@ -22,6 +22,11 @@
  * @author      Ultimate Module Creator
  */
 ?>
+<style>
+    .dropdown {
+        display: block !important;
+    }
+</style>
 <?php $_event = $this->getCurrentEvent();?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <?php
@@ -80,7 +85,7 @@ $endAt = date_create($_event->getEndAt());
                 <div>
                     <?php $host =  Mage::getSingleton('customer/customer')->load($_event->getHost()); ?>
                     <?php echo $host->getEmail(); ?> <br />
-                    <?php echo $host->getTelephone(); ?>
+                    <?php echo ($host->getPrimaryBillingAddress())?$host->getPrimaryBillingAddress()->getTelephone():""; ?>
                 </div>
             </div>
             <!-- Event date and time -->
@@ -108,26 +113,83 @@ $endAt = date_create($_event->getEndAt());
                 <div class="row">
                     <!-- Invite circle -->
                     <div class="col-md-4" style="text-align: center">
-                        <div class="chart" data-percent="<?php echo $this->getPercentageInvites()?>"></div>
+                        <div id="circle-invited" class="circle"
+                             data-dimension="250"
+                             data-text="Invited"
+                             data-width="30"
+                             data-percent="<?php echo $this->getPercentageInvites() ?>"
+                             data-fgcolor="#61a9dc"
+                             data-bgcolor="#eee"
+                             data-fill="#000"
+                             data-total="40"
+                             data-noPercentageSign="true"
+                             data-replacePercentageByText="<?php echo $this->getTotalInvites() ?>"
+                             data-description="test"
+                             data-foregroundColor="#ec008b"
+                             data-textStyle="font-size:14px;"
+                             data-textColor="#000"
+                             data-animateInView="true"
+                             data-fontColor="#000"
+                             data-part="20"></div>
                         <label>
-                            <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Invited" data-member='<?php echo $this->_eventHelper()->getInvitedMembers($_event->getId())?>' data-target="#member_popup">
+                            <a href="#" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                               data-title="Invited"
+                               data-member='<?php echo $this->_eventHelper()->getInvitedMembers($_event->getId()) ?>'
+                               data-target="#member_popup">
                                 <?php echo $this->__("Goal invites 40+") ?>
                             </a>
                         </label>
                     </div>
                     <!-- Joined circle -->
                     <div class="col-md-4" style="text-align: center">
-                        <div class="chart" data-percent="<?php echo $this->getPercentageJoined() ?>"></div>
+                        <div id="circle-attending" class="circle"
+                             data-dimension="250"
+                             data-text="Attending"
+                             data-width="30"
+                             data-percent="<?php echo $this->getPercentageJoined() ?>"
+                             data-fgcolor="#61a9dc"
+                             data-bgcolor="#eee"
+                             data-fill="#000"
+                             data-total="40"
+                             data-noPercentageSign="true"
+                             data-replacePercentageByText="<?php echo $this->getTotalJoined() ?>"
+                             data-description="test"
+                             data-foregroundColor="#ec008b"
+                             data-textStyle="font-size:14px;"
+                             data-textColor="#000"
+                             data-animateInView="true"
+                             data-fontColor="#000"
+                             data-part="20"></div>
                         <label>
-                            <a href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-title="Joined" data-member='<?php echo $this->_eventHelper()->getJoinedMembers($_event->getId())?>' data-target="#member_popup">
-                            <?php echo $this->__("Goal 10 attending")?>
+                            <a href="#" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                               data-title="Joined"
+                               data-member='<?php echo $this->_eventHelper()->getJoinedMembers($_event->getId()) ?>'
+                               data-target="#member_popup">
+                                <?php echo $this->__("Goal 10 attending") ?>
                             </a>
                         </label>
                     </div>
                     <!-- Order circle -->
                     <div class="col-md-4" style="text-align: center">
-                        <div class="chart" data-percent="0"></div> <!--Todo: calculate percentage -->
-                        <label><?php echo $this->__("Goal 13 order")?> </label>
+                        <div id="circle-order" class="circle"
+                             data-dimension="250"
+                             data-text="Order"
+                             data-width="30"
+                             data-percent="<?php echo $this->getPercentageTotalOrders() ?>"
+                             data-fgcolor="#61a9dc"
+                             data-bgcolor="#eee"
+                             data-fill="#000"
+                             data-total="40"
+                             data-noPercentageSign="true"
+                             data-replacePercentageByText="<?php echo $this->getTotalOrders() ?>"
+                             data-description="test"
+                             data-foregroundColor="#ec008b"
+                             data-textStyle="font-size:14px;"
+                             data-textColor="#000"
+                             data-animateInView="true"
+                             data-fontColor="#000"
+                             data-part="20"></div>
+                        <label><?php echo $this->__("Goal 13 order") ?> </label>
                     </div>
                 </div>
             </div>
@@ -136,7 +198,7 @@ $endAt = date_create($_event->getEndAt());
                 <div class="row" style="padding: 10px 10px;">
                     <div>
                         <h3><?php echo $this->__("Cash Earnings"); ?></h3>
-                        <span><?php echo Mage::helper('core')->currency($this->getTotalOrderAmount(), true, false);?></span>
+                        <span><?php echo Mage::helper('core')->currency($this->getTotalOrderAmount(), true, false); ?></span>
                     </div>
                     <div style="padding-top: 10px;">
                         <h3><?php echo $this->__("Retail Sales"); ?></h3>
@@ -162,23 +224,32 @@ $endAt = date_create($_event->getEndAt());
     <div style="border: 1px solid #eee; padding: 10px 5px;"><?php echo $_event->getEventUrl()."?refer=".base64_encode($customerId) ?></div>
 </div>
 
+<div class="col-md-12" style="padding-top: 20px;">
+    <div class="row">
+        <div class="col-xs-6">
+            <a href="#" class="btn btn-default"><?php echo $this->__("Manage Guest") ?></a>
+            <a href="#" class="btn btn-default"><?php echo $this->__("View Guest List") ?></a>
+        </div>
+        <div class="col-xs-6">
+            <div class="dropdown pull-right">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><?php echo $this->__("Action")?>
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-id="<?php echo $_event->getId()?>" data-target="#invite_popup" >Invite</a></li>
+                    <li><a href="#"  data-backdrop="static" data-keyboard="false"  data-id="<?php echo $_event->getId()?>" data-toggle="modal"  data-target="#going_popup">Going</a></li>
+                    <li><a href="#">Event order</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     jQuery(document).ready(function() {
-        jQuery('.chart').circliful({
-            animate : true,
-            diameter : 5000,
-            guage: 2,
-            coverBg: '#fff',
-            bgColor: '#fff',
-            fillColor: '#fff',
-            foregroundColor: "#ec008b",
-            percentSize: '15px',
-            percentWeight: 'bold'
-        });
+      jQuery('#circle-invited').circliful();
+      jQuery('#circle-attending').circliful();
+      jQuery('#circle-order').circliful();
     });
-
 </script>
-
 
 <div class="modal fade" id="invite_popup">
     <div class="modal-dialog modal-lg" role="document">
