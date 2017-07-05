@@ -137,8 +137,18 @@ class Infinite_MagentoAPI_Model_Observer
 		$orderIds = $observer->getOrderIds();
 		$apiHelper = Mage::helper('magento_api/api');
 		$apiHelper->purchase($orderIds);
-		$apiHelper = Mage::helper('magento_api/oms');
-		$apiHelper->pushPurchaseToOms($orderIds);
+		
+		# 5P code
+		$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+		$url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
+		$path = $url->getHost();
+	
+		
+		if(strpos($path, '.com') !== false) {
+			$apiHelper = Mage::helper('magento_api/oms');
+			$apiHelper->pushPurchaseToOms($orderIds);
+		}
+		
 	}
 
 	public function enableAddressFieldsToRegister($observer)
