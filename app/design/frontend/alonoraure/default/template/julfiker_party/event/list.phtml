@@ -91,14 +91,14 @@
                                     <?php echo ($host->getPrimaryBillingAddress())?$host->getPrimaryBillingAddress()->getTelephone():""; ?>
                                 </div>
                             </div>
-                            <div>
+                            <div style="padding-top: 10px;">
                                 <b><i class="fa fa-calendar" aria-hidden="true" ></i> <?php echo $this->__("Event date and time")?>   </b> <br />
                                 <div style="padding: 0px 20px;">
                                     <b> <?php echo $this->__("Start date")?>:</b> <?php echo date_format($startAt,"M - d, Y"); ?>,  <b><?php echo $this->__("Start time")?> :</b> <?php echo date_format($startAt,"h:i A"); ?> <br />
                                     <b> <?php echo $this->__("End date")?>: </b> <?php echo date_format($endAt,"M - d, Y"); ?> ,  <b><?php echo $this->__("End time")?> :</b> <?php echo date_format($endAt,"h:i A"); ?>
                                 </div>
                             </div>
-                            <div>
+                            <div style="padding-top: 10px;">
                                 <b> <i class="fa fa-map-marker" aria-hidden="true" ></i> <?php echo $this->__("Event location")?> </b><br />
                             <div style="padding: 0px 20px;">
                                 <?php echo $_event->getAddress() ?>, <?php echo $_event->getCity() ?> - <?php echo $_event->getZip() ?>, <?php echo $_event->getCountry() ?>
@@ -123,7 +123,11 @@
     <div class="col-sm-12" style="overflow: hidden">
         <?php echo $this->getPagerHtml(); ?>
     </div>
-        <?php echo Mage::helper('julfiker_party')->__('There is no events at this moment');?>
+    <div class="col-sm-12">
+        <p style="padding-top: 10px;">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+             <?php echo Mage::helper('julfiker_party')->__('No events available!');?>
+        </p>
     </div>
 <?php endif;?>
 </div>

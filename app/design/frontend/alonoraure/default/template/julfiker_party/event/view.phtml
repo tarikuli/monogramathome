@@ -238,9 +238,40 @@ $endAt = date_create($_event->getEndAt());
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><?php echo $this->__("Action")?>
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li><a href="#" href="#" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-id="<?php echo $_event->getId()?>" data-target="#invite_popup" >Invite</a></li>
-                    <li><a href="#"  data-backdrop="static" data-keyboard="false"  data-id="<?php echo $_event->getId()?>" data-toggle="modal"  data-target="#going_popup">Going</a></li>
-                    <li><a href="#">Event order</a></li>
+                    <li>
+                        <a href="#" href="#"
+                           data-backdrop="static"
+                           data-keyboard="false"
+                           data-toggle="modal"
+                           data-id="<?php echo $_event->getId()?>"
+                           data-target="#invite_popup" ><?php echo $this->__("Personalize Invitation");?></a>
+                    </li>
+                    <li><a href="#"
+                           data-backdrop="static"
+                           data-keyboard="false"
+                           data-toggle="modal"
+                           data-id="<?php echo $_event->getId()?>"
+                           data-target="#invite_popup"><?php echo $this->__("Invite guests")?></a></li>
+                    <li>
+                        <a href="#">
+                            <?php echo $this->__("View Guest RSVPs");?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <?php echo $this->__("Place an order");?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <?php echo $this->__("Edit event");?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo Mage::getUrl("party/event/delete", array('id'=>$_event->getId()))?>" onclick="return confirm('Want to delete?')">
+                            <?php echo $this->__("Delete event");?>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
