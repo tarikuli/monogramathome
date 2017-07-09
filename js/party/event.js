@@ -125,7 +125,7 @@
         function populate(selector) {
             var select = $(selector);
             var hours, minutes, ampm;
-            for(var i = 420; i <= 1320; i += 15){
+            for(var i = 0; i <= 1440; i += 30){
                 hours = Math.floor(i / 60);
                 minutes = i % 60;
                 if (minutes < 10){
