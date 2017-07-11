@@ -178,4 +178,42 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
         } else
         $this->_redirectReferer();
     }
+
+    public function confirmAction() {
+        $this->loadLayout();
+        $this->_initLayoutMessages('catalog/session');
+        $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
+        $this->renderLayout();
+        $eventId = $this->getRequest()->get('event_id');
+        $status = $this->getRequest()->get('status');
+        $_event = Mage::getModel('julfiker_party/event')->load($eventId);
+        if ($_event && $status) {
+            if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+                if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                    $breadcrumbBlock->addCrumb(
+                        'home',
+                        array(
+                            'label'    => Mage::helper('julfiker_party')->__('Home'),
+                            'link'     => Mage::getUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'event',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('Sip And Shop Event'),
+                            'link'  => $_event->getEventUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'confirm',
+                        array(
+                            'label' => "Confirm",
+                            'link'  => '',
+                        )
+                    );
+                }
+            }
+        }
+    }
 }
