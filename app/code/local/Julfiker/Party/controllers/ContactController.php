@@ -137,6 +137,9 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
                 }
             }
         }
+        else {
+            Mage::getSingleton('customer/session')->addError("You don't have privilege to add contact!");
+        }
         $this->_redirectReferer();
     }
 }

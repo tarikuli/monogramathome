@@ -239,6 +239,11 @@ $endAt = date_create($_event->getEndAt());
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li>
+                        <a href="<?php echo Mage::getUrl("party/event/confirm", array('id' => $_event->getId()))?>">
+                            <?php echo $this->__("Join this event");?>
+                        </a>
+                    </li>
+                    <li>
                         <a href="#" href="#"
                            data-backdrop="static"
                            data-keyboard="false"
@@ -258,7 +263,7 @@ $endAt = date_create($_event->getEndAt());
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="<?php echo Mage::getUrl("party/event/placeOder", array('id' => $_event->getId()))?>">
                             <?php echo $this->__("Place an order");?>
                         </a>
                     </li>
@@ -268,7 +273,7 @@ $endAt = date_create($_event->getEndAt());
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo Mage::getUrl("party/event/delete", array('id'=>$_event->getId()))?>" onclick="return confirm('Want to delete?')">
+                        <a href="<?php echo Mage::getUrl("party/event/delete", array('id' => $_event->getId()))?>" onclick="return confirm('Want to delete?')">
                             <?php echo $this->__("Delete event");?>
                         </a>
                     </li>

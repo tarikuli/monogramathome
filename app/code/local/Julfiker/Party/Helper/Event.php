@@ -123,6 +123,54 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Checking the customer is joined this event
+     *
+     * @param $eventId
+     * @return bool
+     */
+    public function isCustomerJoinedInEvent($eventId) {
+        $customerId = 0;
+        $participates = 0;
+
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customerId = $customer->getId();
+        }
+
+        if ($customerId) {
+            $participates = $this->getParticipates()
+                ->addFieldToFilter('status', self::STATUS_JOINED)
+                ->addFieldToFilter('event_id', $eventId)
+                ->addFieldToFilter('customer_id', $customerId)
+                ->getSize();
+        }
+        return ($participates > 0)? true:false;
+    }
+
+    /**
+     * Checking event is expired or not
+     * @param $eventId
+     * @return bool
+     */
+    public function isEventExpired($eventId) {
+        $event = Mage::getResourceModel('julfiker_party/event_collection')
+            ->addStoreFilter(Mage::app()->getStore())
+            ->addFieldToFilter('status', 1)
+            ->addFieldToFilter('entity_id', $eventId)
+            ->addFieldToFilter(
+                'end_at',
+                array(
+                    'gteq' => date ("Y-m-d H:i:s", time())
+                ))
+            ->getFirstItem();
+
+        if ($event->getId() == $eventId)
+            return false;
+
+        return true;
+    }
+
+    /**
      * Calculate count already Interested user based on event
      *
      * @param $eventId
