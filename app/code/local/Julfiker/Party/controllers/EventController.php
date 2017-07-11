@@ -274,6 +274,38 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         $this->_redirectReferer();
     }
 
+    /**
+     * Place an order action
+     */
+    public function placeOderAction() {
+        $eventId = $this->getRequest()->get('id');
+        $event = Mage::getResourceModel('julfiker_party/event_collection')
+            ->addStoreFilter(Mage::app()->getStore())
+            ->addFieldToFilter('status', 1)
+            ->addFieldToFilter('entity_id', $eventId)
+            ->addFieldToFilter(
+                'end_at',
+                array(
+                    'gteq' => date ("Y-m-d H:i:s", time())
+                ))
+            ->getFirstItem();
+
+        if ($event && $event->getId()) {
+            $isJoined = Mage::helper("julfiker_party/event")->isCustomerJoinedInEvent($event->getId());
+            if ($isJoined) {
+                Mage::getSingleton('core/session')->setEventId($eventId);
+                Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('shop.html'));
+            }
+            else {
+                Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('You must be joined in this event, then you can  place an order!'));
+                return $this->_redirectReferer();
+            }
+        }
+        else {
+            Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('Event not available or it might be expired!'));
+            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('party/event'));
+        }
+    }
 
     public function orderAction() {
         $this->loadLayout();
