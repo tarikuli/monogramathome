@@ -187,4 +187,12 @@
             <block type="julfiker_party/contact_list" name="view_all_contacts" template="julfiker_party/contact/list.phtml" />
         </reference>
     </julfiker_party_contact_index>
+
+    <julfiker_party_participate_confirm translate="label" module="julfiker_party">
+        <label>Event confirmation page</label>
+        <update handle="page_one_column" />
+        <reference name="content">
+            <block type="julfiker_party/event_view" name="event_confirm" template="julfiker_party/event/confirm.phtml" />
+        </reference>
+    </julfiker_party_participate_confirm>
 </layout>
