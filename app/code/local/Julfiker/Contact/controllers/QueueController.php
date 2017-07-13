@@ -248,7 +248,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                 $stores = $group->getStores();
                 foreach ($stores as $store) {
                     $config = Mage::getModel('core/config');
-                    $value = "http://".$website->getName()."/";
+                    $value = "https://".$website->getName()."/";
                     $sValue = "https://".$website->getName()."/";
                     $config->saveConfig('web/unsecure/base_url',$value,'stores',$store->getId());
                     $config->saveConfig('web/secure/base_url',$sValue,'stores',$store->getId());
