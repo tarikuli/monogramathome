@@ -8,20 +8,125 @@
     <img src="{{skin url='images/email-banner.jpg'}}" />
 </div>
 
-<table cellpadding="0" cellspacing="0" border="0">
-   <tr>
-        <td><h1>WELCOME HOME!</h1></td>
-   </tr>
-   <tr>
-        <td>Geeta,</td>
-   </tr>
-    <tr>
-        <td>
-            <p>
-                Wecome content here..
-            </p>
-        </td>
-    </tr>
-</table>
+<div style="padding: 20px 40px;">
+    <div style="border:1px solid #ec008b; padding: 10px; text-align: center">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="width: 100%">
+           <tr>
+                <td><h4 style="font-size: 16px; font-weight: normal; padding: 0; margin: 0">{{var host}},</h4></td>
+           </tr>
+            <tr>
+                <td style="vertical-align: middle">
+                    <p>
+                        Welcome content here..
+                    </p>
+                </td>
+            </tr>
+            <tr><td>Talk to you soon</td></tr>
+            {{if hostEmail }}
+            <tr>
+                <td>
 
+                    <p>
+                        Sign in to your account using credential <br />
+                        <span style="color: #ec008b">Email : {{var hostEmail}}</span>  <br />
+                        <span style="color: #ec008b">Password: {{var hostPassword}} </span>
+                    </p>
+                </td>
+            </tr>
+            <tr><td><p>You can change your password once your login</p></td></tr>
+            {{/if}}
+        </table>
+    </div>
+</div>
+
+<!--Event information -->
+<div style="padding: 10px 40px;">
+    <table style="width: 100%; text-align: center">
+        <tr><td><h1>Your event details</h1></td></tr>
+        <tr><td style="font-weight: bold;text-transform: uppercase">Share your invitation link</td></tr>
+        <tr><td><p>{{var eventSharedUrl }}</p></td></tr>
+        <tr>
+            <td>
+                <table style="width: 100%; text-align: left; padding-top: 20px;">
+                    <tr>
+                        <td width="60%">Event date and time</td>
+                        <td width="40%">Event location</td>
+                    </tr>
+                    <tr>
+                        <td width="60%">
+                            {{var start_at}} <br />
+                            {{var end_at}}
+                        </td>
+                        <td width="40%">
+                            {{var location}}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!-- Other information -->
+<div style="padding: 10px 40px;">
+    <div style="background: #eee">
+        <table style="width: 100%; text-align: center">
+            <tr>
+                <td colspan="2"><h1>Your Next Step</h1></td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; width: 20%;">
+                    <div style="border: 1px solid #ec008b; border-radius: 50%; width: 50px; height: 50px; font-size: 25px; margin: auto; color:#ec008b ">
+                        <div style="padding-top: 10px">1</div>
+                    </div>
+                </td>
+                <td style="vertical-align: top; width: 80%; text-align: center">
+                    <div style="padding: 5px">
+                        <h1 style="color: #5d5d5d; padding: 0; margin: 0">Invite Your Guests</h1>
+                        Content...
+                    </div>
+                    <p>
+                        <a href="{{var eventUrl }}" style="background: #ec008b; border: 0; color: #fff; padding: 7px 35px; text-decoration: none">Invite</a>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; width: 20%;">
+                    <div style="border: 1px solid #ec008b; border-radius: 50%; width: 50px; height: 50px; font-size: 25px; margin: auto; color:#ec008b ">
+                        <div style="padding-top: 10px; color:#ec008b">2</div>
+                    </div>
+                </td>
+                <td style="vertical-align: top; width: 80%; text-align: center">
+                    <div style="padding: 5px">
+                        <h1 style="color: #5d5d5d; padding: 0; margin: 0">Start Your Wish List</h1>
+                        Content...
+                    </div>
+                    <p>
+                        <a href="{{var loginUrl}}" style="background: #ec008b; border: 0; color: #fff; padding: 7px 35px; text-decoration: none">Sign In</a>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; width: 20%;">
+                    <div style="border: 1px solid #ec008b; border-radius: 50%; width: 50px; height: 50px; font-size: 25px; margin: auto; color:#ec008b ">
+                        <div style="padding-top: 10px">3</div>
+                    </div>
+                </td>
+                <td style="vertical-align: top; width: 80%; text-align: center">
+                    <div style="padding: 5px">
+                        <h1 style="color: #5d5d5d; padding: 0; margin: 0">Invite Your Guests</h1>
+                        Content...
+                    </div>
+                    <div style="padding: 20px 10px">
+                        <div style="border: 1px solid #ec008b; background: #fff">
+                            <div style="padding: 5px; text-align: center">
+                                {{var eventUrl }}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 {{template config_path="design/email/footer"}}

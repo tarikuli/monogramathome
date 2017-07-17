@@ -68,7 +68,7 @@ class Julfiker_Party_CustomerController extends Mage_Core_Controller_Front_Actio
             ->setEmail($request->getPost('email'))
             ->setDob($date)
             ->setUsername($request->getPost('username'))
-            ->setPassword($request->getPost('password3'));
+            ->setPassword($request->getPost('password'));
         try{
             $customer->save();
             $this->createAddress($customer);
@@ -78,6 +78,7 @@ class Julfiker_Party_CustomerController extends Mage_Core_Controller_Front_Actio
                     "id" => $customer->getId(),
                     "name" => $customer->getName()
                 );
+                Mage::getSingleton('core/session')->setHostCredential(array("email" => $request->getPost('email'), "password" => $request->getPost('password')));
             }
             else {
                 Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Member was added successfully!'));

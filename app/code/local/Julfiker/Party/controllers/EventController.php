@@ -211,6 +211,11 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
                     $event = $this->_initEvent();
                     $event->addData($data);
                     $event->save();
+
+                    //Welcome email to host
+                    if ($event->getHost() != $event->getCreatedBy())
+                    Mage::helper("julfiker_party/sender")->sendHostWelcomeEmail($event->getId());
+
                     Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Event was created successfully!'));
                     $this->_redirect('*/*/');
                     return;
@@ -364,6 +369,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
                 Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('party/event'));
             }
         } else {
+            Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('party/event/create'));
             Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
         }
     }
