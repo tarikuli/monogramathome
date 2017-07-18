@@ -403,4 +403,13 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
         return false;
     }
 
+    /**
+     * Event title by host
+     *
+     * @param $customerId
+     * @return string
+     */
+    public function getEventTitle($customerId) {
+        return $this->getHostName($customerId).'s '.Mage::helper('julfiker_party')->__("Event");
+    }
 }

@@ -239,7 +239,7 @@ $endAt = date_create($_event->getEndAt());
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="<?php echo Mage::getUrl("party/event/confirm", array('id' => $_event->getId()))?>">
+                        <a href="<?php echo Mage::getUrl("party/participate/confirm", array("_query"=>array('event_id' => $_event->getId())))?>">
                             <?php echo $this->__("Join this event");?>
                         </a>
                     </li>

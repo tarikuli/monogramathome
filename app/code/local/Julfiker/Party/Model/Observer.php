@@ -23,7 +23,13 @@
  */
 class Julfiker_Party_Model_Observer
 {
-
+    /**
+     * When checkout success done automatically call this method
+     *
+     * @param $observer
+     * @throws Exception
+     * @throws Mage_Core_Exception
+     */
     public function setEventOrder($observer) {
         $orderIds = $observer->getOrderIds();
         $eventId = Mage::getSingleton('core/session')->getEventId();
@@ -43,5 +49,19 @@ class Julfiker_Party_Model_Observer
                 $orderItem->save();
             }
         }
+    }
+
+    /**
+     * Once customer register successfully
+     *
+     * @param $observer
+     */
+    public function customerRegisterOrLoginSuccess($observer){
+        $urlToContinue = Mage::getSingleton('customer/session')->getBeforeAuthUrl();
+        $isContinue = Mage::getSingleton('customer/session')->getContinueToEvent();
+        if ($isContinue)
+        Mage::getSingleton('customer/session')->addNotice(Mage::helper('julfiker_party')->__('Please continue with event response by <a href="'.$urlToContinue.'">click here</a>'));
+
+        Mage::getSingleton('customer/session')->unsContinueToEvent();
     }
 }

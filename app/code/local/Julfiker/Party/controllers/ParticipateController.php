@@ -16,6 +16,11 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
         return $customer;
     }
 
+    /**
+     * Event invitation action
+     *
+     * @throws Exception
+     */
     public function inviteAction() {
         $isInvited = false;
         $eventId = $this->getRequest()->get('event_id');
@@ -98,18 +103,22 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
         $this->_redirectUrl($_event->getEventUrl());
     }
 
-
-    public function goingAction() {
+    /**
+     * Perform to join functionality
+     *
+     * @param $eventId
+     * @return Zend_Controller_Response_Abstract
+     * @throws Exception
+     */
+    public function going($eventId) {
         $customer = $this->_initCustomer();
         $customerId = ($customer->getId())?$customer->getId():0;
         if ($customerId) {
-            $eventId = $this->getRequest()->get('event_id');
             $event = Mage::getModel('julfiker_party/event');
             $status = Mage::helper('julfiker_party/event')->getAllEventStatus();
-            if ($eventId) {
-                $event->setStoreId(Mage::app()->getStore()->getId())
+            $event->setStoreId(Mage::app()->getStore()->getId())
                     ->load($eventId);
-            }
+
             $partycipate = Mage::getModel('julfiker_party/partyparticipate');
             $id = $this->getRequest()->get("id");
             if ($id)
@@ -121,6 +130,10 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
             $partycipate->setGuest($guest);
             $partycipate->setCustomerId($customerId);
             $partycipate->save();
+
+            $eventTitle = Mage::helper('julfiker_party/event')->getEventTitle($event->getHost());
+            Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Thank you very much for your participation! As you have joined please continue shopping for '.$eventTitle));
+            return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('shop.html'));
         }
         else {
             Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('You must be logged in to perform this action!'));
@@ -128,17 +141,22 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
         $this->_redirectReferer();
     }
 
-    public function interestedAction() {
+    /**
+     * Functionality to update status with may be or interest
+     *
+     * @param $eventId
+     * @return Zend_Controller_Response_Abstract
+     * @throws Exception
+     */
+    public function interest($eventId) {
         $customer = $this->_initCustomer();
         $customerId = ($customer->getId())?$customer->getId():0;
         if ($customerId) {
-            $eventId = $this->getRequest()->get('event_id');
             $event = Mage::getModel('julfiker_party/event');
             $status = Mage::helper('julfiker_party/event')->getAllEventStatus();
-            if ($eventId) {
-                $event->setStoreId(Mage::app()->getStore()->getId())
+            $event->setStoreId(Mage::app()->getStore()->getId())
                     ->load($eventId);
-            }
+
             $partycipate = Mage::getModel('julfiker_party/partyparticipate');
             $id = $this->getRequest()->get("id");
             if ($id)
@@ -149,6 +167,8 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
             $partycipate->setGuest(0);
             $partycipate->setCustomerId($customerId);
             $partycipate->save();
+            Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Thank you very much for your participation!'));
+            return Mage::app()->getFrontController()->getResponse()->setRedirect($event->getEventUrl());
         }
         else {
             Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('You must be logged in to perform this action!'));
@@ -156,13 +176,66 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
         $this->_redirectReferer();
     }
 
+    /**
+     * Functionality to update status with No or Reject
+     *
+     * @param $eventId
+     * @return Zend_Controller_Response_Abstract
+     * @throws Exception
+     */
+    public function reject($eventId) {
+        $customer = $this->_initCustomer();
+        $customerId = ($customer->getId())?$customer->getId():0;
+        if ($customerId) {
+            $event = Mage::getModel('julfiker_party/event');
+            $status = Mage::helper('julfiker_party/event')->getAllEventStatus();
+            $event->setStoreId(Mage::app()->getStore()->getId())
+                ->load($eventId);
+
+            $partycipate = Mage::getModel('julfiker_party/partyparticipate');
+            $id = $this->getRequest()->get("id");
+            if ($id)
+                $partycipate->load($id);
+
+            $partycipate->setEventId($eventId);
+            $partycipate->setStatus($status['STATUS_INVITE_REJECT']);
+            $partycipate->setGuest(0);
+            $partycipate->setCustomerId($customerId);
+            $partycipate->save();
+            Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Thank you very much for your participation!'));
+            return Mage::app()->getFrontController()->getResponse()->setRedirect($event->getEventUrl());
+        }
+        else {
+            Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('You must be logged in to perform this action!'));
+        }
+        $this->_redirectReferer();
+    }
+
+    /**
+     * Participation response action for an event
+     *
+     * @return Zend_Controller_Response_Abstract
+     * @throws Exception
+     * @throws Mage_Core_Exception
+     */
     public function responseAction() {
+
+        if (!Mage::getSingleton("customer/session")->isLoggedIn()) {
+            $currentUrl = Mage::helper('core/url')->getCurrentUrl();
+            Mage::getSingleton('customer/session')->setBeforeAuthUrl($currentUrl);
+            Mage::getSingleton('customer/session')->setContinueToEvent(true);
+            Mage::getSingleton('customer/session')->addNotice(Mage::helper('julfiker_party')->__('Please continue with event response by login or create an account, its free!'));
+            return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
+        }
+
         $id = $this->getRequest()->get('id');
         $status = $this->getRequest()->get('status');
-        if ($id && $status) {
-            $participate = Mage::getModel('julfiker_party/partyparticipate')->load($id);
-            $participate->getInviteEmail();
+        $eventId = $this->getRequest()->get('event_id');
 
+        $participate = Mage::getModel('julfiker_party/partyparticipate')->load($id);
+        $statusConstant = Mage::helper('julfiker_party/event')->getAllEventStatus();
+        if ($participate->getId()) {
+            $participate->getInviteEmail();
             $customer = Mage::getModel("customer/customer");
             $customer->setWebsiteId(Mage::app()->getWebsite()->getId());
             $customer->loadByEmail($participate->getInviteEmail());
@@ -171,23 +244,48 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
             }
             $participate->setStatus($status);
             $participate->save();
-
             $_event = $participate = Mage::getModel('julfiker_party/event')->load($participate->getEventId());
             Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Thank you for your response!'));
             $this->_redirectUrl($_event->getEventUrl());
-        } else
+        }
+        elseif ($eventId and $statusConstant['STATUS_JOINED'] == $status) {
+            $this->going($eventId);
+        }
+        elseif ($eventId and $statusConstant['STATUS_INTERESTED'] == $status) {
+            $this->interest($eventId);
+        }
+        elseif ($eventId and $statusConstant['STATUS_INVITE_REJECT'] == $status) {
+            $this->reject($eventId);
+        }else
         $this->_redirectReferer();
     }
 
+    /**
+     * Participation confirmation page
+     *
+     * @return Zend_Controller_Response_Abstract
+     */
     public function confirmAction() {
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
-        $this->renderLayout();
-        $eventId = $this->getRequest()->get('event_id');
+
+        $id = $this->getRequest()->get('id');
+        $participate = Mage::getModel('julfiker_party/partyparticipate')->load($id);
+        if ($participate->getId()) {
+            $_event = Mage::getModel('julfiker_party/event')->load($participate->getEventId());
+            Mage::register('current_participate', $participate);
+        }
+        else if ($eventId = $this->getRequest()->get('event_id')) {
+            $_event = Mage::getModel('julfiker_party/event')->load($eventId);
+        }
+        else {
+            return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('events'));
+        }
+
+        Mage::register('current_event', $_event);
         $status = $this->getRequest()->get('status');
-        $_event = Mage::getModel('julfiker_party/event')->load($eventId);
         if ($_event && $status) {
             if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
                 if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
@@ -215,5 +313,8 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
                 }
             }
         }
+
+        $this->renderLayout();
     }
+
 }

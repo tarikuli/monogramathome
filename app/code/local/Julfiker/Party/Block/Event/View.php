@@ -42,41 +42,83 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return Mage::registry('current_event');
     }
 
+    /**
+     * Get current participate
+     *
+     * @return mixed
+     */
+    public function getCurrentParticipate() {
+        return Mage::registry('current_participate');
+    }
+
+    /**
+     * Get request status
+     *
+     * @return mixed
+     */
+    public function getRequestStatus() {
+        return Mage::registry('request_status');
+    }
+
+    /**
+     * @return int
+     */
     public function getTotalInvites() {
         $event = $this->getCurrentEvent();
         return $this->_eventHelper()->countInvites($event->getId());
     }
 
+    /**
+     * @return int
+     */
     public function getTotalParticipates() {
         $event = $this->getCurrentEvent();
         return $this->_eventHelper()->countTotalParticipates($event->getId());
     }
 
+    /**
+     * @return int
+     */
     public function getTotalJoined() {
         $event = $this->getCurrentEvent();
         return $this->_eventHelper()->countJoined($event->getId());
     }
 
+    /**
+     * @return int
+     */
     public function getTotalInterested() {
         $event = $this->getCurrentEvent();
         return $this->_eventHelper()->countInterested($event->getId());
     }
 
+    /**
+     * @return int
+     */
     public function getTotalReject() {
         $event = $this->getCurrentEvent();
         return $this->_eventHelper()->countInviteRejected($event->getId());
     }
 
+    /**
+     * @return int
+     */
     public function getTotalOrderAmount() {
         $event = $this->getCurrentEvent();
         return $this->_eventHelper()->sumOrders($event->getId());
     }
 
+    /**
+     * @return mixed
+     */
     public function getTotalOrders() {
         $event = $this->getCurrentEvent();
         return $this->_eventHelper()->countOrders($event->getId());
     }
 
+    /**
+     * @return float
+     */
     public function getPercentageTotalOrders() {
         $baseTotal = 13;
         $total = $this->getTotalOrders();
@@ -84,6 +126,9 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return round($percent);
     }
 
+    /**
+     * @return float
+     */
     public function getPercentageJoined() {
         $baseTotal = 10;
         $total = $this->getTotalJoined();
@@ -91,6 +136,9 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return round($percent);
     }
 
+    /**
+     * @return float
+     */
     public function getPercentageInterested() {
         $baseTotal = $this->getTotalParticipates();
         $total = $this->getTotalInterested();
@@ -98,6 +146,9 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return round($percent);
     }
 
+    /**
+     * @return float
+     */
     public function getPercentageInvites() {
         $baseTotal = 40;
         $total = $this->getTotalInvites();
@@ -105,6 +156,9 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return round($percent);
     }
 
+    /**
+     * @return float
+     */
     public function getPercentageRejected() {
         $baseTotal = $this->getTotalParticipates();
         $total = $this->getTotalReject();
@@ -112,6 +166,9 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return round($percent);
     }
 
+    /**
+     * @return mixed
+     */
     public function getCustomers() {
         return Mage::helper("julfiker_party/event")->getAllMembers();
     }
@@ -125,10 +182,32 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
         return Mage::helper("julfiker_party/event")->getAllContacts();
     }
 
+    /**
+     * @param $totalAmount
+     * @param $percentAmount
+     * @return float|int
+     */
     private function _percentage($totalAmount, $percentAmount) {
         if ($totalAmount && $percentAmount)
         return ($percentAmount * 100)/$totalAmount;
 
         return 0;
+    }
+
+    /**
+     * Response url
+     *
+     * @param $status
+     * @return string
+     */
+    public function responseUrl($status) {
+        $params = array("status" => $status);
+        if ($participate = $this->getCurrentParticipate()) {
+            $params['id'] = $participate->getId();
+        }
+        if ($event = $this->getCurrentEvent()) {
+            $params['event_id'] = $event->getId();
+        }
+       return Mage::getUrl("party/participate/response", array("_query" => $params));
     }
 }

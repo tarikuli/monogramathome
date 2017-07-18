@@ -163,6 +163,24 @@
                     </checkout_onepage_controller_success_action_event_order>
                 </observers>
             </checkout_onepage_controller_success_action>
+            <customer_register_success>
+                <observers>
+                    <customer_register_success_customerlogin>
+                        <type>singleton</type>
+                        <class>Julfiker_Party_Model_Observer</class>
+                        <method>customerRegisterOrLoginSuccess</method>
+                    </customer_register_success_customerlogin>
+                </observers>
+            </customer_register_success>
+            <customer_login>
+                <observers>
+                    <customer_login>
+                        <type>singleton</type>
+                        <class>Julfiker_Party_Model_Observer</class>
+                        <method>customerRegisterOrLoginSuccess</method>
+                    </customer_login>
+                </observers>
+            </customer_login>
         </events>
         <routers>
             <julfiker_party>

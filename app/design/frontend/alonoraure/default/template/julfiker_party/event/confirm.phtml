@@ -1,3 +1,8 @@
+<?php $_event = $this->getCurrentEvent();?>
+<?php
+$startAt = date_create($_event->getStartAt());
+$endAt = date_create($_event->getEndAt());
+?>
 <div class="col-sm-12">
     <div class="row">
         <div class="col-sm-6">
@@ -6,19 +11,19 @@
                 <div style="font-size:24px; padding: 20px; text-align: center">You are invited to..</div>
                 <!--  event info -->
                 <div style="padding-top: 20px; text-align: center">
-                    <h1 style="font-size: 24px; color: #ec008b">Test's Sip and Shop event</h1>
-                    <div style="font-size: 18px;"> Thursday, August 2017 </div>
+                    <h1 style="font-size: 24px; color: #ec008b"><?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>'s <?php echo $this->__("Sip and Shop event")?> </h1>
+                    <div style="font-size: 18px;"><?php echo date_format($startAt,"D, M Y"); ?></div>
                     <div style="color: #8b8b8b;">
-                        Start date: Jul/12,17 Start time: 10:00 AM <br />
-                        End date: Jul/12,17 End time: 01:00 PM
+                        <?php echo $this->__("Start date")?>: <?php echo date_format($startAt,"M/d,y"); ?> <?php echo $this->__("Start time")?>: <?php echo date_format($startAt,"h:i A"); ?> <br />
+                        <?php echo $this->__("End date")?>:  <?php echo date_format($endAt,"M/d,y"); ?> <?php echo $this->__("End time")?>:  <?php echo date_format($endAt,"h:i A"); ?>
                     </div>
                     <div style="padding: 20px 0px; text-align: center">
-                        <div style="font-size:18px; color:#ec008b">Morise hours</div>
-                        <div style="color: #8b8b8b;">Address....</div>
+                        <div style="font-size:18px; color:#ec008b">Location</div>
+                        <div style="color: #8b8b8b;"><?php echo $_event->getAddress() ?>, <?php echo $_event->getCity() ?> - <?php echo $_event->getZip() ?>, <?php echo $_event->getCountry() ?></div>
                     </div>
 
                     <div style="text-align: center">
-                        <h2 style="font-size: 18px;"> Hosted By - Dany</h2>
+                        <h2 style="font-size: 18px;"> Hosted By - <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?></h2>
                     </div>
                 </div>
             </div>
@@ -28,31 +33,31 @@
             <!-- Host message -->
             <div style="background: #eee">
                 <div style="padding: 20px 0px; text-align: center">
-                    <h1 style="font-size: 18px;">A Message From Your Host</h1>
+                    <h1 style="font-size: 18px;"><?php echo $this->__("A Message From Your Host")?></h1>
                     <div style="color:#8b8b8b;">
                         Enjoy an evening on wine and cheese and experience <br />
                         They joy of the shopping... <br />
-                        Thank you - Dany
+                        Thank you - <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>
                     </div>
                 </div>
             </div>
 
             <div style="padding: 20px 0px; text-align: center">
-                <h1 style="font-size: 30px;">RSVP</h1>
-                <div>Will you be attending this event?</div>
+                <h1 style="font-size: 30px;"><?php echo $this->__("RSVP")?></h1>
+                <div><?php echo $this->__("Will you be attending this event?")?></div>
             </div>
             <div>
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2" style="text-align: center">
                         <div class="row">
-                            <div class="col-sm-4">
-                                <a href="" style="border-color:#ec008b" class="btn btn-default">YES</a>
+                            <div class="col-xs-4">
+                                <a href="<?php echo $this->responseUrl(4)?>" style="border-color:#ec008b" class="btn btn-default"><?php echo $this->__("YES")?></a>
                             </div>
-                            <div class="col-sm-4">
-                                <a href="" style="border-color:#ec008b" class="btn btn-default">NO</a>
+                            <div class="col-xs-4">
+                                <a href="<?php echo $this->responseUrl(2)?>" style="border-color:#ec008b" class="btn btn-default"><?php echo $this->__("NO")?></a>
                             </div>
-                            <div class="col-sm-4">
-                                <a href="" style="border-color:#ec008b" class="btn btn-default">May be</a>
+                            <div class="col-xs-4">
+                                <a href="<?php echo $this->responseUrl(3)?>" style="border-color:#ec008b" class="btn btn-default"><?php echo $this->__("May be")?></a>
                             </div>
                         </div>
                     </div>
@@ -60,10 +65,10 @@
                 </div>
             </div>
             <div style="text-align: center; padding: 20px 0px;">
-                <h3 style="color:#ec008b">Want to invite a friend?</h3>
+                <h3 style="color:#ec008b"><?php echo $this->__("Want to invite a friend?")?></h3>
                 <div>
-                    <span style="color:#ec008b">Invite url </span>
-                    <span style="border: 1px solid #ccc; padding: 5px;">http://tst.monogramathome.com/event</span>
+                    <span style="color:#ec008b"><?php echo $this->__("Invite url")?> </span>
+                    <span style="border: 1px solid #ccc; padding: 5px;"><?php echo $_event->getEventUrl()?></span>
                 </div>
                 <div style="text-align: center; padding-top:10px;">
                     <!-- Go to www.addthis.com/dashboard to customize your tools -->
