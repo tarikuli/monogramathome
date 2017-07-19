@@ -132,6 +132,7 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
             $partycipate->save();
 
             $eventTitle = Mage::helper('julfiker_party/event')->getEventTitle($event->getHost());
+            Mage::getSingleton('core/session')->setEventId($eventId);
             Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Thank you very much for your participation! As you have joined please continue shopping for '.$eventTitle));
             return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('shop.html'));
         }

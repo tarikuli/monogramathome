@@ -10,73 +10,85 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
-        $this->_initLayoutMessages('customer/session');
-        $this->_initLayoutMessages('checkout/session');
-        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
-            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
-                $breadcrumbBlock->addCrumb(
-                    'home',
-                    array(
-                        'label' => Mage::helper('julfiker_party')->__('Home'),
-                        'link' => Mage::getUrl(),
-                    )
-                );
-                $breadcrumbBlock->addCrumb(
-                    'events',
-                    array(
-                        'label' => Mage::helper('julfiker_party')->__('View all events'),
-                        'link' => Mage::getUrl("julfiker_party/event"),
-                    )
-                );
-                $breadcrumbBlock->addCrumb(
-                    'contacts',
-                    array(
-                        'label' => Mage::helper('julfiker_party')->__('View all contacts'),
-                        'link' => '',
-                    )
-                );
+        if ($this->_checkPermission()) {
+            $this->loadLayout();
+            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('customer/session');
+            $this->_initLayoutMessages('checkout/session');
+            if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+                if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                    $breadcrumbBlock->addCrumb(
+                        'home',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('Home'),
+                            'link' => Mage::getUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'events',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('View all events'),
+                            'link' => Mage::getUrl("julfiker_party/event"),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'contacts',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('View all contacts'),
+                            'link' => '',
+                        )
+                    );
+                }
             }
+            $this->renderLayout();
         }
-        $this->renderLayout();
+        else {
+            Mage::getSingleton('customer/session')->addError("You don't have privilege to access contact!");
+        }
+        $this->_redirectReferer();
     }
 
     public function createAction() {
-        $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
-        $this->_initLayoutMessages('customer/session');
-        $this->_initLayoutMessages('checkout/session');
-        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
-            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
-                $breadcrumbBlock->addCrumb(
-                    'home',
-                    array(
-                        'label' => Mage::helper('julfiker_party')->__('Home'),
-                        'link'  => Mage::getUrl(),
-                    )
-                );
-                $breadcrumbBlock->addCrumb(
-                    'events',
-                    array(
-                        'label' => Mage::helper('julfiker_party')->__('View all events'),
-                        'link'  => Mage::getUrl("julfiker_party/event"),
-                    )
-                );
-                $breadcrumbBlock->addCrumb(
-                    'member',
-                    array(
-                        'label' => Mage::helper('julfiker_party')->__('Add new contact'),
-                        'link'  => '',
-                    )
-                );
+        if ($this->_checkPermission()) {
+            $this->loadLayout();
+            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('customer/session');
+            $this->_initLayoutMessages('checkout/session');
+            if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+                if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                    $breadcrumbBlock->addCrumb(
+                        'home',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('Home'),
+                            'link' => Mage::getUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'events',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('View all events'),
+                            'link' => Mage::getUrl("julfiker_party/event"),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'member',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('Add new contact'),
+                            'link' => '',
+                        )
+                    );
+                }
             }
+            $headBlock = $this->getLayout()->getBlock('head');
+            if ($headBlock) {
+                $headBlock->addLinkRel('canonical', Mage::helper('julfiker_party/event')->getEventsUrl());
+            }
+            $this->renderLayout();
         }
-        $headBlock = $this->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->addLinkRel('canonical', Mage::helper('julfiker_party/event')->getEventsUrl());
+        else {
+            Mage::getSingleton('customer/session')->addError("You don't have privilege to add contact!");
         }
-        $this->renderLayout();
+        $this->_redirectReferer();
     }
 
     /**
@@ -141,5 +153,11 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
             Mage::getSingleton('customer/session')->addError("You don't have privilege to add contact!");
         }
         $this->_redirectReferer();
+    }
+
+
+    private function _checkPermission() {
+        $evenHelper = Mage::helper("julfiker_party/event");
+        return $evenHelper->checkPermission();
     }
 }

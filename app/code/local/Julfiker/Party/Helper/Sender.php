@@ -60,8 +60,8 @@ class Julfiker_Party_Helper_Sender extends Mage_Core_Helper_Abstract
         $data['start_at'] =  date("d-m-Y h:i A", strtotime($event->getStartAt()));;
         $data['end_at'] = date("d-m-Y h:i A", strtotime($event->getEndAt()));;
         $data['host'] = $member->getName();
-        $data['joinUrl'] = Mage::getUrl("julfiker_party/participate/response");
-        $data['rejectUrl'] = Mage::getUrl("julfiker_party/participate/response");
+        $data['joinUrl'] = Mage::getUrl("julfiker_party/participate/confirm");
+        $data['rejectUrl'] = Mage::getUrl("julfiker_party/participate/confirm");
 
         return $data;
     }

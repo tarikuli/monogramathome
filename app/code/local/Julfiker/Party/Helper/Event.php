@@ -124,7 +124,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
 
     /**
      * Checking the customer is joined this event
-     *
+     * @depreciated
      * @param $eventId
      * @return bool
      */
@@ -360,6 +360,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     }
 
 
+
     /**
      * Checking permission for ambassador
      *
@@ -383,22 +384,62 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
         }
     }
 
-
     /**
-     * Checking permission for ambassador
+     * Checking permission for ambassador to access event page
+     * @param $event
      *
      * @return bool
      */
-    public function checkEventPermission() {
+    public function isAmbassador($event) {
         $sessionCustomer = Mage::getSingleton("customer/session");
         if($sessionCustomer->isLoggedIn()) {
             $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
             $group = Mage::getSingleton('customer/group')->load($groupId);
             $groupName = strtoupper($group->getCustomerGroupCode());
-            if ($groupName === self::AMBASSADOR_GROUP_NAME) {
+            if ($groupName === self::AMBASSADOR_GROUP_NAME
+                && $sessionCustomer->getCustomer()->getId() == $event->getCreatedBy()) {
                 return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * Checking customer is host for an event
+     * @param $event
+     * @return bool
+     */
+    public function isHost($event) {
+        $sessionCustomer = Mage::getSingleton("customer/session");
+        if($sessionCustomer->isLoggedIn()) {
+            if ($sessionCustomer->getCustomer()->getId() == $event->getHost())
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checking customer has joined this event
+     *
+     * @param $eventId
+     * @return bool
+     */
+    public function isJoined($eventId) {
+        $sessionCustomer = Mage::getSingleton("customer/session");
+        $customerId = "";
+        if($sessionCustomer->isLoggedIn())
+            $customerId = $sessionCustomer->getCustomer()->getId();
+
+        $participated = Mage::getModel('julfiker_party/partyparticipate')
+            ->getCollection()
+            ->addFieldToFilter('status', self::STATUS_JOINED)
+            ->addFieldToFilter('event_id', $eventId)
+            ->addFieldToFilter('customer_id', $customerId)
+            ->getFirstItem();
+
+        if ($participated->getId())
+            return $participated;
 
         return false;
     }

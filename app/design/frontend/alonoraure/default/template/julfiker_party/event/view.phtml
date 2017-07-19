@@ -106,7 +106,7 @@ $endAt = date_create($_event->getEndAt());
         </div>
     </div>
 
-    <?php if (Mage::helper("julfiker_party/event")->checkEventPermission()):?>
+    <?php if (Mage::helper("julfiker_party/event")->isHost($_event) || Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
     <!-- circle graph -->
     <div class="col-md-12" style="padding-top: 10px;">
         <div class="row">
@@ -230,53 +230,67 @@ $endAt = date_create($_event->getEndAt());
 <div class="col-md-12" style="padding-top: 20px;">
     <div class="row">
         <div class="col-xs-6">
-            <a href="#" class="btn btn-default"><?php echo $this->__("Manage Guest") ?></a>
-            <a href="#" class="btn btn-default"><?php echo $this->__("View Guest List") ?></a>
+            <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
+                <a href="#" class="btn btn-default"><?php echo $this->__("Manage Guest") ?></a>
+                <a href="#" class="btn btn-default"><?php echo $this->__("View Guest List") ?></a>
+            <?php elseif (Mage::helper("julfiker_party/event")->isHost($_event)):?>
+                <a href="<?php echo Mage::getUrl('party/contact/create/', array("_query"=> array("event_id"=>$_event->getId())))?>" class="btn btn-default"><?php echo $this->__("Create contact") ?></a>
+                <a href="<?php echo Mage::getUrl('party/contact/', array("_query"=> array("event_id"=>$_event->getId())))?>" class="btn btn-default"><?php echo $this->__("View contacts") ?></a>
+            <?php endif ?>
         </div>
         <div class="col-xs-6">
             <div class="dropdown pull-right">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><?php echo $this->__("Action")?>
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li>
-                        <a href="<?php echo Mage::getUrl("party/participate/confirm", array("_query"=>array('event_id' => $_event->getId())))?>">
-                            <?php echo $this->__("Join this event");?>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" href="#"
-                           data-backdrop="static"
-                           data-keyboard="false"
-                           data-toggle="modal"
-                           data-id="<?php echo $_event->getId()?>"
-                           data-target="#invite_popup" ><?php echo $this->__("Personalize Invitation");?></a>
-                    </li>
-                    <li><a href="#"
-                           data-backdrop="static"
-                           data-keyboard="false"
+                    <?php if (!Mage::helper("julfiker_party/event")->isJoined($_event->getId())):?>
+                        <li>
+                            <a href="<?php echo Mage::getUrl("party/participate/confirm", array("_query"=>array('event_id' => $_event->getId())))?>">
+                                <?php echo $this->__("Join this event");?>
+                            </a>
+                        </li>
+                    <?php endif ?>
+                    <?php if (Mage::helper("julfiker_party/event")->isHost($_event) || Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
+                        <li>
+                            <a href="#" href="#"
+                               data-backdrop="static"
+                               data-keyboard="false"
+                               data-toggle="modal"
+                               data-id="<?php echo $_event->getId()?>"
+                               data-target="#invite_popup" ><?php echo $this->__("Personalize Invitation");?></a>
+                        </li>
+                        <li><a href="#"
+                               data-backdrop="static"
+                               data-keyboard="false"
                            data-toggle="modal"
                            data-id="<?php echo $_event->getId()?>"
                            data-target="#invite_popup"><?php echo $this->__("Invite guests")?></a></li>
-                    <li>
-                        <a href="#">
-                            <?php echo $this->__("View Guest RSVPs");?>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?php echo Mage::getUrl("party/event/placeOder", array('id' => $_event->getId()))?>">
-                            <?php echo $this->__("Place an order");?>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <?php echo $this->__("Edit event");?>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?php echo Mage::getUrl("party/event/delete", array('id' => $_event->getId()))?>" onclick="return confirm('Want to delete?')">
-                            <?php echo $this->__("Delete event");?>
-                        </a>
-                    </li>
+
+                        <li>
+                            <a href="#">
+                                <?php echo $this->__("View Guest RSVPs");?>
+                            </a>
+                        </li>
+                    <?php endif ?>
+                    <?php if (Mage::helper("julfiker_party/event")->isJoined($_event->getId())):?>
+                        <li>
+                            <a href="<?php echo Mage::getUrl("party/event/placeOder", array('id' => $_event->getId()))?>">
+                                <?php echo $this->__("Place an order");?>
+                            </a>
+                        </li>
+                    <?php endif ?>
+                    <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
+                        <li>
+                            <a href="#">
+                                <?php echo $this->__("Edit event");?>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo Mage::getUrl("party/event/delete", array('id' => $_event->getId()))?>" onclick="return confirm('Want to delete?')">
+                                <?php echo $this->__("Delete event");?>
+                            </a>
+                        </li>
+                    <?php endif ?>
                 </ul>
             </div>
         </div>

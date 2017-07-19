@@ -296,13 +296,13 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             ->getFirstItem();
 
         if ($event && $event->getId()) {
-            $isJoined = Mage::helper("julfiker_party/event")->isCustomerJoinedInEvent($event->getId());
+            $isJoined = Mage::helper("julfiker_party/event")->isJoined($event->getId());
             if ($isJoined) {
                 Mage::getSingleton('core/session')->setEventId($eventId);
                 Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('shop.html'));
             }
             else {
-                Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('You must be joined in this event, then you can  place an order!'));
+                Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('You must be joined in this event, then you can place an order!'));
                 return $this->_redirectReferer();
             }
         }
