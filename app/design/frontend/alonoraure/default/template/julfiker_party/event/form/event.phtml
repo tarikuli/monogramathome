@@ -87,7 +87,8 @@
                 </label>
                 <div style="overflow: hidden">
                     <div class="col-xs-7" style="padding-left:0;">
-                        <input type='text' class="form-control required-entry validate-date-range validate-date date-range-custom_theme-from" id="start_at" name="event[start_at]" style="float: left; width: 90%" />
+                        <input type='text' readonly="readonly" class="form-control required-entry validate-date-range validate-date date-range-custom_theme-from" id="start_at" name="event[start_at]"
+                               style="float: left; width: 90%; cursor: pointer;  background-color: #fff;" />
                         <img title="Select date" id="_start_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
                     </div>
                     <div class="col-xs-2" style="padding-left:0;">
@@ -102,7 +103,8 @@
                 </label>
                 <div style="overflow: hidden">
                     <div class="col-xs-7" style="padding-left:0; overflow: hidden">
-                        <input type='text' class="form-control required-entry validate-date-range validate-date date-range-custom_theme-to" id="end_at" name="event[end_at]" style="float: left; width: 90%" />
+                        <input type='text'  readonly="readonly" class="form-control required-entry validate-date-range validate-date date-range-custom_theme-to" id="end_at" name="event[end_at]"
+                               style="float: left; width: 90%; cursor: pointer;  background-color: #fff;" />
                         <img title="Select date" id="_end_at" src="<?php echo $this->getSkinUrl('images/calendar.gif')?>" class="v-middle" style="float: left; padding-top: 10px">
                     </div>
                     <div class="col-xs-2" style="padding-left:0;">
@@ -136,7 +138,28 @@
             ifFormat : '%m/%e/%Y',
             button : '_start_at',
             align : 'Bl',
-            singleClick : true
+            singleClick : true,
+            disableFunc: function(date) {
+                var now= new Date();
+                if(date.getFullYear()<now.getFullYear())
+                {
+                    return true;
+                }
+                if(date.getFullYear()==now.getFullYear())
+                {
+                    if(date.getMonth()<now.getMonth())
+                    {
+                        return true;
+                    }
+                }
+                if(date.getMonth()==now.getMonth())
+                {
+                    if(date.getDate()<now.getDate())
+                    {
+                        return true;
+                    }
+                }
+            },
         });
 
         Calendar.setup({
@@ -144,7 +167,28 @@
             ifFormat : '%m/%e/%Y',
             button : '_end_at',
             align : 'Bl',
-            singleClick : true
+            singleClick : true,
+            disableFunc: function(date) {
+                var now= new Date();
+                if(date.getFullYear()<now.getFullYear())
+                {
+                    return true;
+                }
+                if(date.getFullYear()==now.getFullYear())
+                {
+                    if(date.getMonth()<now.getMonth())
+                    {
+                        return true;
+                    }
+                }
+                if(date.getMonth()==now.getMonth())
+                {
+                    if(date.getDate()<now.getDate())
+                    {
+                        return true;
+                    }
+                }
+            },
         });
 
         jQuery('#online_trigger').click(function() {
