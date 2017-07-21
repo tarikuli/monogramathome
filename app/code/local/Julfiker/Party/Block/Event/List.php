@@ -32,6 +32,8 @@ class Julfiker_Party_Block_Event_List extends Mage_Core_Block_Template
     public function _construct()
     {
         parent::_construct();
+        $search = $this->getRequest()->get('search');
+
         $events = Mage::getResourceModel('julfiker_party/event_collection')
                          ->addStoreFilter(Mage::app()->getStore())
                          ->addFieldToFilter('status', 1)
@@ -41,8 +43,25 @@ class Julfiker_Party_Block_Event_List extends Mage_Core_Block_Template
                             'gteq' => date ("Y-m-d H:i:s", time())
                         )
         );
+
+        if ($search) {
+            $events->addFieldToFilter(
+                'title',
+                array(array('like' => $search."%",'like' => "%".$search."%"))
+            );
+        }
         $events->setOrder('start_at', 'asc');
         $this->setEvents($events);
+    }
+
+    /**
+     * Get search string
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function getSearchString() {
+        return $this->getRequest()->get('search');
     }
 
     /**

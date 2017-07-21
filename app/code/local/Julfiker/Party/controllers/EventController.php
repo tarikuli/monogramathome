@@ -389,7 +389,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         else if ($data['host'] == "member") {
             $data['host'] = $data['member'];
         }
-
+        $data['title'] = Mage::helper("julfiker_party/event")->getEventTitle($data['host']);
         if ($data['loc_type'] == "default") {
             $customer = Mage::getSingleton('customer/customer')->load($data['host']);
             $address = $customer->getPrimaryBillingAddress();

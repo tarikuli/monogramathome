@@ -29,6 +29,7 @@
 </div>
 <div class="row" style="overflow: hidden; clear: both">
 <div class="col-xs-4">
+    <form method="get" action="<?php echo Mage::getUrl("party/event")?>">
     <div class="control-label" for="search"><?php echo $this->__("Search all events")?></div>
     <div class="input-group">
         <div class="input-group-btn">
@@ -36,8 +37,9 @@
                 <i class="fa fa-search" aria-hidden="true" style="color:#ec008b"></i>
             </button>
         </div>
-        <input type="text" class="form-control" placeholder="Search by host name" id="txtSearch"/>
+        <input type="text" value="<?php echo $this->getSearchString()?>" class="form-control" name="search" placeholder="Search by host name" id="txtSearch"/>
     </div>
+    </form>
 </div>
 <div class="col-xs-8">
     <div class="pull-right">
@@ -72,7 +74,7 @@
                            <a data-toggle="collapse" data-parent="#accordion"  href="#event_<?php echo $_event->getId()?>">
                                <div style="overflow: hidden" >
                                <span class="pull-left"><i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                    <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>'s <?php echo $this->__("Event")?></span>
+                                    <?php echo $_event->getTitle()?></span>
                                <span style="color:#ec008b; background: #fff" class="badge pull-right">
                                    <i class="fa fa-calendar" aria-hidden="true"></i>
                                    <?php echo date_format($startAt, 'M d/y') ?>
