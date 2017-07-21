@@ -73,33 +73,38 @@ class Julfiker_Party_Helper_Sender extends Mage_Core_Helper_Abstract
      * @return mixed
      */
     public function sendHostWelcomeEmail($eventId) {
-        $event = Mage::getModel('julfiker_party/event')->load($eventId);
-        $member = Mage::getSingleton('customer/customer')->load($event->getHost());
-        $data = $this->getEmailData($eventId);
-        $hostCredential = Mage::getSingleton('core/session')->getHostCredential();
+        try {
+            $event = Mage::getModel('julfiker_party/event')->load($eventId);
+            $member = Mage::getSingleton('customer/customer')->load($event->getHost());
+            $data = $this->getEmailData($eventId);
+            $hostCredential = Mage::getSingleton('core/session')->getHostCredential();
 
-        if ($hostCredential) {
-            $data['hostEmail'] = $hostCredential['email'];
-            $data['hostPassword']  = $hostCredential['password'];
+            if ($hostCredential) {
+                $data['hostEmail'] = $hostCredential['email'];
+                $data['hostPassword'] = $hostCredential['password'];
+            }
+
+            $data['eventUrl'] = $event->getEventUrl();
+            $data['loginUrl'] = Mage::getUrl('customer/account/login/');
+
+            $template = Mage::getStoreConfig("julfiker_party/email/welcome_host_template");
+            $mailTemplate = Mage::getModel('core/email_template');
+
+            //Unset host credential
+            Mage::getSingleton('core/session')->unsHostCredential();
+            return $mailTemplate->setDesignConfig(array('area' => 'frontend'))
+                //->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
+                //->addBcc('support@monogramathome.com ')
+                ->sendTransactional(
+                    $template,
+                    Mage::getStoreConfig('contacts/email/sender_email_identity'),
+                    $member->getEmail(),
+                    null,
+                    $data
+                );
         }
-
-        $data['eventUrl'] = $event->getEventUrl();
-        $data['loginUrl'] = Mage::getUrl('customer/account/login/');
-
-        $template = Mage::getStoreConfig("julfiker_party/email/welcome_host_template");
-        $mailTemplate = Mage::getModel('core/email_template');
-
-        //Unset host credential
-        Mage::getSingleton('core/session')->unsHostCredential();
-        return $mailTemplate->setDesignConfig(array('area' => 'frontend'))
-            //->setReplyTo(Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER))
-            //->addBcc('support@monogramathome.com ')
-            ->sendTransactional(
-                $template,
-                Mage::getStoreConfig('contacts/email/sender_email_identity'),
-                $member->getEmail(),
-                null,
-                $data
-        );
+        catch (Exception $e) {
+            Mage::logException($e);
+        }
     }
 }
