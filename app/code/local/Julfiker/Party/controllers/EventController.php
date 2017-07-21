@@ -220,21 +220,21 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
                     $this->_redirect('*/*/');
                     return;
                 } catch (Mage_Core_Exception $e) {
-                    Mage::getSingleton('fronted/session')->addError($e->getMessage());
-                    Mage::getSingleton('frontend/session')->setEventData($data);
-                    $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                    Mage::getSingleton('customer/session')->addError($e->getMessage());
+                    Mage::getSingleton('customer/session')->setEventData($data);
+                    $this->_redirect('*/*/create', array('id' => $this->getRequest()->getParam('id')));
                     return;
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    Mage::getSingleton('frontend/session')->addError(
+                    Mage::getSingleton('customer/session')->addError(
                         Mage::helper('julfiker_party')->__('There was a problem saving the event.')
                     );
-                    Mage::getSingleton('frontend/session')->setEventData($data);
+                    Mage::getSingleton('customer/session')->setEventData($data);
                     $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                     return;
                 }
             }
-            Mage::getSingleton('frontend/session')->addError(
+            Mage::getSingleton('customer/session')->addError(
                 Mage::helper('julfiker_party')->__('Unable to find event to save.')
             );
             $this->_redirect('*/*/');
