@@ -356,7 +356,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
             }
         }
 
-        return json_encode($members);
+        return $members;
     }
 
 

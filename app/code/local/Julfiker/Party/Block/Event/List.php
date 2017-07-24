@@ -44,6 +44,15 @@ class Julfiker_Party_Block_Event_List extends Mage_Core_Block_Template
                         )
         );
 
+        $evenHelper = Mage::helper("julfiker_party/event");
+        if (!$evenHelper->checkPermission()) {
+            $sessionCustomer = Mage::getSingleton("customer/session");
+            if($sessionCustomer->isLoggedIn()) {
+                $host = $sessionCustomer->getCustomer()->getId();
+                $events->addFieldToFilter('status', $host);
+            }
+        }
+
         if ($search) {
             $events->addFieldToFilter(
                 'title',

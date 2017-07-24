@@ -34,6 +34,12 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
       */
     public function indexAction()
     {
+        $sessionCustomer = Mage::getSingleton("customer/session");
+        if(!$sessionCustomer->isLoggedIn()) {
+            Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('party/event'));
+            Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
+        }
+
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('customer/session');
@@ -96,44 +102,53 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             $this->_forward('no-route');
             return;
         }
-        Mage::register('current_event', $event);
-        $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
-        $this->_initLayoutMessages('customer/session');
-        $this->_initLayoutMessages('checkout/session');
-        if ($root = $this->getLayout()->getBlock('root')) {
-            $root->addBodyClass('party-event party-event' . $event->getId());
-        }
-        if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
-            if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
-                $breadcrumbBlock->addCrumb(
-                    'home',
-                    array(
-                        'label'    => Mage::helper('julfiker_party')->__('Home'),
-                        'link'     => Mage::getUrl(),
-                    )
-                );
-                $breadcrumbBlock->addCrumb(
-                    'events',
-                    array(
-                        'label' => Mage::helper('julfiker_party')->__('View all events'),
-                        'link'  => Mage::helper('julfiker_party/event')->getEventsUrl(),
-                    )
-                );
-                $breadcrumbBlock->addCrumb(
-                    'event',
-                    array(
-                        'label' => $event->getTitle(),
-                        'link'  => '',
-                    )
-                );
+
+        $evenHelper = Mage::helper("julfiker_party/event");
+        if ($this->_checkPermission() || $evenHelper->isHost($event)) {
+
+            Mage::register('current_event', $event);
+            $this->loadLayout();
+            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('customer/session');
+            $this->_initLayoutMessages('checkout/session');
+            if ($root = $this->getLayout()->getBlock('root')) {
+                $root->addBodyClass('party-event party-event' . $event->getId());
             }
+            if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+                if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                    $breadcrumbBlock->addCrumb(
+                        'home',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('Home'),
+                            'link' => Mage::getUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'events',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('View all events'),
+                            'link' => Mage::helper('julfiker_party/event')->getEventsUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'event',
+                        array(
+                            'label' => $event->getTitle(),
+                            'link' => '',
+                        )
+                    );
+                }
+            }
+            $headBlock = $this->getLayout()->getBlock('head');
+            if ($headBlock) {
+                $headBlock->addLinkRel('canonical', $event->getEventUrl());
+            }
+            $this->renderLayout();
         }
-        $headBlock = $this->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->addLinkRel('canonical', $event->getEventUrl());
+        else {
+            $this->_forward('no-route');
+            return;
         }
-        $this->renderLayout();
     }
 
     public function createAction() {
