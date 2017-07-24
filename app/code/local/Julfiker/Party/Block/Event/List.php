@@ -49,7 +49,7 @@ class Julfiker_Party_Block_Event_List extends Mage_Core_Block_Template
             $sessionCustomer = Mage::getSingleton("customer/session");
             if($sessionCustomer->isLoggedIn()) {
                 $host = $sessionCustomer->getCustomer()->getId();
-                $events->addFieldToFilter('status', $host);
+                $events->addFieldToFilter('host', $host);
             }
         }
 
