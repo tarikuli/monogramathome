@@ -390,14 +390,13 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
      *
      * @return bool
      */
-    public function isAmbassador($event) {
+    public function isAmbassador($event = null) {
         $sessionCustomer = Mage::getSingleton("customer/session");
         if($sessionCustomer->isLoggedIn()) {
             $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
             $group = Mage::getSingleton('customer/group')->load($groupId);
             $groupName = strtoupper($group->getCustomerGroupCode());
-            if ($groupName === self::AMBASSADOR_GROUP_NAME
-                && $sessionCustomer->getCustomer()->getId() == $event->getCreatedBy()) {
+            if ($groupName === self::AMBASSADOR_GROUP_NAME) {
                 return true;
             }
         }

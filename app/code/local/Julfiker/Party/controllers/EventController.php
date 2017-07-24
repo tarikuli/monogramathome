@@ -34,10 +34,12 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
       */
     public function indexAction()
     {
+
         $sessionCustomer = Mage::getSingleton("customer/session");
         if(!$sessionCustomer->isLoggedIn()) {
             Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('party/event'));
             Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account/login'));
+            return;
         }
 
         $this->loadLayout();
@@ -104,8 +106,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         }
 
         $evenHelper = Mage::helper("julfiker_party/event");
-        if ($this->_checkPermission() || $evenHelper->isHost($event)) {
-
+        if ($evenHelper->isAmbassador() || $evenHelper->isHost($event)) {
             Mage::register('current_event', $event);
             $this->loadLayout();
             $this->_initLayoutMessages('catalog/session');

@@ -36,16 +36,16 @@ class Julfiker_Party_Block_Event_List extends Mage_Core_Block_Template
 
         $events = Mage::getResourceModel('julfiker_party/event_collection')
                          ->addStoreFilter(Mage::app()->getStore())
-                         ->addFieldToFilter('status', 1)
-                        ->addFieldToFilter(
-                            'end_at',
-                        array(
-                            'gteq' => date ("Y-m-d H:i:s", time())
-                        )
-        );
+                         ->addFieldToFilter('status', 1);
+//                        ->addFieldToFilter(
+//                            'end_at',
+//                        array(
+//                            'gteq' => date ("Y-m-d H:i:s", time())
+//                        )
+//        );
 
         $evenHelper = Mage::helper("julfiker_party/event");
-        if (!$evenHelper->checkPermission()) {
+        if (!$evenHelper->isAmbassador()) {
             $sessionCustomer = Mage::getSingleton("customer/session");
             if($sessionCustomer->isLoggedIn()) {
                 $host = $sessionCustomer->getCustomer()->getId();
