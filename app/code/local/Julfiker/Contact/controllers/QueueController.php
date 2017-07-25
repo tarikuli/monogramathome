@@ -342,7 +342,7 @@ class Julfiker_Contact_QueueController extends Mage_Core_Controller_Front_Action
                     $websiteName = str_replace(".com", ".info",$website->getName());
                     $config = Mage::getModel('core/config');
                     $value = "http://".$websiteName."/";
-                    $sValue = "https://".$websiteName."/";
+                    $sValue = "http://".$websiteName."/";
                     $config->saveConfig('web/unsecure/base_url',$value,'stores',$store->getId());
                     $config->saveConfig('web/secure/base_url',$sValue,'stores',$store->getId());
                 }
