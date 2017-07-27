@@ -43,7 +43,7 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
             $this->renderLayout();
         }
         else {
-            Mage::getSingleton('customer/session')->addError("You don't have privilege to access contact!");
+            Mage::getSingleton('customer/session')->addError("Accept our apologies . But at this time your access is denied!");
             $this->_redirectReferer();
         }
     }
@@ -86,7 +86,7 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
             $this->renderLayout();
         }
         else {
-            Mage::getSingleton('customer/session')->addError("You don't have privilege to add contact!");
+            Mage::getSingleton('customer/session')->addError("Accept our apologies . But at this time your access is denied!");
             $this->_redirectReferer();
         }
 
@@ -151,7 +151,7 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
             }
         }
         else {
-            Mage::getSingleton('customer/session')->addError("You don't have privilege to add contact!");
+            Mage::getSingleton('customer/session')->addError("Accept our apologies . But at this time your access is denied!");
         }
         $this->_redirectReferer();
     }

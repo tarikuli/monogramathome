@@ -259,10 +259,13 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
      * @return mixed
      */
     public function getAllContacts() {
-        $websiteId = Mage::app()->getStore()->getWebsiteId();
+        $customerId = 0;
+        if(Mage::getSingleton('customer/session')->isLoggedIn())
+            $customerId = Mage::getSingleton('customer/session')->getId();
         $contact = Mage::getModel("julfiker_party/contact");
         return $contact->getCollection()
-            ->addFieldToFilter('website_id', $websiteId);
+            ->addFieldToFilter('customer_id', $customerId)
+            ->setOrder('first_name', 'asc');
     }
 
     /**

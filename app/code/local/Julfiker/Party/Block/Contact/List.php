@@ -32,9 +32,7 @@ class Julfiker_Party_Block_Contact_List extends Mage_Core_Block_Template
     public function _construct()
     {
         parent::_construct();
-        $contacts = Mage::getResourceModel('julfiker_party/contact_collection')
-                         ->addFieldToFilter('website_id', Mage::app()->getStore()->getWebsiteId());
-        $contacts->setOrder('first_name', 'asc');
+        $contacts = Mage::helper("julfiker_party/event")->getAllContacts();
         $this->setContacts($contacts);
     }
 
