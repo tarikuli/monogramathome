@@ -67,8 +67,8 @@ $endAt = date_create($_event->getEndAt());
             <div style="text-align: center; padding: 20px 0px;">
                 <h3 style="color:#ec008b"><?php echo $this->__("Want to invite a friend?")?></h3>
                 <div>
-                    <span style="color:#ec008b"><?php echo $this->__("Invite url")?> </span>
-                    <span style="border: 1px solid #ccc; padding: 5px;"><?php echo $_event->getEventUrl()?></span>
+                    <div style="color:#ec008b"><?php echo $this->__("Invite url")?> </div>
+                    <div style="border: 1px solid #ccc; padding: 5px;"><?php echo Mage::helper("julfiker_party/event")->getInviteUrl($_event->getId());?></div>
                 </div>
                 <div style="text-align: center; padding-top:10px;">
                     <!-- Go to www.addthis.com/dashboard to customize your tools -->

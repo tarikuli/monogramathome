@@ -452,4 +452,18 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     public function getEventTitle($customerId) {
         return $this->getHostName($customerId).'\'s '.Mage::helper('julfiker_party')->__("Event");
     }
+
+    /**
+     * In generic invite url
+     *
+     * @param $eventId
+     * @return string
+     */
+    public function getInviteUrl($eventId) {
+        $customerId = 0;
+        if(Mage::getSingleton('customer/session')->isLoggedIn())
+            $customerId = Mage::getSingleton('customer/session')->getId();
+        $params = array("refer" => base64_encode($customerId), "event_id" => $eventId);
+        return Mage::getUrl("julfiker_party/participate/confirm", array("_query"=>$params));
+    }
 }

@@ -82,12 +82,12 @@ $endAt = date_create($_event->getEndAt());
     <div class="col-md-12">
         <div class="row">
             <!-- About host -->
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <b> <i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $this->__("Host info")?> <br /> </b>
                 <div>
                     <?php $host =  Mage::getSingleton('customer/customer')->load($_event->getHost()); ?>
-                    <?php echo $host->getEmail(); ?> <br />
-                    <?php echo ($host->getPrimaryBillingAddress())?$host->getPrimaryBillingAddress()->getTelephone():""; ?>
+                    <?php echo $this->__("Email:")?> <?php echo $host->getEmail(); ?> <br />
+                    <?php echo $this->__("Phone:")?> <?php echo ($host->getPrimaryBillingAddress())?$host->getPrimaryBillingAddress()->getTelephone():""; ?>
                 </div>
             </div>
             <!-- Event date and time -->
@@ -99,7 +99,7 @@ $endAt = date_create($_event->getEndAt());
                 </div>
             </div>
             <!-- Event location or address -->
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <b> <i class="fa fa-map-marker" aria-hidden="true" ></i> <?php echo $this->__("Event location")?> </b><br />
                 <div>
                     <?php echo $_event->getAddress() ?>, <?php echo $_event->getCity() ?> - <?php echo $_event->getZip() ?>, <?php echo $_event->getCountry() ?>
@@ -112,7 +112,7 @@ $endAt = date_create($_event->getEndAt());
     <!-- circle graph -->
     <div class="col-md-12" style="padding-top: 10px;">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row">
                     <!-- Invite circle -->
                     <div class="col-md-4" style="text-align: center">
@@ -197,20 +197,24 @@ $endAt = date_create($_event->getEndAt());
                 </div>
             </div>
 
-            <div class="col-md-4" style="border-left: 1px solid #eee">
+            <div class="col-md-3" style="border-left: 1px solid #eee">
                 <div class="row" style="padding: 10px 10px;">
-                    <div>
-                        <h3><?php echo $this->__("Cash Earnings"); ?></h3>
-                        <span><?php echo Mage::helper('core')->currency($this->getTotalOrderAmount(), true, false); ?></span>
-                    </div>
+                    <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
+                        <div>
+                            <h3><?php echo $this->__("Cash Earnings"); ?></h3>
+                            <span>$0</span>
+                        </div>
+                    <?php endif ?>
                     <div style="padding-top: 10px;">
                         <h3><?php echo $this->__("Retail Sales"); ?></h3>
-                        <span>$0</span>
+                        <span><?php echo Mage::helper('core')->currency($this->getTotalOrderAmount(), true, false); ?></span>
                     </div>
+                    <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
                     <div style="padding-top: 10px;">
                         <h3><?php echo $this->__("Host Rewards"); ?></h3>
                         <span>$0</span>
                     </div>
+                    <?php endif ?>
                 </div>
             </div>
         </div>
@@ -218,15 +222,16 @@ $endAt = date_create($_event->getEndAt());
     <?php endif ?>
 
 </div>
-
+<div  class="col-md-12" style="padding-top: 20px;">
+    <b><?php echo $this->__("About event:")?></b>
+    <div>
+        <?php echo $_event->getDesc()?>
+    </div>
+</div>
 
 <div  class="col-md-12" style="padding-top: 20px;">
-    <?php
-        if(Mage::getSingleton('customer/session')->isLoggedIn())
-            $customerId = Mage::getSingleton('customer/session')->getId();
-    ?>
     <b><?php echo $this->__("Invite Url")?></b>
-    <div style="border: 1px solid #eee; padding: 10px 5px;"><?php echo $_event->getEventUrl()."?refer=".base64_encode($customerId) ?></div>
+    <div style="border: 1px solid #eee; padding: 10px 5px;"><?php echo Mage::helper("julfiker_party/event")->getInviteUrl($_event->getId());?></div>
 </div>
 
 <div class="col-md-12" style="padding-top: 20px;">
@@ -296,12 +301,12 @@ $endAt = date_create($_event->getEndAt());
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><?php echo $this->__('Invite peoples to join') ?></h4>
+                <h4 class="modal-title"><?php echo $this->__('Invite Guests to Join') ?></h4>
             </div>
             <div class="modal-body">
                 <form action="<?php echo Mage::getUrl('party/participate/invite')?>" method="post">
                     <div class="form-group">
-                        <label class="control-label" for="inputDefault">Member</label>
+                        <label class="control-label" for="inputDefault"><?php echo $this->__("Contacts")?></label>
                         <?php $contacts = $this->getContacts(); ?>
                         <select class="form-control" name="members[]" multiple>
                             <?php foreach ($contacts as $contact):?>
