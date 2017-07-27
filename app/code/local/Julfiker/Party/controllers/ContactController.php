@@ -50,6 +50,7 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
 
     public function createAction() {
         if ($this->_checkPermission()) {
+            Mage::getSingleton('customer/session')->setGrantAccess(true);
             $this->loadLayout();
             $this->_initLayoutMessages('catalog/session');
             $this->_initLayoutMessages('customer/session');
@@ -97,16 +98,15 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
      */
     public function createPostAction()
     {
+        $isGrantAccess = Mage::getSingleton('customer/session')->getGrantAccess();
         $evenHelper = Mage::helper("julfiker_party/event");
-        if ($evenHelper->checkPermission()) {
+        if ($isGrantAccess) {
             $customerData = Mage::getSingleton('customer/session')->getCustomer();
-
             $request = $this->getRequest();
             $y = $request->getPost('year');
             $m = $request->getPost('month');
             $d = $request->getPost('day');
             $date = date('m/j/Y', strtotime("$y-$m-$d"));
-
             if ($request->isPost()) {
                 $contact = Mage::getModel("julfiker_party/contact");
                 $contact = $contact->getCollection()
@@ -141,6 +141,7 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
                         $websiteId = Mage::app()->getStore()->getWebsiteId();
                         $contact->setWebsiteId($websiteId);
                         $contact->save();
+                        Mage::getSingleton('customer/session')->unsGrantAcccess();
                         Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Contact was added successfully!'));
                     } catch (Exception $e) {
                         Mage::getSingleton('customer/session')->addError($e->getMessage());
@@ -156,9 +157,19 @@ class Julfiker_Party_ContactController extends Mage_Core_Controller_Front_Action
         $this->_redirectReferer();
     }
 
-
+    /**
+     * Add contact permission checking
+     *
+     * @return bool
+     */
     private function _checkPermission() {
-        $evenHelper = Mage::helper("julfiker_party/event");
-        return $evenHelper->checkPermission();
+        $eventId = ($this->getRequest()->get('event_id'))?$this->getRequest()->get('event_id'):0;
+        $_event = Mage::getModel('julfiker_party/event')->load($eventId);
+        if (Mage::helper("julfiker_party/event")->isHost($_event))
+            return true;
+        elseif (Mage::helper("julfiker_party/event")->isAmbassador($_event))
+            return true;
+
+        return false;
     }
 }

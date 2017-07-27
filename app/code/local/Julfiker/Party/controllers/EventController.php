@@ -34,7 +34,6 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
       */
     public function indexAction()
     {
-
         $sessionCustomer = Mage::getSingleton("customer/session");
         if(!$sessionCustomer->isLoggedIn()) {
             Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('party/event'));
@@ -101,7 +100,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
     {
         $event = $this->_initEvent();
         if (!$event) {
-            $this->_forward('no-route');
+            return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('events'));
             return;
         }
 
@@ -147,7 +146,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             $this->renderLayout();
         }
         else {
-            $this->_forward('no-route');
+            return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('events'));
             return;
         }
     }
@@ -300,6 +299,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
      */
     public function placeOderAction() {
         $eventId = $this->getRequest()->get('id');
+        $now = Mage::getModel('core/date')->timestamp(time());
         $event = Mage::getResourceModel('julfiker_party/event_collection')
             ->addStoreFilter(Mage::app()->getStore())
             ->addFieldToFilter('status', 1)
@@ -307,7 +307,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             ->addFieldToFilter(
                 'end_at',
                 array(
-                    'gteq' => date ("Y-m-d H:i:s", time())
+                    'gteq' => date ("Y-m-d H:i:s", $now)
                 ))
             ->getFirstItem();
 

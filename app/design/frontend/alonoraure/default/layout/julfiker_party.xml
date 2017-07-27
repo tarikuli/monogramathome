@@ -17,35 +17,13 @@
  */
 -->
 <layout>
-    <julfiker_party module="julfiker_party">
-        <reference name="left">
-            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
-                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
-            </block>
-            <remove name="tags_popular"/>
-            <remove name="catalog.compare.sidebar"/>
-            <remove name="right.poll"/>
-            <remove name="static_image_left"/>
-            <remove name="amenu"/>
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="julfiker_party"><name>events</name><path>events</path><label>My Events</label></action>
         </reference>
-    </julfiker_party>
+    </customer_account>
+
     <julfiker_party_event_index translate="label" module="julfiker_party">
-        <reference name="left">
-            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
-                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
-            </block>
-            <remove name="tags_popular"/>
-            <remove name="catalog.compare.sidebar"/>
-            <remove name="right.poll"/>
-            <remove name="static_image_left"/>
-            <remove name="amenu"/>
-        </reference>
         <label>Events list</label>
         <update handle="page_two_columns_left" />
         <reference name="content">
@@ -55,19 +33,6 @@
     <julfiker_party_event_create translate="label" module="julfiker_party">
         <label>Book an event</label>
         <update handle="page_two_columns_left" />
-        <reference name="left">
-            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
-                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
-            </block>
-            <remove name="tags_popular"/>
-            <remove name="catalog.compare.sidebar"/>
-            <remove name="right.poll"/>
-            <remove name="static_image_left"/>
-            <remove name="amenu"/>
-        </reference>
         <reference name="head">
             <action method="setTitle"><title>Monogram at home :: Book an event </title></action>
             <action  method="addItem"><type>js</type><name>party/event.js</name></action>
@@ -87,19 +52,6 @@
             <action  method="addItem"><type>js</type><name>party/jquery.circliful.min.js</name></action>
         </reference>
         <update handle="page_two_columns_left" />
-        <reference name="left">
-            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
-                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
-            </block>
-            <remove name="tags_popular"/>
-            <remove name="catalog.compare.sidebar"/>
-            <remove name="right.poll"/>
-            <remove name="static_image_left"/>
-            <remove name="amenu"/>
-        </reference>
         <reference name="content">
             <block type="julfiker_party/event_view" name="event_view" template="julfiker_party/event/view.phtml" />
             <!--<block type="julfiker_party/event_partyorderitem_list" name="event.partyorderitem_list" as="event_partyorderitems" template="julfiker_party/event/partyorderitem/list.phtml" />-->
@@ -110,19 +62,6 @@
     <julfiker_party_event_order translate="label" module="julfiker_party">
         <label>Make an order</label>
         <update handle="page_two_columns_left" />
-        <reference name="left">
-            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
-                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
-            </block>
-            <remove name="tags_popular"/>
-            <remove name="catalog.compare.sidebar"/>
-            <remove name="right.poll"/>
-            <remove name="static_image_left"/>
-            <remove name="amenu"/>
-        </reference>
         <reference name="content">
             <block type="julfiker_party/event_list" name="event_list" template="julfiker_party/event/order_event_list.phtml" />
         </reference>
@@ -130,19 +69,6 @@
     <julfiker_party_customer_create translate="label" module="julfiker_party">
         <label>Create new member</label>
         <update handle="page_two_columns_left" />
-        <reference name="left">
-            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
-                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
-            </block>
-            <remove name="tags_popular"/>
-            <remove name="catalog.compare.sidebar"/>
-            <remove name="right.poll"/>
-            <remove name="static_image_left"/>
-            <remove name="amenu"/>
-        </reference>
         <reference name="content">
             <block type="customer/form_register" name="create_member" template="julfiker_party/event/form/create-customer.phtml" />
         </reference>
@@ -150,19 +76,6 @@
     <julfiker_party_contact_create translate="label" module="julfiker_party">
         <label>Create new cotnact</label>
         <update handle="page_two_columns_left" />
-        <reference name="left">
-            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
-                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
-            </block>
-            <remove name="tags_popular"/>
-            <remove name="catalog.compare.sidebar"/>
-            <remove name="right.poll"/>
-            <remove name="static_image_left"/>
-            <remove name="amenu"/>
-        </reference>
         <reference name="content">
             <block type="customer/form_register" name="create_member" template="julfiker_party/event/form/create-contact.phtml" />
         </reference>
@@ -170,19 +83,6 @@
     <julfiker_party_contact_index translate="label" module="julfiker_party">
         <label>View all contacts</label>
         <update handle="page_two_columns_left" />
-        <reference name="left">
-            <block type="julfiker_party/event_navigation" name="event_navigation" before="-" template="julfiker_party/event/navigation.phtml">
-                <action method="addLink" translate="label" module="julfiker_party"><name>event</name><path>party/event/</path><label>View all events</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_create</name><path>party/event/create/</path><label>Book an event</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_contacts</name><path>party/contact</path><label>View contacts</label></action>
-                <action method="addLink" translate="label" module="julfiker_party"><name>event_order</name><path>party/event/order</path><label>Make an order</label></action>
-            </block>
-            <remove name="tags_popular"/>
-            <remove name="catalog.compare.sidebar"/>
-            <remove name="right.poll"/>
-            <remove name="static_image_left"/>
-            <remove name="amenu"/>
-        </reference>
         <reference name="content">
             <block type="julfiker_party/contact_list" name="view_all_contacts" template="julfiker_party/contact/list.phtml" />
         </reference>
@@ -195,4 +95,12 @@
             <block type="julfiker_party/event_view" name="event_confirm" template="julfiker_party/event/confirm.phtml" />
         </reference>
     </julfiker_party_participate_confirm>
+
+    <julfiker_party_participate_success translate="label" module="julfiker_party">
+        <label>Event confirmation success</label>
+        <update handle="page_two_columns_left" />
+        <reference name="content">
+            <block type="julfiker_party/event_view" name="event_confirm" template="julfiker_party/event/confirm-success.phtml" />
+        </reference>
+    </julfiker_party_participate_success>
 </layout>

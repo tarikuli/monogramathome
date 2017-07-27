@@ -1,0 +1,79 @@
+<?php $_event = $this->getCurrentEvent(); ?>
+<?php $_participate = $this->getCurrentParticipate(); ?>
+<?php
+$startAt = date_create($_event->getStartAt());
+$endAt = date_create($_event->getEndAt());
+?>
+<div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-6">
+            <div style="border-style: double; height: 400px; border-color: #ec008b; border-radius: 5px">
+                <!-- title -->
+                <div style="font-size:24px; padding: 20px; text-align: center">&nbsp;</div>
+                <!--  event info -->
+                <div style="padding-top: 20px; text-align: center">
+                    <h1 style="font-size: 24px; color: #ec008b"><?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>
+                        's <?php echo $this->__("Sip and Shop event") ?> </h1>
+
+                    <div>
+                        <?php echo $this->__("Shop until"); ?> <?php echo date_format($endAt, "M/d,y"); ?> <?php echo $this->__("End time") ?>
+                        : <?php echo date_format($endAt, "h:i A"); ?>
+                    </div>
+                    <div style="padding: 20px 0px; text-align: center">
+                        &nbsp;
+                    </div>
+                    <div style="text-align: center">
+                        <a href="<?php echo Mage::getUrl("party/event/placeOder", array('id' => $_event->getId())) ?>"><?php echo $this->__("SHOP ONLINE NOW") ?></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <!-- Host message -->
+            <div style="background: #eee">
+                <div style="padding: 20px 0px; text-align: center">
+                    <h1 style="font-size: 18px;"><?php echo $this->__("A Message From Your Host") ?></h1>
+
+                    <div style="color:#8b8b8b;">
+                        <?php if ($_participate->getStatus() == 4): ?>
+                            We look forward to meeting you at <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>'s Event.
+                            Your personal Ambassador will be there to help you choose the best personalized product.
+                            You can also preview our collection ahead of time by shopping online <br/>
+                            Thank you - <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>
+                        <?php else: ?>
+                            Sorry you cannot attend <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>'s Event, but you can still shop our collection online.
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 20px 0px; text-align: center">
+                <h1 style="font-size: 30px;"><?php echo $this->__("RSVP") ?></h1>
+            </div>
+            <div style="background: #eee">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <?php if ($_participate->getStatus() == 4): ?>
+                            <h2 style="font-size: 15px"><?php echo $this->__("Thank you for your confirm!"); ?></h2>
+                            <h2 style="font-size: 15px"><?php echo $this->__("Yes") ?></h2>
+                        <?php elseif ($_participate->getStatus() == 2): ?>
+                            <h2 style="font-size: 15px"><?php echo $this->__("You can't make it!"); ?></h2>
+                            <h2 style="font-size: 15px"><?php echo $this->__("NO") ?></h2>
+                        <?php elseif ($_participate->getStatus() == 3): ?>
+                            <h2 style="font-size: 15px"><?php echo $this->__("You can't make it!"); ?></h2>
+                            <h2 style="font-size: 15px"><?php echo $this->__("May be") ?></h2>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; padding: 20px 0px;">
+                <h3 style="color:#ec008b"><?php echo $this->__("Want to invite a friend?") ?></h3>
+                <div>
+                    <div style="color:#ec008b"><?php echo $this->__("Invite url") ?> </div>
+                    <div
+                        style="border: 1px solid #ccc; padding: 5px;"><?php echo Mage::helper("julfiker_party/event")->getInviteUrl($_event->getId()); ?></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
