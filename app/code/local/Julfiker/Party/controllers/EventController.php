@@ -204,6 +204,25 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         );
     }
 
+    /**
+     * Perform to join functionality
+     *
+     * @param $eventId
+     * @param $customerId
+     * @return Zend_Controller_Response_Abstract
+     * @throws Exception
+     */
+    public function going($eventId, $customerId) {
+        $status = Mage::helper('julfiker_party/event')->getAllEventStatus();
+        $participate = Mage::getModel('julfiker_party/partyparticipate');
+        $guest = 0;
+        $participate->setEventId($eventId);
+        $participate->setStatus($status['STATUS_JOINED']);
+        $participate->setGuest($guest);
+        $participate->setCustomerId($customerId);
+        $participate->save();;
+    }
+
     public function saveAction()
     {
         if ($this->_checkPermission()) {
@@ -226,6 +245,15 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
                     $event = $this->_initEvent();
                     $event->addData($data);
                     $event->save();
+
+                    //Auto participate
+                    if ($event->getCreatedBy() == $event->getHost()) {
+                        $this->going($event->getId(), $event->getCreatedBy());
+                    }
+                    else {
+                        $this->going($event->getId(), $event->getCreatedBy());
+                        $this->going($event->getId(), $event->getHost());
+                    }
 
                     //Welcome email to host
                     if ($event->getHost() != $event->getCreatedBy())

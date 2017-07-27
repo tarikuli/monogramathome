@@ -121,8 +121,8 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
 
             $participate = Mage::getModel('julfiker_party/partyparticipate');
             $id = $this->getRequest()->get("id");
-            if ($id)
-                $participate->load($id);
+//            if ($id)
+//                $participate->load($id);
 
             $guest = $this->getRequest()->get('guest');
             $participate->setEventId($eventId);
@@ -160,8 +160,8 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
 
             $participate = Mage::getModel('julfiker_party/partyparticipate');
             $id = $this->getRequest()->get("id");
-            if ($id)
-                $participate->load($id);
+//            if ($id)
+//                $participate->load($id);
 
             $participate->setEventId($eventId);
             $participate->setStatus($status['STATUS_INTERESTED']);
@@ -197,8 +197,8 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
 
             $participate = Mage::getModel('julfiker_party/partyparticipate');
             $id = $this->getRequest()->get("id");
-            if ($id)
-                $participate->load($id);
+//            if ($id)
+//                $participate->load($id);
 
             $participate->setEventId($eventId);
             $participate->setStatus($status['STATUS_INVITE_REJECT']);
@@ -320,6 +320,7 @@ class Julfiker_Party_ParticipateController extends Mage_Core_Controller_Front_Ac
         if ($participate->getId()) {
             $_event = Mage::getModel('julfiker_party/event')->load($participate->getEventId());
             Mage::register('current_participate', $participate);
+            Mage::getSingleton('core/session')->unsEventConfirmSuccessId();
         }
         else {
             Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('events'));
