@@ -108,11 +108,11 @@
 
             //convert both time into timestamp
             var start_at = jQuery(document).find("#start_at").val();
-            var stt = new Date("November 13, 2013 " + start_time);
+            var stt = new Date(start_at + " " + start_time);
             stt = stt.getTime();
 
             var end_at = jQuery(document).find("#end_at").val();
-            var endt = new Date("November 13, 2013 " + end_time);
+            var endt = new Date(end_at + " " + end_time);
             endt = endt.getTime();
 
             if(stt >= endt) {
