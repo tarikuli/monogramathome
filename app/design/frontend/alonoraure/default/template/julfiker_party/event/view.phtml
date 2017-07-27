@@ -237,13 +237,8 @@ $endAt = date_create($_event->getEndAt());
 <div class="col-md-12" style="padding-top: 20px;">
     <div class="row">
         <div class="col-xs-6">
-            <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
-                <a href="#" class="btn btn-default"><?php echo $this->__("Manage Guest") ?></a>
-                <a href="#" class="btn btn-default"><?php echo $this->__("View Guest List") ?></a>
-            <?php elseif (Mage::helper("julfiker_party/event")->isHost($_event)):?>
-                <a href="<?php echo Mage::getUrl('party/contact/create/', array("_query"=> array("event_id"=>$_event->getId())))?>" class="btn btn-default"><?php echo $this->__("Create contact") ?></a>
-                <a href="<?php echo Mage::getUrl('party/contact/', array("_query"=> array("event_id"=>$_event->getId())))?>" class="btn btn-default"><?php echo $this->__("View contacts") ?></a>
-            <?php endif ?>
+            <a href="<?php echo Mage::getUrl('party/contact/create/', array("_query"=> array("event_id"=>$_event->getId())))?>" class="btn btn-default"><?php echo $this->__("Create contact") ?></a>
+            <a href="<?php echo Mage::getUrl('party/contact/', array("_query"=> array("event_id"=>$_event->getId())))?>" class="btn btn-default"><?php echo $this->__("View contacts") ?></a>
         </div>
         <div class="col-xs-6">
             <div class="dropdown pull-right">
