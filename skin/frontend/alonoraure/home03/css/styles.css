@@ -23,6 +23,9 @@
  */
 
 /* Reset ================================================================================= */
+
+@import url(https://fonts.googleapis.com/css?family=Oswald:400,300,700);
+body{background-color:#f7f7f7;margin:0;padding:0;font:12px/1.55 Arial,Helvetica,sans-serif;color:#757575;text-align:left}
 @media ( min-width :1400px) {
 	.container {
 		max-width: 1400px
@@ -176,8 +179,6 @@
 		margin-left: 91.66666666666666%
 	}
 }
-@import url(https://fonts.googleapis.com/css?family=Oswald:400,300,700);
-body{background-color:#f7f7f7;margin:0;padding:0;font:12px/1.55 Arial,Helvetica,sans-serif;color:#757575;text-align:left}
 img{border:0;vertical-align:top}
 a{color:#1e7ec8;outline:medium none !important;}
 a:hover{text-decoration:none}
