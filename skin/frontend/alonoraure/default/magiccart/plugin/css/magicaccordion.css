@@ -13,7 +13,7 @@ ul.nav-accordion{line-height:0.5em;list-style:none;margin:0;padding:15px 0 0;}
 ul.nav-accordion li{position:relative;}
 ul.nav-accordion li.last { border-bottom: 0 none;}
 ul.nav-accordion li a{border-bottom: 1px solid #efefef;display:block;font-size:13px;line-height:35px;margin:0;padding:0 0 0 10px;text-align:left;text-decoration:none;text-shadow:none;text-transform:capitalize;color:#333;outline:medium none}
-ul.nav-accordion li a span{font-size: 13px;}
+ul.nav-accordion li a span{font-size: 14px;}
 ul.nav-accordion li.active  a{}
 ul.nav-accordion li a:hover{color: #6b869d;}
 ul.nav-accordion li ul li a{padding:0 0 0 10px;margin-left: 10px;}
