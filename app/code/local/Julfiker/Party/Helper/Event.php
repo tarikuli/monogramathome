@@ -32,6 +32,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
 
     private $totalParticipates;
 
+
     /**
      * get the url to the events list page
      *
@@ -75,9 +76,37 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
             $orderId = $eventOrder->getOrderId();
             $order = Mage::getModel('sales/order')->load($orderId);
             if ($order)
-                $amount += $order->getGrandTotal();
+                $amount += $order->getSubtotal();
         }
-        return $amount;
+
+        return $this->calcRewards($amount);
+    }
+
+    /**
+     * @param $amount
+     * @return float
+     */
+    private function calcRewards($amount) {
+        $percent = 0;
+
+        if ($amount >= 250 && $amount < 500) {
+            $percent = 10;
+        }
+        elseif ($amount >= 500 && $amount < 1000) {
+            $percent = 12;
+        }
+        elseif ($amount >= 1000 && $amount < 2000){
+            $percent = 15;
+        }
+        elseif ($amount >= 2000) {
+            $percent = 20;
+        }
+
+        $this->eventEarningPercent = $percent;
+
+        $earnings = $amount*($percent/100);
+        $this->evenEaringAmount = $earnings;
+        $this->eventSalesAmount = $amount;
     }
 
     /**
@@ -468,5 +497,29 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
             $customerId = Mage::getSingleton('customer/session')->getId();
         $params = array("refer" => base64_encode($customerId), "event_id" => $eventId);
         return Mage::getUrl("julfiker_party/participate/confirm", array("_query"=>$params));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventEarningPercent()
+    {
+        return $this->eventEarningPercent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvenEarningAmount()
+    {
+        return $this->evenEaringAmount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventSalesAmount()
+    {
+        return $this->eventSalesAmount;
     }
 }

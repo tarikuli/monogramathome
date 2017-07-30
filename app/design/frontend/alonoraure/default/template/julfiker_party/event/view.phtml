@@ -137,7 +137,7 @@ $endAt = date_create($_event->getEndAt());
                         <label>
                             <a href="#" data-backdrop="static" data-keyboard="false" data-toggle="modal"
                                data-title="Invited"
-                               data-member='<?php echo $this->_eventHelper()->getInvitedMembers($_event->getId()) ?>'
+                               data-member='<?php echo $this->getTotalInvites() ?>'
                                data-target="#member_popup">
                                 <?php echo $this->__("Goal invites 40+") ?>
                             </a>
@@ -166,7 +166,7 @@ $endAt = date_create($_event->getEndAt());
                         <label>
                             <a href="#" data-backdrop="static" data-keyboard="false" data-toggle="modal"
                                data-title="Joined"
-                               data-member='<?php echo $this->_eventHelper()->getJoinedMembers($_event->getId()) ?>'
+                               data-member='<?php echo $this->getTotalJoined() ?>'
                                data-target="#member_popup">
                                 <?php echo $this->__("Goal 10 attending") ?>
                             </a>
@@ -202,17 +202,17 @@ $endAt = date_create($_event->getEndAt());
                     <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
                         <div>
                             <h3><?php echo $this->__("Cash Earnings"); ?></h3>
-                            <span>$0</span>
+                            <span><?php echo Mage::helper('core')->currency($this->getEarningAmount(), true, false); ?></span>
                         </div>
                     <?php endif ?>
                     <div style="padding-top: 10px;">
                         <h3><?php echo $this->__("Retail Sales"); ?></h3>
-                        <span><?php echo Mage::helper('core')->currency($this->getTotalOrderAmount(), true, false); ?></span>
+                        <span><?php echo Mage::helper('core')->currency($this->getSalesAmount(), true, false); ?></span>
                     </div>
                     <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
                     <div style="padding-top: 10px;">
                         <h3><?php echo $this->__("Host Rewards"); ?></h3>
-                        <span>$0</span>
+                        <span><?php echo $this->getEarningPercent()?></span>
                     </div>
                     <?php endif ?>
                 </div>

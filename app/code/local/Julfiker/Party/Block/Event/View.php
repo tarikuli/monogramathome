@@ -24,11 +24,15 @@
 class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
 {
 
+    private $_eventHelper;
     /**
-     * @return Julfiker_Party_Helper_Event
+     * @return \Julfiker_Party_Helper_Event
      */
     public function _eventHelper() {
-        return Mage::helper("julfiker_party/event");
+        if (!$this->_eventHelper)
+            $this->_eventHelper = Mage::helper("julfiker_party/event");
+
+        return $this->_eventHelper;
     }
     /**
      * get the current event
@@ -39,7 +43,38 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
      */
     public function getCurrentEvent()
     {
-        return Mage::registry('current_event');
+        $event = Mage::registry('current_event');
+        if ($event)
+        $this->_eventHelper()->sumOrders($event->getId());
+
+        return $event;
+    }
+
+    /**
+     * Host earning amount under an event
+     *
+     * @return float
+     */
+    public function getEarningAmount() {
+        return $this->_eventHelper()->getEvenEarningAmount();
+    }
+
+    /**
+     * Host sales amount under an event
+     *
+     * @return float
+     */
+    public function getSalesAmount() {
+        return $this->_eventHelper()->getEventSalesAmount();
+    }
+
+    /**
+     * Host earning percent
+     *
+     * @return float
+     */
+    public function getEarningPercent() {
+        return $this->_eventHelper()->getEventEarningPercent();
     }
 
     /**
