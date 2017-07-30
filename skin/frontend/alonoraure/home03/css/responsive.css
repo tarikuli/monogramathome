@@ -15,6 +15,39 @@
 	.product-options dt {width: 30%;}
 	.product-options dd {width: 70%;}
 }
+
+@media (min-width: 940px) and (max-width: 1400px) {	
+	.content-seach{padding-left: 0;width: 50%;}
+	.header-top-right{padding:0 15px;margin: 0;}
+	.slider-left{display: none;}
+	.magicslider .bx-wrapper img{width: 100%;}
+	.cms-index-index .vmagicmenu .block-vmagicmenu-content {opacity: 0;visibility: hidden;}
+	.cms-index-index .vmagicmenu:hover .block-vmagicmenu-content {opacity: 1;visibility: visible;}
+	.mega-block-right img{position: static;}
+	.magicmenu .nav-desktop .level0.home{padding:0;}
+	.magicmenu .nav-desktop .level0.logo.display .level-top{padding: 26px 15px;}
+	.magicmenu .nav-desktop .level0 .level-top-mega .mage-column .children{width:165px;}
+	.product-view .product-shop .add-to-cart button.button span span{padding:0 23px;}
+	.product-view .product-img-box .more-views{width: 280px;}
+	.banner-inner-content a img,.megashop-banner img{max-width: 100%;}
+	.latest-deals .products-textlink{padding:0;}
+	.heading .title{font-size: 30px;}
+	.box-title{padding: 0 0 6px 10px;}
+	.box-top .sub-title{font-size: 18px;}
+	.section-sub-text{font-size: 13px;}
+	.subtitle, .sub-title{font-size: 14px;padding:18px 0 0;}
+	.banner-top .banner-inner-content{margin-bottom: 12px;}
+	.blog_short_text a span{font-size: 15px;}
+	.megashop .magictabs .item .title, .megashop .magictabs .citem .title{padding: 17px 15px;}
+	.products-list .actions-list .button.btn-cart span span.view-cart{font-size: 14px;}
+	.block-footer-bottom .footer li.feature-icon .fa{width: 35px;height: 35px;line-height: 35px;}
+	.footer .block1.block-content-statick li span.fa{font-size: 15px;}
+	.footer .block1.block-content-statick li span.fa.fa-envelope{font-size: 15px;}
+	.footer .block1.block-content-statick li p{width: 170px;}
+	.footer .collapsible .form-subscribe-header p,.logo-text{font-size: 15px;}
+	.item .actions-no .button.btn-cart span span { padding: 0 20px;}	
+}	
+
 /* 940px <= width < 1170px */
 @media (min-width: 940px) and (max-width: 1170px) {	
 	.content-seach{padding-left: 0;width: 50%;}
