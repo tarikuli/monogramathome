@@ -179,6 +179,8 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             if ($headBlock) {
                 $headBlock->addLinkRel('canonical', Mage::helper('julfiker_party/event')->getEventsUrl());
             }
+            $this->getLayout()->getBlock('head')->setTitle($this->__('Book an event'));
+
             $this->renderLayout();
         }
     }
