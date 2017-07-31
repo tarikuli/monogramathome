@@ -267,8 +267,8 @@ $endAt = date_create($_event->getEndAt());
                     </li>
 
                     <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
-                        <li>
-                            <a href="#">
+                        <li class="disabled">
+                            <a href="#" >
                                 <?php echo $this->__("Edit event");?>
                             </a>
                         </li>
