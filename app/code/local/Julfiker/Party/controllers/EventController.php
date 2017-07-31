@@ -399,6 +399,57 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    public function guestAction() {
+
+        $event = $this->_initEvent();
+        if (!$event) {
+            return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('events'));
+            return;
+        }
+
+        $evenHelper = Mage::helper("julfiker_party/event");
+        if ($evenHelper->isAmbassador() || $evenHelper->isHost($event)) {
+            Mage::register('current_event', $event);
+            $this->loadLayout();
+            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('customer/session');
+            $this->_initLayoutMessages('checkout/session');
+
+            if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+                if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                    $breadcrumbBlock->addCrumb(
+                        'home',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('Home'),
+                            'link' => Mage::getUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'event',
+                        array(
+                            'label' => $event->getTitle(),
+                            'link' => $event->getEventUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'guest',
+                        array(
+                            'label' => "Guest RSVP",
+                            'link' => '',
+                        )
+                    );
+                }
+            }
+
+            $this->renderLayout();
+        }
+        else {
+            return Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('events'));
+            return;
+        }
+
+    }
+
     private function _checkPermission() {
         $sessionCustomer = Mage::getSingleton("customer/session");
         if($sessionCustomer->isLoggedIn()) {
@@ -475,4 +526,5 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         }
         return $data;
     }
+
 }
