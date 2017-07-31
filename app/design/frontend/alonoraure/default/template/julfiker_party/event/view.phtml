@@ -254,7 +254,7 @@ $endAt = date_create($_event->getEndAt());
                            data-target="#invite_popup"><?php echo $this->__("Invite guests")?></a></li>
 
                         <li>
-                            <a href="#">
+                            <a href="<?php echo Mage::getUrl("party/event/guest", array('id' => $_event->getId()))?>">
                                 <?php echo $this->__("View Guest RSVPs");?>
                             </a>
                         </li>
@@ -267,8 +267,8 @@ $endAt = date_create($_event->getEndAt());
                     </li>
 
                     <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
-                        <li>
-                            <a href="#">
+                        <li class="disabled">
+                            <a href="#" >
                                 <?php echo $this->__("Edit event");?>
                             </a>
                         </li>

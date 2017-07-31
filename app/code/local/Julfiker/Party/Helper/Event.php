@@ -464,7 +464,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
 
         $participated = Mage::getModel('julfiker_party/partyparticipate')
             ->getCollection()
-            ->addFieldToFilter('status', self::STATUS_JOINED)
+            //->addFieldToFilter('status', self::STATUS_JOINED)
             ->addFieldToFilter('event_id', $eventId)
             ->addFieldToFilter('customer_id', $customerId)
             ->getFirstItem();

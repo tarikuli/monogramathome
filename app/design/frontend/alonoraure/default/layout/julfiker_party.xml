@@ -103,4 +103,12 @@
             <block type="julfiker_party/event_view" name="event_confirm" template="julfiker_party/event/confirm-success.phtml" />
         </reference>
     </julfiker_party_participate_success>
+    <julfiker_party_event_guest translate="label" module="julfiker_party">
+        <label>Make an order</label>
+        <update handle="page_two_columns_left" />
+        <reference name="content">
+            <block type="julfiker_party/event_view" name="event_list" template="julfiker_party/event/guest_rsvp.phtml" />
+        </reference>
+    </julfiker_party_event_guest>
+
 </layout>
