@@ -108,13 +108,14 @@ class Magestore_Magenotification_Model_Magenotification extends Mage_Core_Model_
 	
 	public function getNotificationData()
     {	
+    	return false;
 		$curl = new Varien_Http_Adapter_Curl();
         $curl->setConfig(array(
             'timeout'   => 2
         ));
         $curl->write(Zend_Http_Client::GET, $this->getMagestoreUrl(), '1.0');
         $data = $curl->read();
-	
+		
         if ($data === false) {
             return false;
         }
