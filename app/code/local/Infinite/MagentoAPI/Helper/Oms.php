@@ -44,7 +44,7 @@ class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 			$purchaseData['Coupon-Id']	= $orderObject->getCouponCode(); //'gg4phdjf9kmw4';
 			$purchaseData['Coupon-Value']	= '0'; // ToDo
 			$purchaseData['Date']	= $orderObject->getCreatedAt(); // 'Fri Apr 28 19:35:27 2017 GMT';
-			$purchaseData['ID']	= 'yhst-128796189915726-'.$orderObject->getIncrementId();
+			$purchaseData['ID']	= 'mah-001-'.$orderObject->getIncrementId();
 			$purchaseData['IP']	= $orderObject->getRemoteIp();	//'67.171.239.95';
 			
 			$orderItems = $orderObject->getAllItems();
