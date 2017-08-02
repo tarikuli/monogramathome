@@ -100,8 +100,8 @@ class Infinite_MagentoAPI_Helper_Oms extends Infinite_MagentoAPI_Helper_Log
 			$purchaseData['Shipping']	= 'USPS FIRST CLASS MAIL'; // ToDo
 			$purchaseData['Shipping-Charge']	= $orderObject->getShippingAmount(); //'17.95';
 			$purchaseData['Space-Id']	= ''; // ToDo
-			$purchaseData['Store-Id']	= 'yhst-128796189915726'; // ToDo
-			$purchaseData['Store-Name']	= 'monogramonline.com'; // ToDo
+			$purchaseData['Store-Id']	= 'mah-001'; // ToDo
+			$purchaseData['Store-Name']	= 'monogramathome.com'; // ToDo
 			$purchaseData['Tax-Charge']	= $orderObject->getBaseTaxAmount(); //'0.00';
 			$purchaseData['Total']	= $orderObject->getGrandTotal(); // '17.95';
 
