@@ -135,10 +135,7 @@ $endAt = date_create($_event->getEndAt());
                              data-fontColor="#000"
                              data-part="20"></div>
                         <label>
-                            <a href="#" data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                               data-title="Invited"
-                               data-member='<?php echo $this->getTotalInvites() ?>'
-                               data-target="#member_popup">
+                            <a href="#" >
                                 <?php echo $this->__("Goal invites 40+") ?>
                             </a>
                         </label>
@@ -164,10 +161,7 @@ $endAt = date_create($_event->getEndAt());
                              data-fontColor="#000"
                              data-part="20"></div>
                         <label>
-                            <a href="#" data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                               data-title="Joined"
-                               data-member='<?php echo $this->getTotalJoined() ?>'
-                               data-target="#member_popup">
+                            <a href="#">
                                 <?php echo $this->__("Goal 10 attending") ?>
                             </a>
                         </label>
@@ -209,12 +203,12 @@ $endAt = date_create($_event->getEndAt());
                         <h3><?php echo $this->__("Retail Sales"); ?></h3>
                         <span><?php echo Mage::helper('core')->currency($this->getSalesAmount(), true, false); ?></span>
                     </div>
-                    <?php if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
+                    <?php //if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
                     <div style="padding-top: 10px;">
                         <h3><?php echo $this->__("Host Rewards"); ?></h3>
-                        <span><?php echo $this->getEarningPercent()?></span>
+                        <span><?php echo $this->getHostAward()?></span>
                     </div>
-                    <?php endif ?>
+                    <?php //endif ?>
                 </div>
             </div>
         </div>

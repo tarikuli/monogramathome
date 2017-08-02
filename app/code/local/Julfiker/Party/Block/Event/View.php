@@ -56,7 +56,7 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
      * @return float
      */
     public function getEarningAmount() {
-        return $this->_eventHelper()->getEvenEarningAmount();
+        return $this->_eventHelper()->getEventEarningAmount();
     }
 
     /**
@@ -73,8 +73,8 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
      *
      * @return float
      */
-    public function getEarningPercent() {
-        return $this->_eventHelper()->getEventEarningPercent();
+    public function getHostAward() {
+        return $this->_eventHelper()->getHostAwardAmount();
     }
 
     /**

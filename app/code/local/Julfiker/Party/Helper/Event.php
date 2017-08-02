@@ -32,6 +32,10 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
 
     private $totalParticipates;
 
+    private $eventEarningPercent;
+    private $eventEarningAmount;
+    private $hostAwardAmount;
+
 
     /**
      * get the url to the events list page
@@ -104,8 +108,9 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
 
         $this->eventEarningPercent = $percent;
 
-        $earnings = $amount*($percent/100);
-        $this->evenEaringAmount = $earnings;
+        $earnings = $amount*(25/100);
+        $this->hostAwardAmount = $amount*($percent/100);
+        $this->eventEarningAmount = $earnings;
         $this->eventSalesAmount = $amount;
     }
 
@@ -510,16 +515,16 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     /**
      * @return mixed
      */
-    public function getEvenEarningAmount()
+    public function getEventEarningAmount()
     {
-        return $this->evenEaringAmount;
+        return $this->eventEarningAmount;
     }
 
     /**
      * @return mixed
      */
-    public function getEventSalesAmount()
+    public function getHostAwardAmount()
     {
-        return $this->eventSalesAmount;
+        return $this->hostAwardAmount;
     }
 }
