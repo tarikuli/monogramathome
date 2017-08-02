@@ -34,14 +34,30 @@ $endAt = date_create($_event->getEndAt());
                     <h1 style="font-size: 18px;"><?php echo $this->__("A Message From Your Host") ?></h1>
 
                     <div style="color:#8b8b8b;">
-                        <?php if ($_participate->getStatus() == 4): ?>
-                            We look forward to meeting you at <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>'s Event.
-                            Your personal Ambassador will be there to help you choose the best personalized product.
-                            You can also preview our collection ahead of time by shopping online <br/>
-                            Thank you - <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>
-                        <?php else: ?>
-                            Sorry you cannot attend <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>'s Event, but you can still shop our collection online.
-                        <?php endif; ?>
+                        <?php
+                        //If applied Yes
+                        if ($_participate->getStatus() == 4): ?>
+                            I can't wait to see you at this Sip and Shop Event! <br />
+                            Great News! If for some reason you are not able to make the event, you can still shop by clicking on "Shop Online Now".   <br/> <br />
+                            - <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>
+                        <?php endif ?>
+                        <?php
+                        //If applied may be
+                        if ($_participate->getStatus() == 3): ?>
+                            I understand how planning events around a busy lifestyle can be hard! <br /> <br />
+                            Thank you for considering to "Shop Online Now" your purchase still counts towards my Host Rewards.
+                            <br/>
+                            - <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>
+                        <?php endif ?>
+
+                        <?php
+                        //If applied No
+                        if ($_participate->getStatus() == 2): ?>
+                            I know how hard it is to have a conflict and not be able to make this great event.
+                            Thank you for considering to "Shop Online Now" <br />
+                            Your purchase still counts towards my Host Rewards   <br/> <br />
+                            - <?php echo Mage::helper("julfiker_party/event")->getHostName($_event->getHost()); ?>
+                        <?php endif ?>
                     </div>
                 </div>
             </div>
@@ -53,13 +69,13 @@ $endAt = date_create($_event->getEndAt());
                 <div class="row">
                     <div class="col-sm-12" style="text-align: center; padding-top: 5px;">
                         <?php if ($_participate->getStatus() == 4): ?>
-                            <h2 style="font-size: 21px"><?php echo $this->__("Thank you for your confirm!"); ?></h2>
+                            <h2 style="font-size: 21px"><?php echo $this->__("Excellent! See you there!"); ?></h2>
                             <h2 style="font-size: 21px"><?php echo $this->__("Yes") ?></h2>
                         <?php elseif ($_participate->getStatus() == 2): ?>
-                            <h2 style="font-size: 21px"><?php echo $this->__("You can't make it!"); ?></h2>
+                            <h2 style="font-size: 21px"><?php echo $this->__("Consider hosting an Event of your own!  The Host Reward program is excellent!")?> </h2>
                             <h2 style="font-size: 21px"><?php echo $this->__("NO") ?></h2>
                         <?php elseif ($_participate->getStatus() == 3): ?>
-                            <h2 style="font-size: 21px"><?php echo $this->__("You can't make it!"); ?></h2>
+                            <h2 style="font-size: 21px"><?php echo $this->__("We really hope your schedule clears and you can make it!"); ?></h2>
                             <h2 style="font-size: 21px"><?php echo $this->__("May be") ?></h2>
                         <?php endif; ?>
                     </div>
