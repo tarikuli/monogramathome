@@ -353,7 +353,7 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
             }
         }
         else {
-            Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('Event not available or it might be expired!'));
+            Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('Oops this event is over BUT you can still take advantage of the great items by shopping now. Please contact your event Host for more information.'));
             Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('party/event'));
         }
     }
