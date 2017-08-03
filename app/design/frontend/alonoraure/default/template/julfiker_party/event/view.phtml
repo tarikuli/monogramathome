@@ -206,7 +206,7 @@ $endAt = date_create($_event->getEndAt());
                     <?php //if (Mage::helper("julfiker_party/event")->isAmbassador($_event)):?>
                     <div style="padding-top: 10px;">
                         <h3><?php echo $this->__("Host Rewards"); ?></h3>
-                        <span><?php echo $this->getHostAward()?></span>
+                        <span><?php echo Mage::helper('core')->currency($this->getHostAward())?></span>
                     </div>
                     <?php //endif ?>
                 </div>

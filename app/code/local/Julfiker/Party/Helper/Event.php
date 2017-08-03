@@ -35,6 +35,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     private $eventEarningPercent;
     private $eventEarningAmount;
     private $hostAwardAmount;
+    private $eventSalesAmount;
 
 
     /**
@@ -526,5 +527,13 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     public function getHostAwardAmount()
     {
         return $this->hostAwardAmount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventSalesAmount()
+    {
+        return $this->eventSalesAmount;
     }
 }
