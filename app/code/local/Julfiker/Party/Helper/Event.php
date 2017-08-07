@@ -36,6 +36,7 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     private $eventEarningAmount;
     private $hostAwardAmount;
     private $eventSalesAmount;
+    private $maxDiscounteditems;
 
 
     /**
@@ -93,26 +94,57 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
      */
     private function calcRewards($amount) {
         $percent = 0;
+        $maxDiscountItems = 0;
 
         if ($amount >= 250 && $amount < 500) {
             $percent = 10;
+            $maxDiscountItems = 1;
         }
         elseif ($amount >= 500 && $amount < 1000) {
             $percent = 12;
+            $maxDiscountItems = 2;
         }
         elseif ($amount >= 1000 && $amount < 2000){
             $percent = 15;
+            $maxDiscountItems = 4;
         }
         elseif ($amount >= 2000) {
             $percent = 20;
+            $maxDiscountItems = 5;
         }
 
         $this->eventEarningPercent = $percent;
+        $this->maxDiscounteditems = $maxDiscountItems;
 
-        $earnings = $amount*(25/100);
         $this->hostAwardAmount = $amount*($percent/100);
-        $this->eventEarningAmount = $earnings;
+        $this->eventEarningAmount = $this->calcEarings($amount);
         $this->eventSalesAmount = $amount;
+
+    }
+
+    /**
+     * Cash earning calculation for ambassador
+     *
+     * @param $amount
+     * @return mixed
+     */
+    private function calcEarings($amount) {
+        $percent = 0;
+
+        if ($amount >= 0 && $amount < 2500) {
+            $percent = 25;
+        }
+        elseif ($amount >= 2500 && $amount < 5000) {
+            $percent = 30;
+        }
+        elseif ($amount >= 5000 && $amount < 10000){
+            $percent = 32;
+        }
+        elseif ($amount >= 10000) {
+            $percent = 35;
+        }
+
+        return $amount*($percent/100);
     }
 
     /**
@@ -535,5 +567,13 @@ class Julfiker_Party_Helper_Event extends Mage_Core_Helper_Abstract
     public function getEventSalesAmount()
     {
         return $this->eventSalesAmount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaxDiscounteditems()
+    {
+        return $this->maxDiscounteditems;
     }
 }

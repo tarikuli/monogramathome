@@ -78,6 +78,15 @@ class Julfiker_Party_Block_Event_View extends Mage_Core_Block_Template
     }
 
     /**
+     * Maximum discounted item
+     *
+     * @return mixed
+     */
+    public function getHostDiscountItems() {
+        return $this->_eventHelper()->getMaxDiscounteditems();
+    }
+
+    /**
      * Get current participate
      *
      * @return mixed
