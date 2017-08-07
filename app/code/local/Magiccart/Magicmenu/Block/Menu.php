@@ -231,7 +231,7 @@ class Magiccart_Magicmenu_Block_Menu extends Mage_Catalog_Block_Navigation
         $extMenu    = $this->getExtraMenu();
         $count = count($extMenu);
         $drawExtraMenu = '';
-        if($count){
+        if($count and $this->_isAmbassador()){
             $i = 1; $class = 'first';
             $currentUrl = $this->helper('core/url')->getCurrentUrl();
             foreach ($extMenu as $ext) { 

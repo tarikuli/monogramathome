@@ -39,10 +39,10 @@ $drawExtraMenu = $menu['extraCat'] ? $this->drawExtraMenu() : '';
 <?php $sticker = $menu['sticker'] ? 'sticker' : ''; ?>
 <div class="magicmenu clearfix">
 	<ul class="nav-desktop <?php echo $sticker ?>">
+		<?php echo $drawExtraMenu ?>
 		<?php //echo $drawHomeMenu ?>
 		<?php echo $drawDashboardMenu; ?>
 		<?php echo $drawMainMenu ?>
-		<?php echo $drawExtraMenu ?>
 	</ul>
 </div>
 <div class="nav-mobile">
