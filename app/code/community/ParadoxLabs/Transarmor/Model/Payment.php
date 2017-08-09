@@ -244,7 +244,8 @@ class ParadoxLabs_Transarmor_Model_Payment extends Mage_Payment_Model_Method_Cc
 							$order->setExtCustomerId( $adtl['payment_id'] )
 								  ->save();
 
-							$profile->addOrderRelation( $order->getId() );
+							#$profile->addOrderRelation( $order->getId() );
+							$profile->addOrderRelation( $order->getEntityId() );
 							
 							// Handle events and such
 							$transaction = Mage::getModel('core/resource_transaction');
@@ -607,18 +608,21 @@ class ParadoxLabs_Transarmor_Model_Payment extends Mage_Payment_Model_Method_Cc
 					$order->setExtCustomerId( $payment_id )
 						  ->save();
 
-					$profile->addOrderRelation( $order->getId() );
+					$order->save();
 					
-					// Handle events and such
-					$transaction = Mage::getModel('core/resource_transaction');
-					if( $_customer->getId() ) {
-						$transaction->addObject($_customer);
-					}
-					$transaction->addObject($order);
-					$transaction->addCommitCallback(array($order, 'place'));
-					$transaction->addCommitCallback(array($order, 'save'));
-					$transaction->save();
-					// End events and such
+					#$profile->addOrderRelation( $order->getIncrementId() );
+					$profile->addOrderRelation( $order->getEntityId() );
+					
+// 					// Handle events and such
+// 					$transaction = Mage::getModel('core/resource_transaction');
+// 					if( $_customer->getId() ) {
+// 						$transaction->addObject($_customer);
+// 					}
+// 					$transaction->addObject($order);
+// 					$transaction->addCommitCallback(array($order, 'place'));
+// 					$transaction->addCommitCallback(array($order, 'save'));
+// 					$transaction->save();
+// 					// End events and such
 					
 					$bill_count = 1;
 					
