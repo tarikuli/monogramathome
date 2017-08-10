@@ -46,6 +46,22 @@
             <block type="customer/form_register" name="address_popup" as="address_popup" template="julfiker_party/event/form/address.phtml" />
         </reference>
     </julfiker_party_event_create>
+    <julfiker_party_event_edit translate="label" module="julfiker_party">
+        <label>Book an event</label>
+        <update handle="page_two_columns_left" />
+        <reference name="head">
+            <action method="setTitle"><title>Monogram at home :: Edit event </title></action>
+            <action  method="addItem"><type>js</type><name>party/event.js</name></action>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="julfiker_party/event_event" name="event_edit" template="julfiker_party/event/form/event.phtml" />
+        </reference>
+        <reference name="before_body_end">
+            <block type="customer/form_register" name="customer_popup" as="customer_popup" brefore="-" template="julfiker_party/event/form/customer.phtml"/>
+            <block type="customer/form_register" name="address_popup" as="address_popup" template="julfiker_party/event/form/address.phtml" />
+        </reference>
+    </julfiker_party_event_edit>
     <julfiker_party_event_view translate="label" module="julfiker_party">
         <label>Event view page</label>
         <reference name="head">

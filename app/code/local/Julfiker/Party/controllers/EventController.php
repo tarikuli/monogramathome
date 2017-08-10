@@ -185,6 +185,57 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    public function editAction() {
+        if ($this->_checkPermission()) {
+            $this->loadLayout();
+            $eventId = $this->getRequest()->get('id');
+            $now = Mage::getModel('core/date')->timestamp(time());
+            $_event = Mage::getResourceModel('julfiker_party/event_collection')
+                ->addStoreFilter(Mage::app()->getStore())
+                ->addFieldToFilter('status', 1)
+                ->addFieldToFilter('entity_id', $eventId)
+                ->addFieldToFilter(
+                    'end_at',
+                    array(
+                        'gteq' => date ("Y-m-d H:i:s", $now)
+                    ))
+                ->getFirstItem();
+
+            if (!$_event->getId()) {
+                Mage::getSingleton('customer/session')->addError(Mage::helper('julfiker_party')->__('Oops this event is over! Sorry, but we cannot make changes to an Event which has ended. If your Guests wish to order more products please schedule a New Event.'));
+                Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('party/event'));
+                $this->_redirectReferer();
+                return;
+            }
+
+            $this->getLayout()->getBlock('event_edit')->setData('event', $_event);
+            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('customer/session');
+            $this->_initLayoutMessages('checkout/session');
+            if (Mage::helper('julfiker_party/event')->getUseBreadcrumbs()) {
+                if ($breadcrumbBlock = $this->getLayout()->getBlock('breadcrumbs')) {
+                    $breadcrumbBlock->addCrumb(
+                        'home',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('Home'),
+                            'link' => Mage::getUrl(),
+                        )
+                    );
+                    $breadcrumbBlock->addCrumb(
+                        'events',
+                        array(
+                            'label' => Mage::helper('julfiker_party')->__('Edit event'),
+                            'link' => '',
+                        )
+                    );
+                }
+            }
+            $this->getLayout()->getBlock('head')->setTitle($this->__('edit event'));
+            $this->renderLayout();
+        }
+    }
+
+
     public function addressAction() {
         $customerId = $this->getRequest()->get("id");
         if(!$customerId) {
@@ -228,7 +279,6 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
     public function saveAction()
     {
         if ($this->_checkPermission()) {
-            //$request = $this->getRequest()->get('event');
             $iDefaultStoreId = Mage::app()
                 ->getWebsite()
                 ->getDefaultGroup()
@@ -248,20 +298,21 @@ class Julfiker_Party_EventController extends Mage_Core_Controller_Front_Action
                     $event->addData($data);
                     $event->save();
 
-                    //Auto participate
-                    if ($event->getCreatedBy() == $event->getHost()) {
-                        $this->going($event->getId(), $event->getCreatedBy());
-                    }
-                    else {
-                        $this->going($event->getId(), $event->getCreatedBy());
-                        $this->going($event->getId(), $event->getHost());
+                    if (!$this->getRequest()->getParam('id')) {
+                        //Auto participate
+                        if ($event->getCreatedBy() == $event->getHost()) {
+                            $this->going($event->getId(), $event->getCreatedBy());
+                        } else {
+                            $this->going($event->getId(), $event->getCreatedBy());
+                            $this->going($event->getId(), $event->getHost());
+                        }
+
+                        //Welcome email to host
+                        if ($event->getHost() != $event->getCreatedBy())
+                            Mage::helper("julfiker_party/sender")->sendHostWelcomeEmail($event->getId());
                     }
 
-                    //Welcome email to host
-                    if ($event->getHost() != $event->getCreatedBy())
-                    Mage::helper("julfiker_party/sender")->sendHostWelcomeEmail($event->getId());
-
-                    Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Event was created successfully!'));
+                    Mage::getSingleton('customer/session')->addSuccess(Mage::helper('julfiker_party')->__('Event was saved successfully!'));
                     $this->_redirect('*/*/');
                     return;
                 } catch (Mage_Core_Exception $e) {

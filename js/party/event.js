@@ -124,6 +124,7 @@
 
         function populate(selector) {
             var select = $(selector);
+            var setTime = select.data('time');
             var hours, minutes, ampm;
             for(var i = 0; i <= 1440; i += 30){
                 hours = Math.floor(i / 60);
@@ -136,11 +137,24 @@
                 if (hours === 0){
                     hours = 12;
                 }
-                select.append($('<option></option>')
-                    .attr('value', hours + ':' + minutes + ' ' + ampm)
-                    .text(hours + ':' + minutes + ' ' + ampm));
+                if (hours < 10){
+                    hours = '0' + hours; // adding leading zero
+                }
+                var time = hours + ':' + minutes + ' ' + ampm;
+                if (setTime == time) {
+                    select.append($('<option></option>')
+                        .attr('value', time)
+                        .attr('selected', 'selected')
+                        .text(hours + ':' + minutes + ' ' + ampm));
+                }
+                else {
+                    select.append($('<option></option>')
+                        .attr('value', time)
+                        .text(hours + ':' + minutes + ' ' + ampm));
+                }
             }
         }
-        populate('.timeSelect'); // use selector for your select
+        populate('.timeSelect1'); // use selector for your select
+        populate('.timeSelect2');
     });
 })(jQuery);

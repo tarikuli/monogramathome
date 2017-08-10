@@ -51,10 +51,21 @@ class Julfiker_Party_Block_Event_Event extends Mage_Core_Block_Template
         return $customers;
     }
 
-    public function getCustomerAddress($customerId) {
-        $customer =  Mage::getModel('customer/customer')->load(171);
-        $address = Mage::getModel("Customer/Entity_Address_Collection");
-        $address->setCustomerFilter($customer);
-        return $address->load();
+
+    /**
+     * Host customer Id
+     *
+     * @param $hostCustomerId
+     * @return bool
+     */
+    public function isHostAsMyself($hostCustomerId = 0) {
+        if (!$hostCustomerId)
+            return false;
+
+        $customerId = 0;
+        if(Mage::getSingleton('customer/session')->isLoggedIn())
+            $customerId = Mage::getSingleton('customer/session')->getId();
+
+        return $hostCustomerId == $customerId;
     }
 }
