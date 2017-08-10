@@ -135,7 +135,11 @@
                     </button>
                     <button class="button pink-button" title="Book NOW"  type="submit">
                         <span>
-                            <span><?php echo $this->__("Book Now")?></span>
+                            <?php if ($_event):?>
+                            <span><?php echo $this->__("Save")?></span>
+                            <?php else: ?>
+                                <span><?php echo $this->__("Book Now")?></span>
+                            <?php endif ?>
                         </span>
                     </button>
                 </div>
