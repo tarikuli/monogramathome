@@ -39,7 +39,7 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 	 * $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
 	 * $checkout->saveOrder();
 	 * 
-	 * http://www.monogramathome.com/ambassadorTest/order/index/starterkit/1466/cus_id/32
+	 * http://www.monogramathome.com/ambassadorTest/order/index/starterkit/1744/cus_id/77
 	 * 
 	 */
 	
@@ -94,6 +94,9 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 		
 		$this->saveBillingAction($data);
 		Mage::log('saveBillingAction done', null, 'system.log', true);
+		
+		$this->saveShippingAction($data);
+		Mage::log('saveShippingAction done', null, 'system.log', true);
 		
 		$this->saveShippingMethodAction($data);
 		Mage::log('saveShippingMethodAction done', null, 'system.log', true);
@@ -574,48 +577,41 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 	/**
 	 * Shipping save action
 	 */
-	public function saveShippingAction(){
-		if ($this->_expireAjax()) {
-            return;
-        }
+	public function saveShippingAction($data){
 	
 		//TODO create response if post not exist
 		$responseData = array();
 	
 		$result = array();
 
-		if ($this->getRequest()->isPost()) {			
+		// get grand totals after
+		$totals_before = $this->_getSession()->getQuote()->getGrandTotal();
+
+		#$data = $this->getRequest()->getPost('shipping', array());
+		
+		#$customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
+		$customerAddressId = null;
+		# // STEP(3)
+		# $checkout->saveShipping($shippingAddress, false);
+		$result = $this->getOnepage()->saveShipping($data, $customerAddressId);
+
+		if (isset($result['error'])){
+			$responseData['error'] = true;
+			$responseData['message'] = $result['message'];
+			$responseData['messageBlock'] = 'shipping';
+			
+			echo "<br>saveShippingAction data found". $result['message'];
+			exit();
+		}else{
+			Mage::dispatchEvent('opc_saveGiftMessage', array(
+				'request' => $this->getRequest(),
+				'quote' => $this->getOnepage()->getQuote(),
+			));
+
 			// get grand totals after
-			$totals_before = $this->_getSession()->getQuote()->getGrandTotal();
-
-			$data = $this->getRequest()->getPost('shipping', array());
-			$customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
-			# // STEP(3)
-			# $checkout->saveShipping($shippingAddress, false);
-			$result = $this->getOnepage()->saveShipping($data, $customerAddressId);
-
-			if (isset($result['error'])){
-				$responseData['error'] = true;
-				$responseData['message'] = $result['message'];
-				$responseData['messageBlock'] = 'shipping';
-			}else{
-				Mage::dispatchEvent('opc_saveGiftMessage', array(
-					'request' => $this->getRequest(),
-					'quote' => $this->getOnepage()->getQuote(),
-				));
-
-				$responseData['shipping'] = $this->_getShippingMethodsHtml();
-				
-				// get grand totals after
-				$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
-				
-				if($totals_before != $totals_after)
-					$responseData['reload_totals'] = true;
-			}
+			$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
+			
 		}
-
-		$this->getResponse()->setHeader('Content-type','application/json', true);
-		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
 	
 	}
 	
