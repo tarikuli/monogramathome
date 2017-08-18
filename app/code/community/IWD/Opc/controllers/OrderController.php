@@ -85,6 +85,7 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 // 		print_r($data);
 // 		echo "</pre>"; exit();
 		
+		// STEP(1)
 		# indexAction
 		$this->cartProductAction($customerObject);
 		Mage::log('cartProductAction done', null, 'system.log', true);
@@ -92,12 +93,15 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 		$this->saveGeneralAction($data);
 		Mage::log('saveGeneralAction done', null, 'system.log', true);
 		
+		// STEP(2)
 		$this->saveBillingAction($data);
 		Mage::log('saveBillingAction done', null, 'system.log', true);
 		
+		// STEP(3)
 		$this->saveShippingAction($data);
 		Mage::log('saveShippingAction done', null, 'system.log', true);
 		
+		// STEP(4)
 		$this->saveShippingMethodAction($data);
 		Mage::log('saveShippingMethodAction done', null, 'system.log', true);
 		
@@ -110,9 +114,10 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 			'cc_cid' => 587
 		);
 		
-		
+		// STEP(5)
 		$this->savePaymentAction($savePayment);
 		
+		// STEP(6)
 		$this->saveOrderAction($savePayment);
 		exit();
 	}
@@ -522,7 +527,7 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 			
 			#$customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
 			#$customerAddressId = $data['address_id'];
-			$customerAddressId = null;
+			$customerAddressId = false;
 			
 			if (isset($data['email'])) {
 				$data['email'] = trim($data['email']);
@@ -590,7 +595,7 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 		#$data = $this->getRequest()->getPost('shipping', array());
 		
 		#$customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
-		$customerAddressId = null;
+		$customerAddressId = false;
 		# // STEP(3)
 		# $checkout->saveShipping($shippingAddress, false);
 		$result = $this->getOnepage()->saveShipping($data, $customerAddressId);
@@ -761,7 +766,8 @@ Mage::log('saveShippingMethod = '. print_r($data, true), null, 'system.log', tru
 			 $result will have erro data if shipping method is empty
 			*/
 			if(!$result) {
-Mage::log('saveShippingMethod 2 = '. print_r($this->getRequest(), true), null, 'system.log', true);				
+Mage::log('saveShippingMethod 2 = '. print_r($this->getRequest(), true), null, 'system.log', true);	
+			
 				Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method',
 											array('request'=>$this->getRequest(),
 											'quote'=>$this->getOnepage()->getQuote())
