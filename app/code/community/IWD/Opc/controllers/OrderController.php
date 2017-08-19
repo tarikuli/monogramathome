@@ -675,74 +675,48 @@ Mage::log('saveShippingMethod = '. print_r($data, true), null, 'system.log', tru
 	public function savePaymentAction($data)
 	{
         
-// 		try {
+		try {
 	
-// 			// set payment to quote
-// 			$result = array();
-// 			if(isset($data['cc_number']))
-// 			{
-// 				$data['cc_number'] = str_replace(' ', '', $data['cc_number']);
-// 			}
-// 			# // STEP(5)
-// 			# $checkout->savePayment(array('method'=>'checkmo'));
-// 			$result = $this->getOnepage()->savePayment($data);
+			// set payment to quote
+			$result = array();
+			if(isset($data['cc_number']))
+			{
+				$data['cc_number'] = str_replace(' ', '', $data['cc_number']);
+			}
+			# // STEP(5)
+			# $checkout->savePayment(array('method'=>'checkmo'));
+			$result = $this->getOnepage()->savePayment($data);
 	
-// 			// get section and redirect data
-// 			$redirectUrl = $this->getOnepage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
-// 			if (empty($result['error'])) {
-// 				$this->loadLayout('checkout_onepage_review');
-// 				$result['review'] = $this->_getReviewHtml();
-// 				$result['grandTotal'] = Mage::helper('opc')->getGrandTotal();
-// 			}
-// 			if ($redirectUrl) {
-// 				$result['redirect'] = $redirectUrl;
-// 			}
-// 		} catch (Mage_Payment_Exception $e) {
-// Mage::log('savePaymentAction  error 1  = '.print_r($e->getMessage(), true), null, 'system.log', true);
-// 			if ($e->getFields()) {
-// 				$result['fields'] = $e->getFields();
-// 			}
-// 			$result['error'] = $e->getMessage();
-// 		} catch (Mage_Core_Exception $e) {
-// Mage::log('savePaymentAction  error 2  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
-// 			$result['error'] = $e->getMessage();
-// 		} catch (Exception $e) {
-// Mage::log('savePaymentAction  error 3  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
-// 			Mage::logException($e);
-// 			$result['error'] = $this->__('Unable to set Payment Method.');
-// 		}
-		
-		if (empty($data)) {
-			return array('error' => -1, 'message' => Mage::helper('checkout')->__('Invalid data.'));
-		}
-		$quote = $this->getOnepage()->getQuote();
-		if ($quote->isVirtual()) {
-			$quote->getBillingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
-		} else {
-			$quote->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+			// get section and redirect data
+			$redirectUrl = $this->getOnepage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
+			if (empty($result['error'])) {
+				
+				echo "<pre>";
+				print_r($result);
+				echo "</pre>";
+				
+				$this->loadLayout('checkout_onepage_review');
+				$result['review'] = $this->_getReviewHtml();
+				$result['grandTotal'] = Mage::helper('opc')->getGrandTotal();
+			}
+			if ($redirectUrl) {
+				$result['redirect'] = $redirectUrl;
+			}
+		} catch (Mage_Payment_Exception $e) {
+Mage::log('savePaymentAction  error 1  = '.print_r($e->getMessage(), true), null, 'system.log', true);
+			if ($e->getFields()) {
+				$result['fields'] = $e->getFields();
+			}
+			$result['error'] = $e->getMessage();
+		} catch (Mage_Core_Exception $e) {
+Mage::log('savePaymentAction  error 2  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
+			$result['error'] = $e->getMessage();
+		} catch (Exception $e) {
+Mage::log('savePaymentAction  error 3  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
+			Mage::logException($e);
+			$result['error'] = $this->__('Unable to set Payment Method.');
 		}
 		
-		// shipping totals may be affected by payment method
-		if (!$quote->isVirtual() && $quote->getShippingAddress()) {
-			$quote->getShippingAddress()->setCollectShippingRates(true);
-		}
-		
-		$data['checks'] = Mage_Payment_Model_Method_Abstract::CHECK_USE_CHECKOUT
-		| Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
-		| Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
-		| Mage_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
-		| Mage_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
-		
-		$payment = $quote->getPayment();
-		$payment->importData($data);
-		
-		$quote->save();
-		
-		$this->getCheckout()
-		->setStepData('payment', 'complete', true)
-		->setStepData('review', 'allow', true);
-		
-		return array();
 
 	}
 	
@@ -763,6 +737,20 @@ Mage::log('saveShippingMethod = '. print_r($data, true), null, 'system.log', tru
 			#$data = $this->getRequest()->getPost('payment', false);
 Mage::log('saveOrderAction  payment = '.print_r($data, true), null, 'system.log', true);		
 			if ($data) {
+				
+				$quote = $this->getOnepage()->getQuote();
+				if ($quote->isVirtual()) {
+					$quote->getBillingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+				} else {
+					$quote->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+				}
+				
+				// shipping totals may be affected by payment method
+				if (!$quote->isVirtual() && $quote->getShippingAddress()) {
+					$quote->getShippingAddress()->setCollectShippingRates(true);
+				}
+				
+				
 				/** Magento CE 1.8 version**/
 				if ($version['minor'] == 8){
 					
