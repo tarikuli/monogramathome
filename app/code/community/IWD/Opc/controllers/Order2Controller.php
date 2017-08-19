@@ -52,36 +52,49 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 			 * (6) Order review, in short: DO THE ORDER
 			 */
 // 			$storeId = Mage::app ()->getStore ()->getId ();
-			
+		
 			$checkout = Mage::getSingleton ( 'checkout/type_onepage' );
-			
+			echo "<br>1  checkout/type_onepage";
+						
 			$checkout->initCheckout ();
+			echo "<br>2  checkout/type_onepage";
 			
-			$checkout->saveShippingMethod ( 'excellence_excellence' );
+			$checkout->saveShippingMethod ( 'tablerate_bestway' );
+			echo "<br>3  checkout/type_onepage";
 			
-			$quote->getShippingAddress ()->setShippingMethod ( 'excellence_excellence' );
-			
+			$quote->getShippingAddress ()->setShippingMethod ( 'tablerate_bestway' );
+			echo "<br>4  checkout/type_onepage";
+						
 			$quote->getShippingAddress ()->unsGrandTotal (); // clear the values so they won't take part in calculating the totals
+			echo "<br>5  checkout/type_onepage";
 			
 			$quote->getShippingAddress ()->unsBaseGrandTotal ();
+			echo "<br>6  checkout/type_onepage";
 			
 			$quote->getShippingAddress ()->setCollectShippingRates ( true )->save ();
+			echo "<br>7  checkout/type_onepage";
 			
 			$quote->getShippingAddress ()->collectTotals (); // collect totals and ensure the initialization of the shipping methods
+			echo "<br>8  checkout/type_onepage";
 			
 			$quote->collectTotals ();
+			echo "<br>9  checkout/type_onepage";
 			
 			// STEP(1)
 			$checkout->saveCheckoutMethod ( Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER );
+			echo "<br>10  checkout/type_onepage";
 			
 			// STEP(2)
 			$checkout->saveBilling ( $data, false );
+			echo "<br>11  checkout/type_onepage";
 			
 			// STEP(3)
 			$checkout->saveShipping ( $data, false );
+			echo "<br>12  checkout/type_onepage";
 			
 			// STEP(4)
 			$checkout->saveShippingMethod ( 'tablerate_bestway' );
+			echo "<br>13  checkout/type_onepage";
 			
 			// STEP(5)
 			$checkout->savePayment (Array(
@@ -95,6 +108,7 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 			));
 			
 			Mage::getSingleton ( 'checkout/type_onepage' )->getQuote ()->getShippingAddress ()->setShippingMethod ( 'tablerate_bestway' );
+			echo "<br>14  checkout/type_onepage";
 			
 			// STEP(6)
 			/*
@@ -106,21 +120,20 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 				
 				$checkout->saveOrder ();
 				
-			} catch ( Exception $ex ) {
+			} catch ( Exception $e ) {
 				echo "<pre>";
-				echo $ex->getMessage ();
+				print_r($e->getMessage());
 				echo "</pre>";
 			}
 			
 			// addCartItems($products_delayed);
-			$cart->truncate ();
-			$cart->save ();
+			Mage::getModel ( 'checkout/cart' )->getQuote ()->truncate ();
+			Mage::getModel ( 'checkout/cart' )->getQuote ()->save ();
 			Mage::getSingleton ( 'checkout/session' )->setCartWasUpdated ( true );
 			Mage::getSingleton ( 'customer/session' )->logout ();
 			
 			Mage::getSingleton('checkout/session')->clear();
 			Mage::getSingleton('customer/session')->clear();
-			$customerAddressId = '';
 		}
 		
 		public function cartProductAction($customerObject){
