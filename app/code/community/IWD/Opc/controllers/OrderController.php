@@ -44,7 +44,8 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 	 */
 	
 	public function indexAction(){
-		echo Mage::app()->getRequest()->cus_id;
+		echo "<br>".date('l jS \of F Y h:i:s A');
+		echo "<br>".Mage::app()->getRequest()->cus_id;
 		echo "<br>".Mage::app()->getRequest()->starterkit;
 		
 		#$data['cus_id'] = Mage::app()->getRequest()->cus_id;
@@ -84,7 +85,10 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 // 		echo "<pre>";
 // 		print_r($data);
 // 		echo "</pre>"; exit();
-		
+
+		// STEP(0)
+		$this->paymentsAction();
+			
 		// STEP(1)
 		# indexAction
 		$this->cartProductAction($customerObject);
@@ -105,20 +109,31 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 		$this->saveShippingMethodAction($data);
 		Mage::log('saveShippingMethodAction done', null, 'system.log', true);
 		
+		// STEP(0)
+		$this->paymentsAction();
+		
 		$savePayment = Array(
 			'method' => 'transarmor',
 			'cc_type' => 'VI',
-			'cc_number' => 4246315230885095,
-			'cc_exp_month' => 9,
-			'cc_exp_year' => 2019,
-			'cc_cid' => 587
+			'cc_number' => '4246 3152 3088 5095',
+			'cc_exp_month' => '9',
+			'cc_exp_year' => '2019',
+			'cc_cid' => '587'
+				
 		);
 		
 		// STEP(5)
 		$this->savePaymentAction($savePayment);
 		
+		$this->saveShippingMethodAction($data);
+		
 		// STEP(6)
 		$this->saveOrderAction($savePayment);
+		echo "<br>".date('l jS \of F Y h:i:s A');
+		
+		/* CUSTOM CODE */
+		$this->_getCart()->truncate()->save();
+		$this->_getSession()->setCartWasUpdated(true);
 		exit();
 	}
 	
@@ -149,14 +164,14 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
         #$customerObject = Mage::getModel ( 'customer/customer' )->load ( $data['cus_id'] );
         Mage::getSingleton('core/session')->setAmbassadorWebsiteName($customerObject->getUsername());
         ## Programmitcally Customer login code use later ##
-			//         Mage::getSingleton('customer/session')->setCustomerAsLoggedIn($customerObject);
+			        Mage::getSingleton('customer/session')->setCustomerAsLoggedIn($customerObject);
 					
-			//         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-			//         	$custSessionId = Mage::getModel("core/session")->getEncryptedSessionId();
-			//         	echo "<br> Custome is login";
-			//         }else {
-			//         	echo "<br> Custome not login";
-			//         }
+			        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+			        	$custSessionId = Mage::getModel("core/session")->getEncryptedSessionId();
+			        	echo "<br> Custome is login";
+			        }else {
+			        	echo "<br> Custome not login";
+			        }
         ## Programmitcally Customer login code use later ##        
 		
 		/* CUSTOM CODE ENDS */
@@ -323,20 +338,11 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 
 		$_cart = $this->_getCart();
 		$_quote = $_cart->getQuote();
+Mage::log('_getPaymentMethodsHtml = '. print_r($apply_method, true), null, 'system.log', true);		
 		$_quote->getPayment()->setMethod($apply_method);
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
 		$_quote->save();
 
-		if($just_save)
-			return '';
-
-		$layout = $this->getLayout();
-		$update = $layout->getUpdate();
-		$update->load('checkout_onepage_paymentmethod');
-		$layout->generateXml();
-		$layout->generateBlocks();	
-		$output = $layout->getOutput();
-		return $output;
 	}
 
 	/**
@@ -515,15 +521,6 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 			# STEP(1)
 			$this->getOnepage()->saveCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER);
 
-			# Clear previous Ambassador Data if saved in session.
-			Mage::getSingleton('core/session')->setCurrentCheckoutCustomerPassword($data['customer_password']);
-
-			Mage::getSingleton('core/session')->setAmbassadorCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER);
-
-			Mage::getSingleton('core/session')->setAmbassadorBillingInfo(array('ssn_number' => $data['ssn_number']));
-			
-			$this->checkNewslatter();
-			
 			
 			#$customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
 			#$customerAddressId = $data['address_id'];
@@ -617,139 +614,13 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 			$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
 			
 		}
+
 	
 	}
 	
 	/**
 	 * reload available shipping methods based on address
 	 */
-	public function reloadShippingsPaymentsAction(){
-	
-		if ($this->_expireAjax()) {
-			return;
-		}
-	
-		if ($this->getRequest()->isPost()) {
-			
-			$result = array();
-			
-			$address_type = false;
-			$billing = $this->getRequest()->getPost('billing', array());
-			if(!empty($billing) && is_array($billing) && isset($billing['address_id'])){
-				$address_type = 'billing';
-				$data = $billing;
-			}
-			else{
-				$address_type = 'shipping';
-				$data = $this->getRequest()->getPost('shipping', array());
-			}
-
-			// get grand totals after
-			$totals_before = $this->_getSession()->getQuote()->getGrandTotal();
-			
-			/// get list of available methods before billing changes
-			$methods_before = Mage::helper('opc')->getAvailablePaymentMethods();
-			///////
-					
-			$customerAddressId = $this->getRequest()->getPost($address_type.'_address_id', false);
-			$cust_addr_id = $customerAddressId;
-	
-			if($address_type == 'billing')
-				$address = $this->getOnepage()->getQuote()->getBillingAddress();
-			else
-				$address = $this->getOnepage()->getQuote()->getShippingAddress();
-			
-			if (!empty($cust_addr_id))
-			{
-				$cust_addr = Mage::getModel('customer/address')->load($cust_addr_id);
-				if ($cust_addr->getId())
-				{
-					if ($cust_addr->getCustomerId() != $this->getOnepage()->getQuote()->getCustomerId())
-						$result = array('error' => 1, 'message' => Mage::helper('checkout')->__('Customer Address is not valid.'));
-					else
-						$address->importCustomerAddress($cust_addr);
-				}
-			}
-			else
-			{
-				unset($data['address_id']);
-				$address->addData($data);
-			}
-
-			if(!isset($result['error'])){
-				$address->implodeStreetAddress();
-				
-				$ufs = 0;
-				
-				if($address_type == 'billing'){
-					if (!$this->getOnepage()->getQuote()->isVirtual())
-					{
-						if(isset($data['use_for_shipping']))
-							$ufs = (int) $data['use_for_shipping'];
-					
-						switch($ufs)
-						{
-							case 0:
-								$ship = $this->getOnepage()->getQuote()->getShippingAddress();
-								$ship->setSameAsBilling(0);
-								break;
-							case 1:
-								$bill = clone $address;
-								$bill->unsAddressId()->unsAddressType();
-								$ship = $this->getOnepage()->getQuote()->getShippingAddress();
-								$ship_method = $ship->getShippingMethod();
-								$ship->addData($bill->getData());
-								$ship->setSameAsBilling(1)->setShippingMethod($ship_method)->setCollectShippingRates(true);
-								break;
-						}
-					}
-				}
-				else						
-					$address->setCollectShippingRates(true);
-
-				$this->getOnepage()->getQuote()->collectTotals()->save();
-
-				if ($this->getOnepage()->getQuote()->isVirtual())
-					$result['isVirtual'] = true;
-	
-				if(($address_type == 'billing' && $ufs == 1) || $address_type == 'shipping')
-					$result['shipping'] = $this->_getShippingMethodsHtml();
-	
-				/// get list of available methods after discount changes
-				$methods_after = Mage::helper('opc')->getAvailablePaymentMethods();
-				///////
-
-				// check if need to reload payment methods
-				$use_method = Mage::helper('opc')->checkUpdatedPaymentMethods($methods_before, $methods_after);
-
-				if($use_method != -1)
-				{
-					if(empty($use_method))
-						$use_method = -1;
-						
-					// just save new method, (because retuned html is empty)
-					$result['payments'] = $this->_getPaymentMethodsHtml($use_method, true);
-					// and need to send reload method request
-					$result['reload_payments'] = true;
-				}
-				else{
-					// get grand totals after
-					$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
-					
-					if($totals_before != $totals_after)
-						$result['reload_totals'] = true;
-				}
-				/////
-	
-			}else{
-				$result['error'] = true;
-				$result['message'] = $result['message'];
-			}
-			
-			$this->getResponse()->setHeader('Content-type','application/json', true);
-			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-		}
-	}
 	
 	
 	/**
@@ -762,11 +633,17 @@ Mage::log('saveShippingMethod = '. print_r($data, true), null, 'system.log', tru
 			# // STEP(4)
 			# $checkout->saveShippingMethod('flatrate_flatrate');
 			$result = $this->getOnepage()->saveShippingMethod($data);
+			
+			
+	echo "<pre>";
+	print_r($result);
+	echo "</pre>";
+						
 			/*
 			 $result will have erro data if shipping method is empty
 			*/
 			if(!$result) {
-Mage::log('saveShippingMethod 2 = '. print_r($this->getRequest(), true), null, 'system.log', true);	
+#Mage::log('saveShippingMethod 2 = '. print_r($this->getRequest(), true), null, 'system.log', true);	
 			
 				Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method',
 											array('request'=>$this->getRequest(),
@@ -791,56 +668,81 @@ Mage::log('saveShippingMethod 2 = '. print_r($this->getRequest(), true), null, '
 	
 	
 	public function paymentsAction(){
-		if ($this->_expireAjax()) {
-			return;
-		}
-		$responseData = array();
-		$responseData['payments'] = $this->_getPaymentMethodsHtml();
-		$this->getResponse()->setHeader('Content-type','application/json', true);
-		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
+		$this->_getPaymentMethodsHtml();
 	}
 	
 	
 	public function savePaymentAction($data)
 	{
         
-		try {
+// 		try {
 	
-			// set payment to quote
-			$result = array();
-			if(isset($data['cc_number']))
-			{
-				$data['cc_number'] = str_replace(' ', '', $data['cc_number']);
-			}
-			# // STEP(5)
-			# $checkout->savePayment(array('method'=>'checkmo'));
-			$result = $this->getOnepage()->savePayment($data);
+// 			// set payment to quote
+// 			$result = array();
+// 			if(isset($data['cc_number']))
+// 			{
+// 				$data['cc_number'] = str_replace(' ', '', $data['cc_number']);
+// 			}
+// 			# // STEP(5)
+// 			# $checkout->savePayment(array('method'=>'checkmo'));
+// 			$result = $this->getOnepage()->savePayment($data);
 	
-			// get section and redirect data
-			$redirectUrl = $this->getOnepage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
-			if (empty($result['error'])) {
-				$this->loadLayout('checkout_onepage_review');
-				$result['review'] = $this->_getReviewHtml();
-				$result['grandTotal'] = Mage::helper('opc')->getGrandTotal();
-			}
-			if ($redirectUrl) {
-				$result['redirect'] = $redirectUrl;
-			}
-		} catch (Mage_Payment_Exception $e) {
-Mage::log('savePaymentAction  error 1  = '.print_r($e->getMessage(), true), null, 'system.log', true);
-			if ($e->getFields()) {
-				$result['fields'] = $e->getFields();
-			}
-			$result['error'] = $e->getMessage();
-		} catch (Mage_Core_Exception $e) {
-Mage::log('savePaymentAction  error 2  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
-			$result['error'] = $e->getMessage();
-		} catch (Exception $e) {
-Mage::log('savePaymentAction  error 3  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
-			Mage::logException($e);
-			$result['error'] = $this->__('Unable to set Payment Method.');
+// 			// get section and redirect data
+// 			$redirectUrl = $this->getOnepage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
+// 			if (empty($result['error'])) {
+// 				$this->loadLayout('checkout_onepage_review');
+// 				$result['review'] = $this->_getReviewHtml();
+// 				$result['grandTotal'] = Mage::helper('opc')->getGrandTotal();
+// 			}
+// 			if ($redirectUrl) {
+// 				$result['redirect'] = $redirectUrl;
+// 			}
+// 		} catch (Mage_Payment_Exception $e) {
+// Mage::log('savePaymentAction  error 1  = '.print_r($e->getMessage(), true), null, 'system.log', true);
+// 			if ($e->getFields()) {
+// 				$result['fields'] = $e->getFields();
+// 			}
+// 			$result['error'] = $e->getMessage();
+// 		} catch (Mage_Core_Exception $e) {
+// Mage::log('savePaymentAction  error 2  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
+// 			$result['error'] = $e->getMessage();
+// 		} catch (Exception $e) {
+// Mage::log('savePaymentAction  error 3  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
+// 			Mage::logException($e);
+// 			$result['error'] = $this->__('Unable to set Payment Method.');
+// 		}
+		
+		if (empty($data)) {
+			return array('error' => -1, 'message' => Mage::helper('checkout')->__('Invalid data.'));
+		}
+		$quote = $this->getOnepage()->getQuote();
+		if ($quote->isVirtual()) {
+			$quote->getBillingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+		} else {
+			$quote->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
 		}
 		
+		// shipping totals may be affected by payment method
+		if (!$quote->isVirtual() && $quote->getShippingAddress()) {
+			$quote->getShippingAddress()->setCollectShippingRates(true);
+		}
+		
+		$data['checks'] = Mage_Payment_Model_Method_Abstract::CHECK_USE_CHECKOUT
+		| Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
+		| Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
+		| Mage_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
+		| Mage_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
+		
+		$payment = $quote->getPayment();
+		$payment->importData($data);
+		
+		$quote->save();
+		
+		$this->getCheckout()
+		->setStepData('payment', 'complete', true)
+		->setStepData('review', 'allow', true);
+		
+		return array();
 
 	}
 	
@@ -858,7 +760,8 @@ Mage::log('savePaymentAction  error 3  = '.print_r($e->getMessage(), true), null
 		try {
 			
 	
-			$data = $this->getRequest()->getPost('payment', false);
+			#$data = $this->getRequest()->getPost('payment', false);
+Mage::log('saveOrderAction  payment = '.print_r($data, true), null, 'system.log', true);		
 			if ($data) {
 				/** Magento CE 1.8 version**/
 				if ($version['minor'] == 8){
@@ -878,24 +781,7 @@ Mage::log('savePaymentAction  error 3  = '.print_r($e->getMessage(), true), null
 			# $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
 			$this->getOnepage()->saveOrder();
 			
-			/** Magento CE 1.6 version**/
-			if ($version['minor']==6){
-				$storeId = Mage::app()->getStore()->getId();
-				$paymentHelper = Mage::helper("payment");
-				$zeroSubTotalPaymentAction = $paymentHelper->getZeroSubTotalPaymentAutomaticInvoice($storeId);
-				if ($paymentHelper->isZeroSubTotal($storeId)
-				&& $this->_getOrder()->getGrandTotal() == 0
-				&& $zeroSubTotalPaymentAction == Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE
-				&& $paymentHelper->getZeroSubTotalOrderStatus($storeId) == 'pending') {
-					$invoice = $this->_initInvoice();
-					$invoice->getOrder()->setIsInProcess(true);
-					$transactionSave = Mage::getModel('core/resource_transaction')
-					->addObject($invoice)
-					->addObject($invoice->getOrder());
-					$transactionSave->save();
-				}
-			}
-	
+			
 			$redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
 			
 		} catch (Mage_Payment_Model_Info_Exception $e) {
