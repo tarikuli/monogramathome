@@ -81,6 +81,16 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 			$data['confirm_password'] = $customerObject-> getPasswordHash(); //'ta4rikuli',
 			$data['use_for_shipping'] = 1; //1,
 			$data['cus_id'] = Mage::app()->getRequest()->cus_id;
+			
+			$savePayment = Array(
+				'method' => 'transarmor',
+				'cc_type' => 'VI',
+				'cc_number' => '4246 3152 3088 5095',
+				'cc_exp_month' => '9',
+				'cc_exp_year' => '2019',
+				'cc_cid' => '587'
+	
+			);
 		
 // 		echo "<pre>";
 // 		print_r($data);
