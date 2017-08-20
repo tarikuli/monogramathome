@@ -119,9 +119,6 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action{
 		$this->saveShippingMethodAction($data);
 		Mage::log('saveShippingMethodAction done', null, 'system.log', true);
 		
-		// STEP(0)
-		$this->paymentsAction();
-		
 		$savePayment = Array(
 			'method' => 'transarmor',
 			'cc_type' => 'VI',
@@ -660,9 +657,9 @@ Mage::log('saveShippingMethod = '. print_r($data, true), null, 'system.log', tru
 											'quote'=>$this->getOnepage()->getQuote())
 									);
 				
-				$this->getOnepage()->getQuote()->collectTotals();
+				#$this->getOnepage()->getQuote()->collectTotals();
 			}
-			$this->getOnepage()->getQuote()->collectTotals()->save();
+			#$this->getOnepage()->getQuote()->collectTotals()->save();
 	}
 	
 	public function reviewAction(){
@@ -777,7 +774,8 @@ Mage::log('saveOrderAction  payment = '.print_r($data, true), null, 'system.log'
 
 			# // STEP(6)
 			# $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
-			$this->getOnepage()->saveOrder();
+			$getModel = Mage::getModel("Mage_Checkout_Model_Type_Onepage")->saveOrder();
+			#$this->getOnepage()->saveOrder();
 			
 			
 			$redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
