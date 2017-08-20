@@ -788,6 +788,25 @@ class ParadoxLabs_Transarmor_Model_Payment extends Mage_Payment_Model_Method_Cc
 		$payment	= $profile->getQuote()->getPayment();
 		$order		= $payment->getOrder();
 		
+// 		$payment->setCcNumber('4246315230885095');
+// 		$payment->getCcCid('587');
+// 		$payment->setCcExpMonth('9');
+// 		$payment->setCcExpYear('2019');
+		
+echo "<br> payment = "; 
+echo "<pre>";
+	echo $payment->getCcNumber();
+	echo "<br>".$payment->getCcCid();
+	echo "<br>".$payment->getCcExpMonth();
+	echo "<br>".$payment->getCcExpYear();
+	
+	echo "<br>Billing info";
+	print_r($billing = $profile->getBillingAddressInfo());
+	
+	echo "<br>_customer info";
+	print_r($_customer->toArray());
+echo "</pre>";
+#echo "<br> order = "; echo "<pre>"; print_r($order->toArray()); echo "</pre>";
 		/**
 		 * Are we paying with a stored card?
 		 */
