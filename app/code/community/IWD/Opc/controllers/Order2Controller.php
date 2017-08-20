@@ -76,7 +76,7 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 		$savePayment = Array (
 				'method' => 'transarmor',
 				'cc_type' => 'VI',
-				'cc_number' => '4246 3152 3088 5095',
+				'cc_number' => '4246315230885095',
 				'cc_exp_month' => '9',
 				'cc_exp_year' => '2019',
 				'cc_cid' => '587' 
@@ -104,9 +104,9 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 		$website = $customerObject->getWebsiteId();
 		echo "<br>2. website_id =".$website;
 				
-		$firstName = 'Frances';
-		$lastName = 'Arroyo';
-		$email = 'frances@monogramathome.com';
+		$firstName = $data ['firstname'];
+		$lastName = $data ['lastname'];
+		$email = $data ['email'];
 		$logFileName = 'system.log';
 		
 		$billingAddress = array (
@@ -121,7 +121,7 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 						'0' => '575 Underhill Blvd', // compulsory
 						'1' => 'suite 216' 
 				), // optional
-				'city' => 'syosset',
+				'city' => $data ['city'],
 				'country_id' => 'US', // two letters country code
 				'region' => $data ['region'], // can be empty '' if no region
 				'region_id' => $data ['region_id'], // can be empty '' if no region_id
@@ -145,7 +145,7 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 						'1' => 'suite 216' 
 				), // optional
 
-				'city' => 'syosset',
+				'city' => $data ['city'],
 				'country_id' => 'US', // two letters country code
 				'region' => $data ['region'], // can be empty '' if no region
 				'region_id' => $data ['region_id'], // can be empty '' if no region_id
@@ -159,7 +159,7 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 		
 		/**
 		 * You need to enable this method from Magento admin
-		 * Other methods: tablerate_tablerate, freeshipping_freeshipping, etc.
+		 * Other methods: tablerate_tablerate, freeshipping_freeshipping, flatrate_flatrate, tablerate_bestway, etc.
 		 */
 		$shippingMethod = 'flatrate_flatrate';
 		
