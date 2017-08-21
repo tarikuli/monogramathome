@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Eps_Customizationurl>
+            <version>0.0.1</version>
+        </Eps_Customizationurl>
+    </modules>
+    <global>
+        <models>
+            <epscustomizationurl>
+                <class>Eps_Customizationurl_Model</class>
+            </epscustomizationurl>
+        </models>    
+    </global>
+    <frontend>
+        <events>
+            <!-- Event fired when converting from a quote item (items in cart) to order item, this
+             happens when checking out orders -->
+            <sales_convert_quote_item_to_order_item>
+                <observers>
+                    <eps_customizationurl_model_observer>
+                        <type>model</type>
+                        <class>epscustomizationurl/observer</class>
+                        <method>epsURLCreator</method>
+                    </eps_customizationurl_model_observer>
+                </observers>
+            </sales_convert_quote_item_to_order_item>
+        </events>
+    </frontend>
+</config>

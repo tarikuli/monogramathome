@@ -186,12 +186,63 @@
     //]]>
     </script>
     
-    <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>js/lib/build.js"></script>
+    <script type="text/javascript" src="http://products.selva3d.com/build.js"></script>
     <script>
-		engraver.init('preview-canvas');
-		engraver.setProduct('adb2fc10-e55c-4bee-9f1c-945e5e8067c4').then(function() {
-			
-		});
+        <?php $_product = $this->getProduct(); ?>
+        var productId = '<?php echo $_product->getResource()->getAttribute('product_customization_id')->getFrontend()->getValue($_product); ?>';
+
+        // If the product has a personalization id, prepare the canvas
+        if(productId) {
+            // If the canvas specified with the id doesn't exists, create a hidden one first
+            if(!$j('#preview-canvas').length) {
+                console.log('Creating hidden canvas');
+                $container = $j('<div>').css('display', 'none');
+                $canvas = $j('<canvas>').attr('id', 'preview-canvas');
+
+                $container.append($canvas).appendTo('body');
+            }
+
+    		var status = engraver.init('preview-canvas', {
+                zoomOnHover: false
+            });
+            if(status == 0) {
+                engraver.setProduct(productId).then(function() {
+                    console.log('Product loaded!');
+                }).catch(function () {
+                    console.error('Failed loading product');
+                });
+            }
+            else {
+                console.error('Error creating canvas');
+            }
+
+            $j(document).ready(function () {
+                $j('.button.btn-cart').each(function () {
+                    // Remove and save the click property
+                    var clickMethod = $j(this).prop('onclick');
+                    if(clickMethod) {
+                        clickMethod = clickMethod.bind(this);
+                    }
+                    $j(this).removeAttr('onclick');
+
+                    // Set click listener
+                    $j(this).click(function () {
+                        $elem = $(this);
+                        engraver.exportFile().then(function(url) {
+                            $j('input[name=eps_url]').val(url);
+
+                            // Run original onclick event
+                            if(clickMethod) {
+                                clickMethod();
+                            }
+                        });
+                    });
+                });
+            });
+        }
+        else {
+            $j('#preview-canvas').remove();
+        }
 	</script>
 		
     <dl>

@@ -1210,6 +1210,8 @@ var ProductMediaManager = {
         var imageGallery = $j('.product-image-gallery');
 
         if(targetImage[0].complete) { //image already loaded -- swap immediately
+            // Hide canvas
+            $j('#preview-canvas').parent().parent().removeClass('canvas-invisible').addClass('canvas-invisible');
 
             imageGallery.find('.gallery-image').removeClass('visible');
 
@@ -1253,9 +1255,31 @@ var ProductMediaManager = {
         $j('.product-image-thumbs .thumb-link').click(function(e) {
             e.preventDefault();
             var jlink = $j(this);
-            var target = $j('#image-' + jlink.data('image-index'));
+            var imageIndex = jlink.data('image-index');
 
-            ProductMediaManager.swapImage(target);
+            // If there is a preview canvas an we are changing to the first image (index 0), show
+            // the canvas instead of the image
+            if(imageIndex === 0 && $j('#preview-canvas').length > 0) {
+                ProductMediaManager.destroyZoom();
+
+                // Hide all the images
+                var imageGallery = $j('.product-image-gallery');
+                imageGallery.find('.gallery-image').removeClass('visible');
+
+                // Show canvas
+                $j('#preview-canvas').parent().parent().removeClass('canvas-invisible');
+
+                // Update the zoom and size if needed
+                if(engraver) {
+                    engraver._updateZoomerImage();
+                    engraver._setParentSize();
+                }
+            }
+            // Otheriwse, swap the images normally
+            else {
+                var target = $j('#image-' + imageIndex);
+                ProductMediaManager.swapImage(target);
+            }
         });
     },
 
@@ -1275,6 +1299,16 @@ var ProductMediaManager = {
         ProductMediaManager.initZoom();
 
         ProductMediaManager.wireThumbnails();
+
+        // Select the first thumbnail that should be the canvas preview
+        if($j('#preview-canvas').length) {
+            if($j('.product-image-thumbs .thumb-link').filter('[data-image-index="1"]').length) {
+                $j('.product-image-thumbs .thumb-link').filter('[data-image-index="1"]').trigger('click');
+            }
+            else {
+                $j('.product-image-thumbs .thumb-link').filter('[data-image-index="0"]').trigger('click');
+            }
+        }
 
         $j(document).trigger('product-media-loaded', ProductMediaManager);
     }
