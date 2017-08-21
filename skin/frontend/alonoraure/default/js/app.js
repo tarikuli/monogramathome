@@ -1284,7 +1284,10 @@ var ProductMediaManager = {
     },
 
     initZoom: function() {
-        ProductMediaManager.createZoom($j(".gallery-image.visible")); //set zoom on first image
+        // Only create zoom if there's more than one image or if this is not a custom product
+        if($j('.product-image-thumbs .thumb-link').filter('[data-image-index="1"]').length || !$j('#preview-canvas').length) {
+            ProductMediaManager.createZoom($j(".gallery-image.visible")); //set zoom on first image
+        }
     },
 
     init: function() {
@@ -1299,16 +1302,6 @@ var ProductMediaManager = {
         ProductMediaManager.initZoom();
 
         ProductMediaManager.wireThumbnails();
-
-        // Select the first thumbnail that should be the canvas preview
-        if($j('#preview-canvas').length) {
-            if($j('.product-image-thumbs .thumb-link').filter('[data-image-index="1"]').length) {
-                $j('.product-image-thumbs .thumb-link').filter('[data-image-index="1"]').trigger('click');
-            }
-            else {
-                $j('.product-image-thumbs .thumb-link').filter('[data-image-index="0"]').trigger('click');
-            }
-        }
 
         $j(document).trigger('product-media-loaded', ProductMediaManager);
     }

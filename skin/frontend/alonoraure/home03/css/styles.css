@@ -2921,3 +2921,17 @@ button.pink-button:hover { color: #FFFFFF !important; }
     color:#000;
     box-shadow: none;
 }
+
+/* Styles for engraver library */
+#fabric-container canvas {
+	width: 100% !important;
+	height: auto !important;
+}
+
+.canvas-container{
+    width: 100% !important;
+}
+
+.canvas-invisible{
+	display: none
+}
