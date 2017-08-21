@@ -215,7 +215,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		
 		if ($this->getRequest()->isPost()) {	
 			$data = $this->getRequest()->getPost();
-// Mage::log('checkWebsite  = '.print_r($data, true), null, 'system.log', true);
+//  Mage::log('checkWebsite  = '.print_r($data, true), null, 'system.log', true);
 			$customerCollection = Mage::getModel('customer/customer')->getCollection()
 				->addAttributeToFilter('username', $data['username']);
 
