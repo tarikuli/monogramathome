@@ -358,6 +358,9 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		if ($this->getRequest()->isPost()) {
 			
 			$data = $this->getRequest()->getPost('billing', array());
+$apiHelper = Mage::helper('opc/subscription');
+$returnResult = $apiHelper->submitSubscription(1477,"tari@gmail.com");
+Mage::log('returnResult = '.print_r($returnResult, true), null, 'system.log', true);						
 // Mage::log('saveBilling billing = '.print_r($data, true), null, 'system.log', true);						
 			# STEP(1)
 			if (!Mage::getSingleton('customer/session')->isLoggedIn()){
@@ -404,6 +407,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 				//load shipping methods block if shipping as billing;
 				$data = $this->getRequest()->getPost('billing', array());
+				
 				Mage::dispatchEvent('opc_saveGiftMessage', array(
 					'request'=>$this->getRequest(),
 					'quote'=>$this->getOnepage()->getQuote(),
@@ -513,6 +517,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			
 			$address_type = false;
 			$billing = $this->getRequest()->getPost('billing', array());
+			
 // Mage::log('reloadShippingsPayments billing = '.print_r($data, true), null, 'system.log', true);			
 			if(!empty($billing) && is_array($billing) && isset($billing['address_id'])){
 				$address_type = 'billing';
@@ -820,8 +825,22 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			# // STEP(6)
 			# $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
 // Mage::log('saveOrder saveOrder= ', null, 'system.log', true);			
+// Mage::getSingleton('core/session')->unsAmbassadorPayInfo();
+// if (Mage::getSingleton('core/session')->getAmbassadorPayInfo())
+// {
+//      Mage::log('Exist', null, 'system.log', true);
+// }else{
+//    Mage::log('No Exist', null, 'system.log', true);
+// }
 // Mage::log('setAmbassadorPayInfo = '.print_r(Mage::getSingleton('core/session')->getAmbassadorPayInfo(), true), null, 'system.log', true);
 // exit();			
+
+			if(Mage::getSingleton('core/session')->getGeneralData()){
+				$genInfo = Mage::getSingleton('core/session')->getGeneralData();
+				Mage::log('genInfo = '.print_r($genInfo, true), null, 'system.log', true);
+			}
+exit();
+
 			$this->getOnepage()->saveOrder();
 			
 			/** Magento CE 1.6 version**/
@@ -886,6 +905,8 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		if (isset($redirectUrl) && !empty($redirectUrl)) {
 			$result['redirect'] = $redirectUrl; 
 		}else{
+			
+			
 			$result['redirect'] = Mage::getUrl('checkout/onepage/success', array('_secure'=>true)) ;
 		}
 		

@@ -117,12 +117,9 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 				'lastname' => $lastName,
 				'suffix' => '',
 				'company' => '',
-				'street' => array (
-						'0' => '575 Underhill Blvd', // compulsory
-						'1' => 'suite 216' 
-				), // optional
+				'street' => $data ['street'], // optional
 				'city' => $data ['city'],
-				'country_id' => 'US', // two letters country code
+				'country_id' => $data ['country_id'], // two letters country code
 				'region' => $data ['region'], // can be empty '' if no region
 				'region_id' => $data ['region_id'], // can be empty '' if no region_id
 				'postcode' => $data ['postcode'],
@@ -140,13 +137,9 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 				'lastname' => $lastName,
 				'suffix' => '',
 				'company' => '',
-				'street' => array (
-						'0' => '575 Underhill Blvd', // compulsory
-						'1' => 'suite 216' 
-				), // optional
-
+				'street' => $data ['street'], // optional
 				'city' => $data ['city'],
-				'country_id' => 'US', // two letters country code
+				'country_id' => $data ['country_id'], // two letters country code
 				'region' => $data ['region'], // can be empty '' if no region
 				'region_id' => $data ['region_id'], // can be empty '' if no region_id
 				'postcode' => $data ['postcode'],
@@ -294,7 +287,8 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 		echo "<br>8. Collect shipping rates on quote shipping address data";
 		
 		// Set shipping and payment method on quote shipping address data
-		$shippingAddressData->setShippingMethod ( $shippingMethod )->setPaymentMethod ( $paymentMethod );
+		$shippingAddressData->setShippingMethod ( $shippingMethod )
+							->setPaymentMethod ( $paymentMethod );
 		echo "<br>9. Set shipping and payment method on quote shipping address data";
 		
 		// Set payment method for the quote
@@ -302,6 +296,7 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 // 				'method' => $paymentMethod 
 // 		) );
 
+		Mage::getSingleton('core/session')->setAmbassadorPayInfo($savePayment);
 		$quote->getPayment ()->importData ($savePayment);
 		echo "<br>10. Set payment method for the quote";
 		
