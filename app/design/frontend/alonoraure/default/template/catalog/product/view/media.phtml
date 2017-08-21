@@ -48,7 +48,6 @@
         $height     = ($width*$orgHeight)/$orgWidth;
     }
     if($width && $height)  $proImage = $proImage->resize($width, $height);
-    $isCustomProduct = !is_null($_product->getResource()->getAttribute('product_customization_id')->getFrontend()->getValue($_product));
 ?>
 <div class="product-image product-image-zoom">
     <div class="product-image-gallery">
@@ -59,22 +58,7 @@
              alt="<?php echo $this->escapeHtml($this->getImageLabel()) ?>"
              title="<?php echo $this->escapeHtml($this->getImageLabel()); ?>" />
 
-        <!-- Repeat the first image if this is a custom product -->
-        <?php $i=0; ?>
-        <?php if($isCustomProduct): ?>
-            <?php $i=1; ?>
-            <?php foreach ($this->getGalleryImages() as $_image): ?>
-                <?php if ($this->isGalleryImageVisible($_image)): ?>
-                <img id="image-0"
-                     class="gallery-image"
-                     src="<?php echo $this->getGalleryImageUrl($_image); ?>"
-                     data-zoom-image="<?php echo  $this->getGalleryImageUrl($_image); ?>" />
-                <?php endif; ?>
-                <?php break; ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-
-        <?php foreach ($this->getGalleryImages() as $_image): ?>
+        <?php $i=0; foreach ($this->getGalleryImages() as $_image): ?>
             <?php if ($this->isGalleryImageVisible($_image)): ?>
             <img id="image-<?php echo $i; ?>"
                  class="gallery-image"
@@ -88,27 +72,8 @@
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">
     <h2><?php echo $this->__('More Views') ?></h2>
-    <?php $imageAdded = false ?>
-
     <ul class="product-image-thumbs">
-    <!-- Repeat the first image if this is a custom product -->
-    <?php $i=0; ?>
-    <?php if(!$imageAdded && $isCustomProduct): ?>
-        <?php $i=1; $imageAdded = true; ?>
-        <?php foreach ($this->getGalleryImages() as $_image): ?>
-            <?php if ($this->isGalleryImageVisible($_image)): ?>
-            <li>
-                <a class="thumb-link" href="#" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" data-image-index="0">
-                    <img class="img-responsive" src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize($thumbWidth, $thumbHeight); ?>"
-                          alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" data-customized-image />
-                </a>
-            </li>
-            <?php endif; ?> 
-            <?php break; ?>       
-        <?php endforeach; ?>
-    <?php endif; ?>
-
-    <?php foreach ($this->getGalleryImages() as $_image): ?>
+    <?php $i=0; foreach ($this->getGalleryImages() as $_image): ?>
         <?php if ($this->isGalleryImageVisible($_image)): ?>
         <li>
             <a class="thumb-link" href="#" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" data-image-index="<?php echo $i; ?>">
