@@ -71,6 +71,18 @@
             }
         }
     };
+
+    $j(document).ready(function(){
+    	$j('input[name="<?php echo $_fileName; ?>"]').on('change', function() {
+	    	if (this.files && this.files[0]) {
+		        var reader = new FileReader();
+		        reader.onload = function (e) {
+		            engraver.setImage(<?php echo $_option->getSortOrder();?>, e.target.result);
+		        }
+		        reader.readAsDataURL(this.files[0]);
+		    }
+	    });
+    });
 //]]>
 </script>
 

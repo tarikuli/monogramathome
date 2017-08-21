@@ -186,12 +186,75 @@
     //]]>
     </script>
     
-    <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>js/lib/build.js"></script>
+    <script type="text/javascript" src="http://app.customily.com/build.js"></script>
     <script>
-		engraver.init('preview-canvas');
-		engraver.setProduct('adb2fc10-e55c-4bee-9f1c-945e5e8067c4').then(function() {
-			
-		});
+        <?php $_product = $this->getProduct(); ?>
+        var productId = '<?php echo $_product->getResource()->getAttribute('product_customization_id')->getFrontend()->getValue($_product); ?>';
+
+        // If the product has a personalization id, prepare the canvas
+        if(productId) {
+            // If the canvas specified with the id doesn't exists, create a hidden one first
+            if(!$j('#preview-canvas').length) {
+                console.log('Creating hidden canvas');
+                $container = $j('<div>').css('display', 'none');
+                $canvas = $j('<canvas>').attr('id', 'preview-canvas');
+
+                $container.append($canvas).appendTo('body');
+            }
+
+    		var status = engraver.init('preview-canvas', {
+                zoomOnHover: false
+            });
+            if(status == 0) {
+                engraver.setProduct(productId).then(function() {
+                    console.log('Product loaded!');
+
+                    // Replace the images that should be custom with the product image
+                    var $images = $j('.product-image-thumbs [data-customized-image]');
+                    if($images.length) {
+                        var width = $images[0].naturalWidth;
+                        var height = $images[0].naturalHeight;
+
+                        // Get the product image with the required dimensions and set it
+                        engraver.getProductImage(width, height).then(function(img) {
+                            $images.attr('src', img.src);
+                        });
+                    }
+                }).catch(function () {
+                    console.error('Failed loading product');
+                });
+            }
+            else {
+                console.error('Error creating canvas');
+            }
+
+            $j(document).ready(function () {
+                $j('.button.btn-cart').each(function () {
+                    // Remove and save the click property
+                    var clickMethod = $j(this).prop('onclick');
+                    if(clickMethod) {
+                        clickMethod = clickMethod.bind(this);
+                    }
+                    $j(this).removeAttr('onclick');
+
+                    // Set click listener
+                    $j(this).click(function () {
+                        $elem = $(this);
+                        engraver.exportFile().then(function(url) {
+                            $j('input[name=eps_url]').val(url);
+
+                            // Run original onclick event
+                            if(clickMethod) {
+                                clickMethod();
+                            }
+                        });
+                    });
+                });
+            });
+        }
+        else {
+            $j('#preview-canvas').remove();
+        }
 	</script>
 		
     <dl>

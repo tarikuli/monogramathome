@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Eps_Customizationurl>
+            <codePool>local</codePool>
+            <active>true</active>
+        </Eps_Customizationurl>
+    </modules>
+</config>
