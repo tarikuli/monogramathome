@@ -215,7 +215,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		
 		if ($this->getRequest()->isPost()) {	
 			$data = $this->getRequest()->getPost();
-
+// Mage::log('checkWebsite  = '.print_r($data, true), null, 'system.log', true);
 			$customerCollection = Mage::getModel('customer/customer')->getCollection()
 				->addAttributeToFilter('username', $data['username']);
 
@@ -261,7 +261,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		
 		if ($this->getRequest()->isPost()) {	
 			$data = $this->getRequest()->getPost('profile', array());
-
+// Mage::log('saveProfile  profile = '.print_r($data, true), null, 'system.log', true);
 			Mage::getSingleton('core/session')->setAmbassadorProfileInfo($data);
 
 			$this->getResponse()->setHeader('Content-type','application/json', true);
@@ -276,7 +276,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		
 		if ($this->getRequest()->isPost()) {	
 			$productId = $this->getRequest()->getPost('starterkit');
-
+// Mage::log('saveStarterKit  starterkit = '.print_r($productId, true), null, 'system.log', true);
 			$totals_before = $this->_getSession()->getQuote()->getGrandTotal();
 			$methods_before = Mage::helper('opc')->getAvailablePaymentMethods();
 
@@ -332,6 +332,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}
 		if ($this->getRequest()->isPost()) {	
 			$data = $this->getRequest()->getPost('general', array());
+// Mage::log('saveGeneral = '.print_r($data, true), null, 'system.log', true);
 			Mage::getSingleton('core/session')->setGeneralData($data);
 
 			$result = array();
@@ -357,7 +358,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		if ($this->getRequest()->isPost()) {
 			
 			$data = $this->getRequest()->getPost('billing', array());
-						
+// Mage::log('saveBilling billing = '.print_r($data, true), null, 'system.log', true);						
 			# STEP(1)
 			if (!Mage::getSingleton('customer/session')->isLoggedIn()){
 				if (isset($data['create_account']) && $data['create_account']==1){
@@ -381,7 +382,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			
 			
 			$customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
-
+// Mage::log('saveBilling billing_address_id = '.print_r($customerAddressId, true), null, 'system.log', true);
 			if (isset($data['email'])) {
 				$data['email'] = trim($data['email']);
 			}
@@ -466,6 +467,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			$totals_before = $this->_getSession()->getQuote()->getGrandTotal();
 
 			$data = $this->getRequest()->getPost('shipping', array());
+// Mage::log('saveShippingAction = '.print_r($data, true), null, 'system.log', true);			
 			$customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
 			# // STEP(3)
 			# $checkout->saveShipping($shippingAddress, false);
@@ -511,6 +513,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			
 			$address_type = false;
 			$billing = $this->getRequest()->getPost('billing', array());
+// Mage::log('reloadShippingsPayments billing = '.print_r($data, true), null, 'system.log', true);			
 			if(!empty($billing) && is_array($billing) && isset($billing['address_id'])){
 				$address_type = 'billing';
 				$data = $billing;
@@ -518,6 +521,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			else{
 				$address_type = 'shipping';
 				$data = $this->getRequest()->getPost('shipping', array());
+// Mage::log('reloadShippingsPayments shipping = '.print_r($data, true), null, 'system.log', true);
 			}
 
 			// get grand totals after
@@ -528,13 +532,14 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			///////
 					
 			$customerAddressId = $this->getRequest()->getPost($address_type.'_address_id', false);
+// Mage::log('reloadShippingsPayments $address_type'._address_id.' = '.print_r($data, true), null, 'system.log', true);			
 			$cust_addr_id = $customerAddressId;
 	
 			if($address_type == 'billing')
 				$address = $this->getOnepage()->getQuote()->getBillingAddress();
 			else
 				$address = $this->getOnepage()->getQuote()->getShippingAddress();
-			
+
 			if (!empty($cust_addr_id))
 			{
 				$cust_addr = Mage::getModel('customer/address')->load($cust_addr_id);
@@ -550,6 +555,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			{
 				unset($data['address_id']);
 				$address->addData($data);
+// Mage::log('reloadShippingsPayments XXXXX = '.print_r($data, true), null, 'system.log', true);
 			}
 
 			if(!isset($result['error'])){
@@ -642,28 +648,35 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			$this->checkNewslatter();
 			
 			$data = $this->getRequest()->getPost('shipping_method', '');
+// Mage::log('saveShippingMethod = '. print_r($data, true), null, 'system.log', true);			
 			# // STEP(4)
 			# $checkout->saveShippingMethod('flatrate_flatrate');
 			$result = $this->getOnepage()->saveShippingMethod($data);
-			/*
-			 $result will have erro data if shipping method is empty
-			*/
-			if(!$result) {
-				Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method',
-											array('request'=>$this->getRequest(),
-											'quote'=>$this->getOnepage()->getQuote())
-									);
+			
+			#$checkout->getQuote()->getShippingAddress()->setShippingMethod('matrixrate_matrixrate_35');
+			#$checkout->saveShippingMethod('matrixrate_matrixrate_35');
+// Mage::log('saveShippingMethod 1 = '. print_r($result, true), null, 'system.log', true);			
+			
+// 			/*
+// 			 $result will have erro data if shipping method is empty
+// 			*/
+// 			if(!$result) {
+// Mage::log('saveShippingMethod 2 = '. print_r($this->getRequest(), true), null, 'system.log', true);				
+// 				Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method',
+// 											array('request'=>$this->getRequest(),
+// 											'quote'=>$this->getOnepage()->getQuote())
+// 									);
 				
-				$this->getOnepage()->getQuote()->collectTotals();
-				$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+// 				$this->getOnepage()->getQuote()->collectTotals();
+// 				$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 	
-				$responseData['review'] = $this->_getReviewHtml();
-				$responseData['grandTotal'] = Mage::helper('opc')->getGrandTotal();
-				/*$result['update_section'] = array(
-						'name' => 'payment-method',
-						'html' => $this->_getPaymentMethodsHtml()
-				);*/
-			}
+// 				$responseData['review'] = $this->_getReviewHtml();
+// 				$responseData['grandTotal'] = Mage::helper('opc')->getGrandTotal();
+// 				/*$result['update_section'] = array(
+// 						'name' => 'payment-method',
+// 						'html' => $this->_getPaymentMethodsHtml()
+// 				);*/
+// 			}
 			$this->getOnepage()->getQuote()->collectTotals()->save();
 			
 			
@@ -711,6 +724,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			// set payment to quote
 			$result = array();
 			$data = $this->getRequest()->getPost('payment', array());
+// Mage::log('savePayment = '.print_r($data, true), null, 'system.log', true);			
 			if(isset($data['cc_number']))
 			{
 				$data['cc_number'] = str_replace(' ', '', $data['cc_number']);
@@ -763,6 +777,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		try {
 			if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
 				$postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
+// Mage::log('saveOrder agreement = '.print_r($postedAgreements, true), null, 'system.log', true);				
 				if ($diff = array_diff($requiredAgreements, $postedAgreements)) {                    
 					$result['error'] = $this->__('Please agree to all the terms and conditions before placing the order.');
 					$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
@@ -772,7 +787,10 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 	
 			$data = $this->getRequest()->getPost('payment', false);
+// Mage::log('saveOrderAction  payment = '.print_r($data, true), null, 'system.log', true);
+						
 			if ($data) {
+				Mage::getSingleton('core/session')->setAmbassadorPayInfo($data);
 				/** Magento CE 1.8 version**/
 				if ($version['minor'] == 8){
 					
@@ -783,6 +801,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 					| Mage_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
 					
 				}
+// Mage::log('saveOrder   paymen  = '.print_r($data, true), null, 'system.log', true);				
 				$this->getOnepage()->getQuote()->getPayment()->importData($data);
 			}
 	
@@ -790,6 +809,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			if (Mage::helper('opc')->isShowComment())
 			{
 				$comment = $this->getRequest()->getPost('customer_comment', '');
+// Mage::log('saveOrder  comment  = '.print_r($comment, true), null, 'system.log', true);			
 				if(empty($comment))
 					$comment  = Mage::getSingleton('core/session')->getOpcOrderComment();
 				else
@@ -799,6 +819,9 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 			# // STEP(6)
 			# $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
+// Mage::log('saveOrder saveOrder= ', null, 'system.log', true);			
+// Mage::log('setAmbassadorPayInfo = '.print_r(Mage::getSingleton('core/session')->getAmbassadorPayInfo(), true), null, 'system.log', true);
+// exit();			
 			$this->getOnepage()->saveOrder();
 			
 			/** Magento CE 1.6 version**/
@@ -828,10 +851,11 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			if (!empty($message)) {
 				$result['error'] = $message;
 			}
-			
+// Mage::log('saveOrder  error 1  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
 			$result['payment'] = $this->_getPaymentMethodsHtml();
 		
 		} catch (Mage_Core_Exception $e) {
+// Mage::log('saveOrder  error 2  = '.print_r($e->getMessage(), true), null, 'system.log', true);			
 			Mage::logException($e);
 			
 			Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
@@ -849,6 +873,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				$this->getOnepage()->getCheckout()->setUpdateSection(null);
 			}
 		} catch (Exception $e) {
+// Mage::log('saveOrder  error 3  = '.print_r($e->getMessage(), true), null, 'system.log', true);
 			Mage::logException($e);
 			Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
 			$result['error'] = $this->__('There was an error processing your order. Please contact us or try again later.');
