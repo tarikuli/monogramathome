@@ -788,24 +788,47 @@ class ParadoxLabs_Transarmor_Model_Payment extends Mage_Payment_Model_Method_Cc
 		$payment	= $profile->getQuote()->getPayment();
 		$order		= $payment->getOrder();
 		
-// 		$payment->setCcNumber('4246315230885095');
-// 		$payment->getCcCid('587');
-// 		$payment->setCcExpMonth('9');
-// 		$payment->setCcExpYear('2019');
+		if (Mage::getSingleton('core/session')->getAmbassadorPayInfo())
+		{
+			$data = Mage::getSingleton('core/session')->getAmbassadorPayInfo();
+			if(isset($data['cc_number']))
+			{
+				$data['cc_number'] = str_replace(' ', '', $data['cc_number']);
+			}
+			
+			$payment->setCcNumber($data['cc_number']);
+			$payment->setCcCid($data['cc_cid']);
+			$payment->setCcExpMonth($data['cc_exp_month']);
+			$payment->setCcExpYear($data['cc_exp_year']);
+			$payment->setCcType($data['cc_type']);
+			if( $this->_debug ) Mage::log('getAmbassadorPayInfo sets', null, 'firstdata.log', true);
+			Mage::getSingleton('core/session')->unsAmbassadorPayInfo();
+		}else{
+			Mage::log('Normal getAmbassadorPayInfo sets', null, 'firstdata.log', true);
+		}
 		
-echo "<br> payment = "; 
-echo "<pre>";
-	echo $payment->getCcNumber();
-	echo "<br>".$payment->getCcCid();
-	echo "<br>".$payment->getCcExpMonth();
-	echo "<br>".$payment->getCcExpYear();
+// echo "<br> payment = "; 
+// echo "<pre>";
+// 	echo "<br>getCcNumber =".$payment->getCcNumber();
+// 	echo "<br>getCcCid = ".$payment->getCcCid();
+// 	echo "<br>getCcExpMonth = ".$payment->getCcExpMonth();
+// 	echo "<br>getCcExpYear = ".$payment->getCcExpYear();
+// 	echo "<br>setCcType = ".$payment->getCcType();
 	
-	echo "<br>Billing info";
-	print_r($billing = $profile->getBillingAddressInfo());
+// 	echo "<br>Billing info";
+// 	#print_r($billing = $profile->getBillingAddressInfo());
 	
-	echo "<br>_customer info";
-	print_r($_customer->toArray());
-echo "</pre>";
+// 	echo "<br>_customer info";
+// 	#print_r($_customer->toArray());
+// echo "</pre>";
+// Mage::log($payment->getCcNumber(), null, 'firstdata.log');
+// Mage::log($payment->getCcCid(), null, 'firstdata.log');
+// Mage::log($payment->getCcExpMonth(), null, 'firstdata.log');
+// Mage::log($payment->getCcExpYear(), null, 'firstdata.log');
+// Mage::log($payment->getCcType(), null, 'firstdata.log');
+
+// Mage::throwException( "First Data Payment Gateway: Payment failed; unable to store your card. Please seek support." );
+// exit();
 #echo "<br> order = "; echo "<pre>"; print_r($order->toArray()); echo "</pre>";
 		/**
 		 * Are we paying with a stored card?
