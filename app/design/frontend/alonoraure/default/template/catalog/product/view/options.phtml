@@ -186,7 +186,7 @@
     //]]>
     </script>
     
-    <script type="text/javascript" src="https://app.decodedheart.com/customily.js"></script>
+    <script type="text/javascript" src="https://app.customily.com/customily.js"></script>
     <script>
         <?php $_product = $this->getProduct(); ?>
         var productId = '<?php echo $_product->getResource()->getAttribute('product_customization_id')->getFrontend()->getValue($_product); ?>';
@@ -208,6 +208,18 @@
             if(status == 0) {
                 engraver.setProduct(productId).then(function() {
                     console.log('Product loaded!');
+
+                    // Replace the images that should be custom with the product image
+                    var $images = $j('.product-image-thumbs [data-customized-image]');
+                    if($images.length) {
+                        var width = $images[0].naturalWidth;
+                        var height = $images[0].naturalHeight;
+
+                        // Get the product image with the required dimensions and set it
+                        engraver.getProductImage(width, height).then(function(img) {
+                            $images.attr('src', img.src);
+                        });
+                    }
                 }).catch(function () {
                     console.error('Failed loading product');
                 });
