@@ -358,9 +358,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		if ($this->getRequest()->isPost()) {
 			
 			$data = $this->getRequest()->getPost('billing', array());
-$apiHelper = Mage::helper('opc/subscription');
-$returnResult = $apiHelper->submitSubscription(1477,"tari@gmail.com");
-Mage::log('returnResult = '.print_r($returnResult, true), null, 'system.log', true);						
+						
 // Mage::log('saveBilling billing = '.print_r($data, true), null, 'system.log', true);						
 			# STEP(1)
 			if (!Mage::getSingleton('customer/session')->isLoggedIn()){
@@ -462,6 +460,8 @@ Mage::log('returnResult = '.print_r($returnResult, true), null, 'system.log', tr
         }
 	
 		//TODO create response if post not exist
+        $this->getOnepage()->saveShippingMethod("tablerate_bestway");
+        
 		$responseData = array();
 	
 		$result = array();
@@ -653,7 +653,7 @@ Mage::log('returnResult = '.print_r($returnResult, true), null, 'system.log', tr
 			$this->checkNewslatter();
 			
 			$data = $this->getRequest()->getPost('shipping_method', '');
-// Mage::log('saveShippingMethod = '. print_r($data, true), null, 'system.log', true);			
+ // Mage::log('saveShippingMethod = '. print_r($data, true), null, 'system.log', true);			
 			# // STEP(4)
 			# $checkout->saveShippingMethod('flatrate_flatrate');
 			$result = $this->getOnepage()->saveShippingMethod($data);
@@ -834,13 +834,11 @@ Mage::log('returnResult = '.print_r($returnResult, true), null, 'system.log', tr
 // }
 // Mage::log('setAmbassadorPayInfo = '.print_r(Mage::getSingleton('core/session')->getAmbassadorPayInfo(), true), null, 'system.log', true);
 // exit();			
-
+			$genInfo = [];
 			if(Mage::getSingleton('core/session')->getGeneralData()){
 				$genInfo = Mage::getSingleton('core/session')->getGeneralData();
-				Mage::log('genInfo = '.print_r($genInfo, true), null, 'system.log', true);
 			}
-exit();
-
+			
 			$this->getOnepage()->saveOrder();
 			
 			/** Magento CE 1.6 version**/
@@ -906,7 +904,10 @@ exit();
 			$result['redirect'] = $redirectUrl; 
 		}else{
 			
-			
+			if(!empty($genInfo)){
+				$apiHelper = Mage::helper('opc/subscription');
+				$returnResult = $apiHelper->submitSubscription(1477,$genInfo['email']);
+			}
 			$result['redirect'] = Mage::getUrl('checkout/onepage/success', array('_secure'=>true)) ;
 		}
 		
