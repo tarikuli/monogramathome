@@ -265,11 +265,12 @@ Product view
 					<action method="setTitle" translate="value"><value>Reviews</value></action>
 				</block>
 
+				<!--
                 <block type="core/template" name="customtab" as="customtab" template="catalog/product/view/customtab.phtml" after="additional">
 					<action method="addToParentGroup"><group>detailed_info</group></action>
 					<action method="setTitle" translate="value"><value>Custom Tab</value></action>
 				</block>
-				
+				-->
                 <block type="catalog/product_list_related" name="catalog.product.related" as="related_products" template="catalog/product/list/related.phtml" />
 				
 				<!-- <block type="catalog/product_list_related" name="product.info.related" as="related" template="catalog/product/list/related.phtml">
