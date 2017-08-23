@@ -35,6 +35,35 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 	 * http://www.monogramathome.com/ambassador/order/index/starterkit/1744/cus_id/77
 	 */
 	public function indexAction() {
+		
+		$url = "https://www.monogramathome.com/ambassador/order/index/starterkit/1744/email/hitarthpadttani@gmail.com";
+
+		$curl = new Varien_Http_Adapter_Curl();
+		$curl->setConfig(array(
+				'timeout'   => 15    //Timeout in no of seconds
+		));
+		$feed_url = $url;
+		$curl->write(Zend_Http_Client::GET, $feed_url, '1.0');
+		$data = $curl->read();
+		if ($data === false) {
+			return false;
+		}
+		$data = preg_split('/^r?$/m', $data, 2);
+		$data = trim($data[1]);
+		$curl->close();
+		
+		try {
+// 			$xml  = new SimpleXMLElement($data);
+					echo "<pre>";
+					print_r($data);
+					echo "</pre>"; 
+		}
+		catch (Exception $e) {
+			echo $e->getMessage();
+		}
+		exit();
+		
+		
 		echo "<br>" . date ( 'l jS \of F Y h:i:s A' );
 // 		echo "<br>" . Mage::app ()->getRequest ()->cus_id;
 // 		echo "<br>" . Mage::app ()->getRequest ()->starterkit;

@@ -872,10 +872,10 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			$result['redirect'] = $redirectUrl; 
 		}else{
 			
-			if(!empty($genInfo)){
-				$apiHelper = Mage::helper('opc/subscription');
-				$returnResult = $apiHelper->submitSubscription(1477,$genInfo['email']);
-			}
+// 			if(!empty($genInfo)){
+// 				$apiHelper = Mage::helper('opc/subscription');
+// 				$returnResult = $apiHelper->submitSubscription(1477,$genInfo['email']);
+// 			}
 			
 			$result['redirect'] = Mage::getUrl('checkout/onepage/success', array('_secure'=>true)) ;
 		}
