@@ -87,12 +87,68 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 		// print_r($data);
 		// echo "</pre>"; exit();
 		
+// 		$methods = Mage::getSingleton('shipping/config')->getActiveCarriers();
+		
+// 		$options = array();
+		
+// 		foreach($methods as $_code => $_method)
+// 		{
+// 			if(!$_title = Mage::getStoreConfig("carriers/$_code/title"))
+// 				$_title = $_code;
+		
+// 			$options[] = array(
+// 					'value' => $_code,
+// 					'label' => $_title . " ($_code)");
+// 		}
+		
+// 		if($isMultiSelect)
+// 		{
+// 			array_unshift($options, array('value'=>'', 'label'=> Mage::helper('adminhtml')->__('--Please Select--')));
+// 		}
+		
+// 		echo "<pre>"; print_r($options); echo "</pre>";
+		
+// 		$groups=array();
+// 		$shippimgmethodcode='flatrate_flatrate';
+// 		$groups[$shippimgmethodcode][fields][active][value]=true;
+// 		Mage::getModel('adminhtml/config_data')
+// 		->setSection('carriers')
+// 		->setWebsite(null)
+// 		->setStore($StoreId)
+// 		->setGroups($groups)
+// 		->save();
+		
+		
+// 		$methods = Mage::getSingleton('shipping/config')->getActiveCarriers();
+		
+// 		$options = array();
+		
+// 		foreach($methods as $_code => $_method)
+// 		{
+// 			if(!$_title = Mage::getStoreConfig("carriers/$_code/title"))
+// 				$_title = $_code;
+		
+// 			$options[] = array(
+// 					'value' => $_code,
+// 					'label' => $_title . " ($_code)");
+// 		}
+		
+// 		if($isMultiSelect)
+// 		{
+// 			array_unshift($options, array('value'=>'', 'label'=> Mage::helper('adminhtml')->__('--Please Select--')));
+// 		}
+// 		echo "<pre>"; print_r($options); echo "</pre>"; die();
+		
+		
 		$this->cartProductAction ( $customerObject, $data , $savePayment);
 		echo "<br>" . date ( 'l jS \of F Y h:i:s A' );
 		
 		exit ();
 	}
 	public function cartProductAction($customerObject, $data, $savePayment) {
+		
+		Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '1');
+		Mage::app()->getCacheInstance()->cleanType('config');
 		
 		/* CUSTOM CODE */
 		Mage::getSingleton ( 'checkout/cart' )->truncate ()->save ();
@@ -281,6 +337,10 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 		 * $billingAddressData = $quote->getBillingAddress()->addData($customerBillingAddress);
 		 * $shippingAddressData = $quote->getShippingAddress()->addData($customerShippingAddress);
 		 */
+
+// 		Mage::getConfig()->saveConfig('carriers/flatrate/active', '1', 'website', $website);
+		Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '1');
+		Mage::app()->getCacheInstance()->cleanType('config');
 		
 		// Collect shipping rates on quote shipping address data
 		$shippingAddressData->setCollectShippingRates ( true )->collectShippingRates ();
@@ -306,6 +366,11 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 			
 			// Save quote
 			$quote->save ();
+			echo "<pre>";
+			print_r($quote->getData());
+			
+			print_r($quote->getShippingAddress()->getShippingMethod());
+			echo "</pre>";
 			
 			// Create Order From Quote
 			$service = Mage::getModel ( 'sales/service_quote', $quote );
@@ -316,6 +381,7 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 			
 			Mage::getSingleton ( 'checkout/session' )->setLastQuoteId ( $quote->getId () )->setLastSuccessQuoteId ( $quote->getId () )->clearHelperData ();
 			
+// 			Mage::getConfig()->saveConfig('carriers/flatrate/active', '0', 'default', 0);
 			/**
 			 * For more details about saving order
 			 * See saveOrder() function of app/code/core/Mage/Checkout/Onepage.php
@@ -340,7 +406,12 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 			// $this->_redirect($redirectUrl);
 			
 			echo "<br>12. sales/service_quote = "; echo "<pre>"; print_r($result); echo "</pre>";
+			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+			Mage::app()->getCacheInstance()->cleanType('config');
 		} catch ( Mage_Core_Exception $e ) {
+			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+			Mage::app()->getCacheInstance()->cleanType('config');
+			
 			$result ['success'] = false;
 			$result ['error'] = true;
 			$result ['error_messages'] = $e->getMessage ();
@@ -354,7 +425,12 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 					Mage::getSingleton ( 'checkout/session' )->addError ( Mage::helper ( 'core' )->escapeHtml ( $message ) );
 				}
 			}
+			
+			
 		} catch ( Exception $e ) {
+			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+			Mage::app()->getCacheInstance()->cleanType('config');
+			
 			$result ['success'] = false;
 			$result ['error'] = true;
 			$result ['error_messages'] = $this->__ ( 'There was an error processing your order. Please contact us or try again later.' );
