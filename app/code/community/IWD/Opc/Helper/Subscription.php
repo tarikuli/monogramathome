@@ -78,16 +78,17 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     	Mage::getSingleton ( 'checkout/cart' )->truncate ()->save ();
     	Mage::getSingleton ( 'checkout/session' )->setCartWasUpdated ( true );
     
-    	$store = $customerObject->getStoreId();
-    	echo "<br>1. store_id =".$store;
-    
-    	$website = $customerObject->getWebsiteId();
-    	echo "<br>2. website_id =".$website;
-    
     	$firstName = $data ['firstname'];
     	$lastName = $data ['lastname'];
     	$email = $data ['email'];
     	$logFileName = 'system.log';
+    	
+    	$store = $customerObject->getStoreId();
+    	Mage::log ( "1. store_id = ".$store, null, $logFileName );
+    	
+    	$website = $customerObject->getWebsiteId();
+    	Mage::log ( "2. website_id = ".$website, null, $logFileName );
+
     
     	$billingAddress = $addressArray;
     
@@ -98,7 +99,7 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     	 * You need to enable this method from Magento admin
     	 * Other methods: tablerate_tablerate, freeshipping_freeshipping, flatrate_flatrate, tablerate_bestway, etc.
     	 */
-    	$shippingMethod = 'flatrate_flatrate';
+    	$shippingMethod = 'tablerate_bestway';
     
     	/**
     	 * You need to enable this method from Magento admin
@@ -160,13 +161,22 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     	 * $shippingAddressData = $quote->getShippingAddress()->addData($customerShippingAddress);
     	 */
     
+    	
     	// Collect shipping rates on quote shipping address data
     	$shippingAddressData->setCollectShippingRates ( true )->collectShippingRates ();
 //     	echo "<br>8. Collect shipping rates on quote shipping address data";
     
     	// Set shipping and payment method on quote shipping address data
-    	$shippingAddressData->setShippingMethod ( $shippingMethod )
-    						->setPaymentMethod ( $paymentMethod );
+//     	$shippingAddressData->setShippingMethod ( $shippingMethod )
+//     						->setPaymentMethod ( $paymentMethod );
+    	
+    	$shippingAddressData->removeAllShippingRates()
+					    	->setCollectShippingRates(true)
+					    	->setShippingMethod('tablerate_bestway')
+					    	->setShippingDescription('Table Rate - Best Way')
+					    	->setPaymentMethod ( $paymentMethod );
+    	
+    	
 //     	echo "<br>9. Set shipping and payment method on quote shipping address data";
     
     	// Set payment method for the quote
