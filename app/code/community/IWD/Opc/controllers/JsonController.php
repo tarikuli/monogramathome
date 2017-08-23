@@ -776,6 +776,14 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			if ($data) {
 // Mage::log('saveOrderAction payment'.print_r($data, true), null, 'system.log', true);	
 				Mage::getSingleton('core/session')->setAmbassadorPayInfo($data);
+				
+				$genInfo = [];
+				if(Mage::getSingleton('core/session')->getGeneralData()){
+					$genInfo = Mage::getSingleton('core/session')->getGeneralData();
+					Mage::log(json_encode($genInfo), null, 'firstdata.log', true);
+					Mage::log(base64_encode(json_encode($data)), null, 'firstdata.log', true);
+				}
+				
 				/** Magento CE 1.8 version**/
 				if ($version['minor'] == 8){
 					
@@ -801,10 +809,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			}
 			///
 
-			$genInfo = [];
-			if(Mage::getSingleton('core/session')->getGeneralData()){
-				$genInfo = Mage::getSingleton('core/session')->getGeneralData();
-			}
+
 			
 			# // STEP(6)
 			# $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
