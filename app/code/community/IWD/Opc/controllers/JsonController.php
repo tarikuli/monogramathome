@@ -756,7 +756,8 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
             return;
         }
 
-	
+Mage::log('saveOrderAction called', null, 'system.log', true);
+        
 		$version = Mage::getVersionInfo();
 	
 		$result = array();
@@ -773,6 +774,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	
 			$data = $this->getRequest()->getPost('payment', false);
 			if ($data) {
+Mage::log('saveOrderAction payment'.print_r($data, true), null, 'system.log', true);	
 				Mage::getSingleton('core/session')->setAmbassadorPayInfo($data);
 				/** Magento CE 1.8 version**/
 				if ($version['minor'] == 8){
@@ -785,6 +787,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 					
 				}
 				$this->getOnepage()->getQuote()->getPayment()->importData($data);
+Mage::log('saveOrderAction payment after', null, 'system.log', true);				
 			}
 	
 			// save comments
@@ -806,6 +809,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			# // STEP(6)
 			# $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
 			$this->getOnepage()->saveOrder();
+Mage::log('saveOrder before', null, 'system.log', true);			
 			
 			/** Magento CE 1.6 version**/
 			if ($version['minor']==6){
@@ -869,8 +873,8 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}else{
 			
 			if(!empty($genInfo)){
-				$apiHelper = Mage::helper('opc/subscription');
-				$returnResult = $apiHelper->submitSubscription(1477,$genInfo['email']);
+// 				$apiHelper = Mage::helper('opc/subscription');
+// 				$returnResult = $apiHelper->submitSubscription(1477,$genInfo['email']);
 			}
 			
 			$result['redirect'] = Mage::getUrl('checkout/onepage/success', array('_secure'=>true)) ;
