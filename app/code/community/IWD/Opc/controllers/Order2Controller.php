@@ -154,7 +154,7 @@ class IWD_Opc_Order2Controller extends Mage_Core_Controller_Front_Action {
 		 * You need to enable this method from Magento admin
 		 * Other methods: tablerate_tablerate, freeshipping_freeshipping, flatrate_flatrate, tablerate_bestway, etc.
 		 */
-		$shippingMethod = 'flatrate_flatrate';
+		$shippingMethod = 'tablerate_bestway';
 		
 		/**
 		 * You need to enable this method from Magento admin
