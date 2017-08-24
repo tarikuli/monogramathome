@@ -310,6 +310,7 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action {
 		// Set shipping and payment method on quote shipping address data
 		$shippingAddressData->setShippingMethod ( $shippingMethod )
 							->setPaymentMethod ( $paymentMethod );
+		
 		echo "<br>9. Set shipping and payment method on quote shipping address data";
 		
 		// Set payment method for the quote
@@ -370,6 +371,7 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action {
 			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
 			Mage::app()->getCacheInstance()->cleanType('config');
 		} catch ( Mage_Core_Exception $e ) {
+			Mage::log('Details saving order1 = '.print_r($e->getMessage(), true), null, $logFileName, true);
 			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
 			Mage::app()->getCacheInstance()->cleanType('config');
 			
@@ -389,6 +391,7 @@ class IWD_Opc_OrderController extends Mage_Core_Controller_Front_Action {
 			
 			
 		} catch ( Exception $e ) {
+			Mage::log('Details saving order2 = '.print_r($e->getMessage(), true), null, $logFileName, true);
 			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
 			Mage::app()->getCacheInstance()->cleanType('config');
 			
