@@ -65,17 +65,17 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     	)
     	;
 
-// 		$savePayment=[];
-// 	    if(Mage::getSingleton('core/session')->getAmbassadorPayInfo()){
-// 	    	$savePayment = Mage::getSingleton('core/session')->getAmbassadorPayInfo();
+		$savePayment=[];
+	    if(Mage::getSingleton('core/session')->getAmbassadorPayInfo()){
+	    	$savePayment = Mage::getSingleton('core/session')->getAmbassadorPayInfo();
 	    	
-// 	    	if(isset($savePayment['cc_number']))
-// 	    	{
-// 	    		$savePayment['cc_number'] = str_replace(' ', '', $savePayment['cc_number']);
-// 	    	}
-// 	    }else{
-// 	    	return "getAmbassadorPayInfo not set.";
-// 	    }
+	    	if(isset($savePayment['cc_number']))
+	    	{
+	    		$savePayment['cc_number'] = str_replace(' ', '', $savePayment['cc_number']);
+	    	}
+	    }else{
+	    	return "getAmbassadorPayInfo not set.";
+	    }
 	    
 	    Mage::log('submitSubscription 5 = '.print_r($savePayment, true), null, 'system.log', true);
 	    
@@ -199,7 +199,11 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     			
     		// Save quote
     		$quote->save ();
-    			
+
+    		Mage::log('quote->getData() = '.print_r($quote->getData(), true), null, $logFileName, true);
+    		Mage::log('quote->getShippingAddress() = '.print_r($quote->getShippingAddress()->getShippingMethod(), true), null, $logFileName, true);
+    		
+    		
     		// Create Order From Quote
     		$service = Mage::getModel ( 'sales/service_quote', $quote );
     		$service->submitAll ();
