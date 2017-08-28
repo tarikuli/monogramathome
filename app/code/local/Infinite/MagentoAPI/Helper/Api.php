@@ -156,13 +156,10 @@ class Infinite_MagentoAPI_Helper_Api extends Infinite_MagentoAPI_Helper_Log
 		foreach($orderIds as $orderId)
 		{
 			$orderObject = Mage::getModel('sales/order')->load($orderId);
-#echo "<pre>"; print_r($orderObject); echo "</pre>"; die();		
-Mage::log('1	Load orderId = '. $orderId);			
 $this->info('1	Load orderId = '. $orderId);
 			/* If Order details exist by Order ID */
 			if($orderObject->getCustomerId())
 			{
-Mage::log('2	Customer if exist = '. $orderObject->getCustomerId());				
 $this->info('2	Customer if exist = '. $orderObject->getCustomerId());				
 				# Get 
 				$memberParams = json_decode(Mage::getSingleton('core/session')->getJewelParams());
@@ -188,7 +185,6 @@ $this->info('2	Customer if exist = '. $orderObject->getCustomerId());
 					#if(isset($websiteName))
 					if(($memberParams->group_id == 5) && ($customerObject->getGroupId() == 4))
 					{
-Mage::log('3	If websiteName exist = '. $websiteName);					
 $this->info('3	If websiteName exist = '. $websiteName);		
 				
 						# If sub domain ( Ambassador web site ) exist
@@ -231,45 +227,11 @@ $this->info('3	If websiteName exist = '. $websiteName);
 						# Comment by Jewel on 05192017
 						#$this->changePackage($params);
 						$this->registration($params, $customerObject);
-						
-// ## Write your code for member become an AMBASSADOR ##
-// $ambassadorQueueCollection = Mage::getModel('julfiker_contact/ambassadorqueue')
-// 									->getCollection()
-// 									->addFieldToFilter('domain_id', strtolower($customerObject->getUsername()));
-														
-														
-// $queue = Mage::getModel('julfiker_contact/ambassadorqueue')->load($ambassadorQueueCollection->getFirstItem()->getId());
-						
-
-// $memberParams = json_decode(Mage::getSingleton('core/session')->getJewelParams());
-
-// echo "<pre>---------------------00------------------------------</pre>";
-// echo "<pre>"; print_r($memberParams); echo "</pre>";
-// echo "<pre>---------------------11------------------------------</pre>";
-
-// $queryString['username'] = base64_decode($memberParams->username);
-// $queryString['password'] = base64_decode($memberParams->password);
-// echo "<pre>"; print_r($queryString); echo "</pre>";
-
-// echo "<pre>---------------------33------------------------------</pre>";
-// echo "<pre>"; print_r($group); echo "</pre>";
-
-        		
-// echo "<pre>---------------------0------------------------------</pre>";
-// echo "<pre>"; print_r($queue); echo "</pre>";														
-// echo "<pre>---------------------1------------------------------</pre>";
-
-// Mage::log("-------------------2---------------------");
-// Mage::log($customerObject);
-// echo "<pre>"; print_r($customerObject); echo "</pre>"; die();
-
-// ## Write your code for member become an AMBASSADOR ##	
 	
 					}
 					else
 					{ 
 
-Mage::log('5	If new AMBASSADOR going to register without login as Member Pass= '. base64_decode($memberParams->password));
 $this->info('5	If new AMBASSADOR going to register without login as Member Pass= '. base64_decode($memberParams->password));
 
 						# If no sub domain exist and new AMBASSADOR going to register. 
@@ -301,7 +263,6 @@ $this->info('5	If new AMBASSADOR going to register without login as Member Pass=
 				}
 				else
 				{  
-Mage::log('7 I am purchesing from Normal checkout Page');
 $this->info('7	I am purchesing from Normal checkout Page');
 					
 					Mage::getSingleton('core/session')->unsAmbassadorObject();
@@ -335,19 +296,6 @@ $this->info('7	I am purchesing from Normal checkout Page');
 				}
 
 				/* ########### If Account Type Member Set user_name = Ambassador Account name ########### */
-// 				if($group->getCode() != self::GROUP_AMBASSADOR ){
-// Mage::log('8	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());					
-// $this->info('8	IF GROUP_AMBASSADOR = '. $customerObject->getWebsiteId());
-// 					$userName = $this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId());
-// 				}else {
-// 					$userName = $customerObject->getUsername();
-// 				}
-
-				# This purchase is occured from which website.
-// 				if($this->_getStoreNameByWebSiteId( $customerObject->getWebsiteId()) == "Admin"){
-// 					$userName = $customerObject->getUsername();
-// 				}elseif(($memberParams->group_id == 5) && ($customerObject->getGroupId() == 4)){
-// 					$userName = $customerObject->getUsername();
 				if($customerObject->getGroupId() == 4){
 					$userName = $customerObject->getUsername();
 				}else{
@@ -375,7 +323,7 @@ $this->info('7	I am purchesing from Normal checkout Page');
 						if(isset($appliedCommission) && $appliedCommission == 0)
 							$itemPrice = 0;
 					}
-#."<br>Purchaser email = ".$customerObject->getEmail()
+
 					$data['product_details'][] = array(
 						'product_name' => $item->getName()."<br>Purchaser email = ".$customerObject->getEmail(), 
 						'quantity' => intval($item->getQtyOrdered()), 
@@ -419,7 +367,6 @@ $this->info('7	I am purchesing from Normal checkout Page');
 				$giftVoucherDiscount = floatval(abs($orderObject->getGiftVoucherDiscount()) + abs($orderObject->getDiscountAmount()));
 				$data['total_amount'] = floatval(abs($totalAmount)- abs($giftVoucherDiscount));
 
-Mage::log("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." GiftVoucherCerDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getDiscountAmount()));
 $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." GiftVoucherCerDiscount = ".abs($orderObject->getGiftVoucherDiscount())." UseGiftCreditAmount = ".abs($orderObject->getDiscountAmount()));
 				
 				$response = $this->call('purchase', $data);
@@ -538,7 +485,6 @@ $this->info("9	Order# = ". $orderId." SubTotal Amount = ".abs($totalAmount)." Gi
      */
     protected function _getStoreNameByWebSiteId($websiteId){
     	$website = Mage::getModel('core/website')->load($websiteId);
-    	#$website = explode(".", $website->getCode());
     	$this->info('8	REQUEST WebSite Name: '. $website->getCode());
     	if($website->getCode()== "base"){
     		return "shop";
