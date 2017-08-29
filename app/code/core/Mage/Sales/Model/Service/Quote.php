@@ -289,6 +289,8 @@ class Mage_Sales_Model_Service_Quote
      */
     protected function _validate()
     {
+    	$logFileName = 'system.log';
+    	
         if (!$this->getQuote()->isVirtual()) {
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();
@@ -299,8 +301,15 @@ class Mage_Sales_Model_Service_Quote
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
+            
+            Mage::log('method = '.print_r($method, true), null, $logFileName, true);
+            Mage::log('rate = '.print_r(rate, true), null, $logFileName, true);
+            
+            Mage::log ('this->getQuote()->isVirtual() = '.$this->getQuote()->isVirtual() ? 'true' : 'false', null, $logFileName );
+            
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                Mage::throwException(Mage::helper('sales')->__('Please specify a shipping method.'));
+            	Mage::log('address = '.$this->getQuote()->isVirtual() ? 'true' : 'false', null, $logFileName, true);
+                #Mage::throwException(Mage::helper('sales')->__('Please specify a shipping method.'));
             }
         }
 

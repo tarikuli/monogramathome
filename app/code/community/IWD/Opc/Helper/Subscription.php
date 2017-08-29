@@ -1,8 +1,6 @@
 <?php
 class IWD_Opc_Helper_Subscription extends Mage_Checkout_Helper_Url{
 
-	const XML_PATH_DEFAULT_PAYMENT = 'opc/default/payment';
-	
     /**
      * Monthly Subscription
      *
@@ -58,7 +56,7 @@ class IWD_Opc_Helper_Subscription extends Mage_Checkout_Helper_Url{
 Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.log', true);
 
     	$savePayment = Array (
-    			'method' => self::XML_PATH_DEFAULT_PAYMENT,
+    			'method' => 'transarmor',
 //     			'cc_type' => 'VI',
 //     			'cc_number' => '4246315230885095',
 //     			'cc_exp_month' => '9',
@@ -66,8 +64,21 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
 //     			'cc_cid' => '587'
     	)
     	;
-    
-    
+
+		$savePayment=[];
+	    if(Mage::getSingleton('core/session')->getAmbassadorPayInfo()){
+	    	$savePayment = Mage::getSingleton('core/session')->getAmbassadorPayInfo();
+	    	
+	    	if(isset($savePayment['cc_number']))
+	    	{
+	    		$savePayment['cc_number'] = str_replace(' ', '', $savePayment['cc_number']);
+	    	}
+	    }else{
+	    	return "getAmbassadorPayInfo not set.";
+	    }
+	    
+	    Mage::log('submitSubscription 5 = '.print_r($savePayment, true), null, 'system.log', true);
+	    
     	$this->cartProductAction ($productIds, $customerObject, $addressArray , $savePayment);
     	    
     }
@@ -75,6 +86,9 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     public function cartProductAction($productIds, $customerObject, $addressArray, $savePayment) {
     
     	/* CUSTOM CODE */
+    	Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '1');
+    	Mage::app()->getCacheInstance()->cleanType('config');
+    	 
     	Mage::getSingleton ( 'checkout/cart' )->truncate ()->save ();
     	Mage::getSingleton ( 'checkout/session' )->setCartWasUpdated ( true );
     
@@ -99,7 +113,7 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     	 * You need to enable this method from Magento admin
     	 * Other methods: tablerate_tablerate, freeshipping_freeshipping, flatrate_flatrate, tablerate_bestway, etc.
     	 */
-    	$shippingMethod = 'tablerate_bestway';
+    	$shippingMethod = 'flatrate_flatrate';
     
     	/**
     	 * You need to enable this method from Magento admin
@@ -161,33 +175,23 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     	 * $shippingAddressData = $quote->getShippingAddress()->addData($customerShippingAddress);
     	 */
     
+    	Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '1');
+    	Mage::app()->getCacheInstance()->cleanType('config');
     	
     	// Collect shipping rates on quote shipping address data
     	$shippingAddressData->setCollectShippingRates ( true )->collectShippingRates ();
-//     	echo "<br>8. Collect shipping rates on quote shipping address data";
-    
-    	// Set shipping and payment method on quote shipping address data
-//     	$shippingAddressData->setShippingMethod ( $shippingMethod )
-//     						->setPaymentMethod ( $paymentMethod );
     	
-    	$shippingAddressData->removeAllShippingRates()
-					    	->setCollectShippingRates(true)
-					    	->setShippingMethod('tablerate_bestway')
-					    	->setShippingDescription('Table Rate - Best Way')
+    	// Set shipping and payment method on quote shipping address data
+    	$shippingAddressData->setShippingMethod ( $shippingMethod )
 					    	->setPaymentMethod ( $paymentMethod );
     	
-    	
-//     	echo "<br>9. Set shipping and payment method on quote shipping address data";
-    
     	// Set payment method for the quote
     	// 		$quote->getPayment ()->importData ( array (
     	// 				'method' => $paymentMethod
     	// 		) );
-    
+    	
     	Mage::getSingleton('core/session')->setAmbassadorPayInfo($savePayment);
     	$quote->getPayment ()->importData ($savePayment);
-    	
-//     	echo "<br>10. Set payment method for the quote";
     
     	try {
     		// Collect totals of the quote
@@ -195,7 +199,11 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     			
     		// Save quote
     		$quote->save ();
-    			
+
+    		Mage::log('quote->getData() = '.print_r($quote->getData(), true), null, $logFileName, true);
+    		Mage::log('quote->getShippingAddress() = '.print_r($quote->getShippingAddress()->getShippingMethod(), true), null, $logFileName, true);
+    		
+    		
     		// Create Order From Quote
     		$service = Mage::getModel ( 'sales/service_quote', $quote );
     		$service->submitAll ();
@@ -213,14 +221,21 @@ Mage::log('submitSubscription 4 = '.print_r($addressArray, true), null, 'system.
     		// Log order created message
     		Mage::log ( 'Order created with increment id: ' . $incrementId, null, $logFileName );
     			
-    		$result ['success'] = true;
-    		$result ['error'] = false;
-    			
+
+    		Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+    		Mage::app()->getCacheInstance()->cleanType('config');
+    		
     	} catch ( Mage_Core_Exception $e ) {
-    		Mage::log('Details saving order1 = '.print_r($e->toArray(), true), null, $logFileName, true);
+    		Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+    		Mage::app()->getCacheInstance()->cleanType('config');
+    		
+    		Mage::log('Details saving order1 = '.print_r($e->getMessage(), true), null, $logFileName, true);
     		return $e->getMessage();
     	} catch ( Exception $e ) {
-    		Mage::log('Details saving order1 = '.print_r($e->toArray(), true), null, $logFileName, true);
+    		Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+    		Mage::app()->getCacheInstance()->cleanType('config');
+    		
+    		Mage::log('Details saving order1 = '.print_r($e->getMessage(), true), null, $logFileName, true);
     		Mage::logException ( $e);
     		return $e->getMessage();
     	}

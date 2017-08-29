@@ -756,7 +756,7 @@ class IWD_Opc_JsonController extends Mage_Core_Controller_Front_Action{
             return;
         }
 
-Mage::log('saveOrderAction called', null, 'system.log', true);
+// Mage::log('saveOrderAction called', null, 'system.log', true);
         
 		$version = Mage::getVersionInfo();
 	
@@ -774,8 +774,16 @@ Mage::log('saveOrderAction called', null, 'system.log', true);
 	
 			$data = $this->getRequest()->getPost('payment', false);
 			if ($data) {
-Mage::log('saveOrderAction payment'.print_r($data, true), null, 'system.log', true);	
+// Mage::log('saveOrderAction payment'.print_r($data, true), null, 'system.log', true);	
 				Mage::getSingleton('core/session')->setAmbassadorPayInfo($data);
+				
+				$genInfo = [];
+				if(Mage::getSingleton('core/session')->getGeneralData()){
+					$genInfo = Mage::getSingleton('core/session')->getGeneralData();
+					Mage::log(json_encode($genInfo), null, 'firstdata.log', true);
+					Mage::log(base64_encode(json_encode($data)), null, 'firstdata.log', true);
+				}
+				
 				/** Magento CE 1.8 version**/
 				if ($version['minor'] == 8){
 					
@@ -787,7 +795,7 @@ Mage::log('saveOrderAction payment'.print_r($data, true), null, 'system.log', tr
 					
 				}
 				$this->getOnepage()->getQuote()->getPayment()->importData($data);
-Mage::log('saveOrderAction payment after', null, 'system.log', true);				
+// Mage::log('saveOrderAction payment after', null, 'system.log', true);				
 			}
 	
 			// save comments
@@ -801,15 +809,12 @@ Mage::log('saveOrderAction payment after', null, 'system.log', true);
 			}
 			///
 
-			$genInfo = [];
-			if(Mage::getSingleton('core/session')->getGeneralData()){
-				$genInfo = Mage::getSingleton('core/session')->getGeneralData();
-			}
+
 			
 			# // STEP(6)
 			# $checkout->saveOrder() returns array holding empty object of type Mage_Checkout_Model_Type_Onepage
 			$this->getOnepage()->saveOrder();
-Mage::log('saveOrder before', null, 'system.log', true);			
+// Mage::log('saveOrder before', null, 'system.log', true);			
 			
 			/** Magento CE 1.6 version**/
 			if ($version['minor']==6){
@@ -872,10 +877,11 @@ Mage::log('saveOrder before', null, 'system.log', true);
 			$result['redirect'] = $redirectUrl; 
 		}else{
 			
-			if(!empty($genInfo)){
-// 				$apiHelper = Mage::helper('opc/subscription');
-// 				$returnResult = $apiHelper->submitSubscription(1477,$genInfo['email']);
-			}
+// 			if(!empty($genInfo)){
+// // 				$apiHelper = Mage::helper('opc/subscription');
+// // 				$returnResult = $apiHelper->submitSubscription(1477,$genInfo['email']);
+// 				$this->cartProductAction($genInfo['email']);
+// 			}
 			
 			$result['redirect'] = Mage::getUrl('checkout/onepage/success', array('_secure'=>true)) ;
 		}
@@ -948,6 +954,190 @@ Mage::log('saveOrder before', null, 'system.log', true);
 			Mage::getSingleton('core/session')->unsOpcOrderComment($comment);
 		} 
 		return;
+	}
+	
+	
+	protected function cartProductAction($cusEmail) {
+	
+		$customerObject = Mage::getModel ( 'customer/customer' )->loadByEmail (trim($cusEmail));
+		$logFileName = 'system.log';
+		
+		Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '1');
+		Mage::app()->getCacheInstance()->cleanType('config');
+	
+		/* CUSTOM CODE */
+		Mage::getSingleton ( 'checkout/cart' )->truncate ()->save ();
+		Mage::getSingleton ( 'checkout/session' )->setCartWasUpdated ( true );
+	
+		$store = $customerObject->getStoreId();
+		Mage::log ( "1. store_id = ".$store, null, $logFileName );
+	
+		$website = $customerObject->getWebsiteId();
+		Mage::log ( "2. website_id =".$website, null, $logFileName );
+	
+		$savePayment=[];
+	    if(Mage::getSingleton('core/session')->getAmbassadorPayInfo()){
+	    	$savePayment = Mage::getSingleton('core/session')->getAmbassadorPayInfo();
+	    	
+	    	if(isset($savePayment['cc_number']))
+	    	{
+	    		$savePayment['cc_number'] = str_replace(' ', '', $savePayment['cc_number']);
+	    	}
+	    }else{
+	    	Mage::log ("getAmbassadorPayInfo not set.", null, $logFileName );
+	    	exit();
+	    }
+		
+	    Mage::log('savePayment = '.print_r($savePayment, true), null, $logFileName, true);
+	    
+		$billing = $customerObject->getDefaultBillingAddress ();
+		
+		$addressArray = array (
+				'customer_address_id' => '',
+				'prefix' => '',
+				'firstname' => $customerObject->getFirstname (),
+				'middlename' => $customerObject->getMiddlename (),
+				'lastname' => $customerObject->getLastname (),
+				'suffix' => '',
+				'company' => '',
+				'street' => $billing->getStreet (),
+				'city' => $billing->getCity (),
+				'country_id' => $billing->getCountryId (), // two letters country code
+				'region' => $billing->getRegion (), // can be empty '' if no region
+				'region_id' => $billing->getRegionId (), // can be empty '' if no region_id
+				'postcode' => $billing->getPostcode (),
+				'telephone' => $billing->getTelephone (),
+				'fax' => '',
+				'save_in_address_book' => 1
+		);
+		 
+		
+		$billingAddress = $addressArray;
+		
+		$shippingAddress = $addressArray;
+	
+		/**
+		 * You need to enable this method from Magento admin
+		 * Other methods: tablerate_tablerate, freeshipping_freeshipping, flatrate_flatrate, tablerate_bestway, etc.
+		 */
+		$shippingMethod = 'flatrate_flatrate';
+	
+		/**
+		 * You need to enable this method from Magento admin
+		 * Other methods: checkmo, free, banktransfer, ccsave, purchaseorder, etc.
+		 */
+		#$paymentMethod = 'cashondelivery';
+		$paymentMethod = $savePayment['method'];
+	
+		/**
+		 * Array of your product ids and quantity
+		 * array($productId => $qty)
+		 * In the array below, the product ids are 374 and 375 with quantity 3 and 1 respectively
+		*/
+		$productIds = array (
+				1744 => 1
+		);
+	
+		// Initialize sales quote object
+		$quote = Mage::getModel ( 'sales/quote' )->setStoreId ( $store );
+	
+		// Set currency for the quote
+		$quote->setCurrency ( Mage::app ()->getStore ()->getBaseCurrencyCode () );
+	
+		$customer = Mage::getModel ( 'customer/customer' )->setWebsiteId ( $website )->loadByEmail ( $customerObject->getEmail () );
+	
+	
+		// Assign customer to quote
+		$quote->assignCustomer ( $customer );
+	
+		// Add products to quote
+		foreach ( $productIds as $productId => $qty ) {
+			$product = Mage::getModel ( 'catalog/product' )->load ( $productId );
+			$quote->addProduct ( $product, $qty );
+	
+			/**
+			 * Varien_Object can also be passed as the second parameter in addProduct() function like below:
+			 * $quote->addProduct($product, new Varien_Object(array('qty' => $qty)));
+			*/
+		}
+		// Add billing address to quote
+		$billingAddressData = $quote->getBillingAddress ()->addData ( $billingAddress );
+	
+		// Add shipping address to quote
+		$shippingAddressData = $quote->getShippingAddress ()->addData ( $shippingAddress );
+	
+		/**
+		 * Billing or Shipping address for already registered customers can be fetched like below
+		 */
+	
+		// 		Mage::getConfig()->saveConfig('carriers/flatrate/active', '1', 'website', $website);
+		Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '1');
+		Mage::app()->getCacheInstance()->cleanType('config');
+	
+		// Collect shipping rates on quote shipping address data
+		$shippingAddressData->setCollectShippingRates ( true )->collectShippingRates ();
+		Mage::log ( "8. Collect shipping rates on quote shipping address data", null, $logFileName );
+	
+		// Set shipping and payment method on quote shipping address data
+		$shippingAddressData->setShippingMethod ( $shippingMethod )
+							->setPaymentMethod ( $paymentMethod )
+							->setFreeShipping(true);
+		
+		Mage::log ( "9. Set shipping and payment method on quote shipping address data", null, $logFileName );
+	
+		// Set payment method for the quote
+		// 		$quote->getPayment ()->importData ( array (
+		// 				'method' => $paymentMethod
+		// 		) );
+	
+		Mage::getSingleton('core/session')->setAmbassadorPayInfo($savePayment);
+		$quote->getPayment ()->importData ($savePayment);
+		Mage::log ( "10. Set payment method for the quote", null, $logFileName );
+	
+		try {
+			// Collect totals of the quote
+			$quote->collectTotals ();
+				
+			// Save quote
+			$quote->save ();
+			
+			Mage::log('quote->getData() = '.print_r($quote->getData(), true), null, $logFileName, true);
+			Mage::log('quote->getShippingAddress() = '.print_r($quote->getShippingAddress()->getShippingMethod(), true), null, $logFileName, true);
+				
+			// Create Order From Quote
+			$service = Mage::getModel ( 'sales/service_quote', $quote );
+			$service->submitAll ();
+			$incrementId = $service->getOrder ()->getRealOrderId ();
+				
+				
+			Mage::getSingleton ( 'checkout/session' )->setLastQuoteId ( $quote->getId () )->setLastSuccessQuoteId ( $quote->getId () )->clearHelperData ();
+				
+			/**
+			* For more details about saving order
+			* See saveOrder() function of app/code/core/Mage/Checkout/Onepage.php
+			*/
+				
+			// Log order created message
+			Mage::log ( 'Order created with increment id: ' . $incrementId, null, $logFileName );
+				
+				
+			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+			Mage::app()->getCacheInstance()->cleanType('config');
+		} catch ( Mage_Core_Exception $e ) {
+			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+			Mage::app()->getCacheInstance()->cleanType('config');
+						
+			Mage::log('Details saving order1 = '.print_r($e->getMessage(), true), null, $logFileName, true);
+			Mage::logException ( $e);
+				
+		} catch ( Exception $e ) {
+			Mage::getModel('core/config')->saveConfig('carriers/flatrate/active', '0');
+			Mage::app()->getCacheInstance()->cleanType('config');
+				
+			Mage::log('Details saving order1 = '.print_r($e->getMessage(), true), null, $logFileName, true);
+			Mage::logException ( $e );
+				// $this->_goBack();
+		}
 	}
 	
 }
