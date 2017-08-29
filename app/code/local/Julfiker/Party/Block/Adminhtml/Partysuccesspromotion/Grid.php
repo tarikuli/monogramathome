@@ -88,11 +88,54 @@ class Julfiker_Party_Block_Adminhtml_Partysuccesspromotion_Grid extends Mage_Adm
             )
         );
         $this->addColumn(
+            'cash_earning',
+            array(
+                'header' => Mage::helper('julfiker_party')->__('Cash earning'),
+                'index'  => 'cash_earning',
+            )
+        );
+
+//        $this->addColumn(
+//            'customer_id',
+//            array(
+//                'header' => Mage::helper('julfiker_party')->__('Host'),
+//                'index'  => 'customer_id',
+//                'type'=> 'text',
+//                'renderer' => 'Julfiker_Party_ExtendedGrid_Block_Customer',
+//            )
+//        );
+
+        $this->addColumn(
+            'host_reward',
+            array(
+                'header' => Mage::helper('julfiker_party')->__('Host reward'),
+                'index'  => 'host_reward',
+            )
+        );
+
+        $this->addColumn(
+            'reward_item_qty',
+            array(
+                'header' => Mage::helper('julfiker_party')->__('Reward items'),
+                'index'  => 'reward_item_qty',
+            )
+        );
+
+        $this->addColumn(
             'promo_code',
             array(
-                'header'    => Mage::helper('julfiker_party')->__('promo code'),
+                'header'    => Mage::helper('julfiker_party')->__('Earning Promo code'),
                 'align'     => 'left',
                 'index'     => 'promo_code',
+            )
+        );
+
+        $this->addColumn(
+            'item_promo_code',
+            array(
+                'header'    => Mage::helper('julfiker_party')->__('Discount item Promo'),
+                'align'     => 'left',
+                'index'     => 'item_promo_code',
             )
         );
         
@@ -103,8 +146,8 @@ class Julfiker_Party_Block_Adminhtml_Partysuccesspromotion_Grid extends Mage_Adm
                 'index'   => 'status',
                 'type'    => 'options',
                 'options' => array(
-                    '1' => Mage::helper('julfiker_party')->__('Enabled'),
-                    '0' => Mage::helper('julfiker_party')->__('Disabled'),
+                    '1' => Mage::helper('julfiker_party')->__('Sent'),
+                    '0' => Mage::helper('julfiker_party')->__('Not sent'),
                 )
             )
         );
@@ -164,8 +207,8 @@ class Julfiker_Party_Block_Adminhtml_Partysuccesspromotion_Grid extends Mage_Adm
                         'class'  => 'required-entry',
                         'label'  => Mage::helper('julfiker_party')->__('Status'),
                         'values' => array(
-                            '1' => Mage::helper('julfiker_party')->__('Enabled'),
-                            '0' => Mage::helper('julfiker_party')->__('Disabled'),
+                            '1' => Mage::helper('julfiker_party')->__('Sent'),
+                            '0' => Mage::helper('julfiker_party')->__('Not Sent'),
                         )
                     )
                 )

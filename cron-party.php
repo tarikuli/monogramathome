@@ -37,7 +37,85 @@ foreach ($events as $event) {
 	$amount = $_eventHelper->sumOrders($event->getId());
 	$earningAmount = $_eventHelper->getEventEarningAmount();
 	$salesAmount = $_eventHelper->getEventSalesAmount();
-	$hostAwardAmount = $_eventHelper->getHostAward();
-	$discountedItems = $_eventHelper->getHostDiscountItems();
+	$hostAwardAmount = $_eventHelper->getHostAwardAmount();
+	$discountedItems = $_eventHelper->getMaxDiscounteditems();
+
+    if ($earningAmount) {
+        $party_success = Mage::getModel('julfiker_party/partysuccesspromotion');
+        $party_success->setEventId($event->getId());
+        $party_success->setCustomerId($event->getHost());
+        $party_success->setHostReward($hostAwardAmount);
+        $party_success->setRewardItemQty($discountedItems);
+        $party_success->setCashEarning($earningAmount);
+        $party_success->setRetailSales($salesAmount);
+        $party_success->setPromoCode(generatePromoCode($event->getId(), $event->getHost()));
+        $party_success->setItemPromoCode(generatePromoCode($event->getId(), $event->getHost()));
+        $party_success->setStatus(0);
+        $party_success->save();
+        if ($party_success->getId()) {
+            mage::log("promotion code generated for party id " . $event->getId());
+        }
+    }
+    $event->setIsOver(1);
+    $event->save();
 }
 
+function generatePromoCode($eventId, $host_id) {
+    $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $res = "";
+    for ($i = 0; $i < 6; $i++) {
+        $res .= $chars[mt_rand(0, strlen($chars)-1)];
+    }
+    return $res = $eventId.$res.$host_id;
+}
+
+
+function createGiftCard() {
+	//Gift code data stucture.
+	$data = array (
+    "gift_code" => "Event_02_04",
+    "balance" => 200,
+    "currency" => "USD",
+    "giftcard_template_id" => 1,
+    "giftcard_template_image" => "default.png",
+    "giftvoucher_status" => 2,
+    "expired_at" => "2017-05-31",
+    "store_id" => "0",
+    "giftvoucher_comments" => "Event target one coupon code",
+    "description" => 'testing',
+    "customer_name" => 'customer name',
+    "customer_email" => 'email',
+    "recipient_name" => 'recipient name',
+    "recipient_email" => 'email',
+    "recipient_address" => 'address',
+    "message" => "message here",
+    "status" => 2,
+    "comments" => "Event target one coupon code",
+    "amount" => 200,
+    "conditions" => array
+	(
+		"1" => array
+		(
+			"type" => "salesrule/rule_condition_combine",
+                    "aggregator" => "all",
+                    "value" => 1,
+                    "new_child" =>""
+                )
+
+        ),
+
+    "actions" => array
+	(
+		"1" => array
+		(
+			"type" => "salesrule/rule_condition_product_combine",
+                    "aggregator" => "all",
+                    "value" => "1",
+                    "new_child" => ""
+                )
+
+        ),
+
+    "extra_content" => "auto crate for event host"
+   );
+}
